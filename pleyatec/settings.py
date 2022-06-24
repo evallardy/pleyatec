@@ -1,3 +1,5 @@
+import os
+
 from operator import truediv
 from pathlib import Path
 from django.forms.utils import flatatt
@@ -153,8 +155,6 @@ BOOTSTRAP4 = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-import os
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
