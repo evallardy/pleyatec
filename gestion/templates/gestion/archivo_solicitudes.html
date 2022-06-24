@@ -1,0 +1,80 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+    <div class="container col-12">
+        <label class="encabezados">{{ py.nombre }}</label>
+        <div class="btn-group btn-group-justified">
+            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Pagos</a>
+            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            <a href="#" class="btn btn-primary" id="credito">Créditos</a>
+            <a href="#" class="btn btn-primary" id="contado">Contados</a>
+        </div>
+    </div><br>
+    <div class="container col-12">
+    <table class="table table-info table-striped col-md-12">
+        <thead>
+            <tr>
+                <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
+                <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Lote</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Medidas</th>
+                <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Modo pago</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Venta</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Saldo</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Contrato</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in object_list %}
+            <tr>
+                <td style="text-align: center;">{{ e.id }}</td>
+                <td>{{ e.cliente }}</td>
+                <td>{{ e.lote }}</td>
+                <td>
+                {% if e.lote.tipo_lote == True %}
+                Frente:{{ e.lote.frente }} Fondo:{{ e.lote.fondo }} Total:{{ e.lote.total }}
+                {% else %}
+                {{ e.lote.obs_irregular }} Total:{{ e.lote.total }}
+                {% endif %}
+                </td>
+                <td>{{ e.asesor }}</td>
+                <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
+                <td style="text-align: right;">{{ e.precio_final }}</td>
+                <td style="text-align: right;">{{ e.saldo }}</td>
+                <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
+                <td style="text-align: center;">{{ e.num_contrato_val }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+<script>
+    {% block bljs %}
+    opcion = "#" + "{{ menu }}";
+    $(opcion).addClass('active');
+    {% endblock %}
+</script>
+{% endif %}
+{% endfor %}
+{% endblock %}

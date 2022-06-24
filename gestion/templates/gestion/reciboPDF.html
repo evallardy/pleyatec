@@ -1,0 +1,165 @@
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playatec</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,700;1,400;1,700&family=Open+Sans:ital,wght@0,400;0,700;1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="{% static 'core/css/jquery-confirm.min.css' %}">
+    <style>
+        .espacio {
+            height: 20px;
+        }
+
+        .renglon-normal {
+            border-left-color: black;
+            border-left-style: solid;
+            border-right-color: black;
+            border-right-style: solid;
+            height: 20px;
+        }
+
+        .renglon-normal1 {
+            border-left-color: black;
+            border-left-style: solid;
+            border-right-color: black;
+            border-right-style: solid;
+        }
+
+        td {
+            border: none;
+            border-style: none;
+        }
+
+        .texto {
+            margin-right: 20px;
+            width: 20%;
+            text-align: right;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body style="font-size: 14px;">
+    {% for x in copias %}
+    <div>
+        <table id="table1" style="text-align: center;">
+            <tr style="width: 100%; 
+                border-top-color: black; border-top-style: solid;
+                border-left-color: black; border-left-style: solid; 
+                border-right-color: black; border-right-style: solid; ">
+                <td style="text-align: center; height: 80px; padding-top: 5px;"><img
+                        src="{% static 'core/img/logo.png' %}" class="img-invoice">
+                </td>
+            </tr>
+            <tr class="renglon-normal">
+                <td class="espacio"> </td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;">{{ comp.ubicacion1 }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;">{{ comp.ubicacion2 }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;">{{ comp.ubicacion3 }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td class="espacio"></td>
+            </tr>
+            <tr class="renglon-normal1">
+                <td style="text-align: center; font-size: 30px;">RECIBO DE PAGO</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td class="espacio"></td>
+            </tr>
+        </table>
+        <table>
+            <tr class="renglon-normal">
+                <td style="width: 71%;"></td>
+                <td style="width: 10%; text-align: right;">Fecha:</td>
+                <td style="width: 30%; margin-left: 15px;">{{ comp.hoy }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td></td>
+                <td style="text-align: right;">Folio:</td>
+                <td style="margin-left: 15px;">{{ comp.numero_recibo }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;"></td>
+                <td></td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;"></td>
+                <td></td>
+            </tr>
+        </table>
+        <table>
+            <tr class="renglon-normal">
+                <td class="texto">Recibí de:</td>
+                <td>{{ solicitud.cliente.nombre }} {{ solicitud.cliente.paterno }} {{ solicitud.cliente.materno }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td class="texto" style="vertical-align: top;">La cantidad de:</td>
+                <td style="height: 40px; vertical-align: top;">{{ comp.importe }} ({{ comp.importe_letras }} 00/100 pesos M.N.)</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td class="texto">Por concepto de:</td>
+                {% if comp.pago == 'total' %}
+                {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+                <td>Pago total del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}</td>
+                {% else %}
+                <td>Pago total del enganche del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}</td>
+                {% endif %}
+                {% else %}
+                <td>Apartado del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}</td>
+                {% endif %}
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;"></td>
+                <td></td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;"></td>
+                <td></td>
+            </tr>
+        </table>
+        <table>
+            <tr class="renglon-normal" style="width: 100%;">
+                <td style="text-align: center;">________________________________</td>
+            </tr>
+            <tr class="renglon-normal" style="width: 100%;">
+                <td style="text-align: center;">Arturo Domíngez Ruíz</td>
+            </tr>
+            <tr style="border-bottom-color: black; border-bottom-style: solid;
+                       border-left-color: black; border-left-style: solid; 
+                       border-right-color: black; border-right-style: solid;
+                       height: 20px; ">
+                <td style="text-align: center;">Director de desarrollo</td>
+            </tr>
+        </table>
+    </div>
+    {% if x == 0 %}
+    <br>
+    {% endif %}
+    {% endfor %}
+</body>
+
+</html>

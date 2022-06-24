@@ -1,0 +1,293 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% if perms.gestion.pago_compromiso %}
+{% for py in proyecto %}
+<div class="container col-12">
+    <h1 class="mt-2">Compromiso</h1>
+    <hr class="mt-0 mb-4">
+    <a class="btn btn-outline-dark" href="{% url 'compromisos' py.id %}">Regresar</a>
+    <div class="container col-12">
+        <div class="wrapper fadeInDown">
+            {% for s in sol %}
+            <br>
+            <input type="text" value="{{ s.lote.estatus_lote }}" id="id_estatus_lote" hidden>
+            <input type="text" value="{{ s.estatus_solicitud }}" id="id_estatus_solicitud" hidden>
+            <input type="text" value="{{ s.modo_pago }}" id="id_modo_pago" hidden>
+            <input type="text" value="{{ s.precio_final }}" id="id_precio_final" hidden>
+            <input type="text" value="{{ s.enganche }}" id="id_enganche" hidden>
+            <div id="formContent" style="text-align: right;">
+                <div class="form-row">
+                    <div class="form-group col-md-10 mb-0" style="text-align: left;">
+                        <label>Cliente</label>
+                        <div class="form-group col-md-8 mb-0 form-control">
+                            {{ s.cliente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-8 mb-0" style="text-align: left;">
+                        <label>Lote</label>
+                        <div class="form-group col-md-8 mb-0 form-control">
+                            {{ s.lote }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-8 mb-0" style="text-align: left;">
+                        <label>Asesor</label>
+                        <div class="form-group col-md-8 mb-0 form-control">
+                            {{ s.asesor }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Precio</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.precio_lote }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Descuento</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.descuento }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Precio final</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.precio_final }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0" style="text-align: left;">
+                        <label>Modo de pago</label>
+                        <div class="form-group col-md-8 mb-0 form-control">
+                            {{ s.get_modo_pago_display }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Porcentaje descuento</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.porcentaje_descuento }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" id="credito">
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Enganche</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.enganche }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Mensualidades</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.cantidad_pagos }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-0" style="text-align: left;">
+                        <label>Mensualidad</label>
+                        <div class="form-group col-md-8 mb-0 form-control" style="text-align: right;">
+                            {{ s.importe_x_pago }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div>
+                <form id="for-sol" name="for-sol" action="" method="POST" style="text-align: left;"
+                    enctype="multipart/form-data" onkeypress="return anular(event)">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.apartado|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.pago_adicional|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="id_diferencia">Diferencia para compromiso</label>
+                            <input type="currency" class="form-control" name="diferencia" id="diferencia">
+                        </div>
+                        <div class="form-group col-md-4 mb-0" hidden>
+                            {{ form.lote|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            <input type="number" class="form-control" name="paga" id="paga" hidden>
+                        </div>
+                    </div>
+                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                </form>
+            </div>
+            <div style="text-align: center;">
+                <button id="btn_recibo" class="btn btn-outline-dark" onclick="imprime('parcial')">Imprime
+                    apartado</button>
+                <button id="btn_adicional" class="btn btn-outline-dark" onclick="imprime('total')">Imprime pago
+                    adicional</button>
+            </div>
+            <br>
+        </div>
+    </div>
+    <script>
+        function anular(e) {
+            tecla = (document.all) ? e.keyCode : e.which;
+            return (tecla != 13);
+        }
+        function imprime(dato) {
+            window.open("/gestion/reciboPDF/" + "{{ pk }}" + "/" + dato + "/",
+                "Recibo", target = "_blank");
+        }
+        $(document).ready(function () {
+
+            id_modo_pago = parseInt($("#id_modo_pago").val());
+            if (id_modo_pago == "") { id_modo_pago = 0; }
+            id_estatus_lote = parseInt($("#id_estatus_lote").val());
+            if (id_estatus_lote == "") { id_estatus_lote = 0; }
+            id_estatus_solicitud = parseInt($("#id_estatus_solicitud").val());
+            if (id_estatus_solicitud == "") { id_estatus_solicitud = 0; }
+            id_precio_final = $("#id_precio_final").val();
+            if (id_precio_final == "") { id_precio_final = 0; } else { id_precio_final = id_precio_final.replace(",", "").replace(",", "") }
+            id_precio_final = parseFloat(id_precio_final);
+            id_enganche = $("#id_enganche").val();
+            if (id_enganche == "") { id_enganche = 0; } else { id_enganche = id_enganche.replace(",", "").replace(",", "") }
+            id_enganche = parseFloat(id_enganche);
+            id_apartado = $("#id_apartado").val();
+            if (id_apartado == "") { id_apartado = 0; } else { id_apartado = id_apartado.replace(",", "").replace(",", "") }
+            id_apartado = parseFloat(id_apartado);
+            id_pago_adicional = $("#id_pago_adicional").val();
+            if (id_pago_adicional == "") { id_pago_adicional = 0; } else { id_pago_adicional = id_pago_adicional.replace(",", "").replace(",", "") }
+            id_pago_adicional = parseFloat(id_pago_adicional);
+
+            $("#btsub").hide();
+            // Valor del campo combobox lote
+            $("#diferencia").val(0);
+            id_diferencia = 0;
+            //Si no es nueva o apartrada no se modifica
+            if (id_estatus_solicitud > 1) {
+                $("#btub").hide();
+            }
+            $("#btn_recibo").hide();
+            $("#btn_adicional").hide();
+            //  Alinear campos numericos
+            $("#id_apartado").css("text-align", "right");
+            $("#id_pago_adicional").css("text-align", "right");
+            $("#diferencia").css("text-align", "right");
+            // Campos de solo lectura
+            $("#diferencia").attr('readonly', 'true');
+            // Oculta/Muestra campos si hay pago de contado
+            if (id_modo_pago == 1 ||
+                id_modo_pago == 3) {
+                $("#credito").hide();
+            }
+            // Cuando cambia valor apartado
+            estatus_anterior_lote = id_estatus_lote;
+            $("#btn_recibo").hide();
+            $("#id_apartado").on("keyup", function () {
+                $("#btsub").hide();
+                if ($("#id_apartado").val() == "") {
+                    id_apartado = 0;
+                } else {
+                    id_apartado = parseFloat($("#id_apartado").val());
+                }
+                pago_adicional = 0;
+                $("#id_estatus_lote").val(1);
+                $("#id_estatus_solicitud").val(1);
+                $("#id_pago_adicional").val(0);
+                if (id_modo_pago == 1 || id_modo_pago == 3) {
+                    id_diferencia = id_precio_final - id_apartado;
+                    if (id_precio_final > id_apartado && id_apartado > 0) {
+                        $("#btsub").show();
+                        $("#id_estatus_lote").val(2);
+                        $("#id_estatus_solicitud").val(2);
+                    }
+                } else {
+                    id_diferencia = id_enganche - id_apartado;
+                    if (id_enganche > id_apartado && id_apartado > 0) {
+                        $("#btsub").show();
+                        $("#id_estatus_lote").val(2);
+                        $("#id_estatus_solicitud").val(2);
+                    }
+                }
+                $("#diferencia").val(id_diferencia);
+                $("#paga").val(2);
+            });
+            if ($("#id_apartado").val() > 0) {
+                $("#id_apartado").attr('readonly', 'true');
+                $("#btn_recibo").show();
+            }
+            $("#btn_adicional").hide();
+            $("#id_pago_adicional").on("keyup", function () {
+                $("#btsub").hide();
+                if ($("#id_pago_adicional").val() == "") {
+                    id_pago_adicional = 0;
+                } else {
+                    id_pago_adicional = parseFloat($("#id_pago_adicional").val());
+                }
+                if (!$("#id_apartado").is('[readonly]')) {
+                    id_apartado = 0;
+                    $("#id_apartado").val(0);
+                }
+                if (id_pago_adicional > 0) {
+                    if (id_modo_pago == "1" || id_modo_pago == "3") {
+                        if ((id_apartado + id_pago_adicional) == id_precio_final) {
+                            $("#id_estatus_lote").val(3);
+                            $("#id_estatus_solicitud").val(3);
+                            id_diferencia = 0;
+                            $("#btsub").show();
+                        } else {
+                            $("#id_estatus_lote").val(estatus_anterior_lote);
+                            $("#id_estatus_solicitud").val(id_estatus_solicitud);
+                        }
+                    } else {
+                        if ((id_apartado + id_pago_adicional) == id_enganche) {
+                            $("#id_estatus_lote").val(3);
+                            $("#id_estatus_solicitud").val(3);
+                            id_diferencia = 0;
+                            $("#btsub").show();
+                        } else {
+                            $("#diferencia").val(id_diferencia);
+                            $("#id_estatus_lote").val(estatus_anterior_lote);
+                            $("#id_estatus_solicitud").val(id_estatus_solicitud);
+                        }
+                    }
+                } else {
+                    $("#id_estatus_lote").val(estatus_anterior_lote);
+                    $("#id_estatus_solicitud").val(id_estatus_solicitud);
+                }
+                if ($("#id_modo_pago").val() == 1 || $("#id_modo_pago").val() == 3) {
+                    id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
+                } else {
+                    id_diferencia = id_enganche - id_apartado - id_pago_adicional;
+                }
+                $("#diferencia").val(id_diferencia);
+                $("#paga").val(3);
+            }); 
+            if ($("#id_pago_adicional").val() > 0) {
+                $("#id_pago_adicional").attr('readonly', 'true');
+                $("#id_apartado").attr('readonly', 'true');
+                $("#btn_adicional").show();
+                $("#diferencia").val(0);
+            }
+            id_apartado = parseFloat($("#id_apartado").val());
+            id_pago_adicional = parseFloat($("#id_pago_adicional").val());
+            if (id_modo_pago == "1" || id_modo_pago == "3") {
+                id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
+            } else {
+                id_diferencia = id_enganche - id_apartado - id_pago_adicional;
+            }
+            $("#diferencia").val(id_diferencia);
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endblock %}

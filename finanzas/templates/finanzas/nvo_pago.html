@@ -1,0 +1,105 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+<div class="container col-12" >
+    <label class="encabezados">Datos contrato</label>
+    <hr class="mt-0 mb-12">
+    <a class="btn btn-outline-secondary" href="{% url 'estado_cuenta' sol py.id %}">Regresar</a>
+    <div class="container col-12">
+        <div class="wrapper fadeInDown">
+            <div id="formContent" style="text-align: right;">
+                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
+                    onkeypress="return anular(event)">
+                    {% csrf_token %}
+                    <div class="form-row" >
+                        <div class="form-group col-md-6 mb-0" hidden>
+                            {{ form.convenio|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.fecha_pago|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.importe|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.fecha_voucher|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.importe_pagado|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row" >
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.forma_pago|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.numero_comprobante|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.estatus_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row" >
+                        <div class="form-group col-md-12 mb-0">
+                            {{ form.foto_voucher|as_crispy_field }}
+                        </div>
+                    </div>
+                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+
+    $(function () {
+        window.captureEvents(Event.SUBMIT);
+        window.onsubmit = guarda;
+        $("#id_fecha_voucher").val("{{ fecha1 }}");
+        $("#id_fecha_pago").css("text-align", "center");
+        $("#id_fecha_pago").attr('readonly', 'true');
+        $("#id_importe").css("text-align", "right");
+        $("#id_importe").attr('readonly', 'true');
+        $("#id_fecha_voucher").css("text-align", "center");
+        $("#id_importe_pagado").css("text-align", "right");
+        function guarda() {
+            $("#id_estatus_pago").val(3);
+            texto = "";
+            if (parseFloat($("#id_importe").val()) > parseFloat($("#id_importe_pagado").val())) {
+                alert("Importe menor al que se debe de pagar");
+            }
+            dia = parseInt($("#id_fecha_pago").val().substr(0,2));
+            mes = parseInt($("#id_fecha_pago").val().substr(3,2)) - 1;
+            anio = parseInt($("#id_fecha_pago").val().substr(6,4));
+            var debe_pagar = new Date(anio, mes, dia);
+            dia = parseInt($("#id_fecha_voucher").val().substr(8,2));
+            mes = parseInt($("#id_fecha_voucher").val().substr(5,2)) - 1;
+            anio = parseInt($("#id_fecha_voucher").val().substr(0,4));
+            var pago = new Date(anio, mes, dia);
+            diff =  pago - debe_pagar;
+            d = Math.round(diff / (1000 * 60 * 60 * 24));
+            if (d > 6) {
+                alert("No pago a tiempo, verifique fecha");
+                $("#id_estatus_pago").val(2);
+            }
+            
+            return true;
+        }
+    });
+</script>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,140 @@
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playatec</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,700;1,400;1,700&family=Open+Sans:ital,wght@0,400;0,700;1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="{% static 'core/css/jquery-confirm.min.css' %}">
+    <style>
+        .espacio {
+            height: 20px;
+        }
+
+        .renglon-normal {
+            border-left-color: black;
+            border-left-style: solid;
+            border-right-color: black;
+            border-right-style: solid;
+            height: 20px;
+        }
+
+        .renglon-normal1 {
+            border-left-color: black;
+            border-left-style: solid;
+            border-right-color: black;
+            border-right-style: solid;
+        }
+
+        td {
+            border: none;
+            border-style: none;
+        }
+
+        .texto {
+            margin-right: 20px;
+            width: 20%;
+            text-align: right;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body style="font-size: 14px;">
+    <div>
+        <div class="container col-12">
+            {% for y in titulo %}
+            <table style="text-align: center;">
+                <tr><td>{{ y.nombre }}</td></tr>
+                <tr><td>{{ y.rfc }}</td></tr>
+                <tr><td>{{ y.domicilio1 }}</td></tr>
+                <tr><td>{{ y.domicilio2 }}</td></tr>
+                <tr><td>{{ y.telefono }}</td></tr>
+            </table>
+            {% endfor %}
+            <div style="text-align: center;" class="container">
+                <h1>Listado de pagos</h1>
+            </div>
+            {% for x in solicitud %}
+            <table style="padding: 3px 3px 0px 0px; text-align: right;">
+                <tr style="font-size: 22px; font-weight: bold;">
+                    <td style="width: 140px;"><label>Contrato {{ x.num_contrato }}</label></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Cliente: </td>
+                    <td style="text-align: left;">{{ x.cliente }}</td>
+                    <td></td>
+                    <td style="font-weight: bold;">Fecha: {{ hoy }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Lote: </td>
+                    <td style="text-align: left;">{{ x.lote }}</td>
+                </tr>
+            </table>
+            <hr>
+            <table style="padding: 3px 3px 0px 0px; text-align: right;">
+                <tr>
+                    <td style="width: 140px;"><label>Precio de venta</label></td>
+                    <td style="width: 140px;"><label>Enganche</label></td>
+                    <td style="width: 140px;"><label>Crédito</label></td>
+                </tr>
+                <tr>
+                    <td style="border-style: solid; border-color: black; width: 140px;">{{ x.precio_final }}</td>
+                    <td style="border-style: solid; border-color: black; width: 140px;">{{ x.enganche }}</td>
+                    <td style="border-style: solid; border-color: black; width: 140px;">{{ importe_por_pagar }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 140px;"><label>Mensualidades</label></td>
+                    <td style="width: 140px;"><label>Mensualidad</label></td>
+                </tr>
+                <tr>
+                    <td style="border-style: solid; border-color: black; width: 140px;">{{  por_pagar }}</td>
+                    <td style="border-style: solid; border-color: black; width: 140px;">{{ x.importe_x_pago }}</td>
+                </tr>
+            </table>
+            {% endfor %}
+        </div>
+        <br>
+        <hr>
+        <br>    
+        <div class="container col-12">
+            <table class="table table-info table-striped col-md-7">
+                <thead>
+                    <tr>
+                        <th style="text-align: center; width: 120px;" scope="col">Núm. Pago</th>
+                        <th style="text-align: right; width: 180px;" scope="col">Compromiso</th>
+                        <th style="text-align: right; width: 150px;" scope="col">Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in datos %}
+                    <tr>
+                        <td style="text-align: center;">{{ e.numero_pago }}</td>
+                        <td style="text-align: left;">{{ e.fecha_pago }}</td>
+                        <td style="text-align: right;">{{ e.importe }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

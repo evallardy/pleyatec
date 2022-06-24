@@ -1,0 +1,95 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+<div class="container col-12" style="width: 400px;">
+    <label class="encabezados">Datos contrato</label>
+    <hr class="mt-0 mb-12">
+    <a class="btn btn-outline-dark" href="{% url 'contratos' py.id %}">Regresar</a>
+    <div class="container col-12">
+        <div class="wrapper fadeInDown">
+            <div id="formContent" style="text-align: right;">
+                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
+                    onkeypress="return anular(event)">
+                    {% csrf_token %}
+                    <div class="form-row" hidden>
+                        <div class="form-group col-md-8 mb-0">
+                            {{ form.modo_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-5 mb-0">
+                            {{ form.fecha_contrato|as_crispy_field }}
+                        </div>
+                    </div>
+                    {% if solicitud.modo_pago == 2 or solicitud.modo_pago == 4 %}
+                    <div class="form-row">
+                        <div class="form-group col-md-5 mb-0">
+                            {{ form.anio_inicio_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-5 mb-0">
+                            {{ form.mes_inicio_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="form-row" hidden="hidden">
+                        <div class="form-group col-md-5 mb-0">
+                            {{ form.anio_inicio_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row" hidden="hidden">
+                        <div class="form-group col-md-5 mb-0">
+                            {{ form.mes_inicio_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+
+    $(function () {
+        $("#id_anio_inicio_pago").val(0);
+        $("#id_mes_inicio_pago").val(0);
+        $("#id_modo_pago").val("{{ solicitud.modo_pago }}");
+        window.captureEvents(Event.SUBMIT);
+        window.onsubmit = guarda;
+        function guarda() {
+            texto = "";
+            if ($("#id_fecha_contrato").val() == "") {
+                texto += "Seleccione una fecha, ";
+            }
+            if (($("#id_modo_pago").val() == 2) || ($("#id_modo_pago").val() == 4)) {
+                if (($("#id_anio_inicio_pago").val() == 0) ||
+                    ($("#id_mes_inicio_pago").val() == 0)) {
+                    texto += "Falta año o mes para empezar a pagar";
+                }
+            }
+            if (texto == "") {
+                aviso("Aviso", "Guardado exitosamente");
+                return true;
+            } else {
+                aviso("Error", texto);
+                return false;
+            }
+        }
+    });
+</script>
+{% endfor %}
+{% endblock %}

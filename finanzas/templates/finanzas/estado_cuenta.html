@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+<div class="container" style="margin-left: 20px;">
+    <label class="encabezados">Estado de cuenta<br> {{ solicitud.titulo_bien }}</label><br>
+    <div class="container col-12">
+        <a class="btn btn-outline-dark" href="{% url 'pagar' py.id %}">Regresar</a>
+        <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
+        <table class="table table-info table-striped col-md-12">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Número de pago</th>
+                    <th style="text-align: center;">Compromiso</th>
+                    <th style="text-align: center;">importe</th>
+                    <th style="text-align: center;">Pago en</th>
+                    <th style="text-align: center;">Comprobante</th>
+                    <th style="text-align: center;">Estatus</th>
+                    <th style="text-align: center;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in object_list %}
+                <tr>
+                    <td style="text-align: center;">{{ p.numero_pago }}</td>
+                    <td style="text-align: left;">{{ p.fecha_pago }}</td>
+                    <td style="text-align: right;">{{ p.importe }}</td>
+                    <td style="text-align: left;">{{ p.get_forma_pago_display }}</td>
+                    <td style="text-align: left;">{{ p.numero_comprobante }}</td>
+                    <td style="text-align: left;">{{ p.get_estatus_pago_display }}</td>
+                    <td style="text-align: center;">
+                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Actuliza</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    {% block bljs %}
+    opcion = "#" + "{{ menu }}";
+    $(opcion).addClass('active');
+    {% endblock %}
+</script>
+{% endfor %}
+{% endblock %}

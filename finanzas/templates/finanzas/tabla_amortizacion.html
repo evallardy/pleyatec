@@ -1,0 +1,120 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+{% if perms.gestion.amortizacion %}
+<div class="container">
+<label class="encabezados">Tabla Amortización</label> <br>
+<a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
+{% if perms.gestion.imprime_amortizacion %}
+<button id="btn_adicional" class="btn btn-outline-dark" onclick="imprime('{{ pk }}')">Imprimir</button>
+{% endif %}
+<hr>
+<div class="container">
+    {% for x in datos.titulo %}
+    <div class="form-row">
+        <label style="width: 80px; text-align: right;; padding: 0px 5px 0px 0px; font-weight: bold;">Cliente: </label>
+         {{ solicitud.cliente }}
+    </div>
+    <div class="form-row">
+        <label style="width: 80px; text-align: right; padding: 0px 5px 0px 0px; font-weight: bold;">Lote: </label>
+        {{ solicitud.lote }}
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2 mb-0">
+            <label for="pts">Solicitud</label>
+            <input type="text" name="pts" id="pts" value="{{ x.pk }}" readonly="readonly" style="text-align: center;">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2 mb-0">
+            <label for="ptp">Precio de venta</label>
+            <input type="text" name="ptp" id="ptp" value="{{ x.precio_final }}" readonly="readonly"
+                style="text-align: right;">
+        </div>
+        <div class="form-group col-md-2 mb-0">
+            <label for="en">Enganche</label>
+            <input type="text" name="en" id="en" value="{{ x.enganche }}" readonly="readonly"
+                style="text-align: right;">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2 mb-0">
+            <label for="ic">Importe de crédito</label>
+            <input type="text" name="ic" id="ic" value="{{ x.impPorPagar }}" readonly="readonly"
+                style="text-align: right;">
+        </div>
+        <div class="form-group col-md-2 mb-0">
+            <label for="in">Importe intereses total</label>
+            <input type="text" name="in" id="in" value="{{ x.interes_total }}" readonly="readonly"
+                style="text-align: right;">
+        </div>
+        <div class="form-group col-md-2 mb-0">
+            <label for="ptt">Pago total</label>
+            <input type="text" name="ptt" id="ptt" value="{{ x.pago_total }}" readonly="readonly"
+                style="text-align: right;">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2 mb-0">
+            <label for="pra">Pagos a realizar</label>
+            <input type="text" name="pra" id="pra" value="{{ x.cantidad_pagos }}" readonly="readonly"
+                style="text-align: right;">
+        </div>
+        <div class="form-group col-md-2 mb-0">
+            <label for="im">% Interés mensual</label>
+            <input type="text" name="im" id="im" value="{{ x.interes }}" readonly="readonly" style="text-align: right;">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<hr>
+<div class="container col-12">
+    <table class="table table-info table-striped col-md-9">
+        <thead>
+            <tr>
+                <th class="col-md-1" style="text-align: center;" scope="col">Núm. Pago</th>
+                <th class="col-md-2" style="text-align: right;" scope="col">Saldo inicial</th>
+                <th class="col-md-2" style="text-align: right;" scope="col">Pago mensual</th>
+                <th class="col-md-2" style="text-align: right;" scope="col">Interés</th>
+                <th class="col-md-2" style="text-align: right;" scope="col">Pago total</th>
+                <th class="col-md-2" style="text-align: right;" scope="col">Saldo final</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in datos.pagos %}
+            <tr>
+                <td style="text-align: center;">{{ e.pago }}</td>
+                <td style="text-align: right;">{{ e.saldo_inicial }}</td>
+                <td style="text-align: right;">{{ e.pago_mensual }}</td>
+                <td style="text-align: right;">{{ e.interes_mensual }}</td>
+                <td style="text-align: right;">{{ e.pago_total_mensual }}</td>
+                <td style="text-align: right;">{{ e.saldo_final }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+{% endif %}
+{% endfor %}
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+{% endif %}
+<script>
+    function imprime(dato) {
+        window.open("{{ archivo }}" + dato + "/",
+            "Tabla amortización", target = "_blank");
+    }
+</script>
+{% endblock %}

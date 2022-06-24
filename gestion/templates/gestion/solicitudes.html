@@ -1,0 +1,124 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+    <div class="container col-12">
+        <label class="encabezados">{{ py.nombre }}</label>
+        <div class="btn-group btn-group-justified">
+            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Pagos</a>
+            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            <a href="#" class="btn btn-primary" id="credito">Créditos</a>
+            <a href="#" class="btn btn-primary" id="contado">Contados</a>
+        </div>
+    </div>
+    <div class="container col-12">
+        <div class="container col-12">
+            {% if perms.gestion.add_solicitud %}
+            <a type="button" class="btn btn-outline-dark" href="{% url 'nva_solicitud' py.id %}">Agregar</a>
+            {% endif %}
+            <table class="table table-info table-striped col-md-12">
+                <thead>
+                    <tr>
+                        <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
+                        <th class="col-md-2" style="text-align: center;" scope="col">Fecha</th>
+                        <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
+                        <th class="col-md-2" style="text-align: center;" scope="col">
+                            {% if py.id == 1 %}
+                            Lote
+                            {% else %}
+                            Local
+                            {% endif %}
+                        </th>
+                        <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
+                        <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
+                        <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
+                        <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                        <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                        <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in object_list %}
+                    <tr>
+                        <td style="text-align: center;">{{ e.id }}</td>
+                        <td style="text-align: center;">{{ e.created|date:'d/m/Y' }}</td>
+                        <td>{{ e.cliente }}</td>
+                        <td>{{ e.lote }}</td>
+                        <td>{{ e.asesor }}</td>
+                        <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
+                        <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
+                        {% if not e.aprobacion_gerente and not e.aprobacion_director %}
+                        {% if perms.gestion.change_solicitud %}
+                        <td>
+                            {% if not e.estatus_solicitud == 99 %}
+                            <a href="{% url 'mod_solicitud' e.id py.id %}" class="btn btn-outline-secondary">Edita</a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        {% else %}
+                        <td></td> 
+                        {% endif %}
+                        {% if perms.gestion.delete_solicitud %}
+                        {% if e.estatus_solicitud == 99 %}
+                        <td>
+                            <button class="btn btn-outline-secondary" onclick="recuperaSol('{{ e.id }}')">Recupera</button>
+                        </td>
+                        {% else %}
+                        <td>
+                            <button class="btn btn-outline-secondary" onclick="cancelaSol('{{ e.id }}')">Cancela</button>
+                        </td>
+                        {% endif %}
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        <td>
+                            {% if e.modo_pago == 2 or e.modo_pago == 3 %}
+                            {% if perms.gestion.amortizacion and e.estatus_solicitud == 1 %}
+                            <a href="{% url 'tabla_amortizacion' e.id py.id %}" class="btn btn-outline-secondary">Amort.</a>
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+        {% endif %}
+    </div>
+    <script>
+        {% block bljs %}
+        opcion = "#" + "{{ menu }}";
+        $(opcion).addClass('active');
+        function cancelaSol(llave) {
+            var url = "{% url 'can_sol' 123 num_proyecto %}";
+            url = url.replace('123', llave);
+            confirmacion("Precaución", "Desea cancelar la solicitud " + llave,
+                url, " " , "Solcitud cancelada", "No se canceló solicitud");
+        }
+        function recuperaSol(llave) {
+            var url = "{% url 'rec_sol' 123 num_proyecto %}";
+            url = url.replace('123', llave);
+            confirmacion("Precaución", "Desea recuperar la solicitud " + llave,
+                url, " ", "Solcitud recuperada", "No se recuperó solicitud");
+        }
+        {% endblock %}
+    </script>
+{% endfor %}
+{% endblock %}

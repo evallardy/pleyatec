@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto %}
+<div class="container">
+    <label class="encabezados">{{ py.nombre }}</label><br>
+    <div class="btn-group btn-group-justified">
+        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Pagos</a>
+        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+        <a href="#" class="btn btn-primary" id="credito">Créditos</a>
+        <a href="#" class="btn btn-primary" id="contado">Contados</a>
+    </div>
+</div>
+<hr>
+<div style="margin-left: 80px;
+     height: 400px; width: 650px; " class="mapa">
+    <img src="{% static 'core/img/plano2022.jpg' %}" alt=""
+        style="height: 400px; width: 620; position: absolute; margin-left: 20px; padding: 5px;">
+    <svg style="position: absolute; width: 800px; height: 600px; margin-left: 20px;">
+        {% for e in object_list %}
+        <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
+        {% if e.estatus_lote == 1 %}
+            loteDisponible
+        {% else %}
+            loteVendido
+        {% endif %}
+        ">
+            <title>{{e.lote}} {{e.total}} m²</title>
+        </polygon>
+        <circle cx="{{e.posicion_circulo_x}}" cy="{{e.posicion_circulo_y}}" r="5" fill="white" style="cursor: pointer;">
+            <title>{{e.lote}} {{e.total}} m²</title>
+        </circle>
+        <text x="{{e.posicion_x}}" y="{{e.posicion_y}}"
+            style="font-size: 4px; font-weight: bold; cursor: pointer;">{{e.lote}}</text>
+        {% endfor %}
+    </svg>
+</div>
+{% endfor %}
+<script>
+    $(document).ready(function () {
+        opcion = "#" + "{{ menu }}";
+        $(opcion).addClass('active');
+    });
+</script>
+{% endblock %}

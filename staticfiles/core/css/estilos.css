@@ -1,0 +1,277 @@
+* {
+    margin:0;
+    padding:0;
+}
+body {
+    background-color:#EDF2F7;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+}
+.encabezados {
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 28px;
+    font-style: italic;
+}
+label.error {
+    color: darkred;
+}
+div[id^="div_id_foto_"], div[id*="div_id_foto_"] label[id^="div_id_foto_"] {
+    font-style: italic;
+}
+div[id^="div_id_foto_"], div[id*="div_id_foto_"] {
+    border: 1px solid #2D3748   ;
+    padding: 3px;
+}
+Aheader {
+    width: 100%;
+    height: 80px;
+    background-color: greenyellow;
+    justify-content: space-between;
+}
+Aheader > div {
+    width: 50%;
+    background-color: purple;
+}
+.Acontenedor_logo {
+    display: flex;
+    align-items: center;
+}
+.logo {
+    width: 100px;
+    margin-left: 20px;
+}
+nav {
+    display: flex;
+    justify-content: flex-end;/*flex-start - center - flex-end*/ /*horizontal*/
+    align-items: center;
+    height: 100%;
+}
+nav > ul {
+    margin-right: 50px;
+}
+nav > ul > li {
+    display: inline;
+    margin-left: 10px;
+}
+nav a {
+    color:white;
+    text-decoration: none;
+}
+.galeria {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 30px;
+}
+.galeria img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.form-numero {
+    background-color: dodgerblue;
+    color: firebrick;
+}
+
+/*CONTENIDO PRINCIPAL*/
+
+#contenido {
+    width: 100%;
+    margin:auto;
+    max-width: 1280px;
+    min-height: 100vh;
+}
+.actAsesor {
+    color: black;
+}
+.pan-login {
+    box-shadow: 0 0 10px #000;
+    background-color: white;
+}
+.proyecto {
+    height: 250px;
+    width: 250px;
+    margin-top: 20px;
+    margin-left: 20px;
+    float: left;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    background-color: white;
+}
+.proyecto .contenedor_proyecto {
+    width: 90%;
+    margin: auto;
+}
+.proyecto .detalle {
+    font-size: 16px;
+    font-style: italic;
+    width: 80%;
+    height: 20%;
+    margin: auto;
+}
+.proyecto img {
+    width: 80%;
+    height: 60% ;
+}
+th {
+    background-color: darkblue;
+    color: white;
+}
+table, tbody, td {
+    background-color: silver;
+}
+/*FOOTER*/
+
+footer {
+    width: 100%;
+    height: 300px;
+    background-color: #2D3748;
+}
+.menu {
+    width: 40px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display:none;
+}
+
+/*FIN FOOTER*/
+
+input[type=text], input[type=email],
+input[type=number], select, textarea {
+
+    width: 100%;
+    padding: 5px;
+
+}
+textarea {
+    resize: none;
+}
+.button {
+    padding:5px 10px;
+    color: white;
+    background-color: #2B6CB0;
+    border: none;
+    border-radius: 5px;
+}
+.formulario_contacto {
+    width: 500px;
+    margin-top:50px;
+}
+input[type="checkbox"] {
+	display: none;
+}
+input[type="checkbox"] + label:before {
+	content: "";
+	width: 26px;
+	height: 26px;
+	float: left;
+	margin: 2.5em 0 0 3em;
+	border: 2px solid #ccc;
+	background: #fff;
+}
+input[type="checkbox"]:checked + label:after {
+    content: "";
+    width: 12px;
+    height: 6px;
+    border: 4px solid;
+    float: left;
+    margin-left: -1.2em;
+    border-right: 0;
+    border-top: 0;
+    margin-top: 3em;
+    transform: rotate(-55deg);
+}
+/*MEDIA QUERIES*/
+
+/*Tablets*/
+@media (max-width: 1024px) {
+    .galeria {
+        grid-template-columns: 1fr 1fr;
+    }
+    .producto {
+        width: 50%;
+    }
+    .formulario_contacto {
+        width: 100%;
+    }
+}
+
+/*Smartphone*/
+@media (max-width: 480px) {
+    .galeria {
+        grid-template-columns: 1fr;
+    }
+    .menu {
+        display:block;
+    }
+    @keyframes animacion_producto_mobile {
+        0% {
+            transform: scale(0.1); /*0-1*/
+            /*opacity: 0 - 1*/
+        }
+        80% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    .producto {
+        width: 100%;
+        animation: animacion_producto_mobile 0.8s;
+    }
+    Bheader {
+        flex-direction: column;
+        height: 60px;
+        overflow: hidden;
+        transition: all 0.6s;
+       
+        
+    }
+    #contenido {
+        margin-top: 60px;
+    }
+    Bheader > div {
+        width: 100%;
+    }
+    .contenedor_logo {
+        justify-content: center;
+        margin-top:10px;
+    }
+    nav {
+        justify-content: center;
+    }
+    nav > ul {
+        margin:0;
+    }
+    nav > ul > li {
+        display: block;
+        margin:0;
+        text-align: center;
+        padding:20px 0;
+    }
+}
+.mapa {
+    box-shadow: 0 0 10px #000;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    margin-left: 80px;
+    height: auto;
+    width: auto;
+    background-color: transparent;
+}  
+.loteVendido {
+    fill: crimson;
+    stroke: darkgrey;
+    position: absolute;
+    cursor: pointer;
+}
+.loteDisponible {
+    fill: chartreuse;
+    stroke: darkgrey;
+    position: absolute;
+    cursor: pointer;
+}

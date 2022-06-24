@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% if perms.empleado.add_empleado or perms.empleado.view_empleado or perms.empleado.change_empleado %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+<label class="encabezados">Empleados</label>
+<div class="container col-12">
+    {% if perms.empleado.add_empleado %}
+    <a class="btn btn-outline-dark" href="{% url 'nvo_empleado' %}">Agregar</a>
+    {% endif %}
+    <table class="table table-info table-striped col-md-12">
+        <thead>
+            <tr class='col-12'>
+                <th class="col-md-4" style="text-align: center;" scope="col">Nombre</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Celular</th>
+                <th class="col-md-4" style="text-align: center;" scope="col">Correo</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Asigna Solicitudes</th>
+                <th class="col-md-1" style="text-align: center;" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in object_list %}
+            <tr>
+                <td style="text-align: left;">{{ e.nombre_completo }}</td>
+                <td style="text-align: left;">{{ e.celular_val }}</td>
+                <td style="text-align: left;">{{ e.correo_val }}</td>
+                <td style="text-align: center;">{{ e.get_estatus_empleado_display }}</td>
+                <td style="text-align: center;">{{ e.get_asigna_solicitud_display }}</td>
+                <td style="text-align: center;">
+                    {% if perms.empleado.change_empleado %}
+                    <a href="{% url 'mod_empleado' e.id %}" class="btn btn-outline-secondary">Editar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+{% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,1251 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playatec</title>
+    <link rel="stylesheet" href="{% static 'core/css/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="{% static 'core/css/jquery-confirm.min.css' %}">
+    <style>
+        .parrafo_negritas {
+            font-weight: bold;
+        }
+
+        ul {
+            margin-left: 30px;
+            padding-left: 30px;
+            text-align: justify;
+        }
+
+        ol {
+            margin-left: 30px;
+            padding-left: 30px;
+            text-align: justify;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .vineta {
+            margin-left: 35px;
+        }
+
+        .vineta2 {
+            margin-left: 70px;
+        }
+
+        td {
+            padding-left: 5 px;
+            margin-left: 5px;
+        }
+
+        @page {
+            margin: 50px 40px 50px 40px;
+            padding: 50px 40px 50px 40px;
+        }
+    </style>
+</head>
+
+<body style="font-size: 14.5px;">
+    <p class="parrafo_negritas">
+        CONTRATO PRIVADO DE COMERCIALIZACIÓN INMOBILIARIA NUMERO 
+        <label>"{{ comp.num_contrato }}"</label>, QUE SUSCRIBEN
+        POR UNA PARTE LA PERSONA MORAL DENOMINADA PLEYATEC S.A. DE C.V.,
+        A TRAVÉS DE SU APODERADO LEGAL ARTURO DOMINGUEZ RUIZ, A QUIEN
+        PARA EFECTOS DEL PRESENTE INSTRUMENTO EN LO SUCESIVO SE LE DENOMINARÁ
+        “LA OPERADORA”; Y POR OTRA PARTE {{ solicitud.cliente|upper }}, A QUIEN PARA EFECTOS DEL
+        PRESENTE INSTRUMENTO EN LO SUCESIVO SE LE DENOMINARÁ “EL ADQUIRENTE”,
+        AL TENOR DE LAS SIGUIENTES:
+    </p>
+    <p class="parrafo_negritas" style="text-align: center;">
+        DECLARACIONES
+    </p>
+    <p class="parrafo_negritas">
+        A.- DECLARA “LA OPERADORA” A TRAVÉS DE SU APODERADO LEGAL Y BAJO PROTESTA
+        DE DECIR VERDAD:
+    </p>
+    <p>
+        <label>I.- </label>Mediante Escritura Pública número 6,848 con fecha 7 de diciembre de 2016
+        pasada ante la fe del Lic. Samuel Palacios Vega, titular de la Notaria Pública
+        número 27 de esta Ciudad de Querétaro, Querétaro, se hizo constar, la
+        celebración del Contrato de compraventa con reserva de dominio al que
+        comparecieron por una primera parte la sociedad mercantil denominada
+        “DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD
+        LIMITADA DE CAPITAL VARIABLE, representada por su apoderado legal MIGUEL
+        ANGEL OSORIO ALEJO y la persona moral denominada VISTA COUNTRY CLUB
+        SOCIEDAD ANONIMA DE CAPIAL VARIABLE, representada por su apoderado legal
+        el señor EULOGIO ORTIZ AZOÑOS.
+    </p>
+    <p>
+        Cuyo primer testimonio quedo inscrito el día 27 de diciembre de 2016 en el Registro
+        Público de la Propiedad y del Comercio de dicha Ciudad de Querétaro, Querétaro,
+        en los folios inmobiliarios 00160960/0006, 00160973/0006, 00162275/0004,
+        00162277/0004, 00162281/0004, 00162286/0004, 00162370/0004, 00163913/0004,
+        00163922/0004, 00163959/0004, 00163961/0004, 00164556/0004, 00164564/0004,
+        00165388/0003.
+    </p>
+    <p>
+        <label>II.- </label>Mediante Escritura Pública número 9,056 con fecha 15 días del mes de
+        mayo de 2017 pasada ante la fe del Lic. Samuel Palacios Vega, titular de la
+        Notaria Pública número 27 de esta Ciudad de Querétaro, Querétaro, se hizo
+        constar, LA CANCELACION DE RESERVA DE DOMINIO a favor de la persona moral
+        denominada “DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD
+        LIMITADA DE CAPITAL VARIABLE, representada por su apoderado legal MIGUEL ANGEL
+        OSORIO ALEJO y la persona moral denominada VISTA COUNTRY CLUB SOCIEDAD
+        ANONIMA DE CAPITAL VARIABLE, representada por su apoderado legal el
+        señor EULOGIO ORTIZ AZOÑOS.
+    </p>
+    <p>
+        <label>III.- </label>Mediante contrato privado denominado de asociación en participación
+        la persona moral “DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE
+        RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE, representada por su apoderado
+        legal MIGUEL ANGEL OSORIO ALEJO y la persona moral denominada PLEYATEC S.A. DE C.V.,
+        representada por su apoderado legal ARTURO DOMINGUEZ RUIZ, acuerdan el llevar a cabo
+        un desarrollo mixto sobre el predio en mención consistente en FRACCIONAMIENTO,
+        PLAZA COMERCIAL Y DEPARTAMENTOS, en dicho contrato la persona moral “DESARROLLADORA
+        INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL
+        VARIABLE, otorga a PLEYATEC S.A. DE C.V. el poder para que realice los
+        trabajos de proyectos, estudios, campaña de ventas, ventas, urbanizaciones,
+        construcciones referentes al proyecto y autorización para recibir todos los pagos productos
+        de las ventas de los clientes compradores de cada uno de los inmuebles a desarrollar en el
+        proyecto, que consiste en:
+    </p>
+    <p>
+        FRACCIONAMIENTO RESIDENCIAL CON ACCESO CONTROLADO, 140UNIDADES PRIVATIVAS PARA USO
+        HABITACIONAL UNIFAMILIAR PARA VENTA CON INFRAESTRUCTURA DE PRIMERA, VIALIDADES DE
+        CONCRETO, GUARNICIONES Y BANQUETAS DE CONCRETO, MOTIVO DE INGRESO DE ACUERDO A DISEÑO,
+        CASETA DE VIGILANCIA, AREAS VERDES, INSTALACIONES ELECTRICAS SUBTERRANEAS, INSTALACIONES
+        DE COMUNICACIONES SUBTERRANEAS, ALUMBRADO PUBLICO, DRENAJES SANITARIOS, DRENAJES PLUVIALES,
+        RED DE AGUA POTABLE.
+    </p>
+    <p>
+        <label>IV.- </label>Que el inmueble objeto del presente contrato de compraventa es uno de
+         los 140 predios que conforman el fraccionamiento habitacional de tipo residencial 
+         denominado  <label>“NÚVOLE RESIDENCIAL”</label>, ubicado en la calle Camino a Rancho 
+         San Francisco S/N, colonia Vista Real, código postal 76905, Corregidora, Querétaro.
+    </p>
+    <p>
+        El predio en compraventa es el Lote {{ solicitud.lote.lote }}, en la Manzana 
+        {{ solicitud.manzana }}, de la Fase {{ solicitud.fase }}, tiene 
+        {% if solicitud.lote.tipo_lote == True %}
+        de frente {{ solicitud.lote.frente }} metros y de fondo 
+        {{ solicitud.lote.fondo }} metros
+        {% else %}
+        {{ solicitud.lote.obs_irregular }}</td>
+        {% endif %}
+        con una superficie total de {{ solicitud.lote.total }} m²
+         ({{ comp.metros_letra }} m²), con los linderos siguientes:
+    </p>
+    <p class="parrafo_negritas">NORTE:</p>
+    <p>
+        {{ solicitud.lote.colindancia_norte_val }}
+    </p>
+    <p class="parrafo_negritas">SUR:</p>
+    <p>
+        {{ solicitud.lote.colindancia_sur_val }}
+    </p>
+    <p class="parrafo_negritas">ESTE:</p>
+    <p>
+        {{ solicitud.lote.colindancia_este_val }}
+    </p>
+    <p class="parrafo_negritas">OESTE:</p>
+    <p>
+        {{ solicitud.lote.colindancia_oeste_val }}
+    </p>
+    <p>
+        En el presente contrato, al lote de terreno identificado en este Antecedente, se le
+        denominará como el <label>“EL LOTE”.</label>
+    </p>
+    <p>
+        Se agregan como anexos debidamente firmados por las partes, el <label>"Anexo 1”</label> consistente
+        en el Plano Individual del Lote y en el cual se precisan la superficie, medidas y
+        linderos del inmueble objeto de la presente compraventa, así como el área de servidumbre
+        y/o restricciones (frontal, lateral y trasera) para paso de servicios y como <label>"Anexo 2”</label>
+        el Plano General que contiene el Fraccionamiento que muestra la ubicación de <label>“EL LOTE”</label>
+        objeto de este contrato.
+    </p>
+    <p class="parrafo_negritas">
+        B.- DECLARA “EL ADQUIRENTE” POR SU PROPIO DERECHO Y BAJO PROTESTA DE DECIR VERDAD:
+    </p>
+    <p>
+        <label>B.1.- </label>Que es de nacionalidad mexicana, mayor de edad, con capacidad jurídica plena
+        para contratar y obligarse en los términos y cláusulas del presente instrumento,
+        con domicilio ubicado en:
+    <p class="vineta">
+        Calle: <label>{{ solicitud.cliente.calle }}</label><br>
+        Colonia: <label>{{ solicitud.cliente.colonia }}</label><br>
+        Codigo postal: <label>{{ solicitud.cliente.codpos }}</label><br>
+        </label>Municipio: <label>{{ solicitud.cliente.municipio }}</label><br>
+        Estado: <label>{{ solicitud.cliente.get_estado_display }}</label>
+    </p>
+    </p>
+    <p>
+        <label>B.2.- </label>Que con fecha <label> {{ ahora }} </label>
+        <label>“EL ADQUIRENTE”</label> manifestó a través de una
+        carta oferta,
+        su deseo de adquirir <label>“EL LOTE”</label>.
+    </p>
+    <p>
+        <label> B.3.-</label> Que es su deseo obligarse en todos los términos y condiciones del presente instrumento,
+        respecto de <label>“EL LOTE”</label>.
+    </p>
+    <p>
+        <label>B.4.- </label>Que conoce el proyecto y las características físicas, geológicas, topográficas y
+        ambientales proyectadas para el Fraccionamiento NÚVOLE RESIDENCIAL y en específico de <label>“EL LOTE”</label>,
+        así como que es de su conocimiento de que en la actualidad dicho desarrollo inmobiliario
+        se encuentra en proceso de urbanización.
+    </p>
+    <p>
+        <label>B.6.- </label>Que manifiesta su acuerdo para que una vez que se encuentre totalmente liquidado el
+        valor de operación consignado en el presente instrumento, de conformidad con lo establecido
+        en la Cláusula Quinta de <label>“EL CONTRATO”</label>, y siempre y cuando se cumpla el pago total de la
+        operación de compra venta, se lleve a cabo la escrituración lisa y llana de <label>“EL LOTE”</label> en
+        el plazo que <label>“LA OPERADORA”</label> establezca.
+    </p>
+    <p>
+        <label>B.7.- </label>Que cuenta con los medios suficientes para allegarse de los recursos financieros
+        necesarios para el cumplimiento de las obligaciones contenidas en el <label>“EL CONTRATO”</label>.
+    </p>
+    <p class="parrafo_negritas">
+        C.- DECLARAN “LAS PARTES” A TRAVÉS DE SU APODERADO LEGAL Y POR PROPIO DERECHO, BAJO
+        PROTESTA DE DECIR VERDAD:
+    </p>
+    <p>
+        <label>C.1.- </label>Que bajo su más estricta responsabilidad han revisado lo establecido en
+        <label>“EL CONTRATO”</label>, reconociendo la capacidad y la personalidad jurídica de cada una de
+        <label>“LAS PARTES”</label> para obligarse mediante el presente presente instrumento, manifestando
+        que previo a la celebración del mismo, han convenido libremente los términos establecidos en él,
+        no existiendo dolo, mala fe, enriquecimiento ilegítimo ni vicios en el consentimiento.
+    </p>
+    <p>
+        <label>C.2.-</label> Que están conformes en otorgar <label>“EL CONTRATO”</label> bajo los términos que en este
+        instrumento
+        se estipulan, para lo cual, la celebración y cumplimiento del mismo:
+    <ol>
+        <li>
+            está contemplada por la ley;
+        </li>
+        <li>
+            no contraviene disposición alguna o algún requisito legal aplicable;
+        </li>
+        <li>
+            no constituye causa de incumplimiento o contravención a ningún contrato o cualquier otro
+            acuerdo del que sean parte, ni requieren el consentimiento de ningún tercero; y
+        </li>
+        <li>
+            constituye obligaciones válidas y exigibles en los términos que en él se estipulan.
+        </li>
+    </ol>
+    </p>
+    <p>
+        <label>C.3.-</label> Los comparecientes están al corriente de sus respectivas obligaciones legales
+        que le son aplicables y conociendo el ámbito de las que han asumido mediante el presente
+        instrumento, es su voluntad y al efecto lo celebran al tenor de las siguientes:
+    </p>
+    <p class="parrafo_negritas" style="text-align: center;">
+        C L Á U S U L A S
+    </p>
+    <p>
+        <label>PRIMERA. - </label><label>DEFINICIONES. -</label> Salvo que se establezca de otra forma en este documento
+        o que
+        resulte de otra manera del contexto del mismo, los términos con mayúsculas que aparecen
+        en <label>“EL CONTRATO”</label>, tendrán el significado que aquí se atribuye a los mismos:
+    </p>
+    <ol>
+        <li>
+            <label>LA OPERADORA:</label> La persona moral denominada <label>PLEYATEC S.A. DE C.V.</label>,
+        </li>
+        <li>
+            <label>EL ADQUIRENTE:</label> {{ solicitud.cliente.nombre }} {{ solicitud.cliente.paterno }} {{
+            solicitud.cliente.materno }}
+        </li>
+        <li>
+            <label>LAS PARTES:</label> Cuando se haga mención de <label>“LA OPERADORA”</label> y de <label>“EL
+                ADQUIRENTE”</label>
+            de forma conjunta.
+        </li>
+        <li>
+            <label>EL LOTE:</label> El inmueble señalado en la declaración <label>A.IV</label> de <label>“EL
+                CONTRATO”</label>.
+        </li>
+        <li>
+            <label>EL CONTRATO:</label> El presente documento.
+        </li>
+        <li>
+            <label>EL CAD:</label> El Comité de Arquitectura y Diseño del fraccionamiento
+            NÚVOLE RESIDENCIAL.
+        </li>
+        <li>
+            <label>LOS SERVICIOS:</label> Los servicios de agua potable y energía eléctrica
+            en forma conjunta.
+        </li>
+        <li>
+            <label>EL REGLAMENTO:</label> El Código Interno de Administración, Funcionamiento y
+            Edificación del Fraccionamiento NÚVOLE RESIDENCIAL.
+        </li>
+    </ol>
+    <p>
+        <label>SEGUNDA. - OBJETO. -</label> En virtud del presente instrumento se establecen las
+        bases mediante las cuales <label>“LA OPERADORA”</label> vende y transmite, y <label>“EL ADQUIRENTE”</label>
+        compra y adquiere, <label>“EL LOTE”</label>, con las especificaciones contenidas en <label>“EL
+            CONTRATO”</label>,
+        con todo lo que de hecho y por derecho le corresponde.
+    </p>
+    <p>
+        <label>TERCERA. - CONDICIÓN SUSPENSIVA. - “LAS PARTES”</label> acuerdan que la escrituración de
+        <label>“EL LOTE”</label> en favor de <label>“EL ADQUIRENTE”</label>, se sujetará además de a lo establecido en
+        la cláusula Séptima de <label>“EL CONTRATO”</label>, a la siguiente <label>“CONDICIÓN SUSPENSIVA”</label>:
+    </p>
+    <p>
+        <label>“LA OPERADORA”</label> se obliga a obtener y realizar la lotificación aludida en la
+        declaración <label>A.III</label> de <label>“EL CONTRATO”</label>, debiendo de obtener de las autoridades
+        administrativas competentes, las autorizaciones y licencias correspondientes
+        al Fraccionamiento NÚVOLE RESIDENCIAL, en la cual se encontrará <label>“EL LOTE”</label>,
+        señalando de forma enunciativa más no limitativa la Autorización de lotificación,
+        Nomenclatura de Vialidades y de la Licencia de Ejecución de Obras de Urbanización,
+        lo anterior para estar en posibilidad de formalizar la transmisión de propiedad de
+        <label>“EL LOTE”</label>, en la cual se reproducirá el clausulado de <label>“EL CONTRATO”</label> en todo lo que
+        resulte aplicable.
+    </p>
+    <p>
+        Una vez que <label>“LA OPERADORA”</label> obtenga las autorizaciones y licencias señaladas en el
+        párrafo inmediato anterior, y que aquellas que en términos de ley correspondan se
+        encuentren debidamente protocolizadas ante fedatario público e inscritas en el
+        Registro Público de la Propiedad y del Comercio, se tendrá por totalmente cumplida
+        <label>“LA CONDICIÓN SUSPENSIVA”</label> a la que se sujeta <label>“EL CONTRATO”</label> y se estará en
+        posibilidad
+        de formalizar la transmisión de propiedad de <label>“EL LOTE”</label>, en términos de lo dispuesto
+        en la cláusula Séptima del presente instrumento.
+    </p>
+    <p>
+        En el supuesto de que <label>“LA OPERADORA”</label> no obtenga las autorizaciones y licencias
+        referidas en el segundo párrafo de ésta cláusula, y por éste motivo no pueda
+        formalizarse la transmisión de propiedad de <label>“EL LOTE”</label> en favor de <label>“EL ADQUIRENTE”</label>,
+        se tendrá por rescindido <label>“EL CONTRATO”</label> sin responsabilidad para <label>“LAS PARTES”</label> y sin
+        que cause pena alguna al respecto para las mismas, obligándose <label>“LA OPERADORA”</label> a
+        devolver a <label>“EL ADQUIRENTE”</label>, única y exclusivamente las cantidades que hubiese
+        recibido conforme a lo establecido en la cláusula Quinta de <label>“EL CONTRATO”</label>.
+    </p>
+    <p>
+        <label>CUARTA.- RESERVA DE DOMINIO.- “LAS PARTES”</label> expresamente convienen que <label>“LA
+            OPERADORA”</label>
+        se reserva el dominio o la propiedad de <label>“EL LOTE”</label> objeto de <label>“EL CONTRATO”</label>, en los
+        términos de los artículos 2,197 y 2,198 del Código Civil del Estado de Querétaro,
+        hasta en tanto <label>“EL ADQUIRENTE”</label> pague totalmente el precio convenido en la cláusula
+        Quinta del presente instrumento, en el entendido de que la reserva de dominio sobre
+        <label>“EL LOTE”</label> será liberada por <label>“LA OPERADORA”</label> una vez que <label>“EL
+            ADQUIRENTE”</label> haya cubierto
+        la totalidad del precio establecido.
+    </p>
+    <p>
+        <label>“LAS PARTES”</label> convienen y están conformes en que <label>“LA OPERADORA”</label> podrá afectar en
+        garantía o ser gravado de cualquier forma los derechos y obligaciones derivados
+        de <label>“EL CONTRATO”</label> y/o <label>“EL LOTE”</label>, para lo cual, <label>“EL ADQUIRENTE”</label>
+        otorga a favor de
+        <label>“LA OPERADORA”</label> las facultades más amplias y suficientes para lograr lo aquí convenido,
+        liberándolo de responsabilidad alguna y otorgando por este concepto, el finiquito
+        más amplio que en derecho proceda. Igualmente <label>“LAS PARTES”</label> convienen en que al
+        momento de que se eleve a escritura pública el presente acto, <label>“EL LOTE”</label> deberá
+        encontrarse libre de gravamen, carga e hipoteca.
+    </p>
+    <p>
+        <label>QUINTA. - PRECIO Y FORMA DE PAGO. - “LAS PARTES”</label> convienen que el 
+        precio por la adquisición de <label>“EL LOTE”</label>, será por la:
+    </p>
+    <ul>
+        <li>cantidad de $ {{ precio_x_mt_i }} ({{ precio_x_mt_l }}) ( {{ precio_x_mt_d }}/100 M.N.), por metro cuadrado,</li>
+        <li>dando un total de {{ precio_i }} ({{ precio_l }}) ( {{ precio_d }}/100 M.N.)</li>
+        <li>pago que se realizará de acuerdo a la siguiente negociación:</li>
+        <ul>
+            {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+            <li>Descuento del {{ solicitud.porcentaje_descuento }}% por pago de contado</li>
+            {% else %}
+            <li>Descuento del {{ solicitud.porcentaje_descuento }}% por el importe de enganche pagado</li>
+            {% endif %}
+            <li>arrojando un precio por m² de ${{ precio_x_mt_n_i }} ({{precio_x_mt_n_l}}) 
+            ( {{ precio_x_mt_n_d }}/100 M.N.)</li>
+            <li>por lo que el valor del Lote es de 
+                ${{ precio_final_i }} ({{precio_final_l}}) ( {{ precio_final_d }}/100 M.N.),</li>
+        </ul>
+        <li>Quedando un importe total a la firma de contrato</li>
+        <ul>
+            <li>del Lote de ${{ precio_final_i }} ({{precio_final_l}}) ( {{ precio_final_d }}/100 M.N.)</li>
+            {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+            <li>pago total por ${{ precio_final_i }} ({{precio_final_l}}) ( {{ precio_final_d }}/100 M.N.)</li>
+            <li>Saldo la cantidad de $0 ( 00/100M.N.)</li>
+            {% else %}
+            <li>Enganche por ${{ enganche_i }} ({{enganche_l}}) ( {{ enganche_d }}/100 M.N.)</li>
+            <li>Saldo la cantidad de ${{ saldo_i }} ({{saldo_l}}) ( {{ saldo_d }}/100M.N.)</li>
+            {% if ultimo_pago == importe_x_pago %}
+            <li>
+                Que será pagado en {{ solicitud.cantidad_pagos}} pagos mensuales 
+                con un importe de ${{ importe_x_pago_i }} ( {{ importe_x_pago_d }}/100 M.N.) 
+            </li>
+            {% else %}
+            <li>
+                Que será pagado en {{ cantidad_pagos_1 }} pagos mensuales de
+                con un importe de ${{ importe_x_pago_i }} ( {{ importe_x_pago_d }}/100 M.N.) y  
+                un pago final de ${{ ultimo_pago_i }} ( {{ ultimo_pago_d }}/100 M.N.)
+            </li>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </ul>
+    <p>
+        {% if not solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+        <label>“LAS PARTES”</label> acuerdan que, en caso de retraso en el pago del precio pactado,
+        la parte que sea responsable del incumplimiento pagará a la parte inocente y
+        afectada con el incumplimiento, un interés moratorio del 18 % (dieciocho por
+        ciento) anual sobre saldos vencidos y no pagados.
+        {% endif %}
+    </p>
+    <p>
+        Los pagos señalados con anterioridad deberán realizarse a la cuenta que se
+        señala a continuación:
+    </p>
+    <ul>
+        <li>
+            BANCO: INTERCAM BANCO S.A. DE C.V.
+        </li>
+        <li>
+            BENEFICIARIO: PLEYATEC S.A. DE C.V.
+        </li>
+        <li>
+            PARA PAGO EN VENTANILLA: 017 99 462 001 1
+        </li>
+        <li>
+            Sucursal: 017
+        </li>
+        <li>
+            Referencia:
+        </li>
+        <li>
+            PARA PAGO CON TRANSFERENCIA INTERBANCARIA: 136 680 179 946 200 118
+        </li>
+    </ul>
+    <p>
+        Los pagos deberán realizarse en días y horas hábiles, por lo que si la
+        fecha de una o más de las exhibiciones antes señaladas coincide con un
+        día inhábil, <label>“EL ADQUIRENTE”</label> deberá realizar el pago en el día hábil
+        inmediato siguiente a la fecha de vencimiento del calendario de pagos
+        precedente.
+    </p>
+    <p>
+        En este acto <label>“EL ADQUIRENTE”</label> suscribirá {{cantidad_pagos}} ({{cantidad_pagos_l}})
+        pagares que garantizarán los pagos establecidos en el calendario de pagos, 
+        mismos que estarán numerados del 1/{{cantidad_pagos}} al 
+        {{cantidad_pagos}}/{{cantidad_pagos}}, los cuales quedarán en posesión de
+        <label>“LA OPERADORA”</label> y serán cancelados y entregados a 
+        <label>“EL ADQUIRENTE”</label> contra el recibo de pago correspondiente.
+    </p>
+    <p>
+        Únicamente se aceptarán como medios de pago transferencias electrónicas,
+        tarjeta de crédito o débito, cheques “para abono en cuenta” y similares
+        y/o financiamientos de cualquier tipo que tengan origen en instituciones
+        financieras acreditadas en México o en aquellos países que establezcan
+        requisitos equivalentes a los de la legislación mexicana para la
+        realización de este tipo de actividades.
+    </p>
+    <p>
+        <label>“EL ADQUIRENTE”</label> deberá realizar el canje de los comprobantes de pago por
+        recibos, con el asesor correspondiente, dentro de los 5 días naturales
+        siguientes a la fecha de pago, siempre y cuando haya enviado el comprobante
+        del pago efectuado al correo comprobantes@geztio.mx incluyendo los datos
+        para identificar el número de lote, manzana y etapa, así como acompañar
+        al comprobante su nombre y firma en cualquier parte del documento.
+        Cuando el pago se haya realizado vía depósito con cheque, deberá
+        enviar copia del cheque junto con el comprobante de pago.
+    </p>
+    <p>
+        Es obligación de <label>“EL ADQUIRENTE”</label> el resguardo de sus comprobantes de
+        pago y recibos, aún y cuando en su momento haya proporcionado una copia
+        a <label>“LA OPERADORA”</label>, por lo que al momento de escriturar <label>“EL LOTE”</label> deberá
+        exhibirlos a la notaría pública con que proceda su escritura.
+    </p>
+    <p>
+        Así mismo, de requerir su Comprobante Fiscal Digital por Internet (CFDI)
+        del anticipo, pago parcial o pago total realizado, deberá solicitarlo
+        dentro del mes calendario al que se haya realizado dicho anticipo o pago,
+        situación que manifiesta conocer y aceptar de conformidad <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        En caso de que el pago provenga de una cuenta bancaria de la cual no sea
+        titular <label>“EL ADQUIRENTE”</label>, solo podrá reconocerse el pago previa
+        identificación de la persona titular de la cuenta mediante el llenado
+        del formato correspondiente.
+    </p>
+    <p>Además, al momento de escriturar <label>“EL LOTE”</label>, <label>“EL ADQUIRENTE”</label> deberá indicar
+        a <label>“LA OPERADORA”</label> los pagos que se hayan realizado de cuentas de terceros,
+        ya que se establecerá como Beneficiario Controlador, con la finalidad de
+        dar cumplimiento a lo dispuesto por la Ley Federal para la Prevención e
+        Identificación de Operaciones con Recursos de Procedencia Ilícita.</p>
+    <p>
+        <label>“LA OPERADORA”</label> se reserva el derecho de comprobar que los pagos se han
+        realizado efectivamente antes de que se acrediten como pagados. En caso
+        de que no se acredite el pago, esta situación se hará del conocimiento
+        de <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        <label>SEXTA.- ATRASO EN PAGO.- “LAS PARTES”</label> acuerdan que para el caso de que se
+        presente la falta de pago de dos parcialidades consecutivas por parte
+        de <label>“EL ADQUIRENTE”</label>, respecto de la forma de pago establecida en
+        <label>“EL CONTRATO”</label>, <label>“LA OPERADORA”</label> podrá rescindir unilateralmente y sin
+        necesidad de declaración judicial <label>“EL CONTRATO”</label>, teniendo derecho además
+        al cobro de la pena convencional señalada en el presente instrumento,
+        con lo cual <label>“EL LOTE”</label> se podrá comprometer, vender, gravar, hipotecar
+        o celebrar cualquier acto traslativo de dominio respecto del mismo,
+        sin que esto acarree responsabilidad, pena o incumplimiento alguno para
+        <label>“LA OPERADORA”</label>, situación con la que está de acuerdo y lo acepta de
+        conformidad <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>En caso de que se materialice el supuesto antes señalado y <label> OPERADORA”</label>
+        dé por rescindido<label>“EL CONTRATO”</label>, ésta exclusivamente estará obligada
+        a reintegrar la cantidad que a la fecha de rescisión haya recibido de
+        <label>“EL ADQUIRENTE”</label>, descontando las cantidades que en virtud de <label>“EL CONTRATO”</label>
+        sean aplicables, sin obligación de reintegrar alguna otra cantidad por
+        concepto de intereses, situación con la que está de acuerdo y acepta de
+        conformidad <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        <label>“EL ADQUIRENTE”</label> faculta y autoriza a <label>“LA OPERADORA”</label> irrevocablemente,
+        para que esta última pueda realizar todo tipo de trámites, gestiones y
+        procedimientos relativo a cualquier asunto relacionado con <label>“EL CONTRATO”</label>,
+        inclusive para el cobro extrajudicial y legal de cualquier cantidad en
+        cualquier momento, a través de los siguientes medios:
+    </p>
+    <ol type="A">
+        <li>
+            Carta escrita entregada en el domicilio convencional señalado en
+            <label>“EL CONTRATO”</label> y/o en el domicilio de las referencias que <label>“EL ADQUIRENTE”</label>
+            haya manifestado en la solicitud de carta de intención de adquisición y/o en
+            el domicilio señalado en los formatos de datos personales,
+        </li>
+        <li>
+            Por medio de correo electrónico proporcionado por <label>“EL ADQUIRENTE”</label> a <label>“LA
+                OPERADORA”</label>
+            y/o correo electrónico de las referencias que <label>“EL ADQUIRENTE”</label> haya manifestado
+            en la solicitud de carta de intención de adquisición
+            y/o correo electrónico señalado en los formatos de datos personales, y
+        </li>
+        <li>
+            Por medio de llamadas telefónicas a los números fijos o celulares, particulares
+            o laborales, que <label>“EL ADQUIRENTE”</label> proporcione a “LA OPERADORA” y/o de las referencias
+            que <label>“EL ADQUIRENTE”</label> haya manifestado en la solicitud de carta de intención de
+            adquisición y/o señalados en los formatos de datos personales.
+        </li>
+    </ol>
+    <p>
+        <label>“LAS PARTES”</label> están conformes y acuerdan que <label>“LA OPERADORA”</label> podrá contratar
+        despachos,
+        oficinas, empresas o intermediarios para realizar las gestiones de cobro mencionadas
+        en el apartado anterior, lo anterior sin necesitar el consentimiento de <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        En el caso de incumplimiento y atraso en los pagos ordinarios en los que incurra
+        <label>“EL ADQUIRENTE”</label>, todas las aportaciones y abonos a cuenta serán aplicadas en el
+        siguiente orden:
+    <ol>
+        <li>
+            pago de intereses ordinarios y moratorios pactados en <label>“EL CONTRATO”</label>
+        </li>
+        <li>
+            pago de los gastos de cobranza e impuestos,
+        </li>
+        <li>
+            pago del capital principal.
+        </li>
+    </ol>
+    </p>
+    <p>
+        <label>SÉPTIMA. - ESCRITURACIÓN.-</label> Convienen <label>“LAS PARTES”</label> que la escrituración lisa y
+        llana
+        de <label>“EL LOTE”</label> en favor de <label>“EL ADQUIRENTE”</label>, se llevará a cabo siempre y cuando se
+        haya
+        cumplido la <label>CONDICIÓN SUSPENSIVA</label> señalada en la cláusula Tercera del presente instrumento,
+        y se cumplan las siguientes condiciones:
+    </p>
+    <ol type="i">
+        <li>
+            que <label>“EL ADQUIRENTE”</label> haya realizado el pago total de <label>“EL LOTE”</label> de conformidad
+            con lo establecido en la Cláusula Quinta y
+        </li>
+        <li>
+            que <label>“EL ADQUIRENTE”</label> esté al corriente en el pago de la cuota de servicios
+            generales señalada en la cláusula Décima Octava del presente instrumento.
+        </li>
+    </ol>
+    <p>
+        En cualquier caso, <label>“EL LOTE”</label> objeto de este instrumento deberá estar escriturado
+        en un plazo no mayor a 60 (sesenta) días naturales contados a partir de la fecha
+        en que se cubra la totalidad del precio del mismo, de conformidad con lo
+        establecido en la cláusula Quinta de <label>“EL CONTRATO”</label>, lo anterior siempre y
+        cuando se haya cumplido con la <label>“CONDICIÓN SUSPENSIVA”</label>. En relación con lo anterior,
+        en el supuesto de que la escritura no se realice dentro del plazo establecido por
+        causas imputables a <label>“EL ADQUIRENTE”</label>, éste último deberá de pagar en favor de
+        <label>“LA OPERADORA”</label> la cantidad de $5,000.00 (Cinco mil pesos 00/100 M.N.) por concepto
+        de penalización por cada mes de atraso, situación con la que está de acuerdo y acepta
+        de conformidad <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        <label>“EL ADQUIRENTE”</label> se obliga a pagar el impuesto predial correspondiente a <label>“EL LOTE”</label>
+        a partir del bimestre vigente que corresponda a la fecha de escrituración de
+        <label>“EL LOTE”</label>, independientemente de que, por cualquier causa, dicha escrituración
+        se lleve a cabo en alguna fecha posterior.
+    </p>
+    <p>
+        Así mismo, atendiendo a que la trasmisión de propiedad de <label>“EL LOTE”</label> se realiza
+        libre de gravamen, <label>“EL ADQUIRENTE”</label> acepta y se obliga a que la escrituración de
+        “EL LOTE” se realice con la notaría pública que este último elija única y
+        exclusivamente del listado de notarías públicas que le proporcione en su momento
+        <label>“LA OPERADORA”</label>.
+    </p>
+    <p>
+        <label>OCTAVA.- GASTOS DE ESCRITURACIÓN.- “EL ADQUIRENTE”</label> se obliga a cubrir los gastos
+        generados de la escrituración derivada de <label>“EL CONTRATO”</label>, tales como: pago de
+        honorarios del Notario Público, inscripción al Registro Público de la Propiedad
+        y del Comercio, pago sobre el Impuesto al Traslado de Dominio, así como todos y
+        cada uno de los que se generen con motivo de la elevación a escritura pública de
+        <label>“EL CONTRATO”</label>, con excepción del Impuesto Sobre la Renta, el cual será cubierto
+        por la parte que corresponda en términos de las disposiciones fiscales aplicables.
+        No obstante, lo anterior, en caso de que derivado de la escrituración, se genere
+        algún monto por concepto de impuesto por adquisición, el mismo será cubierto única
+        y exclusivamente por <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        <label>NOVENA. - OBLIGACIONES DE “EL ADQUIRENTE”.-</label> Toda vez que <label>“EL LOTE”</label> tiene uso
+        de suelo habitacional y forma parte integrante de un Fraccionamiento,
+        <label>“EL ADQUIRENTE”</label> se obliga en este acto a:
+    </p>
+    <ol type="a">
+        <li>
+            No iniciar construcción alguna sobre <label>“EL LOTE”</label>, hasta que se lleve a cabo la
+            escrituración correspondiente y obtenga por sus propios medios
+            <ol type="I">
+                <li>
+                    la autorización y visto bueno del proyecto de construcción por parte de <label>“EL CAD”</label>,
+                    acorde a los lineamientos del Reglamento de Construcción;
+                </li>
+                <li>
+                    los permisos, licencias y autorizaciones correspondientes de la Dirección
+                    de Desarrollo Urbano del Municipio de Corregidora, Querétaro. Así mismo,
+                    <label>“EL ADQUIRENTE”</label>, previo a la presentación de su proyecto ante <label>“EL
+                        CAD”</label>,
+                    deberá depositar los importes que se encuentren vigentes a la fecha de la
+                    realización de su trámite por los siguientes conceptos:
+                    <ol type="1">
+                        <li>
+                            entrega física de poligonal de <label>“EL LOTE”</label>;
+                        </li>
+                        <li>
+                            revisión y autorización de proyecto;
+                        </li>
+                        <li>
+                            garantía contra daños a la urbanización y/o imagen urbana del Fraccionamiento NÚVOLE
+                            RESIDENCIAL
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Deberá de mantener en todo momento limpio <label>“EL LOTE”</label>, es decir, deberá de
+            evitar la acumulación de escombro, residuos sólidos, basura o cualquier
+            objeto ajeno al inmueble o a la edificación que sobre el mismo se construya.
+            Para ello <label>“EL ADQUIRENTE”</label> deberá de realizar las actividades necesarias para
+            cumplir con esta obligación a fin de mantener un ambiente seguro para los
+            colonos, evitando tener focos de inseguridad e infecciones, en cumplimiento
+            a las disposiciones legales correspondientes. En caso de que la obra permanezca
+            inactiva por un periodo mayor a 6 meses, se autoriza a que <label>“EL CAD”</label> utilice parte
+            de la garantía para la limpieza y colocación de un tapial, esto con la finalidad de
+            evitar la mala imagen del desarrollo.
+        </li>
+        <li>
+            No realizar construcción alguna sobre el <label>“EL LOTE”</label> con agua potable, asumiendo la
+            responsabilidad de suministrarse por su propia cuenta y bajo su entera responsabilidad
+            el agua tratada que sea necesaria para la construcción.
+        </li>
+        <li>
+            No realizar construcción sobre <label>“EL LOTE”</label> hasta en tanto se cuente con el contrato de
+            suministro de energía eléctrica que proporcione la Comisión Federal de Electricidad
+            (CFE) y edificar el murete de servicios de acuerdo a la norma CFE EM-BT105.
+        </li>
+        <li>
+            No subdividir <label>“EL LOTE”</label> en dimensiones menores a las señaladas en <label>“EL
+                CONTRATO”</label>, ni
+            variar las características autorizadas por las autoridades correspondientes.
+        </li>
+        <li>
+            Pagar las cuotas de servicios generales que le indique <label>“LA OPERADORA”</label>, lo anterior
+            hasta en tanto se constituya la Asociación de Colonos del Fraccionamiento Núvole
+            Residencial y sea esta última quien establezca dichas cuotas, siendo dichos pagos
+            de carácter obligatorio para <label>“EL ADQUIRENTE”</label> a partir de la fecha de entrega de los
+            servicios a pie de <label>“EL LOTE”</label>.
+        </li>
+        <li>
+            Cumplir con todo lo señalado en el Código Interno de Administración, Funcionamiento y
+            Edificación del Fraccionamiento Núvole Residencial.
+        </li>
+        <li>
+            Formar parte en su momento de la Asociación de Colonos del Fraccionamiento Núvole Residencial.
+        </li>
+        <li>
+            No destinar <label>“EL LOTE”</label> a fines y usos distintos para los cuales hubiera sido aprobado,
+            pudiendo en todo caso fusionar otros lotes, sin cambiar el uso de suelo de ellos.
+        </li>
+        <li>
+            Ocultar desde cualquier punto de vista del exterior de la vivienda que edifique en
+            <label>“EL LOTE”</label> las instalaciones especiales.
+        </li>
+        <li>
+            No instalar tinacos. El almacenamiento y distribución de agua potable será a través
+            de cisterna e hidroneumático.
+        </li>
+        <li>
+            Respetar los lineamientos de <label>“EL CAD”</label> en cuanto al cuarto de servicio, en caso de
+            contemplarlo en su proyecto. El diseño de la construcción a edificar en <label>“EL LOTE”</label>
+            deberá evitar contaminar el entorno visual.
+        </li>
+        <li>
+            Respetar la restricción de construcción que colinde con área verde a <label>“EL LOTE”</label>, la
+            cual alojará infraestructura de servicios propios del inmueble.
+        </li>
+    </ol>
+    <p>
+        <label>DÉCIMA. - USO Y DESTINO.</label> En cuanto se refiere al uso y destino de <label>“EL LOTE”</label> objeto
+        de
+        <label>“EL CONTRATO”</label>, éste queda sujeto a las disposiciones u ordenamientos legales que para el
+        desarrollo urbano hayan dictado o dicten en lo futuro las autoridades administrativas
+        correspondientes.
+    </p>
+    <p>
+        <label>DÉCIMA PRIMERA. - AUTORIZACIÓN DE PROYECTO. -</label> Una vez que se haya escriturado <label>“EL
+            LOTE”</label>
+        en términos de lo dispuesto en la Cláusula Séptima de <label>“EL CONTRATO”</label>, <label>“EL
+            ADQUIRENTE”</label>
+        tendrá la obligación de acudir con <label>“EL CAD”</label> para solicitar la entrega física de
+        poligonal de <label>“EL LOTE”</label>, la revisión y aprobación de su proyecto arquitectónico,
+        cuyos gastos correrán a cargo de <label>“EL ADQUIRENTE”</label>, el cual también se obliga a que a
+        la fecha de solicitud del trámite que se contempla en la presente cláusula, esté al
+        corriente del pago del siguiente concepto:
+    <ol>
+        <li>
+            cuotas de servicios generales del Fraccionamiento Núvole Residencial.
+        </li>
+    </ol>
+    Así mismo, <label>“EL ADQUIRENTE”</label> deberá atender en todo
+    momento lo dispuesto por el Dictamen Ambiental que le sea entregado por <label>“EL CAD”</label> a partir
+    de la recepción de la entrega física del poligonal de <label>“EL LOTE”</label>.
+    </p>
+    <p>
+        <label>DÉCIMA SEGUNDA. - DEL PROYECTO DE URBANIZACION. - “LA OPERADORA”</label> hace del conocimiento
+        a <label>“EL ADQUIRENTE”</label> el proyecto y características físicas, geológicas, topográficas y
+        ambientales proyectadas para el Fraccionamiento Núvole Residencial, haciendo de su
+        conocimiento que en la actualidad dicho desarrollo inmobiliario se encuentra en proceso
+        de urbanización, manifestando desde este momento <label>“EL ADQUIRENTE”</label> su total aceptación
+        con lo antes expuesto.
+    </p>
+    <p>
+        <label>DÉCIMA TERCERA. - REGLAMENTO. -</label> Desde este momento, <label>“EL ADQUIRENTE”</label> se obliga a
+        cumplir
+        con los términos establecidos tanto en el Código Interno de Administración, Funcionamiento
+        y Edificación del Fraccionamiento Núvole Residencial, como en el Dictamen Ambiental,
+        así como a dar cumplimiento a las disposiciones del Código Urbano para el Estado de
+        Querétaro y demás normatividad aplicable. Por lo cual se entregará a <label>“EL ADQUIRENTE”</label>
+        el Código Interno de Administración, Funcionamiento y Edificación del Fraccionamiento
+        Núvole Residencial, mismo que forma parte integrante de <label>“EL CONTRATO”</label> como si a la letra
+        se insertase.
+    </p>
+    <p>
+        <label>DÉCIMA CUARTA. - URBANIZACIÓN. - “LA OPERADORA”</label> entregará <label>“LOS SERVICIOS”</label> a pie
+        <label>“EL LOTE”</label>
+        en fecha 30 de junio del 2022, de igual manera se procederá conforme a la siguiente
+        clausula la forma para la entrega física de <label>“EL LOTE”</label>, momento a partir del cual será
+        obligación de <label>“EL ADQUIRENTE”</label> pagar las cuotas de servicios generales. El alcance de las
+        obras permitirá la interconexión de los servicios al interior de <label>“EL LOTE”</label>, así como el
+        libre acceso al límite de <label>“EL LOTE”</label>.
+    </p>
+    <p class="vineta">
+        <label>Fechas pactadas:</label>
+    </p>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 20%; text-align: right;"><label>1)</label></td>
+            <td style="width: 60%"><label>Entrega de Servicios a pie de</label> <label>“EL LOTE”</label></td>
+            <td style="width: 40%"><label>----------</label></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>2)</label></td>
+            <td><label>Aviso de entrega Física de “EL LOTE”</label></td>
+            <td><label>----------</label></td>
+        </tr>
+        <tr>
+            <td style="text-align: right; vertical-align: top;"><label>3)</label></td>
+            <td style="vertical-align: top;"><label>Fecha de Escrituración</label></td>
+            <td><label>máximo 60 días después de la entrega física</label></td>
+        </tr>
+    </table>
+    <p class="parrafo_negritas">
+        Nota – La obligación de pago de cuota de mantenimiento por
+        “EL ADQUIRENTE” será a partir de la entrega física de “EL LOTE”
+    </p>
+    <p>
+        Así mismo, el pórtico de acceso con plumas automatizadas, las obras
+        de jardinería y los trabajos de obra civil serán entregadas por
+        <label>“LA OPERADORA”</label> en fecha abril 2022.
+    </p>
+    <p>
+        <label>“LAS PARTES”</label> acuerdan expresamente que, debido a que en el proceso
+        de urbanización se pueden llegar a presentar causas que retrasen
+        la ejecución de las obras señaladas en esta cláusula, <label>“LA OPERADORA”</label>
+        contará con un plazo de gracia adicional de hasta 90 (noventa) días
+        naturales para dar cumplimiento a cada uno de los plazos previstos en esta
+        cláusula, sin responsabilidad y sin que ello sea considerado como un
+        incumplimiento de <label>“LA OPERADORA”</label>, no dando lugar dicha situación para
+        que <label>“EL ADQUIRENTE”</label> retenga o difiera el plazo de los pagos pactados en
+        <label>“EL CONTRATO”</label>, de conformidad con lo establecido en este instrumento.
+    </p>
+    <p>
+        <label>DÉCIMA QUINTA.- ENTREGA Y POSESIÓN.- “LA OPERADORA”</label> estará en posibilidad
+        de realizar la entrega material de <label>“EL LOTE”</label> en el plazo señalado en la
+        cláusula inmediata anterior con <label>“LOS SERVICIOS”</label> a pie del mismo, única y
+        exclusivamente si en esa fecha:
+    <ol>
+        <li>
+            <label>“EL ADQUIRENTE”</label> ha liquidado la totalidad del precio pactado por la adquisición de <label>“EL
+                LOTE”</label>,
+        </li>
+        <li>
+            se ha llevado a cabo la escrituración de <label>“EL LOTE”</label>, y
+        </li>
+        <li>
+            <label>“EL ADQUIRENTE”</label> ha cubierto los pagos por concepto de la entrega
+        </li>
+        <li>
+            física de poligonal de <label>“EL LOTE”</label> ante <label>“EL CAD”</label>.
+        </li>
+    </ol>
+    </p>
+    <p>
+        La entrega física de <label>“EL LOTE”</label> se hará a través de <label>“EL CAD”</label> o alguna otra
+        persona autorizada por <label>“LA OPERADORA”</label>, quien entregará a <label>“EL ADQUIRENTE”</label>
+        la posesión material de <label>“EL LOTE”</label>, acto que deberá quedar plasmado por
+        escrito en un acta entrega-recepción, que deberá ser firmada por <label>“LAS PARTES”</label>.
+        <label>“EL LOTE”</label> se considerará entregado virtualmente, aunque <label>“EL ADQUIRENTE”</label>
+        no concurra a la firma del acta de entrega recepción, para lo cual se le
+        notificará previamente. Si no concurre a la firma, <label>“LA OPERADORA”</label> podrá
+        solicitar la presencia de un fedatario público para levantar una fe de
+        hechos respecto de la entrega que realizará <label>“LA OPERADORA”</label> o alguna persona
+        autorizada por ella para tal efecto, así como la no comparecencia de
+        <label>“EL ADQUIRENTE”</label> a dicho acto. Los honorarios y gastos que se generen al
+        respecto, serán incorporados a los gastos de revisión de proyecto, situación
+        con la que está de acuerdo y lo acepta de conformidad <label>“EL ADQUIRENTE”</label>.
+    </p>
+    <p>
+        La entrega jurídica de <label>“EL LOTE”</label> se llevará a cabo en la misma fecha en que
+        se suscriba la escritura pública de transmisión de propiedad correspondiente.
+    </p>
+    <p>
+        <label>DÉCIMA SEXTA. - FACTIBILIDAD DE LOS SERVICIOS. - “LA OPERADORA”</label> proporcionará
+        y garantizará que al momento de la entrega material de <label>“EL LOTE”</label> se encontrarán
+        a pie del mismo la infraestructura para prestar los servicios de agua potable
+        y energía eléctrica. No obstante lo anterior, <label>“LA OPERADORA”</label> no es la
+        responsable ni está obligada a proporcionar los mismo durante la construcción
+        sobre <label>“EL LOTE”</label>, por lo cual será responsabilidad y obligación de <label>“EL ADQUIRENTE”</label>,
+        una vez que obtenga de la Dirección de Desarrollo Urbano del Municipio de
+        Corregidora, la terminación de obra correspondiente y en forma paralela a la
+        firma de la carta de habitabilidad de <label>“EL LOTE”</label>, realizar los trámites y
+        contrataciones de <label>“LOS SERVICIOS”</label> ante las compañías y organizaciones responsables
+        de proporcionar cada uno de ellos dentro del Fraccionamiento Núvole Residencial.
+    </p>
+    <p>
+        <label>DÉCIMA SÉPTIMA.- DERECHOS DE AGUA.- “EL ADQUIRENTE”</label> manifiesta que tiene pleno
+        conocimiento que dentro de los conceptos de urbanización y del precio de la
+        presente operación, se encuentra incluido el pago correspondiente a los derechos
+        de infraestructura de la red de agua potable, alcantarillado y drenaje pluvial,
+        no así el pago correspondiente a la contratación de dicho servicio (contrato,
+        medidor y toma de agua potable) por lo que esta última deberá ser por cuenta y
+        costa de <label>“EL ADQUIRENTE”</label>, obligándose <label>“EL ADQUIRENTE”</label> a pagar la tarifa que por
+        contratación y medición resulte aplicable al momento del pago, y que aplique el
+        organismo operador de agua potable que regule en la zona de ubicación de “EL LOTE”.
+    </p>
+    <p>
+        Adicionalmente a lo anterior, <label>“LAS PARTES”</label> acuerdan que <label>“EL LOTE”</label> objeto material
+        del presente instrumento, incluye toma domiciliaria de agua potable en el límite
+        del mismo, pero no así la caja (Registro Tortuga).
+    </p>
+    <p>
+        <label>“EL ADQUIRENTE”</label> está obligado a que una vez que le sea entregado <label>“EL LOTE”</label>, las
+        construcciones que requiera realizar sobre el mismo deberán hacerse con agua
+        tratada, por lo que, a partir de este momento asume la responsabilidad de
+        suministrarse por su propia cuenta y bajo su entera responsabilidad el agua
+        tratada que sea necesaria para la construcción.
+    </p>
+    <p>
+        <label>DÉCIMA OCTAVA. - CUOTA DE SERVICIOS GENERALES. - “EL ADQUIRENTE”</label> se obliga a
+        cubrir el pago que por concepto de cuota de servicios generales le corresponda
+        y que de forma enunciativa más no limitativa incluye recolección de basura,
+        vigilancia, riego, mantenimiento de áreas verdes e iluminación y las que
+        conforme al avance de urbanización indique <label>“LA OPERADORA”</label>. La cuota será
+        fijada por <label>“LA OPERADORA”</label> o en su caso por la Asociación de Colonos del
+        Fraccionamiento Núvole Residencial, las cuáles comenzarán a cubrirse a partir
+        de la recepción física de <label>“EL LOTE”</label>, independientemente de que no se haya
+        cubierto la totalidad del saldo, siempre y cuando se encuentren disponibles
+        los servicios a pie de <label>“EL LOTE”<label>, esto último en términos de lo dispuesto en
+                la cláusula Décima Cuarta de <label>“EL CONTRATO”</label>.
+    </p>
+    <p>
+        Dicha cuota será obligatoria para <label>“EL ADQUIRENTE”</label> independientemente de que se
+        trate de un terreno baldío, en proceso de construcción o una obra concluida.
+        En este contexto, <label>“EL ADQUIRENTE”</label> acepta la obligación de pago y en caso de
+        retraso en el pago de sus cuotas, se obliga a cubrir los recargos o intereses
+        establecidos por <label>“LA OPERADORA”</label> o en su caso por la Asociación de Colonos
+        del Fraccionamiento Núvole Residencial. Para efectos de lo señalado en la
+        presente cláusula, se fijan de forma provisional las siguientes cuotas mensuales de Colonos:
+    </p>
+    <ul>
+        <li>
+            Lotes baldíos (sin construcción en proceso): $ 400.00 M.N. (Cuatrocientos pesos 00/100 M.N.)
+        </li>
+        <li>
+            Lotes en proceso de construcción: $ 500.00 M.N. (Quinientos pesos 00/100 M.N.)
+        </li>
+        <li>
+            Lotes construidos: $ 600.00 M.N. (Seiscientos pesos 00/100 M.N.)
+        </li>
+    </ul>
+    <p>
+        Por lo que respecta a la cuota de servicios generales, ésta será actualizada a razón del 6%
+        (seis por ciento) anual, o bien, de conformidad con el porcentaje que disponga <label>“LA OPERADORA”</label>
+        o en su caso la Asociación de Colonos del Fraccionamiento Núvole Residencial.
+    </p>
+    <p>
+        Estas cuotas deberán ser pagadas de manera provisional en las oficinas de la Asociación de
+        Colonos del Fraccionamiento Núvole Residencial, ubicadas en las oficinas administrativas
+        del Fraccionamiento.
+    </p>
+    <p>
+        <label>DECIMA NOVENA. - IMPUESTOS Y DERECHOS. -</label> Todos los impuestos, derechos o contribuciones de
+        cualquier carácter que cause <label>“EL LOTE”</label> materia de la presente operación, con anterioridad a
+        la firma de escrituración, serán por cuenta exclusiva de “LA OPERADORA”. No obstante, lo
+        anterior dichos impuestos, derechos y/o contribuciones, correrán a cargo de <label>“EL ADQUIRENTE”</label>
+        a partir de la fecha de escrituración, salvo que la misma no se realice en la fecha prevista
+        por causas imputables a <label>“EL ADQUIRENTE”</label>, en cuyo caso, este último se obliga a pagar el
+        impuesto predial a partir del bimestre vigente al que corresponda la fecha de escrituración.
+    </p>
+    <p>
+        <label>VIGÉSIMA. - ESTADO DE LAS AUTORIZACIONES Y LICENCIAS. - “EL ADQUIRENTE”</label> reconoce que para
+        todos los efectos legales a que haya lugar, conoce el estado jurídico, las obligaciones y
+        derechos con que adquiere <label>“EL LOTE”<label> objeto de esta operación, obligándose a sujetarse
+                expresamente a las disposiciones legales vigentes para el Estado de Querétaro y a las
+                contenidas en este instrumento.
+    </p>
+    <p>
+        <label>VIGÉSIMA PRIMERA. - CESIÓN DE DERECHOS Y OBLIGACIONES, MODIFICACIONES Y DOMICILIOS
+            CONVENCIONALES.</label>
+    </p>
+    <p>
+        1.- <label>“EL ADQUIRENTE”</label> no podrá ceder, transmitir o donar los derechos y obligaciones derivados
+        de <label>“EL CONTRATO”</label>.
+    </p>
+    <p>
+        2.- <label>“LAS PARTES”</label> convienen y están conformes en que <label>“LA OPERADORA”</label> podrá otorgar
+        en factoraje
+        financiero y/o ceder y/o descontar los derechos de cobro de esta última, con la institución
+        financiera que más le convenga, sin necesidad de autorización posterior de <label>“EL ADQUIRENTE”</label>,
+        debiendo <label>“LA OPERADORA”</label> en todo caso notificar a <label>“EL ADQUIRENTE”</label> los nuevos datos
+        de la cuenta
+        bancaria y beneficiario del pago del precio, para lo cual <label>“EL ADQUIRENTE”</label> otorga a favor de
+        <label>“LA OPERADORA”</label> las facultades más amplias y suficientes para lograr lo aquí convenido,
+        liberándolo de responsabilidad alguna y otorgando por este concepto el finiquito más amplio
+        que en derecho proceda. <label>“LAS PARTES”</label> convienen que para este caso, <label>“LA OPERADORA”</label>
+        podrá endosar
+        y/o transmitir para cobro los pagarés a los que se hace referencia en la cláusula Quinta de
+        <label>“EL CONTRATO”</label>.
+    </p>
+    <p>3.- Cualquier modificación y/o adición al presente documento deberá ser tomada de común acuerdo
+        por <label>“LAS PARTES”</label> y constar por escrito.</p>
+    <p>
+        4.- Todo aviso o notificación que deban hacerse <label>“LAS PARTES”</label> respecto de <label>“EL
+            CONTRATO”</label>
+        se realizará en español, por escrito, a las personas morales a través de sus representantes
+        legales, en los domicilios que <label>“LAS PARTES”</label> reconocen como sus domicilios convencionales y
+        con acuse de recibo. Los domicilios convencionales que <label>“LAS PARTES”</label> señalan son los siguientes:
+    </p>
+    <p class="vineta">
+        <label>“LA OPERADORA”.-</label> Avenida Paseo Constituyentes, número 1009, Interior 5, piso 2, colonia del
+        Valle, código postal 76190, en la ciudad de Santiago de Querétaro, Querétaro, México.
+    </p>
+    <p class="vineta">
+        <label>“EL ADQUIRENTE”.-</label> (domicilio borrar nota)
+    </p>
+    <p>
+        Asimismo, si por cualquier causa, alguna de <label>“LAS PARTES”</label> cambia su domicilio, la parte que sufra
+        el cambio deberá notificarlo con una anticipación de cinco días naturales a la fecha en que
+        ocurra el cambio, de lo contrario, durante el período de cinco días naturales que transcurra
+        desde que se dé el aviso de cambio de domicilio, las notificaciones hechas al anterior domicilio
+        surtirán todos sus efectos legales.
+    </p>
+    <p>
+        <label>VIGÉSIMA SEGUNDA.- RESCISIÓN DEL CONTRATO.- “LAS PARTES”</label> convienen en que cualquier falta o
+        incumplimiento de las obligaciones previstas en <label>“EL CONTRATO”</label>, otorgará a la otra parte la
+        facultad para rescindirlo, sin responsabilidad y sin necesidad de resolución judicial, siempre
+        y cuando no se subsane el incumplimiento dentro del término de 10 diez días naturales, a
+        partir de que la parte que haya sufrido el incumplimiento de la otra, notifique por escrito
+        a la parte incumplida la falta en la que ha incurrido y en su caso, la exigencia de pago de
+        la pena convencional a la que se refiere la cláusula siguiente de <label>“EL CONTRATO”</label>, sin necesidad
+        de que la parte que haya sufrido el incumplimiento vuelva a notificar la rescisión a la terminación
+        del plazo para remediar el incumplimiento presentado.
+    </p>
+    <p>
+        <label>VIGÉSIMA TERCERA.- PENA CONVENCIONAL.-</label> Para el caso de que <label>“EL ADQUIRENTE”</label> no
+        diera cumplimiento
+        a cualquiera de las obligaciones que asume en virtud de <label>“EL CONTRATO”</label>, o decida en forma
+        unilateral
+        cancelar la operación de transmisión objeto material de <label>“EL CONTRATO”</label>, este se hará acreedor a
+        la aplicación de una pena convencional consistente en el 20% (veinte por ciento) del valor total
+        de la operación consignado en el presente instrumento, facultando <label>“EL ADQUIRENTE”</label> a <label>“LA
+            OPERADORA”</label>
+        en este acto, sin reserva ni restricción alguna, a deducir y descontar dicha cantidad de la cantidad
+        entregada por concepto de anticipo, apartado, enganche y/o parcialidades pactadas, y devolver el
+        remanente a <label>“EL ADQUIRENTE”</label> en forma inmediata, lo anterior siempre y cuando se haya agotado el
+        período para remediar incumplimientos previsto en la cláusula inmediata anterior.
+    </p>
+    <p>
+        En relación con lo anterior, <label>“EL ADQUIRENTE”</label> autoriza desde este momento a <label>“LA
+            OPERADORA”</label> para que
+        disponga de las cantidades de dinero pagadas a cuenta del precio convenido, a fin de que pueda
+        aplicarlas al pago de las penas convencionales y/o penas moratorias pactadas en <label>“EL CONTRATO”</label>,
+        lo anterior sin necesidad de declaración judicial, por lo que <label>“LA OPERADORA”</label> no tendrá
+        responsabilidad alguna de ningún tipo en la aplicación de este pacto y estará en posibilidad
+        de disponer del dinero que le haya sido entregado, como mejor convenga a sus intereses.
+    </p>
+    <p>
+        <label>“LAS PARTES”</label> convienen que el pago de las parcialidades a cargo de <label>“EL
+            ADQUIRENTE”</label>, establecidas
+        en la cláusula Quinta de <label>“EL CONTRATO”</label>, están sujetas a la condición de que, al no pagarse
+        cualquiera de ellas a su vencimiento, serán exigibles todas las que le sigan en número, además
+        de las ya vencidas, más el pago de la pena moratoria y demás penas aplicables.
+    </p>
+    <p>
+        Ante el caso de incumplimiento de <label>“EL ADQUIRENTE”</label> de las obligaciones de pago pactadas en
+        <label>“EL CONTRATO”</label>, <label>“LA OPERADORA”</label> podrá optar de manera unilateral, entre exigir el
+        cumplimiento
+        forzoso de <label>“EL CONTRATO”</label> más el pago de la pena moratoria, o bien, darlo por rescindido sin
+        necesidad de declaración judicial y sin responsabilidad para <label>“LA OPERADORA”</label>, más el pago de
+        la pena convencional pactada, en los términos del artículo 88 del Código de Comercio.
+    </p>
+    <p>
+        En caso de que <label>“LA OPERADORA”</label> incumple en el tiempo de entrega compromiso que se fija en este
+        contrato, esta pagara a <label>“EL ADQUIRIENTE”</label> una multa equivalente al 3% del importe de la
+        operación que se especifica en este contrato.
+    </p>
+    <p>
+        <label>VIGÉSIMA CUARTA. - CASO DE EVICCIÓN Y SANEAMIENTO. - “LA OPERADORA”</label> señala que será quien
+        se obliga a responder del saneamiento para el caso de evicción en los términos del Código
+        Civil del Estado de Querétaro. Así mismo conviene en defender y mantener a <label>“EL ADQUIRENTE”</label>
+        a salvo de y contra cualquier responsabilidad, obligación, pérdida, daño y costo en caso
+        de que fuere privado total o parcialmente de <label>“EL LOTE”</label>, por sentencia ejecutoria que en
+        razón de un derecho anterior a la adquisición, prive total o parcialmente a <label>“EL ADQUIRENTE”</label>
+        en el goce y ejercicio de la propiedad de <label>“EL LOTE”</label> adquirido.
+    </p>
+    <p>
+        <label>VIGÉSIMA QUINTA. - DE LA LEY FEDERAL PARA LA PREVENCIÓN E IDENTIFICACIÓN DE OPERACIONES
+            CON RECURSOS DE PROCEDENCIA ILÍCITA. –</label> De conformidad con la Ley Federal Para la Prevención
+        e Identificación de Operaciones con Recursos de Procedencia Ilícita, <label>“EL ADQUIRENTE”</label>
+        conforme al artículo 21 de la Ley, deberá proporcionar la documentación que se refiere
+        en dicha ley, en el entendido de que, de no ser proporcionada, el acto no podrá llevarse
+        a cabo, ello sin responsabilidad para <label>“LA OPERADORA”</label>. De igual forma, de ajustarse alguna
+        de las operaciones a las Actividades Vulnerables establecidas en la ley, <label>“LA OPERADORA”</label>
+        tendrá la obligación de presentar los avisos correspondientes ante la Secretaria de Hacienda
+        y Crédito Público, con la información y documentación a que se refiere la ley, en tanto que
+        dicha obligación no implicara para <label>“LA OPERADORA”</label>, transgresión alguna a las obligaciones
+        de confidencialidad o secreto legal, profesional, fiscal, fiduciario o cualquier otro que
+        prevean las leyes, ni podrá ser objeto de cláusula de confidencialidad en convenio, contrato
+        o acto jurídico. Por lo anterior <label>“LAS PARTES”</label> manifiestan bajo protesta de decir verdad
+        conocer las consecuencias legales por el incumplimiento a dicha normatividad. Así mismo,
+        <label>“EL ADQUIRENTE”</label> bajo su responsabilidad deberá realizar los pagos pactados en el presente
+        instrumento y <label>“LA OPERADORA”</label> no podrá aceptar pagos en efectivo superiores a los montos
+        establecidos en la ley.
+    </p>
+    <p>
+        <label>“EL ADQUIRENTE”</label> está de acuerdo en proporcionar la documentación que a continuación se
+        describe en copia simple, y para su cotejo en original, señalando que una vez cotejado
+        será devuelto el documento original al oferente, sin perjuicio de solicitarse documentación
+        adicional de acuerdo al requerimiento de la autoridad competente:
+    </p>
+    <p style="text-align: center;">
+        <label>DOCUMENTOS DEL ADQUIRENTE</label>
+    </p>
+    <p style="text-align: center;">
+        (Persona Física)
+    </p>
+    <ul>
+        <li>
+            Identificación oficial vigente, con fotografía y firma. (IFE - Pasaporte)
+        </li>
+        Constancia de la C.U.R.P.
+        </li>
+        <li>
+            Cédula de Identificación Fiscal.
+        </li>
+        <li>
+            Comprobante de domicilio con antigüedad no mayor a tres meses.
+        </li>
+        <li>
+            Contrato de arrendamiento o comodato vigente registrado ante la autoridad
+            fiscal (ante la falta de comprobante).
+        </li>
+        <li>
+            Constancia de Inscripción en el R.F.C.
+        </li>
+        <li>
+            Acta de Nacimiento
+        </li>
+        <li>
+            Acta de Matrimonio
+        </li>
+        <li>
+            En caso de ser extranjero, documento que acredite legal estancia.
+        </li>
+        <li>
+            Poder con que acredita su personalidad.
+        </li>
+        <li>
+            Constancia por la que se acredite que quien realice la actividad vulnerable
+            solicitó a su adquirente o usuario la existencia de dueños beneficiario,
+            de existir, hay que recabar la misma documentación, según corresponda.
+        </li>
+    </ul>
+    <p>
+        <label>VIGÉSIMA SEXTA.- LIBRE NEGOCIACIÓN.- “LAS PARTES”</label> declaran bajo protesta de
+        decir verdad que están plenamente enteradas y conscientes de las consecuencias
+        legales de <label>“EL CONTRATO”</label>, por lo que han negociado libremente los términos del
+        presente instrumento, conociendo el ámbito de las obligaciones que han asumido
+        y que es su voluntad asumir la consecuencia de los efectos legales del mismo y
+        obligarse de la forma más amplia que proceda conforme a derecho, conviniendo
+        expresa y libremente que las declaraciones insertadas por “LAS PARTES” en este
+        instrumento también constituyen obligaciones recíprocas, lícitas, legales y
+        válidas en todo momento para las mismas.
+    </p>
+    <p>
+        <label>VIGÉSIMA SEPTIMA. - ENCABEZADOS. -</label> Los encabezados de cada una de las cláusulas
+        de <label>“EL CONTRATO”</label> son empleados únicamente como mera referencia y bajo ningún
+        concepto deberán interpretarse por sí mismos como constitutivos de obligaciones
+        entre <label>“LAS PARTES”</label> o en cualquier forma alterar o sustituir el contenido de su
+        clausulado o utilizarse en la interpretación del mismo.
+    </p>
+    <p>
+        <label>VIGÉSIMA OCTAVA. - AUSENCIA DE VICIOS, JURISDICCIÓN APLICABLE E INTERPRETACIÓN. -
+            “EL CONTRATO”</label> se rige e interpreta de acuerdo con la legislación aplicable de
+        los Estados Unidos Mexicanos y cualquier controversia en relación con el
+        mismo será resuelta por los tribunales competentes de la ciudad de Querétaro,
+        Querétaro, por lo que <label>“LAS PARTES”</label> en este acto renuncian irrevocablemente a
+        cualquier otra jurisdicción que pudiere corresponderles en razón de sus domicilios
+        presentes o futuros o por cualquier otra causa.
+    </p>
+    <p>
+        <label>VIGESIMA NOVENA. - AVISO DE PRIVACIDAD. -</label> Con fundamento en los artículos 15 y 16
+        de la Ley Federal de Protección de Datos Personales en Posesión de Particulares,
+        “LA OPERADORA”, con domicilio en Avenida Paseo Constituyentes, número 1009,
+        Interior 5, piso 2, colonia del Valle, código postal 76190, en la ciudad de
+        Santiago de Querétaro, Querétaro, México, es responsable de recabar los datos
+        personales de <label>“EL ADQUIRENTE”</label>, así como del uso que se le dé a los mismos y de
+        su protección.
+    </p>
+    <p>
+        Su información personal será utilizada para las siguientes finalidades: proveer
+        los servicios y productos que ha solicitado; notificarle sobre nuevos servicios
+        o productos que tengan relación con los ya contratados o adquiridos; comunicarle
+        sobre cambios en los mismos; elaborar estudios y programas que son necesarios para
+        determinar hábitos de consumo; realizar evaluaciones periódicas de nuestros productos
+        y servicios a efecto de mejorar la calidad de los mismos; evaluar la calidad del
+        servicio que brindamos y en general, para dar cumplimiento a las obligaciones que
+        hemos contraído con usted.
+    </p>
+    <p>
+        Para las finalidades antes mencionadas, requerimos obtener los siguientes datos
+        personales: Nombre completo, Edad, Estado civil, Sexo, Teléfono fijo y/o celular,
+        Correo electrónico, Firma autógrafa, Dirección, RFC y/o CURP. Es importante informarle
+        que usted tiene derecho al Acceso, Rectificación y Cancelación de sus datos personales,
+        a Oponerse al tratamiento de los mismos o a revocar el consentimiento que para dicho
+        fin nos haya otorgado.
+    </p>
+    <p>
+        Para ello, es necesario que envíe la solicitud en los términos que marca la Ley en su
+        Art. 29 al Departamento de Protección de Datos Personales, ubicado en Avenida Paseo
+        Constituyentes, número 1009, Interior 5, piso 2, colonia del Valle, código postal
+        76190, en la ciudad de Santiago de Querétaro, Querétaro, México , o bien, se comunique
+        vía correo electrónico a <label>servicioaclientes@geztio.mx</label>, el cual solicitamos confirme
+        por la misma vía para garantizar su correcta recepción.
+    </p>
+    <p>
+        Por otra parte, hacemos de su conocimiento que sus datos podrán ser transferidos a
+        entidades del mismo grupo de interés de la empresa, nacionales o extranjeras, con
+        el objetivo general de cumplir con las finalidades para las cuales ha proporcionado
+        sus datos. Propósitos específicos: promociones a clientes, cobranza, facturaciones,
+        escrituraciones, notificaciones.
+    </p>
+    <p>
+        <label>“LAS PARTES”</label> están totalmente de acuerdo con el contenido del presente instrumento
+        y lo firman de plena conformidad y por duplicado en el municipio de Corregidora,
+        Querétaro, el {{solicitud.fecha_contrato.day}} de 
+        {{solicitud.fecha_contrato|date:'F'}} del año {{fecha_contrato_anio_s}}.
+    </p>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%; text-align: center;"><label>“LA OPERADORA”</label></td>
+            <td style="width: 50%; text-align: center;"><label>“EL ADQUIRENTE”</label></td>
+        </tr>
+        <tr>
+            <td style="height: 100px; text-align: center; vertical-align: bottom;">________________________</td>
+            <td style="text-align: center; vertical-align: bottom;">________________________</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"><label>ARTURO DOMINGUEZ RUIZ</label></td>
+            <td style="text-align: center;"><label>{{ solicitud.cliente }}</label></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"><label>APODERADO LEGAL</label></td>
+            <td> </td>
+        </tr>
+    </table>
+    <p style="text-align: center;"><label>T E S T I G O S</label></p>
+    <table>
+        <tr>
+            <td style="width: 50%; text-align: center;"><label>TESTIGO 1</label></td>
+            <td style="width: 50%; text-align: center;"><label>TESTIGO 2</label></td>
+        </tr>
+        <tr>
+            <td style="height: 100px; text-align: center; vertical-align: bottom;">
+                <label>________________________</label>
+            </td>
+            <td style="text-align: center; vertical-align: bottom;"><label>________________________</label></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"><label>EDUARDO ROGER ROMERO FLORES</label></td>
+            <td style="text-align: center;"><label>GERARDO ALFREDO CUEVAS SANCHEZ</label></td>
+        </tr>
+    </table>
+    <br>
+    <p>
+        <label>HOJA DE FIRMAS DEL CONTRATO PRIVADO DE COMERCIALIZACIÓN INMOBILIARIA QUE SUSCRIBEN
+            POR UNA PARTE PLEYATEC S.A. DE C.V.., POR OTRA PARTE , RESPECTO DEL LOTE NÚMERO
+            DE LA MANZANA , FASE DEL FRACCIONAMIENTO NÚVOLE RESIDENCIAL, EN FECHA
+            DEL MES DE DE .</label>
+    </p>
+</body>
+
+</html>

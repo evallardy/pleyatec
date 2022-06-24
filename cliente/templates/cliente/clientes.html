@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block contenido %}
+{% if perms.cliente.add_cliente or perms.cliente.view_cliente or perms.cliente.change_cliente %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+<label class="encabezados">Clientes</label>
+<div class="container col-12">
+    {% if perms.cliente.add_cliente %}
+    <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_cliente' %}">Agregar</a>
+    {% endif %}
+    <table class="table table-info table-striped">
+        <thead>
+            <tr>
+                <th style="text-align: center;" scope="col">Nombre</th>
+                <th style="text-align: center;" scope="col">RFC</th>
+                <th style="text-align: center;" scope="col">Telefono</th>
+                <th style="text-align: center;" scope="col">Celular</th>
+                <th style="text-align: center;" scope="col">Correo</th>
+                <th style="text-align: center;" scope="col">Estatus</th>
+                <th style="text-align: center;" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in object_list %}
+            <tr>
+                <td>{{ c.nombre_completo }}</td>
+                <td>{{ c.rfc_val }}</td>
+                <td>{{ c.telefono_fijo_val }}</td>
+                <td>{{ c.celular_val }}</td>
+                <td>{{ c.correo_val }}</td>
+                <td style="text-align: center;">{{ c.get_estatus_cliente_display }}</td>
+                {% if perms.cliente.change_cliente %}
+                <td><a href="{% url 'mod_cliente' c.id %}" class="btn btn-outline-secondary">Editar</a></td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+{% endif %}
+</div>
+{% endif %}
+{% endblock %}
