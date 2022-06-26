@@ -10,6 +10,8 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = [
+            'tipo_cliente',
+            'razon',
             'nombre',
             'paterno',
             'materno',
@@ -23,7 +25,6 @@ class ClienteForm(forms.ModelForm):
             'codpos',
             'municipio',
             'estado',
-            'telefono_fijo',
             'celular',
             'correo',
             'estatus_cliente',
@@ -33,6 +34,8 @@ class ClienteForm(forms.ModelForm):
             'materno_conyuge',
         ]
         labels = {
+            'tipo_cliente':'Tipo cliente',
+            'razon':'Razón social',
             'nombre': 'Nombre',
             'paterno': 'Paterno',
             'materno': 'Materno',
@@ -46,7 +49,6 @@ class ClienteForm(forms.ModelForm):
             'codpos': 'Código postal',
             'municipio': 'Municipio',
             'estado': 'Estado',
-            'telefono_fijo': 'Teléfono',
             'celular': 'Celular',
             'correo': 'Correo electrónico',
             'estatus_cliente': 'Estatus cliente',
@@ -56,6 +58,7 @@ class ClienteForm(forms.ModelForm):
             'materno_conyuge': 'Materno del Conyuge',
         }
         widgets = {
+            'tipo_cliente':forms.RadioSelect(),
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
             'paterno':forms.TextInput(attrs={'class':'form-control'}),
             'materno':forms.TextInput(attrs={'class':'form-control'}),

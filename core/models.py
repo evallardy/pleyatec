@@ -103,6 +103,10 @@ PARENTEZCO = (
     (12, 'Hermana'),
     (13, 'Otro'),
 )
+REGIMEN = (
+    (False, 'Bienes separados'),
+    (True, 'Bienes mancomunados'),
+)
 RESP_SI_NO = (
     (False, 'No'),
     (True, 'Si'),
@@ -205,6 +209,10 @@ STATUS_TIPO_BIEN = (
 TIPO_CALCULO = (
     ("C", 'Cantidad'),
     ("P", 'Porcentaje'),
+)
+TIPO_CLIENTE = (
+    (False, 'Persona física'),
+    (True, 'Persona moral'),
 )
 TIPO_CORREO = (
     (1, 'Empresarial'),

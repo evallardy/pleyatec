@@ -19,6 +19,17 @@
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-4 mb-0">
+                        {{ form.tipo_cliente|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-8 mb-0" id="gpo_razon">
+                        {{ form.razon|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row" id="lbl_representante" style="text-align: center; font-weight: bold;"> 
+                    <label class="col-md-12">Representante legal</label> 
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
                         {{ form.nombre|as_crispy_field }}
                     </div>
                     <div class="form-group col-md-4 mb-0">
@@ -70,24 +81,10 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4 mb-0">
-                        {{ form.telefono_fijo|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
                         {{ form.celular|as_crispy_field }}
                     </div>
                     <div class="form-group col-md-4 mb-0">
                         {{ form.correo|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.nombre_conyuge|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.paterno_conyuge|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.materno_conyuge|as_crispy_field }}
                     </div>
                 </div>
                 <div class="form-row">
@@ -108,10 +105,28 @@
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-
+    function tipoCliente() {
+        if ($("#id_tipo_cliente_0").is(':checked')) {
+            $("#gpo_razon").hide();
+            $("#lbl_representante").hide();
+            $("#id_genero").attr("readonly",true);
+            $("#id_genero").attr("readonly",true);
+        } else {
+            $("#gpo_razon").show();
+            $("#lbl_representante").show();
+        }
+    }
     $(function () {
         window.captureEvents(Event.SUBMIT);
         window.onsubmit = guarda;
+        tipoCliente();
+        // Cuando cambia tipo de cliente 0
+        $("#id_tipo_cliente_0").on("change", function () {
+            tipoCliente()
+        });
+        $("#id_tipo_cliente_1").on("change", function () {
+            tipoCliente()
+        });
         function guarda() {
             aviso("Aviso","Guardado exitosamente");
             return true;

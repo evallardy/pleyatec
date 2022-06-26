@@ -12,9 +12,14 @@
     <table class="table table-info table-striped">
         <thead>
             <tr>
+                <th style="text-align: center;" scope="col">Tipo</th>
+                {% if c.tipo_cliente %}
+                <th style="text-align: center;" scope="col">Razón social</th>
+                <th style="text-align: center;" scope="col">Representante</th>
+                {% else %}
                 <th style="text-align: center;" scope="col">Nombre</th>
+                {% endif %}
                 <th style="text-align: center;" scope="col">RFC</th>
-                <th style="text-align: center;" scope="col">Telefono</th>
                 <th style="text-align: center;" scope="col">Celular</th>
                 <th style="text-align: center;" scope="col">Correo</th>
                 <th style="text-align: center;" scope="col">Estatus</th>
@@ -24,9 +29,12 @@
         <tbody>
             {% for c in object_list %}
             <tr>
+                <td>{{ c.get_tipo_cliente_display }}</td>
+                {% if c.tipo_cliente %}
+                <td>{{ c.razon }}</td>
+                {% endif %}
                 <td>{{ c.nombre_completo }}</td>
                 <td>{{ c.rfc_val }}</td>
-                <td>{{ c.telefono_fijo_val }}</td>
                 <td>{{ c.celular_val }}</td>
                 <td>{{ c.correo_val }}</td>
                 <td style="text-align: center;">{{ c.get_estatus_cliente_display }}</td>

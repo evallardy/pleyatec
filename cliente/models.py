@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import models
+from numpy import False_
 from core.models import *
 from empleado.models import *
 
 class Cliente(models.Model, PermissionRequiredMixin):
+    tipo_cliente = models.BooleanField("Tipo de cliente", choices=TIPO_CLIENTE, default=False)
+    razon = models.CharField("Razón social",max_length=255, blank=True, default=" ")
     nombre = models.CharField("Nombre",max_length=30)
     paterno = models.CharField("Paterno",max_length=30, null=True, blank=True, default=" ")
     materno = models.CharField("Materno",max_length=30, null=True, blank=True, default=" ")
@@ -13,14 +16,14 @@ class Cliente(models.Model, PermissionRequiredMixin):
     rfc = models.CharField("R.F.C.",max_length=20, blank=True, null=True)
     curp = models.CharField("CURP",max_length=18, null=True, blank=True)
     fecha_nac = models.DateField("Fecha de nacimiento", null=True, blank=True)
-    genero = models.CharField("Género", max_length=1, choices=GENERO, null=True, blank=True)
+    genero = models.CharField("Género", max_length=1, choices=GENERO, default='M')
     estado_civil = models.SmallIntegerField("Estado civil", choices=ESTADO_CIVIL, null=True, blank=True)
+    regimen = models.BooleanField("Régime", choices=REGIMEN, null=True, blank=True)
     calle = models.CharField("Calle y núm.",max_length=250, blank=True, null=True)
     colonia = models.CharField("Colonia",max_length=200, blank=True, null=True)
     codpos = models.CharField("Código Postal",max_length=5, blank=True, null=True)
     municipio = models.CharField("Municipio",max_length=150, blank=True, null=True)
     estado = models.SmallIntegerField("Estado",choices=ESTADOS, blank=True, null=True, default=0)
-    telefono_fijo = models.CharField("Telefono fijo", max_length=50, blank=True, null=True)
     celular = models.CharField("Celular", max_length=10, blank=True, null=True)
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
     estatus_cliente = models.SmallIntegerField("Activo",choices=STATUS_SI_NO,default=1)
