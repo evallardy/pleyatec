@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-jbl&ygbf#h1*y0%r14-x5(n*!p_%c@5-)$ot9igb+v_^up8c_b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['pleyatec.iagmexico.com','www.pleyatec.iagmexico.com']
 
 USE_THOUSAND_SEPARATOR = True
 
@@ -146,7 +146,7 @@ BOOTSTRAP4 = {
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
