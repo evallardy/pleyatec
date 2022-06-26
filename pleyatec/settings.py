@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-jbl&ygbf#h1*y0%r14-x5(n*!p_%c@5-)$ot9igb+v_^up8c_b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['108.175.4.49','localhost']
+ALLOWED_HOSTS = ['*']
 
 USE_THOUSAND_SEPARATOR = True
 
