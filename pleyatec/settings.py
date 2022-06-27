@@ -23,7 +23,8 @@ DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = ['localhost']
 else:
-    ALLOWED_HOSTS = ['pleyatec.iagmexico.com','www.pleyatec.iagmexico.com']
+#    ALLOWED_HOSTS = ['pleyatec.iagmexico.com','www.pleyatec.iagmexico.com']
+    ALLOWED_HOSTS = ['*']
 
 USE_THOUSAND_SEPARATOR = True
 
