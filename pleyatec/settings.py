@@ -23,8 +23,8 @@ DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = ['localhost']
 else:
-#    ALLOWED_HOSTS = ['pleyatec.iagmexico.com','www.pleyatec.iagmexico.com']
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['pleyatec.iagmexico.com','www.pleyatec.iagmexico.com']
+#    ALLOWED_HOSTS = ['*']
 
 USE_THOUSAND_SEPARATOR = True
 
@@ -161,7 +161,7 @@ BOOTSTRAP4 = {
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 MEDIA_URL = '/media/'
