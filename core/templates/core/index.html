@@ -25,7 +25,7 @@
 {% else %}
 <div class="container">
 <div style="width: 104%; text-align: center; height: 40px; ">
-    <label class='encabezados'>Proyectos ruta imagen {{ ruta_imagen }}</label>
+    <label class='encabezados'>Proyectos</label>
 </div>
     {% for p in proyectos %}
     <div class="proyecto">
@@ -36,12 +36,12 @@
         <hr>
         {% if p.id == 1 %}
         <a href="{% url p.app %}">
-            <img src="{{ruta_imagen}}{{ p.plano.url }} " alt="imagen proyecto">
+            <img src="{{p.plano.url}}" alt="imagen proyecto">
         </a>
         {% endif %}
         {% if p.id == 2 %}
         <a href="{% url p.app 1 %}">
-            <img src="{{ p.plano.url }} " alt="imagen proyecto">
+            <img src="{{p.plano.url}}" alt="imagen proyecto">
         </a>
         {% endif %}
     </div>
