@@ -12,9 +12,13 @@ def index(request):
     debug = settings.DEBUG
     template_name = 'core/index.html'
     proyectos = Proyecto.objects.filter(estatus_proyecto=1)
+    ruta_imagen = ""
+    if not settings.DEBUG:
+        ruta_imagen = "MEDIA/"
     data = {
         'proyectos':proyectos,
-        'debug':debug
+        'debug':debug,
+        'ruta_imagen':ruta_imagen,
     }
     return render(request, template_name, data)
 
