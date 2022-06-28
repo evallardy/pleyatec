@@ -36,12 +36,12 @@
         <hr>
         {% if p.id == 1 %}
         <a href="{% url p.app %}">
-            <img src="{{p.plano.url}}" alt="imagen proyecto">
+            <img src="{{ MEDIA_URL }}{{p.plano.url}}" alt="imagen proyecto">
         </a>
         {% endif %}
         {% if p.id == 2 %}
         <a href="{% url p.app 1 %}">
-            <img src="{{p.plano.url}}" alt="imagen proyecto">
+            <img src="{{ MEDIA_URL }}{{p.plano.url}}" alt="imagen proyecto">
         </a>
         {% endif %}
     </div>
