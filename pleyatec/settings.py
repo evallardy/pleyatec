@@ -20,11 +20,7 @@ SECRET_KEY = 'django-insecure-jbl&ygbf#h1*y0%r14-x5(n*!p_%c@5-)$ot9igb+v_^up8c_b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-if DEBUG:
-    ALLOWED_HOSTS = ['localhost']
-else:
-    ALLOWED_HOSTS = ['pleyatec.iagmexico.com','www.pleyatec.iagmexico.com']
-#    ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost']
 
 USE_THOUSAND_SEPARATOR = True
 
@@ -87,28 +83,16 @@ WSGI_APPLICATION = 'pleyatec.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'pleyatec1',
-            'USER': 'root',
-            'PASSWORD': 'root',
-            'HOST': 'localhost',
-            'PORT': '',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pleyatec1',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'pleyatec',
-            'USER': 'iagadmin',
-            'PASSWORD': 'oO54d6KV$x',
-            'HOST': 'localhost',
-            'PORT': '',
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
