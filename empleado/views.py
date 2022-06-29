@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.conf import settings
 
-class empleados(ListView):
+class empleados(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'empleado.view_empleado'
     model = Empleado
     template_name = 'empleado/empleados.html'
@@ -14,7 +14,7 @@ class empleados(ListView):
         context = super(empleados, self).get_context_data(**kwargs)
         return context
 
-class nvo_empleado(CreateView):
+class nvo_empleado(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'empleado.add_empleado'
     model = Empleado
     form_class = EmpleadoForm
@@ -26,7 +26,7 @@ class nvo_empleado(CreateView):
         context['accion'] = "Alta"
         return context
 
-class mod_empleado(UpdateView):
+class mod_empleado(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'empleado.change_empleado'
     model = Empleado
     form_class = EmpleadoForm

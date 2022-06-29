@@ -11,7 +11,7 @@ from django.template.loader import get_template
 from time import gmtime, strftime
 from xhtml2pdf import pisa
 import numpy as np
-
+from django.contrib.auth.decorators import login_required
 from finanzas.models import Pago
 
 from .models import *
@@ -49,7 +49,7 @@ class solicitudes(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['num_proyecto'] = num_proyecto
         return context
 
-class nva_solicitud(CreateView):
+class nva_solicitud(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'gestion.add_solicitud'
     model = Solicitud
     form_class = Nuvole_SolicitudForm
@@ -91,7 +91,7 @@ class nva_solicitud(CreateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
     
-class mod_solicitud(UpdateView): 
+class mod_solicitud(LoginRequiredMixin, PermissionRequiredMixin, UpdateView): 
     permission_required = 'gestion.change_solicitud'
     model = Solicitud
     form_class = Nuvole_SolicitudForm
@@ -134,10 +134,12 @@ class mod_solicitud(UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
 
+@login_required
 def can_sol(request, llave, num_proyecto):
     sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='99', apartado=0)
     return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto},))
 
+@login_required
 def rec_sol(request, llave, num_proyecto):
     sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='1')
     return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto} ,))
@@ -172,10 +174,12 @@ class autorizaciones(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['num_proyecto'] = num_proyecto
         return context
 
+@login_required
 def aut_ventas(request, llave, num_proyecto):
      sol = Solicitud.objects.filter(id=llave).update(aprobacion_gerente=True)
      return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
 
+@login_required
 def aut_desarrollo(request, llave, num_proyecto):
     sol = Solicitud.objects.filter(id=llave).update(aprobacion_director=True)
     return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
@@ -488,7 +492,7 @@ class datos_contrato(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('contratos', kwargs={'num_proyecto': num_proyecto})
 
-
+@login_required
 def archiva(request, id, estado, num_proyecto):
     if estado == "6":
         archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 7)

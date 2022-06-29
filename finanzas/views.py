@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import os
 import datetime
 from django.conf import settings
@@ -24,7 +25,7 @@ from gestion.funciones import f_asigna_solicitud, f_empleado
 from finanzas.models import Pago
 from .forms import PagoForm
 
-class tabla_amortizacion(TemplateView):
+class tabla_amortizacion(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     permission_required = 'gestion.amortizacion'
     template_name = 'finanzas/tabla_amortizacion.html'
     def get_context_data(self, **kwargs):
@@ -42,7 +43,7 @@ class tabla_amortizacion(TemplateView):
         context['archivo'] = '/finanzas/tabla_amort_PDF/'
         return context
 
-class tabla_amort_PDF(View):
+class tabla_amort_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'gestion.imprime_amortizacion'
     def link_callback(self, uri, rel):
         """
@@ -93,7 +94,7 @@ class tabla_amort_PDF(View):
         )
         return response
 
-class pagar(ListView):
+class pagar(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'finanzas.view_pago'
     model = Solicitud
     template_name = 'finanzas/pagar.html'
@@ -174,7 +175,7 @@ class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         else:
             return render(request, 'core/error.html', {'form': form})
 '''
-class estado_cuenta(ListView):
+class estado_cuenta(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'finanzas.estado_cuenta'
     template_name = 'finanzas/estado_cuenta.html'
     def get_context_data(self, **kwargs):
@@ -212,7 +213,7 @@ class estado_cuenta(ListView):
         queryset = Pago.objects.filter(convenio=pk)
         return queryset
 
-class mod_pago(UpdateView):
+class mod_pago(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Pago
     form_class = PagoForm
     template_name = 'finanzas/nvo_pago.html'
@@ -252,7 +253,7 @@ class mod_pago(UpdateView):
         pk = self.kwargs.get('sol',0)
         return reverse_lazy('estado_cuenta', kwargs={'pk':pk, 'num_proyecto': num_proyecto})
 
-class estado_cuenta_PDF(View):
+class estado_cuenta_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'gestion.imprime_amortizacion'
     def link_callback(self, uri, rel):
         """
@@ -325,7 +326,7 @@ class estado_cuenta_PDF(View):
         )
         return response
 
-class lista_pagos_PDF(View):
+class lista_pagos_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'gestion.imprime_amortizacion'
     def link_callback(self, uri, rel):
         """

@@ -64,7 +64,7 @@ class bienes(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         queryset = Lote.objects.filter(proyecto_id=proyecto)
         return queryset
 
-class nvo_bien(CreateView):
+class nvo_bien(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'bien.add_lote'
     model = Lote
     form_class = BienForm
@@ -81,7 +81,7 @@ class nvo_bien(CreateView):
         num_proyecto = self.kwargs.get('proyecto',0)
         return reverse('bienes', kwargs={'proyecto': num_proyecto})
 
-class mod_bien(UpdateView):
+class mod_bien(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'bien.change_lote'
     model = Lote
     form_class = BienForm
