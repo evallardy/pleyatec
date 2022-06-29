@@ -8,53 +8,50 @@
 {% endblock %}
 {% block contenido %}
 {% if not user.is_authenticated %}
-<div class="container" >
-<div class="container" style="width: 590px; text-align: center; background-color: darkgray;">
-    <div class="slider" style="background-color: darkgray;">
-        <div>
-            <img src="{% static 'core/img/banner/banner1.jpg' %}" alt="" style="height: 150px;">
-        </div>
-        <div>
-            <img src="{% static 'core/img/banner/banner2.jpg' %}" alt="" style="height: 150px;">
-        </div>
-        <div>
-            <img src="{% static 'core/img/banner/banner3.jpg' %}" alt="" style="height: 150px;">
+<div class="container">
+    <div class="container" style="width: 590px; text-align: center; background-color: darkgray;">
+        <div class="slider" style="background-color: darkgray;">
+            <div>
+                <img src="{% static 'core/img/banner/banner1.jpg' %}" alt="" style="height: 150px;">
+            </div>
+            <div>
+                <img src="{% static 'core/img/banner/banner2.jpg' %}" alt="" style="height: 150px;">
+            </div>
+            <div>
+                <img src="{% static 'core/img/banner/banner3.jpg' %}" alt="" style="height: 150px;">
+            </div>
         </div>
     </div>
-</div>
-{% else %}
-<div class="container" style="width: 850px;">
-<div style="width: 104%; text-align: center; height: 40px; ">
-    <label class='encabezados'>Proyectos</label>
-</div>
-<form action="">
-    {% csrf_token %}
-    {% for p in proyectos %}
-    <div class="proyecto">
-        <div class="detalle">
-            {{ p.get_tipo_proyecto_display }} <br>
-            {{ p.nombre }}
+    {% else %}
+    <div class="container" style="width: 850px;">
+        <div style="width: 104%; text-align: center; height: 40px; ">
+            <label class='encabezados'>Proyectos</label>
         </div>
-        <hr>
-        {% if p.id == 1 %}
-        <a href="{% url p.app %}">
-            <img src="{{p.plano.url}}" alt="imagen proyecto">
-        </a>
-        {% endif %}
-        {% if p.id == 2 %}
-        <a href="{% url p.app 1 %}">
-            <img src="{{p.plano.url}}" alt="imagen proyecto">
-        </a>
+        {% for p in proyectos %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.id == 1 %}
+            <a href="{% url p.app %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+            {% if p.id == 2 %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
         {% endif %}
     </div>
-{% endfor %}
-</form>
-{% endif %}
-</div>
 </div>
 <script>
     $(document).ready(function () {
-        
+
     });
 </script>
 {% endblock %}
