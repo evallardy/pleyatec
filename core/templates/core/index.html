@@ -23,7 +23,7 @@
     </div>
 </div>
 {% else %}
-<div class="container">
+<div class="container" style="width: 850px;">
 <div style="width: 104%; text-align: center; height: 40px; ">
     <label class='encabezados'>Proyectos</label>
 </div>
@@ -36,12 +36,12 @@
         <hr>
         {% if p.id == 1 %}
         <a href="{% url p.app %}">
-            <img src="{{ MEDIA_URL }}{{p.plano.url}}" alt="imagen proyecto">
+            <img src="{{p.plano.url}}" alt="imagen proyecto">
         </a>
         {% endif %}
         {% if p.id == 2 %}
         <a href="{% url p.app 1 %}">
-            <img src="{{ MEDIA_URL }}{{p.plano.url}}" alt="imagen proyecto">
+            <img src="{{p.plano.url}}" alt="imagen proyecto">
         </a>
         {% endif %}
     </div>

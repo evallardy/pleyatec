@@ -48,7 +48,15 @@ class Cliente(models.Model, PermissionRequiredMixin):
             materno = ""
         else:
             materno = self.materno
-        return '%s %s %s' % (self.nombre, self.paterno, materno) 
+        if self.paterno == None:
+            paterno = ""
+        else:
+            paterno = self.paterno
+        if self.razon == " ":
+            razon = self.nombre + " " + paterno + " " + materno
+        else:
+            razon = self.razon
+        return '%s' % (razon) 
     
     def _get_nombre_completo(self):
         materno = ""

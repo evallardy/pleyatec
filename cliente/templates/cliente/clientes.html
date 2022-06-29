@@ -6,33 +6,28 @@
      height: auto; width: auto; background-color: transparent;" class="mapa">
 <label class="encabezados">Clientes</label>
 <div class="container col-12">
+<div class="container col-12">
     {% if perms.cliente.add_cliente %}
     <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_cliente' %}">Agregar</a>
     {% endif %}
-    <table class="table table-info table-striped">
+    <table class="table table-info table-striped" style="width: 850px;">
         <thead>
             <tr>
-                <th style="text-align: center;" scope="col">Tipo</th>
-                {% if c.tipo_cliente %}
-                <th style="text-align: center;" scope="col">Razón social</th>
-                <th style="text-align: center;" scope="col">Representante</th>
-                {% else %}
-                <th style="text-align: center;" scope="col">Nombre</th>
-                {% endif %}
-                <th style="text-align: center;" scope="col">RFC</th>
-                <th style="text-align: center;" scope="col">Celular</th>
-                <th style="text-align: center;" scope="col">Correo</th>
-                <th style="text-align: center;" scope="col">Estatus</th>
-                <th style="text-align: center;" scope="col"></th>
+                <th style="text-align: center; width: 10%;">Tipo</th>
+                <th style="text-align: center; width: 20%;">Razón social</th>
+                <th style="text-align: center; width: 20%;">Representante o cliente</th>
+                <th style="text-align: center; width: 10%;">RFC</th>
+                <th style="text-align: center; width: 10%;">Celular</th>
+                <th style="text-align: center; width: 10%;">Correo</th>
+                <th style="text-align: center; width: 10%;">Estatus</th>
+                <th style="text-align: center; width: 10%;"></th>
             </tr>
         </thead>
         <tbody>
             {% for c in object_list %}
             <tr>
                 <td>{{ c.get_tipo_cliente_display }}</td>
-                {% if c.tipo_cliente %}
                 <td>{{ c.razon }}</td>
-                {% endif %}
                 <td>{{ c.nombre_completo }}</td>
                 <td>{{ c.rfc_val }}</td>
                 <td>{{ c.celular_val }}</td>
@@ -54,6 +49,7 @@
 {% if page_obj.has_next %}
 <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
 {% endif %}
+</div>
 </div>
 {% endif %}
 {% endblock %}

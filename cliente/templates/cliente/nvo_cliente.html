@@ -83,7 +83,7 @@
                     <div class="form-group col-md-4 mb-0">
                         {{ form.celular|as_crispy_field }}
                     </div>
-                    <div class="form-group col-md-4 mb-0">
+                    <div class="form-group col-md-8 mb-0">
                         {{ form.correo|as_crispy_field }}
                     </div>
                 </div>
@@ -109,8 +109,6 @@
         if ($("#id_tipo_cliente_0").is(':checked')) {
             $("#gpo_razon").hide();
             $("#lbl_representante").hide();
-            $("#id_genero").attr("readonly",true);
-            $("#id_genero").attr("readonly",true);
         } else {
             $("#gpo_razon").show();
             $("#lbl_representante").show();

@@ -50,7 +50,6 @@ FASE = (
 GENERO = (
     ('M', 'Masculino'),
     ('F', 'Femenino'),
-    ('E', 'Empresa'),
 )
 GENERO_P = (
     ('M', 'Masculino'),
