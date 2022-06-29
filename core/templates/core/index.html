@@ -28,6 +28,7 @@
     <label class='encabezados'>Proyectos</label>
 </div>
 <form action="">
+    {% csrf_token %}
     {% for p in proyectos %}
     <div class="proyecto">
         <div class="detalle">
