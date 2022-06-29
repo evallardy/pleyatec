@@ -54,3 +54,7 @@ class mod_banco(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context = super(mod_banco, self).get_context_data(**kwargs)
         context['accion'] = "Modifica"
         return context
+
+def csrf_failure(request, reason=""):
+    ctx = {'message': 'some custom messages'}
+    return render(request, 'core/mensaje.html', ctx)
