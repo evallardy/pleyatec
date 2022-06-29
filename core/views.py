@@ -56,5 +56,5 @@ class mod_banco(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         return context
 
 def csrf_failure(request, reason=""):
-    ctx = {'message': request['*'] }
+    ctx = {'message': 'Hable a su administrador' }
     return render(request, 'core/mensaje.html', ctx)
