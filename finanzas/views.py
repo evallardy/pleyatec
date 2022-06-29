@@ -146,7 +146,6 @@ class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context['lote'] = lote
         context['cliente'] = cliente
         context['asesor'] = asesor
-        context['debug'] = settings.DEBUG
         context['form'] = self.form_class()
         context['form2'] = self.second_form_class(instance=lote)
         context['menu'] = "compromiso"
