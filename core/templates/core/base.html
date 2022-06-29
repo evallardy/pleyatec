@@ -40,34 +40,30 @@
                         <td style="vertical-align: bottom; text-align: right; font-size: 18px; height: 80px; background-color: darkblue;
                                  max-height: 80px;">
                             <div class="col-12">
-                                <form action="">
-                                    {% csrf_token %}
-
-                                    <nav id="nav">
-                                        <ul>
-                                            {% if user.is_authenticated %}
-                                            <li><a href="{% url 'index'%}"> Inicio </a> </li>
-                                            {% if perms.core.view_banco %}
-                                            <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
-                                            {% endif %}
-                                            {% if perms.empleado %}
-                                            <li><a href="{% url 'empleados'%}"> Empleado </a> </li>
-                                            {% endif %}
-                                            {% if perms.cliente %}
-                                            <li><a href="{% url 'clientes'%}"> Clientes </a> </li>
-                                            {% endif %}
-                                            <li><a href="#" style="color:gold">{{ user.username }}</a> </li>
-                                            <li><a href="{% url 'logout'%}">Logout</a> </li>
-                                            {% else %}
-                                            <li><a href="{% url 'index'%}"> Inicio </a> </li>
-                                            <li><a href="{% url 'index'%}">Contacto</a>
-                                            <li>
-                                            <li><a href="{% url 'index'%}">Galería</a> </li>
-                                            <li><a href="{% url 'login'%}">Login</a> </li>
-                                            {% endif %}
-                                        </ul>
-                                    </nav>
-                                </form>
+                                <nav id="nav">
+                                    <ul>
+                                        {% if user.is_authenticated %}
+                                        <li><a href="{% url 'index'%}"> Inicio </a> </li>
+                                        {% if perms.core.view_banco %}
+                                        <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
+                                        {% endif %}
+                                        {% if perms.empleado %}
+                                        <li><a href="{% url 'empleados'%}"> Empleado </a> </li>
+                                        {% endif %}
+                                        {% if perms.cliente %}
+                                        <li><a href="{% url 'clientes'%}"> Clientes </a> </li>
+                                        {% endif %}
+                                        <li><a href="#" style="color:gold">{{ user.username }}</a> </li>
+                                        <li><a href="{% url 'logout'%}">Logout</a> </li>
+                                        {% else %}
+                                        <li><a href="{% url 'index'%}"> Inicio </a> </li>
+                                        <li><a href="{% url 'index'%}">Contacto</a>
+                                        <li>
+                                        <li><a href="{% url 'index'%}">Galería</a> </li>
+                                        <li><a href="{% url 'login'%}">Login</a> </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
                             </div>
                         </td>
                     </tr>
