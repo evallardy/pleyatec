@@ -28,7 +28,7 @@
             <label class='encabezados'>Proyectos</label>
         </div>
         {% for p in proyectos %}
-        {% if p.app == 'nuvole' and nuvole_acceso %}
+        {% if p.app == 'nuvole' %}
         <div class="proyecto">
             <div class="detalle">
                 {{ p.get_tipo_proyecto_display }} <br>
