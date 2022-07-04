@@ -8,8 +8,8 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-{% if perms.gestion.pago_compromiso %}
-{% for py in proyecto %}
+{% if app_proy_pago_compromiso %}
+{% for py in proyecto_tb %}
 <div class="container col-12">
     <h1 class="mt-2">Compromiso</h1>
     <hr class="mt-0 mb-4">
@@ -129,12 +129,14 @@
                     <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
                 </form>
             </div>
+            {% if app_proy_imp_pago_compromiso %}
             <div style="text-align: center;">
                 <button id="btn_recibo" class="btn btn-outline-dark" onclick="imprime('parcial')">Imprime
                     apartado</button>
                 <button id="btn_adicional" class="btn btn-outline-dark" onclick="imprime('total')">Imprime pago
                     adicional</button>
             </div>
+            {% endif %}
             <br>
         </div>
     </div>

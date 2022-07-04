@@ -1,6 +1,5 @@
 import os
 import datetime
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Max, Q, Subquery
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -20,8 +19,7 @@ from .forms import *
 from core.numero_letras import numero_a_letras
 from core.funciones import fecha_hoy, trae_empresa
 
-class solicitudes(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'gestion.view_solicitud'
+class solicitudes(ListView):
     model = Solicitud
     context_object_name = 'obj'
     template_name = 'gestion/solicitudes.html'
@@ -45,12 +43,112 @@ class solicitudes(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super(solicitudes, self).get_context_data(**kwargs)
         context['menu'] = "solicitud"
         num_proyecto = self.kwargs.get('num_proyecto')
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# ver listado solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Agregar solicitud
+        des_permiso = '_add_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Cambiar solicitud
+        des_permiso = '_cambia_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Cancela solicitud
+        des_permiso = '_cancela_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Listado amortizacion solicitud
+        des_permiso = '_amortizacion'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
 
-class nva_solicitud(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    permission_required = 'gestion.add_solicitud'
+class nva_solicitud(CreateView):
     model = Solicitud
     form_class = Nuvole_SolicitudForm
     context_object_name = 'obj'
@@ -77,8 +175,32 @@ class nva_solicitud(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         context['menu'] = "solicitud"
         context['accion'] = "Alta"
         context['sol'] = Solicitud.objects.filter(id = 0)
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Agregar solicitud
+        des_permiso = '_add_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Cambiar solicitud
+        des_permiso = '_cambia_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Asigna descuento solicitud
+        des_permiso = '_asigna_descto'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
@@ -91,8 +213,7 @@ class nva_solicitud(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
     
-class mod_solicitud(LoginRequiredMixin, PermissionRequiredMixin, UpdateView): 
-    permission_required = 'gestion.change_solicitud'
+class mod_solicitud(UpdateView): 
     model = Solicitud
     form_class = Nuvole_SolicitudForm
     template_name = 'gestion/nva_solicitud.html'
@@ -118,8 +239,32 @@ class mod_solicitud(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context['accion'] = "Modifica"
         context['id'] = pk
         context['sol'] = Solicitud.objects.filter(id = pk)
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Agregar solicitud
+        des_permiso = '_add_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Cambiar solicitud
+        des_permiso = '_cambia_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Asigna descuento solicitud
+        des_permiso = '_asigna_descto'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
@@ -134,18 +279,35 @@ class mod_solicitud(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
 
-@login_required
 def can_sol(request, llave, num_proyecto):
-    sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='99', apartado=0)
-    return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto},))
+    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+    nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+    des_permiso = '_cancela_solicitud'
+    variable_proy = nom_proy + des_permiso
+    variable_html = "app_proy" + des_permiso
+    permiso_str = "gestion." + variable_proy
+    acceso = request.user.has_perms([permiso_str])
+    if acceso:
+        sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='99', apartado=0)
+        return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto},))
 
-@login_required
 def rec_sol(request, llave, num_proyecto):
-    sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='1')
-    return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto} ,))
+    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+    nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+    des_permiso = '_cancela_solicitud'
+    variable_proy = nom_proy + des_permiso
+    variable_html = "app_proy" + des_permiso
+    permiso_str = "gestion." + variable_proy
+    acceso = request.user.has_perms([permiso_str])
+    if acceso:
+        sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='1')
+        return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto} ,))
 
-class autorizaciones(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = ('gestion.autoriza_visualiza')
+class autorizaciones(ListView):
     model = Solicitud
     second_model = Lote
     context_object_name = 'obj'
@@ -170,22 +332,126 @@ class autorizaciones(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super(autorizaciones, self).get_context_data(**kwargs)
         context['menu'] = "autorizacion"
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Autorización ventas 
+        des_permiso = '_autoriza_venta'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Autorización desarrollo
+        des_permiso = '_autoriza_desarrollo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
 
-@login_required
 def aut_ventas(request, llave, num_proyecto):
-     sol = Solicitud.objects.filter(id=llave).update(aprobacion_gerente=True)
-     return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
+    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+    nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+    des_permiso = '_autoriza_venta'
+    variable_proy = nom_proy + des_permiso
+    variable_html = "app_proy" + des_permiso
+    permiso_str = "gestion." + variable_proy
+    acceso = request.user.has_perms([permiso_str])
+    if acceso:
+        sol = Solicitud.objects.filter(id=llave).update(aprobacion_gerente=True)
+        return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
 
-@login_required
 def aut_desarrollo(request, llave, num_proyecto):
-    sol = Solicitud.objects.filter(id=llave).update(aprobacion_director=True)
-    return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
+    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+    nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+    des_permiso = '_autoriza_desarrollo'
+    variable_proy = nom_proy + des_permiso
+    variable_html = "app_proy" + des_permiso
+    permiso_str = "gestion." + variable_proy
+    acceso = request.user.has_perms([permiso_str])
+    if acceso:
+        sol = Solicitud.objects.filter(id=llave).update(aprobacion_director=True)
+        return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
 
-class compromisos(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'gestion.compromiso'
+class compromisos(ListView):
     model = Solicitud
     second_model = Lote
     context_object_name = 'obj'
@@ -208,12 +474,91 @@ class compromisos(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super(compromisos, self).get_context_data(**kwargs)
         context['menu'] = "compromiso"
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado cmpromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Realizar compromiso 
+        des_permiso = '_pago_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
 
-class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView): 
-    permission_required = 'gestion.pago_compromiso'
+class pagos(UpdateView): 
     model = Solicitud
     form_class = Nuvole_SolicitudForm
     template_name = 'gestion/pagos.html'
@@ -221,11 +566,28 @@ class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context = super(pagos, self).get_context_data(**kwargs)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         pk = self.kwargs.get('pk',0)
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
         context['num_proyecto'] = num_proyecto
         context['pk'] = pk
         pk = self.kwargs.get('pk',0)
         context['sol'] = Solicitud.objects.filter(id=pk)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Realizar pago compromiso
+        des_permiso = '_pago_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Impresion recibos pagos
+        des_permiso = '_imp_pago_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
     def get_queryset(self):
         pk = self.kwargs.get('pk',0)
@@ -242,8 +604,7 @@ class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         lote = Lote.objects.filter(id=lote_id).update(estatus_lote=paga)
         return HttpResponseRedirect(reverse(('compromisos'), kwargs={'num_proyecto':num_proyecto} ,))
 
-class archivo(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'gestion.consulta_archivo'
+class archivo(ListView):
 #    model = Solicitud
     second_model = Lote
     template_name = 'gestion/archivo_solicitudes.html'
@@ -267,11 +628,83 @@ class archivo(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['menu'] = "archivo"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado de archivo solicitudes
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
 
-class reciboPDF(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 'gestion.pago_compromiso'
+class reciboPDF(View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -369,8 +802,7 @@ class reciboPDF(LoginRequiredMixin, PermissionRequiredMixin, View):
  #           pass
  #       return HttpResponseRedirect(reverse_lazy('recibosPDF'))
 
-class contratos(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'gestion.contratar'
+class contratos(ListView):
     model = Solicitud
     second_model = Lote
     context_object_name = 'obj'
@@ -397,17 +829,106 @@ class contratos(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['menu'] = "contrata"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
-        if num_proyecto == '1':
-            context['reporte'] = "/gestion/contratoPDF/"
-            context['reporte1'] = "/finanzas/lista_pagos_PDF/"
-        elif num_proyecto == '2':
-            context['reporte'] = "/gestion/contratoPDF/"
-            context['reporte1'] = "/finanzas/lista_pagos_PDF/"
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Capturar datos contrato   
+        des_permiso = '_datos_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Impresión contrato
+        des_permiso = '_imprime_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Archivar contrato 
+        des_permiso = '_archivar_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+        context['reporte'] = "/gestion/contratoPDF/"
+        context['reporte1'] = "/finanzas/lista_pagos_PDF/"
         return context
 
-class datos_contrato(LoginRequiredMixin, PermissionRequiredMixin, UpdateView): 
-    permission_required = 'gestion.datos_contrato'
+class datos_contrato(UpdateView): 
     model = Solicitud
     form_class = DatosContratoForm
     context_object_name = 'obj'
@@ -423,7 +944,17 @@ class datos_contrato(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context['menu'] = "contrata"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+        des_permiso = '_datos_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
@@ -492,18 +1023,27 @@ class datos_contrato(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('contratos', kwargs={'num_proyecto': num_proyecto})
 
-@login_required
 def archiva(request, id, estado, num_proyecto):
-    if estado == "6":
-        archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 7)
-    else:
-        if estado == "99":
-            archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 8)
-    return reverse_lazy('contratos', kwargs={'num_proyecto': num_proyecto})
-#    return HttpResponseRedirect(reverse_lazy('contratos'))
+    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+    nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+    des_permiso = '_archivar_contrato'
+    variable_proy = nom_proy + des_permiso
+    permiso_str = "gestion." + variable_proy
+    acceso = request.user.has_perms([permiso_str])
+    if acceso:
+        if estado == "6":
+            archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 7)
+            print(archiva_solicitud)
+        else:
+            if estado == "99":
+                archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 8)
+                print(archiva_solicitud)
+        
+    return reverse('contratos', kwargs={'num_proyecto': num_proyecto})
 
-class contratoPDF(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 'gestion.imprime_contrato'
+class contratoPDF(View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -531,172 +1071,183 @@ class contratoPDF(LoginRequiredMixin, PermissionRequiredMixin, View):
         return path
     def get(self, request, *args, **kwargs):
         hoy = fecha_hoy()
-        solicitud = Solicitud.objects.all().filter(id=self.kwargs['pk']).first()
-        template = get_template('gestion/contratoPDF.html')
-        field_object1 = Solicitud._meta.get_field('num_contrato')
-        num_contrato = field_object1.value_from_object(solicitud)
+        num_proyecto = self.kwargs['num_proyecto']
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+        des_permiso = '_datos_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        if acceso:
+            solicitud = Solicitud.objects.all().filter(id=self.kwargs['pk']).first()
+            template = get_template('gestion/contratoPDF.html')
+            field_object1 = Solicitud._meta.get_field('num_contrato')
+            num_contrato = field_object1.value_from_object(solicitud)
 
-        field_object2 = Solicitud._meta.get_field('apartado')
-        apartado = field_object2.value_from_object(solicitud)
+            field_object2 = Solicitud._meta.get_field('apartado')
+            apartado = field_object2.value_from_object(solicitud)
 
-        field_object3 = Solicitud._meta.get_field('pago_adicional')
-        pago_adicional = field_object3.value_from_object(solicitud)
+            field_object3 = Solicitud._meta.get_field('pago_adicional')
+            pago_adicional = field_object3.value_from_object(solicitud)
 
-        lote = Lote.objects.all().filter(id=solicitud.lote_id).first()
+            lote = Lote.objects.all().filter(id=solicitud.lote_id).first()
 
-        field_object4 = lote._meta.get_field('total')
-        total = field_object4.value_from_object(lote)
+            field_object4 = lote._meta.get_field('total')
+            total = field_object4.value_from_object(lote)
 
-        field_object5 = Solicitud._meta.get_field('precio_final')
-        precio_final = field_object5.value_from_object(solicitud)
-        precio_final_i = int(precio_final)
-        precio_final_d = str(abs(precio_final) - abs(int(precio_final)))[-2:]
-        precio_final_l = numero_a_letras(precio_final_i)
+            field_object5 = Solicitud._meta.get_field('precio_final')
+            precio_final = field_object5.value_from_object(solicitud)
+            precio_final_i = int(precio_final)
+            precio_final_d = str(abs(precio_final) - abs(int(precio_final)))[-2:]
+            precio_final_l = numero_a_letras(precio_final_i)
 
-        field_object6 = Solicitud._meta.get_field('cantidad_pagos')
-        cantidad_pagos = field_object6.value_from_object(solicitud)
-        cantidad_pagos_l = numero_a_letras(cantidad_pagos)
-        cantidad_pagos_1 = cantidad_pagos - 1
+            field_object6 = Solicitud._meta.get_field('cantidad_pagos')
+            cantidad_pagos = field_object6.value_from_object(solicitud)
+            cantidad_pagos_l = numero_a_letras(cantidad_pagos)
+            cantidad_pagos_1 = cantidad_pagos - 1
 
 
-        field_object7 = lote._meta.get_field('precio')
-        precio = field_object7.value_from_object(lote)
-        precio_i = int(precio)
-        precio_d = str(abs(precio) - abs(int(precio)))[-2:]
-        precio_l = numero_a_letras(precio_i)
+            field_object7 = lote._meta.get_field('precio')
+            precio = field_object7.value_from_object(lote)
+            precio_i = int(precio)
+            precio_d = str(abs(precio) - abs(int(precio)))[-2:]
+            precio_l = numero_a_letras(precio_i)
 
-        field_object8 = lote._meta.get_field('precio_x_mt')
-        precio_x_mt = field_object8.value_from_object(lote)
-        precio_x_mt_i = int(precio_x_mt)
-        precio_x_mt_d = str(abs(precio_x_mt) - abs(int(precio_x_mt)))[-2:]
-        precio_x_mt_l = numero_a_letras(precio_x_mt_i)
+            field_object8 = lote._meta.get_field('precio_x_mt')
+            precio_x_mt = field_object8.value_from_object(lote)
+            precio_x_mt_i = int(precio_x_mt)
+            precio_x_mt_d = str(abs(precio_x_mt) - abs(int(precio_x_mt)))[-2:]
+            precio_x_mt_l = numero_a_letras(precio_x_mt_i)
 
-        field_object8 = solicitud._meta.get_field('enganche')
-        enganche = field_object8.value_from_object(solicitud)
-        enganche_i = int(enganche)
-        enganche_d = str(abs(enganche) - abs(int(enganche)))[-2:]
-        enganche_l = numero_a_letras(enganche_i)
+            field_object8 = solicitud._meta.get_field('enganche')
+            enganche = field_object8.value_from_object(solicitud)
+            enganche_i = int(enganche)
+            enganche_d = str(abs(enganche) - abs(int(enganche)))[-2:]
+            enganche_l = numero_a_letras(enganche_i)
 
-        field_object8 = solicitud._meta.get_field('importe_x_pago')
-        importe_x_pago = field_object8.value_from_object(solicitud)
-        importe_x_pago_i = int(importe_x_pago)
-        importe_x_pago_d = str(abs(importe_x_pago) - abs(int(importe_x_pago)))[-2:]
+            field_object8 = solicitud._meta.get_field('importe_x_pago')
+            importe_x_pago = field_object8.value_from_object(solicitud)
+            importe_x_pago_i = int(importe_x_pago)
+            importe_x_pago_d = str(abs(importe_x_pago) - abs(int(importe_x_pago)))[-2:]
 
-        saldo = precio_final - enganche
-        saldo_i = int(saldo)
-        saldo_d = str(abs(saldo) - abs(int(saldo)))[-2:]
-        saldo_l = numero_a_letras(saldo_i)
+            saldo = precio_final - enganche
+            saldo_i = int(saldo)
+            saldo_d = str(abs(saldo) - abs(int(saldo)))[-2:]
+            saldo_l = numero_a_letras(saldo_i)
 
-        importe_total_x_pagos = importe_x_pago * cantidad_pagos
+            importe_total_x_pagos = importe_x_pago * cantidad_pagos
 
-        ultimo_pago = importe_x_pago - (importe_total_x_pagos - saldo)
-        ultimo_pago_i = int(ultimo_pago)
-        ultimo_pago_d = str(abs(ultimo_pago) - abs(int(ultimo_pago)))[-2:]
+            ultimo_pago = importe_x_pago - (importe_total_x_pagos - saldo)
+            ultimo_pago_i = int(ultimo_pago)
+            ultimo_pago_d = str(abs(ultimo_pago) - abs(int(ultimo_pago)))[-2:]
 
-        field_object9 = solicitud._meta.get_field('porcentaje_descuento')
-        porcentaje_descuento = (100 - field_object9.value_from_object(solicitud)) / 100
-        precio_x_mt_n = round(precio_x_mt * porcentaje_descuento,2)
-        precio_x_mt_n_i = int(precio_x_mt_n)
-        precio_x_mt_n_d = str(abs(precio_x_mt_n) - abs(int(precio_x_mt_n)))[-2:]
-        precio_x_mt_n_l = numero_a_letras(precio_x_mt_n_i)
+            field_object9 = solicitud._meta.get_field('porcentaje_descuento')
+            porcentaje_descuento = (100 - field_object9.value_from_object(solicitud)) / 100
+            precio_x_mt_n = round(precio_x_mt * porcentaje_descuento,2)
+            precio_x_mt_n_i = int(precio_x_mt_n)
+            precio_x_mt_n_d = str(abs(precio_x_mt_n) - abs(int(precio_x_mt_n)))[-2:]
+            precio_x_mt_n_l = numero_a_letras(precio_x_mt_n_i)
 
-        field_object10 = solicitud._meta.get_field('modo_pago')
-        modo_pago = field_object10.value_from_object(solicitud)
+            field_object10 = solicitud._meta.get_field('modo_pago')
+            modo_pago = field_object10.value_from_object(solicitud)
 
-        field_object11 = solicitud._meta.get_field('fecha_contrato')
-        fecha_contrato = field_object11.value_from_object(solicitud)
+            field_object11 = solicitud._meta.get_field('fecha_contrato')
+            fecha_contrato = field_object11.value_from_object(solicitud)
 
-        fecha_contrato_anio_s = str(fecha_contrato.year)
+            fecha_contrato_anio_s = str(fecha_contrato.year)
 
-        if num_contrato != 0:
-            num_contrato = num_contrato
-        else: 
-            num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
-            if num_contrato == None:
-                num_contrato = 1
-            else:
-                num_contrato += 1
-            if modo_pago == 1 or modo_pago == 3:
-                esta_sol = 6
-            else:
-                esta_sol = 10
-            dato = str(solicitud.lote) + \
-                " del proyecto: " + str(solicitud.lote.proyecto)
-            observacion = "Contrato del " + dato
-            folio = Folios(
-                tipo = 2, 
-                numero = num_contrato,
-                observacion = observacion,
-                importe = precio_final)
-            folio.save()
-            sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
-                .update(num_contrato=num_contrato, estatus_solicitud=esta_sol)
-        importe_letras = numero_a_letras(apartado)
-        importe_letras_t = numero_a_letras(pago_adicional)
-        metro_letras = numero_a_letras(total)
-        copias = [0,1]
-        context = {
-            'comp': {
-                'num_contrato': num_contrato,
-                'empresa':'Pleyatec, S.A. de C.V.',
-                'rfc':'AAA-333333333',
-                'ubicacion1':'Av. Constituyentes #1009, Interior No. 5, Col. Residencial del valle, C.P 76190,',
-                'ubicacion2':'Santiago de QuerÃ©taro, Qro.',
-                'ubicacion3':'Tel: 442-138-5840',
-                'hoy':hoy,
-                'importe_letras': importe_letras,
-                'importe_letras_t': importe_letras_t,
-                'metros_letra':metro_letras,
-            },
-            'ahora':hoy,
-            'copias':copias,
-            'solicitud':solicitud,
-            'lote':lote,
-            'precio_final':precio_final,
-            'precio_final_i':precio_final_i,
-            'precio_final_d':precio_final_d,
-            'precio_final_l':precio_final_l,
-            'cantidad_pagos':cantidad_pagos,
-            'cantidad_pagos_l':cantidad_pagos_l,
-            'cantidad_pagos_1':cantidad_pagos_1,
-            'precio_x_mt':precio_x_mt,
-            'precio_x_mt_i':precio_x_mt_i,
-            'precio_x_mt_d':precio_x_mt_d,
-            'precio_x_mt_l':precio_x_mt_l,
-            'precio':precio,
-            'precio_i':precio_i,
-            'precio_d':precio_d,
-            'precio_l':precio_l,
-            'enganche':enganche,
-            'enganche_i':enganche_i,
-            'enganche_d':enganche_d,
-            'enganche_l':enganche_l,
-            'importe_x_pago':importe_x_pago,
-            'importe_x_pago_i':importe_x_pago_i,
-            'importe_x_pago_d':importe_x_pago_d,
-            'saldo':saldo,
-            'saldo_i':saldo_i,
-            'saldo_d':saldo_d,
-            'saldo_l':saldo_l,
-            'precio_x_mt_n':precio_x_mt_n,
-            'precio_x_mt_n_i':precio_x_mt_n_i,
-            'precio_x_mt_n_d':precio_x_mt_n_d,
-            'precio_x_mt_n_l':precio_x_mt_n_l,
-            'ultimo_pago':ultimo_pago,
-            'ultimo_pago_i':ultimo_pago_i,
-            'ultimo_pago_d':ultimo_pago_d,
-            'fecha_contrato_anio_s':fecha_contrato_anio_s,
-        }
-        html = template.render(context)
-        response = HttpResponse(content_type='application/pdf')
-        #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        pisaStatus = pisa.CreatePDF(
-            html, 
-            dest=response,
-            link_callback=self.link_callback,
-        )
-        if 'menu' not in context:
-            context['menu'] = "contrata"
+            if num_contrato != 0:
+                num_contrato = num_contrato
+            else: 
+                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
+                if num_contrato == None:
+                    num_contrato = 1
+                else:
+                    num_contrato += 1
+                if modo_pago == 1 or modo_pago == 3:
+                    esta_sol = 6
+                else:
+                    esta_sol = 10
+                dato = str(solicitud.lote) + \
+                    " del proyecto: " + str(solicitud.lote.proyecto)
+                observacion = "Contrato del " + dato
+                folio = Folios(
+                    tipo = 2, 
+                    numero = num_contrato,
+                    observacion = observacion,
+                    importe = precio_final)
+                folio.save()
+                sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
+                    .update(num_contrato=num_contrato, estatus_solicitud=esta_sol)
+            importe_letras = numero_a_letras(apartado)
+            importe_letras_t = numero_a_letras(pago_adicional)
+            metro_letras = numero_a_letras(total)
+            copias = [0,1]
+            context = {
+                'comp': {
+                    'num_contrato': num_contrato,
+                    'empresa':'Pleyatec, S.A. de C.V.',
+                    'rfc':'AAA-333333333',
+                    'ubicacion1':'Av. Constituyentes #1009, Interior No. 5, Col. Residencial del valle, C.P 76190,',
+                    'ubicacion2':'Santiago de QuerÃ©taro, Qro.',
+                    'ubicacion3':'Tel: 442-138-5840',
+                    'hoy':hoy,
+                    'importe_letras': importe_letras,
+                    'importe_letras_t': importe_letras_t,
+                    'metros_letra':metro_letras,
+                },
+                'ahora':hoy,
+                'copias':copias,
+                'solicitud':solicitud,
+                'lote':lote,
+                'precio_final':precio_final,
+                'precio_final_i':precio_final_i,
+                'precio_final_d':precio_final_d,
+                'precio_final_l':precio_final_l,
+                'cantidad_pagos':cantidad_pagos,
+                'cantidad_pagos_l':cantidad_pagos_l,
+                'cantidad_pagos_1':cantidad_pagos_1,
+                'precio_x_mt':precio_x_mt,
+                'precio_x_mt_i':precio_x_mt_i,
+                'precio_x_mt_d':precio_x_mt_d,
+                'precio_x_mt_l':precio_x_mt_l,
+                'precio':precio,
+                'precio_i':precio_i,
+                'precio_d':precio_d,
+                'precio_l':precio_l,
+                'enganche':enganche,
+                'enganche_i':enganche_i,
+                'enganche_d':enganche_d,
+                'enganche_l':enganche_l,
+                'importe_x_pago':importe_x_pago,
+                'importe_x_pago_i':importe_x_pago_i,
+                'importe_x_pago_d':importe_x_pago_d,
+                'saldo':saldo,
+                'saldo_i':saldo_i,
+                'saldo_d':saldo_d,
+                'saldo_l':saldo_l,
+                'precio_x_mt_n':precio_x_mt_n,
+                'precio_x_mt_n_i':precio_x_mt_n_i,
+                'precio_x_mt_n_d':precio_x_mt_n_d,
+                'precio_x_mt_n_l':precio_x_mt_n_l,
+                'ultimo_pago':ultimo_pago,
+                'ultimo_pago_i':ultimo_pago_i,
+                'ultimo_pago_d':ultimo_pago_d,
+                'fecha_contrato_anio_s':fecha_contrato_anio_s,
+            }
+            html = template.render(context)
+            response = HttpResponse(content_type='application/pdf')
+            #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            pisaStatus = pisa.CreatePDF(
+                html, 
+                dest=response,
+                link_callback=self.link_callback,
+            )
+            if 'menu' not in context:
+                context['menu'] = "contrata"
         return response
  #       except:
  #           pass

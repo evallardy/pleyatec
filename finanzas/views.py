@@ -25,8 +25,7 @@ from gestion.funciones import f_asigna_solicitud, f_empleado
 from finanzas.models import Pago
 from .forms import PagoForm
 
-class tabla_amortizacion(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
-    permission_required = 'gestion.amortizacion'
+class tabla_amortizacion(TemplateView):
     template_name = 'finanzas/tabla_amortizacion.html'
     def get_context_data(self, **kwargs):
         context = super(tabla_amortizacion, self).get_context_data(**kwargs)
@@ -38,13 +37,29 @@ class tabla_amortizacion(LoginRequiredMixin, PermissionRequiredMixin, TemplateVi
         context['datos'] = datos
         context['menu'] = "solicitud"
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context["proyecto_tb"] = proyecto_tb
         context['num_proyecto'] = num_proyecto
         context['archivo'] = '/finanzas/tabla_amort_PDF/'
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado amortizacion solicitud
+        des_permiso = '_amortizac'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Impresión Listado amortizacion solicitud
+        des_permiso = '_imprime_amortizac'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
 
-class tabla_amort_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 'gestion.imprime_amortizacion'
+class tabla_amort_PDF(View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -94,8 +109,7 @@ class tabla_amort_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
         )
         return response
 
-class pagar(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'finanzas.view_pago'
+class pagar(ListView):
     model = Solicitud
     template_name = 'finanzas/pagar.html'
 #    lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=1)
@@ -122,7 +136,87 @@ class pagar(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['menu'] = "pagar"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
-        context['proyecto'] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado de mensualidades
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Estado de cuenta
+        des_permiso = '_estado_cuenta'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
 '''
 class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView): 
@@ -175,8 +269,7 @@ class pagos(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         else:
             return render(request, 'core/error.html', {'form': form})
 '''
-class estado_cuenta(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'finanzas.estado_cuenta'
+class estado_cuenta(ListView):
     template_name = 'finanzas/estado_cuenta.html'
     def get_context_data(self, **kwargs):
         context = super(estado_cuenta, self).get_context_data(**kwargs)
@@ -205,22 +298,51 @@ class estado_cuenta(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['id'] = pk
         context['menu'] = "pagar"
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context["proyecto_tb"] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Estado de cuenta
+        des_permiso = '_estado_cuenta'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Imprimir estado cuenta
+        des_permiso = '_imp_estado_cuenta'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Actualizar mensualidad
+        des_permiso = '_cap_dep_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
     def get_queryset(self):
         pk = self.kwargs.get('pk',0)
         queryset = Pago.objects.filter(convenio=pk)
         return queryset
 
-class mod_pago(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class mod_pago(UpdateView):
     model = Pago
     form_class = PagoForm
     template_name = 'finanzas/nvo_pago.html'
     def get_context_data(self, **kwargs):
         context = super(mod_pago, self).get_context_data(**kwargs)
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+        permiso_str = 'nom_proy' + '_' + 'acceso'
+        acceso = self.request.user.has_perms([permiso_str])
+        context["proyecto_tb"] = proyecto_tb
         pk = self.kwargs.get('pk',0)
         tabla1 = Pago.objects.filter(id=pk).first()
         fecha1 = str(tabla1.fecha_voucher)
@@ -229,6 +351,20 @@ class mod_pago(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context['pk'] = pk
         context['fecha1'] = fecha1
         context['num_proyecto'] = num_proyecto
+# Captura comprobante mensual
+        des_permiso = '_cap_dep_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Confirmar comprobante mensual
+        des_permiso = '_confirma_deposito_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
         return context
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
@@ -236,17 +372,21 @@ class mod_pago(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         pago1 = self.model.objects.get(id=pk)
         form = self.form_class(request.POST, request.FILES, instance=pago1)
         if form.is_valid():
-            pago = form.save()
+            pago_guardado = form.save()
             sol = self.kwargs.get('sol',0)
-#            pago = Pago.objects.filter(convenio=sol).values('convenio').annotate(pagos_pagar=Count('importe'), \
-#                importe_pagar=Sum('importe'))
-#            pagos_pagar = pago[0]['pagos_pagar']
-#            importe_pagar = pago[0]['importe_pagar']
-            pago = Pago.objects.filter(convenio=sol,estatus_pago__gt=1).values('convenio'). \
+#            pag_act = Pago.objects.filter(id=pk).update(estatus_pago=2)
+            total_pagado = Pago.objects.filter(convenio=sol,estatus_pago=2).values('convenio'). \
                 annotate(pagos_pagados=Count('importe_pagado'),importe_pagado=Sum('importe_pagado'))
-            pagos_pagados = pago[0]['pagos_pagados']
-            importe_pagado = pago[0]['importe_pagado']
-            sol = Solicitud.objects.filter(id=sol).update(pagos_pagados=pagos_pagados, importe_pagado=importe_pagado)
+            if total_pagado:
+                pagos_pagados = total_pagado[0]['pagos_pagados']
+                importe_pagado = total_pagado[0]['importe_pagado']
+            else:
+                pagos_pagados = 0
+                importe_pagado = 0
+
+            sol_act = Solicitud.objects.filter(id=sol). \
+                update(pagos_pagados=pagos_pagados, importe_pagado=importe_pagado)
+
         return HttpResponseRedirect(self.get_success_url())
     def get_success_url(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
@@ -300,14 +440,15 @@ class estado_cuenta_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
         context['hoy'] = hoy
         context['pk'] = pk
         context['titulo'] = titulo
-
+        pagado = 0
+        importe_pagado = 0
+        if total_pagado:
+            pagado = total_pagado[0]['cantidad']
+            importe_pagado = total_pagado[0]['suma']
         por_pagar = total_por_pagar[0]['cantidad']
         importe_por_pagar = total_por_pagar[0]['suma']
-        pagado = total_pagado[0]['cantidad']
-        importe_pagado = total_pagado[0]['suma']
-        pagos_saldo = total_por_pagar[0]['cantidad'] - total_pagado[0]['cantidad']
-        importe_saldo = total_por_pagar[0]['suma'] - total_pagado[0]['suma']
-
+        pagos_saldo = por_pagar - pagado
+        importe_saldo = importe_por_pagar - importe_pagado
         context['por_pagar'] = por_pagar
         context['importe_por_pagar'] = importe_por_pagar
         context['pagado'] = pagado
@@ -326,8 +467,7 @@ class estado_cuenta_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
         )
         return response
 
-class lista_pagos_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 'gestion.imprime_amortizacion'
+class lista_pagos_PDF(View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -355,46 +495,57 @@ class lista_pagos_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
         return path
 
     def get(self, request, *args, **kwargs):
-        context = {}
-        template = get_template('finanzas/listado_pagos_PDF.html')
-        pk = self.kwargs['pk']
-        datos = Pago.objects.filter(convenio=pk).order_by('numero_pago')
-        total_por_pagar = Pago.objects.filter(convenio=pk).values('convenio'). \
-            annotate(cantidad=Count('numero_pago'),suma=Sum('importe'))
-        total_pagado = Pago.objects.filter(convenio=pk, importe_pagado__gt=0).values('convenio'). \
-            annotate(cantidad=Count('numero_pago'),suma=Sum('importe'))
-        solicitud = Solicitud.objects.filter(id=pk)
-        titulo = Titulo.objects.filter(id=1)
-        hoy = fecha_hoy()
-        empresa = trae_empresa(1)
-        context['solicitud'] = solicitud
-        context['datos'] = datos
-        context['menu'] = "solicitud"
-        context['hoy'] = hoy
-        context['pk'] = pk
-        context['titulo'] = titulo
+        num_proyecto = self.kwargs['num_proyecto']
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+    #  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+    # Listado contratos
+        des_permiso = '_imprime_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = request.user.has_perms([permiso_str])
+        if acceso:
+            context = {}
+            template = get_template('finanzas/listado_pagos_PDF.html')
+            pk = self.kwargs['pk']
+            datos = Pago.objects.filter(convenio=pk).order_by('numero_pago')
+            total_por_pagar = Pago.objects.filter(convenio=pk).values('convenio'). \
+                annotate(cantidad=Count('numero_pago'),suma=Sum('importe'))
+            total_pagado = Pago.objects.filter(convenio=pk, importe_pagado__gt=0).values('convenio'). \
+                annotate(cantidad=Count('numero_pago'),suma=Sum('importe'))
+            solicitud = Solicitud.objects.filter(id=pk)
+            titulo = Titulo.objects.filter(id=1)
+            hoy = fecha_hoy()
+            empresa = trae_empresa(1)
+            context['solicitud'] = solicitud
+            context['datos'] = datos
+            context['menu'] = "solicitud"
+            context['hoy'] = hoy
+            context['pk'] = pk
+            context['titulo'] = titulo
 
-        por_pagar = total_por_pagar[0]['cantidad']
-        importe_por_pagar = total_por_pagar[0]['suma']
-        pagado = total_pagado[0]['cantidad']
-        importe_pagado = total_pagado[0]['suma']
-        pagos_saldo = total_por_pagar[0]['cantidad'] - total_pagado[0]['cantidad']
-        importe_saldo = total_por_pagar[0]['suma'] - total_pagado[0]['suma']
+            por_pagar = total_por_pagar[0].cantidad
+            importe_por_pagar = total_por_pagar[0].suma
+            pagado = total_pagado[0].cantidad
+            importe_pagado = total_pagado[0].suma
+            pagos_saldo = total_por_pagar[0].cantidad - total_pagado[0].cantidad
+            importe_saldo = total_por_pagar[0].suma - total_pagado[0].suma
 
-        context['por_pagar'] = por_pagar
-        context['importe_por_pagar'] = importe_por_pagar
-        context['pagado'] = pagado
-        context['importe_pagado'] = importe_pagado
-        context['pagos_saldo'] = pagos_saldo
-        context['importe_saldo'] = importe_saldo
+            context['por_pagar'] = por_pagar
+            context['importe_por_pagar'] = importe_por_pagar
+            context['pagado'] = pagado
+            context['importe_pagado'] = importe_pagado
+            context['pagos_saldo'] = pagos_saldo
+            context['importe_saldo'] = importe_saldo
 
-        
-        html = template.render(context)
-        response = HttpResponse(content_type='application/pdf')
-        #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        pisaStatus = pisa.CreatePDF(
-            html, 
-            dest=response,
-            link_callback=self.link_callback,
-        )
+            
+            html = template.render(context)
+            response = HttpResponse(content_type='application/pdf')
+            #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            pisaStatus = pisa.CreatePDF(
+                html, 
+                dest=response,
+                link_callback=self.link_callback,
+            )
         return response

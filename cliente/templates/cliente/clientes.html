@@ -14,8 +14,8 @@
         <thead>
             <tr>
                 <th style="text-align: center; width: 10%;">Tipo</th>
+                <th style="text-align: center; width: 20%;">Cliente o Representante</th>
                 <th style="text-align: center; width: 20%;">Razón social</th>
-                <th style="text-align: center; width: 20%;">Representante o cliente</th>
                 <th style="text-align: center; width: 10%;">RFC</th>
                 <th style="text-align: center; width: 10%;">Celular</th>
                 <th style="text-align: center; width: 10%;">Correo</th>
@@ -27,8 +27,8 @@
             {% for c in object_list %}
             <tr>
                 <td>{{ c.get_tipo_cliente_display }}</td>
-                <td>{{ c.razon }}</td>
                 <td>{{ c.nombre_completo }}</td>
+                <td>{{ c.razon }}</td>
                 <td>{{ c.rfc_val }}</td>
                 <td>{{ c.celular_val }}</td>
                 <td>{{ c.correo_val }}</td>

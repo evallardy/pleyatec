@@ -8,8 +8,8 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-{% if perms.gestion.add_solicitud or perms.gestion.change_solicitud %}
-{% for py in proyecto %}
+{% if app_proy_add_solicitud or app_proy_cambia_solicitud %}
+{% for py in proyecto_tb %}
 <div class="container"> 
 <label class="encabezados">{{ py.nombre }} - Solicitud</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
 <hr class="mt-0 mb-4">
@@ -28,13 +28,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-8 mb-0">
 
-                        <label for="">
-                            {% if py.id == 1 %}
-                            Lotes
-                            {% else %}
-                            Local
-                            {% endif %}
-                        </label>
+                        <label for="">{{ py.singular }}</label>
                         <select name="lote" id="lote_id" class="form-control">
                             <option value="0">---------</option>
                             {% for l in lote_cmb %}
@@ -69,10 +63,18 @@
                     <div class="form-group col-md-3 mb-0">
                         {{ form.modo_pago|as_crispy_field }}
                     </div>
-                    <div class="form-group col-md-3 mb-0" id="asigna">
+                    <div class="form-group col-md-3 mb-0" id="asigna"
+                    {% if not app_proy_asigna_descto %}
+                    hidden
+                    {% endif %}
+                    >
                         {{ form.asigna_descuento|as_crispy_field }}
                     </div>
-                    <div class="form-group col-md-3 mb-0" id="tipo_desc">
+                    <div class="form-group col-md-3 mb-0" id="tipo_desc" 
+                    {% if not app_proy_asigna_descto %}
+                    hidden
+                    {% endif %}
+                    >
                         {{ form.tipo_descuento|as_crispy_field }}
                     </div>
                     <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
@@ -142,6 +144,9 @@
             f_emp = asesor_id;
         }
         $("#asesor_id").val(f_emp).change();
+        if ($("#id_asigna_descuento_0").is(':checked')) {
+            $("#id_porcentaje_descuento").attr("readonly",true);
+        }
     });
     $(function () {
         {% if sol %}
@@ -153,8 +158,6 @@
         {% endif %}
         window.captureEvents(Event.SUBMIT);
         window.onsubmit = guarda;
-//        alert($("input:radio[name='asigna_descuento']:checked").val());
-//        alert($("input:radio[name='tipo_descuento']:checked").val());
         function accionTipoDescuento(opcion, ciclo) {
             if (opcion==0) {
                 $("#id_descuento").prop('readonly',true);
@@ -363,7 +366,7 @@
                     $("#id_importe_x_pago").val(monto_x_pago);
                 }
             } else {
-                $("#id_porcentaje_descuento").val(0);
+//                $("#id_porcentaje_descuento").val(0);
                 if ((parseInt(modo_pago) == 2 || parseInt(modo_pago) == 4) && (parseFloat(precio_lote) > 0)) {
                     precio_30 = Math.ceil(parseFloat((precio_lote * 0.30))).toFixed(2);
                     precio_50 = Math.ceil(parseFloat((precio_lote * 0.50))).toFixed(2);

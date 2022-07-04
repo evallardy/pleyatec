@@ -8,12 +8,15 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-{% for py in proyecto %}
+{% if app_proy_estado_cuenta %}
+{% for py in proyecto_tb %}
 <div class="container" style="margin-left: 20px;">
     <label class="encabezados">Estado de cuenta<br> {{ solicitud.titulo_bien }}</label><br>
     <div class="container col-12">
         <a class="btn btn-outline-dark" href="{% url 'pagar' py.id %}">Regresar</a>
+        {% if app_proy_imp_estado_cuenta %}
         <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
+        {% endif %}
         <table class="table table-info table-striped col-md-12">
             <thead>
                 <tr>
@@ -36,7 +39,9 @@
                     <td style="text-align: left;">{{ p.numero_comprobante }}</td>
                     <td style="text-align: left;">{{ p.get_estatus_pago_display }}</td>
                     <td style="text-align: center;">
+                        {% if app_proy_cap_dep_mensual %}
                         <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Actuliza</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -51,4 +56,5 @@
     {% endblock %}
 </script>
 {% endfor %}
+{% endif %}
 {% endblock %}

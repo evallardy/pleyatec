@@ -8,20 +8,38 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-{% if perms.gestion.autoriza_visualiza %}
-{% for py in proyecto %}
+{% if app_proy_autoriza_visualiza %}
+{% for py in proyecto_tb %}
 <div class="container col-12">
     <label class="encabezados">{{ py.nombre }}</label> <br>
     <div class="btn-group btn-group-justified">
+        {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+        {% endif %}
+        {% if menu_proy_ver_solicitud %}
         <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+        {% endif %}
+        {% if menu_proy_autoriza_visualiza %}
         <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+        {% endif %}
+        {% if menu_proy_compromiso %}
         <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+        {% endif %}
+        {% if menu_proy_contratar %}
         <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+        {% endif %}
+        {% if menu_proy_listado_registro_mensual %}
         <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Pagos</a>
+        {% endif %}
+        {% if menu_proy_consulta_archivo %}
         <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+        {% endif %}
+        {% if menu_proy_creditos %}
         <a href="#" class="btn btn-primary" id="credito">Créditos</a>
+        {% endif %}
+        {% if menu_proy_contados %}
         <a href="#" class="btn btn-primary" id="contado">Contados</a>
+        {% endif %}
     </div>
     <br><br>
     <table class="table table-info table-striped col-md-12" style="font-size: 15px;">
@@ -29,13 +47,7 @@
             <tr>
                 <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
                 <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">
-                    {% if py.id == 1 %}
-                    Lote
-                    {% else %}
-                    Local
-                    {% endif %}
-                </th>
+                <th class="col-md-2" style="text-align: center;" scope="col">{{ py.singular }}</th>
                 <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
                 <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
                 <th class="col-md-1" style="text-align: center;" scope="col">Precio venta</th>
@@ -60,7 +72,7 @@
                 <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
                 <td>
                     {% if not e.aprobacion_gerente %}
-                    {% if perms.gestion.autoriza_venta %}
+                    {% if app_proy_autoriza_venta %}
                     <button onclick="autventas('{{ e.id }}')" class="btn btn-outline-secondary">Ventas</button>
                     {% else %}
                     No autorizada
@@ -71,7 +83,7 @@
                 </td>
                 <td>
                     {% if not e.aprobacion_director %}
-                    {% if perms.gestion.autoriza_desarrollo %}
+                    {% if app_proy_autoriza_desarrollo %}
                     <button onclick="autdesarrollo('{{ e.id }}')" class="btn btn-outline-secondary">Desarrollo</button>
                     {% else %}
                     No autorizada

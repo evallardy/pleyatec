@@ -133,12 +133,15 @@ STATUS_COTIZACION = (
     (4, 'Orden de Compra'),
     (99, 'Cancelada'),
 )
+STATUS_DEPOSITO = (
+    (1, 'Sin confirmar'),
+    (2, 'Confirmado'),
+)
 STATUS_FOLIO = (
     (1, 'Activo'),
     (9, 'Cancelado'),
 )
 STATUS_FORMA_PAGO = (
-    (0, '-----'),
     (1, 'Cheque'),
     (2, 'Transferencia'),
     (3, 'Efectivo'),
@@ -170,9 +173,12 @@ STATUS_ORDEN_COMPRA = (
 )
 STATUS_PAGO = (
     (1, 'Vigente'),
-    (2, 'Vencido'),
-    (3, 'Pagado'),
+    (2, 'Pagado'),
     (99, 'Cancelado'),
+)
+STATUS_PAGADO_VENCIDO = (
+    (1, 'Normal'),
+    (2, 'Vencido'),
 )
 STATUS_RECEPCION = (
     (1, 'Nueva'),

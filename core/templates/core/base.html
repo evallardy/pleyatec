@@ -47,19 +47,15 @@
                                         {% if perms.core.view_banco %}
                                         <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
                                         {% endif %}
-                                        {% if perms.empleado %}
+                                        {% if perms.empleado.view_empleado %}
                                         <li><a href="{% url 'empleados'%}"> Empleado </a> </li>
                                         {% endif %}
-                                        {% if perms.cliente %}
+                                        {% if perms.cliente.view_cliente %}
                                         <li><a href="{% url 'clientes'%}"> Clientes </a> </li>
                                         {% endif %}
                                         <li><a href="#" style="color:gold">{{ user.username }}</a> </li>
                                         <li><a href="{% url 'logout'%}">Logout</a> </li>
                                         {% else %}
-                                        <li><a href="{% url 'index'%}"> Inicio </a> </li>
-                                        <li><a href="{% url 'index'%}">Contacto</a>
-                                        <li>
-                                        <li><a href="{% url 'index'%}">Galería</a> </li>
                                         <li><a href="{% url 'login'%}">Login</a> </li>
                                         {% endif %}
                                     </ul>

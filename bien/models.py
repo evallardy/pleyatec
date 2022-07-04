@@ -5,6 +5,7 @@ from empleado.models import *
 
 class Proyecto(models.Model):
     tipo_proyecto = models.IntegerField("Tipo de proyecto",choices=TIPO_PROYECTO,default=1)
+    singular = models.CharField("Proyecto en sigular",max_length=50, blank=True, null=True)
     nombre = models.CharField("Nombre proyecto",max_length=60)
     ubicacion = models.CharField("Ubicación",max_length=250)
     estado = models.IntegerField("Estado",choices=ESTADOS, default=0)
@@ -18,14 +19,24 @@ class Proyecto(models.Model):
     usuario_mod = models.ForeignKey(Empleado, on_delete=models.SET_NULL, related_name='py_user_mod',
         verbose_name="Usuario modificó", null=True, blank=True)
     app = models.CharField("App",max_length=20, blank=True, null=True)
+    nom_proy = models.CharField("Abrev Proyecto",max_length=30, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Proyecto'
         verbose_name_plural = 'Proyectos'
         ordering = ['id']
         db_table = 'Proyecto'
-        permissions = (('proyecto_nuvole', 'Acceso al proyecto nuvole lotes'),
-                       ('proyecto_toscana', 'Acceso al proyecto toscana local comercial'),)
+        permissions = (
+                       ('nuvole_acceso', 'Nuvole Acceso'),
+                       ('toscana_acceso', 'Toscana Acceso'),
+                       ('local_punta_o_acceso', 'Local Punta O Acceso'),
+                       ('consul_punta_o_acceso', 'Consultorio Punta O Acceso'),
+                       ('torre_vento_acceso', 'Torre Vento Acceso'),
+                       ('fraccion34_acceso', 'Fracción 34 Acceso'),
+                       ('vivienda_nuvole_acceso', 'Vivienda Nuvole Acceso'),
+                       ('pathe_acceso', 'Pathe Acceso'),
+                       ('condom_multiple_acceso', 'Condominio Múltiple Acceso'),
+                       )
 
     def __str__(self):   # para poner los nombre en los renglones
         return '%s' % (self.nombre)
@@ -79,18 +90,80 @@ class Lote(models.Model, PermissionRequiredMixin):
         ordering = ['proyecto','lote']
         unique_together= (('proyecto','fase','manzana','lote'),('proyecto','lote'))
         db_table = 'Lote'
-        permissions = (('reservar', 'Reservar bien'),)
+        permissions = (
+            #  Nuvole
+                       ('nuvole_ver', 'Nuvole Visualizar locales'),
+                       ('nuvole_add', 'Nuvole Agregar locales'),
+                       ('nuvole_chag', 'Nuvole Cambiar locales'),
+                       ('nuvole_reservar', 'Nuvole Reservar bien'),
+            #  Toscana
+                       ('toscana_ver', 'Toscana Visualizar locales'),
+                       ('toscana_add', 'Toscana Agregar locales'),
+                       ('toscana_chag', 'Toscana Cambiar locales'),
+                       ('toscana_reservar', 'Toscana Reservar bien'),
+            #  Local Punta Oriente
+                       ('local_punta_o_ver', 'Local Punta O Visualizar'),
+                       ('local_punta_o_add', 'Local Punta O Agregar'),
+                       ('local_punta_o_chag', 'Local Punta O Cambiar'),
+                       ('local_punta_o_reservar', 'Local Punta O Reservar bien'),
+            #  Consultorio Punta Oriente
+                       ('consul_punta_o_ver', 'Consultorio Punta O Visualizar'),
+                       ('consul_punta_o_add', 'Consultorio Punta O Agregar'),
+                       ('consul_punta_o_chag', 'Consultorio Punta O Cambiar'),
+                       ('consul_punta_o_reservar', 'Consultorio Punta O Reservar bien'),
+            #  Torre Vento
+                       ('torre_vento_ver', 'Torre Vento Visualizar'),
+                       ('torre_vento_add', 'Torre Vento Agregar'),
+                       ('torre_vento_chag', 'Torre Vento Cambiar'),
+                       ('torre_vento_reservar', 'Torre Vento Reservar bien'),
+            #  Fracción 34
+                       ('fraccion34_ver', 'Fracción 34 Visualizar'),
+                       ('fraccion34_add', 'Fracción 34 Agregar'),
+                       ('fraccion34_chag', 'Fracción 34 Cambiar'),
+                       ('fraccion34_reservar', 'Fracción 34 Reservar bien'),
+            #  Vivienda Nuvole
+                       ('vivienda_nuvole_ver', 'Vivienda Nuvole Visualizar'),
+                       ('vivienda_nuvole_add', 'Vivienda Nuvole Agregar'),
+                       ('vivienda_nuvole_chag', 'Vivienda Nuvole Cambiar'),
+                       ('vivienda_nuvole_reservar', 'Vivienda Nuvole Reservar bien'),
+            #  Pathe
+                       ('pathe_ver', 'Pathe Visualizar'),
+                       ('pathe_add', 'Pathe Agregar'),
+                       ('pathe_chag', 'Pathe Cambiar'),
+                       ('pathe_reservar', 'Pathe Reservar bien'),
+            #  Condominio Múltiple
+                       ('condom_multiple_ver', 'Condominio Múltiple Visualizar'),
+                       ('condom_multiple_add', 'Condominio Múltiple Agregar'),
+                       ('condom_multiple_chag', 'Condominio Múltiple Cambiar'),
+                       ('condom_multiple_reservar', 'Condominio Múltiple Reservar'),
+        )
 
     def __str__(self):   # para poner los nombre en los renglones
-        if self.proyecto.id == 1:
+        if self.proyecto.app == 'nuvole':
             return ' Lote: %s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
-        elif self.proyecto.id == 2:
+        elif self.proyecto.app == 'toscana':
             if self.terraza == 0:
                 return ' Local: %s nivel: %s' % (self.lote, self.nivel)
             else:
                 return ' Local: %s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, self.nivel)
         else:
             return ""
+
+    def _get_identificador_bien(self):
+        if self.proyecto.app == 'nuvole':
+            return ' Lote:%s Manzana:%s Fase:%s' % (self.lote, self.manzana, self.fase)
+        elif self.proyecto.app == 'toscana':
+            return ' Local:%s nivel:%s' % (self.lote, self.nivel)
+        else:
+            return ""
+    identificador_bien = property(_get_identificador_bien)
+
+    def _get_medidas(self):
+        if self.tipo_lote == True:
+            return ' Frente:%s  Fondo:%s' % (self.frente, self.fondo)
+        else:
+            return '%s' % (self.obs_irregular)
+    medidas = property(_get_medidas)
 
     def _get_colindancia_norte(self):
         colindancia_norte = ""
@@ -100,9 +173,9 @@ class Lote(models.Model, PermissionRequiredMixin):
     colindancia_norte_val = property(_get_colindancia_norte)
 
     def _get_combo_bien(self):
-        if self.proyecto.id == 1:
+        if self.proyecto.app == 'nuvole':
             return ' Lote: %s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
-        elif self.proyecto.id == 2:
+        elif self.proyecto.app == 'toscana':
             if self.terraza == 0:
                 return ' Local: %s nivel: %s' % (self.lote, self.nivel)
             else:

@@ -6,8 +6,8 @@
 {{ form.media }}
 {% load crispy_forms_tags %}
 {% block contenido %}
-{% for py in proyecto %}
-{% if perms.bien.add_lote or perms.bien.change_lote %}
+{% for py in proyecto_tb %}
+{% if app_proy_add or app_proy_chag %}
 <div class="container" id="forma"></div>
 <label class="encabezados">{{ py.nombre }} - {{ py.get_tipo_proyecto_display }}</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
 <hr class="mt-0 mb-4">
@@ -33,7 +33,7 @@
                     <div class="form-group col-md-3 mb-0" id="lote">
                         {{ form.lote|as_crispy_field }}
                     </div>
-                    {% if perms.bien.reservar %}
+                    {% if app_proy_reservar %}
                     <div class="form-group col-md-3 mb-0">
                         <label for="">Estatus bien</label>
                         <select name="estatus" id="estatus" class="form-control">

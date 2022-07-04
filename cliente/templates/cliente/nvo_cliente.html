@@ -109,7 +109,9 @@
         if ($("#id_tipo_cliente_0").is(':checked')) {
             $("#gpo_razon").hide();
             $("#lbl_representante").hide();
+            $("label[for='id_rfc']").text("RFC");
         } else {
+            $("label[for='id_rfc']").text("RFC Empresa");
             $("#gpo_razon").show();
             $("#lbl_representante").show();
         }

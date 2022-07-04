@@ -52,3 +52,14 @@ function aviso(titulo, contenido) {
         }
     });
 }
+function cuadro(objeto_id, objeto_lb) {
+    objeto_lb.removeClass("form-check-label");
+    objeto_lb.after(objeto_id);
+    objeto_id.removeClass("checkboxinput");
+    objeto_id.removeClass("form-check-input");
+    objeto_id.css("display", "block");
+    objeto_id.css("text-align", "center");
+    objeto_id.css("width", objeto_lb.css("width"));
+//    objeto_id.css("margin-top", "5px");
+    objeto_id.css("height", "25px");
+}

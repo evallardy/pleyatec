@@ -18,22 +18,28 @@ class PagoForm(forms.ModelForm):
             'numero_comprobante',
             'foto_voucher',
             'estatus_pago',
+            'deposito',
+            'pagado_vencido',
+            'cuenta',
         ]
         labels = {
             'id': 'Clave',
             'convenio': 'Convenio',
             'fecha_pago':'Fecha compromiso',
             'importe':'importe',
-            'fecha_voucher':'Fecha de pago',
+            'fecha_voucher':'Fecha comprobante',
             'importe_pagado':'Importe pagado',
             'forma_pago':'Forma de pago',
             'numero_comprobante':'Número de comprobante',
             'foto_voucher':'Imagen de comprobante',
             'estatus_pago':'Estatus del pago',
+            'deposito':'Depósito',
+            'pagado_vencido':'Pagado',
+            'cuenta':'Cuenta (ultimos 4 digs)'
         }
         widgets = {
-            'importe':forms.NumberInput(),
-            'importe_pagado':forms.NumberInput(),
             'fecha_voucher':DateInput(),
+            'importe_pagado':forms.NumberInput(),
+            'cuenta':forms.NumberInput(),
         }
 

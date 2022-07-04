@@ -82,6 +82,6 @@ class EmpleadoForm(forms.ModelForm):
             'telefono_fijo':forms.TextInput(attrs={'class':'form-control'}),
             'celular':forms.TextInput(attrs={'class':'form-control'}),
             'correo':forms.EmailInput(attrs={'class':'form-control'}),
-            'asigna_solicitud':forms.RadioSelect(),
+            'asigna_solicitud':forms.CheckboxInput(),
         }
  

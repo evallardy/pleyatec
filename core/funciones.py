@@ -1,5 +1,7 @@
 import datetime
 from core.models import Titulo
+from django.contrib.auth.models import  Group,User,Permission
+from django.contrib.auth.models import User
 
 def fecha_hoy():
     return datetime.datetime.now().strftime("%d-%m-%Y")

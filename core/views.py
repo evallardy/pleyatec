@@ -17,6 +17,13 @@ def index(request):
         'proyectos':proyectos,
         'ruta_imagen':ruta_imagen,
     }
+#   Rutina para agregar los permisos de acceso de proyecto
+    for p in proyectos:
+        nom_proy = p.nom_proy
+        permiso_str = "bien." + nom_proy + '_' + 'acceso'
+        acceso = request.user.has_perms([permiso_str])
+        variable_proy = nom_proy + "_acceso"
+        data[variable_proy] = acceso
     return render(request, template_name, data)
 
 class bancos(LoginRequiredMixin, PermissionRequiredMixin, ListView):

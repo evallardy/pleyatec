@@ -28,30 +28,140 @@
             <label class='encabezados'>Proyectos</label>
         </div>
         {% for p in proyectos %}
+        {% if p.app == 'nuvole' and nuvole_acceso %}
         <div class="proyecto">
             <div class="detalle">
                 {{ p.get_tipo_proyecto_display }} <br>
                 {{ p.nombre }}
             </div>
             <hr>
-            {% if p.id == 1 %}
+            {% if p.plano %}
             <a href="{% url p.app %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
-            {% if p.id == 2 %}
+        </div>
+        {% endif %}
+        {% if p.app == 'toscana' and toscana_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
             <a href="{% url p.app 1 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
         </div>
-        {% endfor %}
         {% endif %}
+        {% if p.app == 'plazapuntaoriente' and local_punta_o_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if p.app == 'TMpuntaorienta' and consul_punta_o_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if p.app == 'torrevento' and torre_vento_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if p.app == 'condominioM' and condom_multiple_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if p.app == 'fraccion34' and fraccion34_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if p.app == 'viviendaNuvole' and vivienda_nuvole_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if p.app == 'pathe' and pathe_acceso %}
+        <div class="proyecto">
+            <div class="detalle">
+                {{ p.get_tipo_proyecto_display }} <br>
+                {{ p.nombre }}
+            </div>
+            <hr>
+            {% if p.plano %}
+            <a href="{% url p.app 1 %}">
+                <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endfor %}
     </div>
+    {% endif %}
+</div>
 </div>
 <script>
-    $(document).ready(function () {
-
-    });
+//    $(document).ready(function () {
+//        Alert
+//    });
 </script>
 {% endblock %}

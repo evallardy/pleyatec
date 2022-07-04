@@ -8,12 +8,12 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-{% for py in proyecto %}
-{% if perms.gestion.amortizacion %}
+{% for py in proyecto_tb %}
+{% if app_proy_amortizac %}
 <div class="container">
 <label class="encabezados">Tabla Amortización</label> <br>
 <a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
-{% if perms.gestion.imprime_amortizacion %}
+{% if app_proy_imprime_amortizac %}
 <button id="btn_adicional" class="btn btn-outline-dark" onclick="imprime('{{ pk }}')">Imprimir</button>
 {% endif %}
 <hr>
@@ -24,7 +24,7 @@
          {{ solicitud.cliente }}
     </div>
     <div class="form-row">
-        <label style="width: 80px; text-align: right; padding: 0px 5px 0px 0px; font-weight: bold;">Lote: </label>
+        <label style="width: 80px; text-align: right; padding: 0px 5px 0px 0px; font-weight: bold;">{{ py.singular }}: </label>
         {{ solicitud.lote }}
     </div>
     <div class="form-row">
