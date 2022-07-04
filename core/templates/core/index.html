@@ -25,10 +25,10 @@
     {% else %}
     <div class="container" style="width: 850px;">
         <div style="width: 104%; text-align: center; height: 40px; ">
-            <label class='encabezados'>Proyectos</label>
+            <label class='encabezados'>Proyectos [{{ nuvole_acceso }}]</label>
         </div>
         {% for p in proyectos %}
-        {% if p.app == 'nuvole' %}
+        {% if p.app == 'nuvole' and nuvole_acceso %}
         <div class="proyecto">
             <div class="detalle">
                 {{ p.get_tipo_proyecto_display }} <br>
