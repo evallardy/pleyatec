@@ -28,6 +28,8 @@ class Pago(models.Model, PermissionRequiredMixin):
         verbose_name="Usuario modificó", null=True, blank=True)
     deposito = models.IntegerField("Depósito confirmado", choices=STATUS_DEPOSITO, default=0)
     pagado_vencido = models.IntegerField("Pagado vencido", choices=STATUS_PAGADO_VENCIDO, default=0)
+    paso = models.IntegerField("prueba", choices=STATUS_PAGADO_VENCIDO, default=0)
+    
 
     class Meta:
         constraints = [
