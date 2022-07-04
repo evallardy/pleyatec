@@ -52,7 +52,7 @@ class Cliente(models.Model, PermissionRequiredMixin):
             paterno = ""
         else:
             paterno = self.paterno
-        if self.razon == " ":
+        if self.tipo_cliente == 0:
             razon = self.nombre + " " + paterno + " " + materno
         else:
             razon = self.razon
