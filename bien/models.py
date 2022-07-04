@@ -19,7 +19,7 @@ class Proyecto(models.Model):
     usuario_mod = models.ForeignKey(Empleado, on_delete=models.SET_NULL, related_name='py_user_mod',
         verbose_name="Usuario modificó", null=True, blank=True)
     app = models.CharField("App",max_length=20, blank=True, null=True)
-    nom_proy = models.CharField("Abrev Proyecto",max_length=30, blank=True, null=True)
+    nom_proy = models.CharField("Abrev Proyecto",max_length=30, blank=True, null=True, default=" ")
 
     class Meta:
         verbose_name = 'Proyecto'
