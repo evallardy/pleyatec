@@ -24,6 +24,7 @@ def index(request):
         acceso = request.user.has_perms([permiso_str])
         variable_proy = nom_proy + "_acceso"
         data[variable_proy] = acceso
+    data['prueba'] = 123456
     return render(request, template_name, data)
 
 class bancos(LoginRequiredMixin, PermissionRequiredMixin, ListView):
