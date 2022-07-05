@@ -172,6 +172,8 @@ class nva_solicitud(CreateView):
                 context['f_emp'] = f_emp
             context['empleado_cmb'] = empleado_cmb
 #        context['form'] = self.form_class(self.request.GET)
+        cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+        context['cliente_cmb'] = cliente_cmb
         context['menu'] = "solicitud"
         context['accion'] = "Alta"
         context['sol'] = Solicitud.objects.filter(id = 0)
@@ -235,6 +237,8 @@ class mod_solicitud(UpdateView):
                     .order_by('paterno','materno','nombre')
             context['empleado_cmb'] = empleado_cmb
 #        context['form'] = self.form_class()
+        cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+        context['cliente_cmb'] = cliente_cmb
         context['menu'] = "solicitud"
         context['accion'] = "Modifica"
         context['id'] = pk

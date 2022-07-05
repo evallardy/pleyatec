@@ -29,6 +29,11 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'foto_comprobante',
             'foto_matrimonio',
             'estatus_solicitud',
+            'foto_elector_frente_cy',
+            'foto_elector_reverso_cy',
+            'foto_alta_shcp',
+            'foto_acta_const',
+
         ]
         labels = {
             'id': 'Clave',
@@ -49,11 +54,15 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'importe_x_pago': 'Importe por pago',
             'aprobacion_gerente': 'Aprobación gerente ventas',
             'aprobacion_director': 'Aprobación director de desarrollo',
-            'foto_elector_frente': 'Elector frente',
-            'foto_elector_reverso': 'Elector reverso',
+            'foto_elector_frente': 'INE frente cliente',
+            'foto_elector_reverso': 'INE reverso cliente',
             'foto_comprobante': 'Comprobante',
             'foto_matrimonio': 'Acta de matrimonio',
             'estatus_solicitud': 'Estatus solicitud',
+            'foto_elector_frente_cy': 'INE frente cónyuge',
+            'foto_elector_reverso_cy': 'INE reverso cónyuge',
+            'foto_alta_shcp': 'Alta SCHP',
+            'foto_acta_const': 'Acta constitutiva',
         }
         widgets = {
             'precio_lote':forms.NumberInput(),

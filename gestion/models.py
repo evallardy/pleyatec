@@ -37,6 +37,8 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     aprobacion_director = models.BooleanField("Aprobación director desarrollo", default=False)
     foto_elector_frente = models.ImageField(upload_to="ine", blank=True, null=True,default=" ")
     foto_elector_reverso = models.ImageField(upload_to="ine", blank=True, null=True,default=" ")
+    foto_elector_frente_cy = models.ImageField(upload_to="ine_cy", blank=True, null=True,default=" ")
+    foto_elector_reverso_cy = models.ImageField(upload_to="ine_cy", blank=True, null=True,default=" ")
     foto_matrimonio = models.ImageField(upload_to="matrimonio", blank=True, null=True,default=" ")
     foto_comprobante = models.ImageField(upload_to="comprobante", blank=True, null=True,default=" ")
     foto_alta_shcp = models.ImageField(upload_to="alta_shcp", blank=True, null=True,default=" ")

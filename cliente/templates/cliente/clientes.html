@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block contenido %}
-{% if perms.cliente.add_cliente or perms.cliente.view_cliente or perms.cliente.change_cliente %}
+{% if perms.cliente.view_cliente %}
 <div style="position: absolute; margin-left: 80px;
      height: auto; width: auto; background-color: transparent;" class="mapa">
 <label class="encabezados">Clientes</label>

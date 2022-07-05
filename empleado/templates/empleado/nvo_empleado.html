@@ -8,6 +8,7 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
+{% if perms.empleado.add_empleado or perms.empleado.change_empleado %}
 <label class="encabezados">Empleado</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
 <hr class="mt-0 mb-4">
 <a class="btn btn-outline-dark" href="{% url 'empleados' %}">Regresar</a>
@@ -145,4 +146,5 @@
         }
     });
 </script>
+{% endif %}
 {% endblock %}

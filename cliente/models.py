@@ -59,10 +59,19 @@ class Cliente(models.Model, PermissionRequiredMixin):
         return '%s' % (razon) 
     
     def _get_nombre_completo(self):
-        materno = ""
-        if not self.materno == None:
+        if self.materno == None:
+            materno = ""
+        else:
             materno = self.materno
-        return '%s %s %s' % (self.nombre, self.paterno, materno) 
+        if self.paterno == None:
+            paterno = ""
+        else:
+            paterno = self.paterno
+        if self.tipo_cliente == 0:
+            razon = self.nombre + " " + paterno + " " + materno
+        else:
+            razon = self.razon
+        return '%s' % (razon) 
     nombre_completo = property(_get_nombre_completo)
 
     def _get_rfc(self):

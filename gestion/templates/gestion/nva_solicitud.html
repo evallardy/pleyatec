@@ -14,20 +14,29 @@
 <label class="encabezados">{{ py.nombre }} - Solicitud</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
 <hr class="mt-0 mb-4">
 <a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
-<div class="container col-12">
+<div class="container" style="width: 850px;">
     <div class="wrapper fadeInDown">
         <div id="formContent" style="text-align: right;">
             <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
                 onkeypress="return anular(event)">
                 {% csrf_token %}
                 <div class="form-row">
-                    <div class="form-group col-md-8 mb-0">
-                        {{ form.cliente|as_crispy_field }}
+                    <div class="form-group col-6 mb-0">
+                        <label for="">Cliente</label>
+                        <select name="cliente" id="cliente_id" class="form-control">
+                            <option value="0">---------</option>
+                            {% for c in cliente_cmb %}
+                            {% if administrador %}
+                            <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                            {% elif c.asesor.id == id_empleado %}
+                            <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-8 mb-0">
-
+                    <div class="form-group col-md-6 mb-0">
                         <label for="">{{ py.singular }}</label>
                         <select name="lote" id="lote_id" class="form-control">
                             <option value="0">---------</option>
@@ -38,7 +47,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-8 mb-0">
+                    <div class="form-group col-md-6 mb-0">
                         <label for="">Asesores</label>
                         <select name="asesor" id="asesor_id" class="form-control">
                             <option value="0">---------</option>
@@ -99,25 +108,33 @@
                     <div class="form-group col-md-3 mb-0">
                         {{ form.foto_elector_reverso|as_crispy_field }}
                     </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.foto_elector_frente_cy|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.foto_elector_reverso_cy|as_crispy_field }}
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3 mb-0">
                         {{ form.foto_comprobante|as_crispy_field }}
                     </div>
-                </div>
-                <div class="form-row">
                     <div class="form-group col-md-3 mb-0">
                         {{ form.foto_matrimonio|as_crispy_field }}
                     </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.foto_alta_shcp|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.foto_acta_const|as_crispy_field }}
+                    </div>
                 </div>
                 <div class="form-row" hidden>
-                    <div class="form-group col-md-3 mb-0">
+                    <div class="form-group col-md-1 mb-0">
                         {{ form.estatus_solicitud|as_crispy_field }}
                     </div>
                 </div>
-                {% if perms.gestion.add_solicitud or perms.gestion.change_solicitud %}
                 <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
-                {% endif %}
             </form>
             <br>
         </div>
@@ -152,10 +169,13 @@
         {% if sol %}
         {% for s in sol %}
         id_lote = "{{ s.lote.id }}";
+        id_cliente = "{{ s.cliente.id }}";
         {% endfor %}
         {% else %}
         id_lote = 0;
+        id_cliente = 0;
         {% endif %}
+        $("#cliente_id").val(id_cliente);
         window.captureEvents(Event.SUBMIT);
         window.onsubmit = guarda;
         function accionTipoDescuento(opcion, ciclo) {
@@ -192,26 +212,44 @@
         }  
         function guarda() {
             texto = "";
-            if ($("#lote_id").val() == 0 || $("#lote_id").val() == null) {
+            if ($("#cliente_id").val() == '0') {
+                texto += "Seleccione un cliente, ";
+            }
+            if ($("#lote_id").val() == '0') {
                 texto += "Seleccione un lote, ";
             }
-            if ($("#asesor_id").val() == 0) {
+            if ($("#asesor_id").val() == '0') {
                 texto += "Seleccione un Asesor, ";
             }
             if (($("#id_modo_pago").val() == 2 || $("#id_modo_pago").val() == 4)) {
+                {% if not app_proy_asigna_descto %}
+                if (($("#id_modo_pago").val() == 2)) {
+                    porcentaje = 0.97;
+                    porcentaje_mimimo = 0.3;
+                    desc_procentaje = " 30% ";
+                } else {
+                    porcentaje = 0.925;
+                    porcentaje_mimimo = 0.5;
+                    desc_procentaje = " 50% ";
+                }
+                {% endif %}
                 if (parseFloat($("#id_enganche").val()) <= 0) {
                     texto += "Teclee enganche, ";
                 } else {
-                    if ($("#id_modo_pago").val() == 4) {
-                        mitad_precio = parseFloat($("#id_precio_lote").val()) / 2;
-                        if (parseFloat($("#id_enganche").val()) < mitad_precio) {
-//                            texto += "El enganche debe ser mayor o igual al 50% del valor del lote, ";
-                        }
+                    {% if not app_proy_asigna_descto %}
+                    cal_precio_final = (parseFloat($("#id_precio_lote").val())).toFixed(2);
+                    mitad_precio = (cal_precio_final * porcentaje_mimimo).toFixed(2);
+                    if (parseFloat($("#id_enganche").val()).toFixed(2) < mitad_precio) {
+                        texto += "El enganche debe ser mayor o igual al " +
+                         desc_procentaje + " del valor final del lote, " + mitad_precio ;
                     }
+                    {% endif %}
                 }
-                if ($("#id_cantidad_pagos").val() == '0') {
+                if (($("#id_cantidad_pagos").val() == '0')) {
                     texto += "Teclee la cantidad de pagos, ";
                 }
+            } else if (!($("#id_modo_pago").val() == 1)) {
+                texto += "Error en el modo de pago, ";
             }
             if (texto == "") {
                 aviso("Aviso", "Guardado exitosamente");
@@ -248,6 +286,8 @@
         // Valor del campo combobox lote
         $("#lote_id").val(id_lote);
         $("#lote_id").val(id_lote).change();
+
+      
         if ($("#lote_id").val() == 0 || $("#lote_id").val() == null) {
             $("#id_precio_final").val(0);
             $("#id_precio_lote").val(0);
@@ -286,6 +326,11 @@
 
         // Cuando cambia valor enganche
         $("#id_enganche").on("keyup", function () {
+            $("#id_porcentaje_descuento").val(0);
+            calcula();
+        });
+        $("#id_enganche").on("change", function () {
+            $("#id_porcentaje_descuento").val(0);
             calcula();
         });
         // Cuando cambia valor cantidad de pagos
@@ -304,6 +349,7 @@
         }
         // Cuando cambia valor combobox modo de pago
         $("#id_modo_pago").on("change", function () {
+            $("#id_porcentaje_descuento").val(0);
             if (parseFloat($("#id_modo_pago").val()) == 1 || parseFloat($("#id_modo_pago").val()) == 3) {
                 $("#div_id_enganche").hide();
                 $("#div_id_cantidad_pagos").hide();

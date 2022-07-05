@@ -6,7 +6,7 @@
 {% bootstrap_javascript jquery='full' %}
 {% endblock %}
 {% block contenido %}
-{% if perms.empleado.add_empleado or perms.empleado.view_empleado or perms.empleado.change_empleado %}
+{% if perms.empleado.view_empleado %}
 <div style="position: absolute; margin-left: 80px;
      height: auto; width: auto; background-color: transparent;" class="mapa">
 <label class="encabezados">Empleados</label>

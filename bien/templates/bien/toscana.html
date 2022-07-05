@@ -11,16 +11,34 @@
     <div class="container">
         <label class="encabezados">{{ py.nombre }}</label><br>
         <div class="btn-group btn-group-justified">
+            {% if toscana_ver %}
             <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            {% endif %}
+            {% if toscana_ver_solicitud %}
             <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            {% endif %}
+            {% if toscana_autoriza_visualiza %}
             <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            {% endif %}
+            {% if toscana_compromiso %}
             <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            {% endif %}
+            {% if toscana_contratar %}
             <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            {% endif %}
+            {% if toscana_listado_registro_mensual %}
             <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Pagos</a>
+            {% endif %}
+            {% if toscana_consulta_archivo %}
             <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            {% endif %}
+            {% if toscana_creditos %}
             <a href="#" class="btn btn-primary" id="credito">Créditos</a>
+            {% endif %}
+            {% if toscana_contados %}
             <a href="#" class="btn btn-primary" id="contado">Contados</a>
-        </div>
+            {% endif %}
+            </div>
     </div>
     <hr>
     <div style="margin-left: 80px;

@@ -1,5 +1,6 @@
 import datetime
 from core.models import Titulo
+from empleado.models import Empleado
 from django.contrib.auth.models import  Group,User,Permission
 from django.contrib.auth.models import User
 
@@ -40,3 +41,7 @@ def trae_empresa(pk):
         'telefono':telefono,
         'correo':correo,})
     return empresa
+
+def administrador(id_user):
+    empleado = Empleado.objects.filter(usuario=id_user)
+    return empleado[0].asigna_solicitud

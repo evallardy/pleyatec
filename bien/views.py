@@ -68,7 +68,7 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
-
+        
         context["proyecto"] = Proyecto.objects.filter(id=1)
         context['menu'] = "lote"
 

@@ -41,9 +41,9 @@
                                  max-height: 80px;">
                             <div class="col-12">
                                 <nav id="nav">
-                                    <ul>
-                                        {% if user.is_authenticated %}
+                                    <ul>{% if valida_proyectos %}
                                         <li><a href="{% url 'index'%}"> Inicio </a> </li>
+                                        {% endif %}
                                         {% if perms.core.view_banco %}
                                         <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
                                         {% endif %}
@@ -54,6 +54,7 @@
                                         <li><a href="{% url 'clientes'%}"> Clientes </a> </li>
                                         {% endif %}
                                         <li><a href="#" style="color:gold">{{ user.username }}</a> </li>
+                                        {% if user.is_authenticated %}
                                         <li><a href="{% url 'logout'%}">Logout</a> </li>
                                         {% else %}
                                         <li><a href="{% url 'login'%}">Login</a> </li>
