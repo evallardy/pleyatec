@@ -91,11 +91,9 @@
                     <div class="form-group col-md-4 mb-0">
                         {{ form.estatus_cliente|as_crispy_field }}
                     </div>
-                    {% if administrador %}
-                    <div class="form-group col-md-4 mb-0">
+                    <div class="form-group col-md-4 mb-0" id="bloque_asesor">
                         {{ form.asesor|as_crispy_field }}
                     </div>
-                    {% endif %}
                 </div>
                 {% if perms.cliente.add_cliente or perms.cliente.change_cliente %}
                 <input type="submit" value="Guarda" class="btn btn-success">
@@ -126,7 +124,12 @@
         window.onsubmit = guarda;
         tipoCliente();
         {% if accion == "Alta" %}
-        $("#id_asesor").val("{{id_empleado}}")
+            $("#id_asesor").val("{{id_empleado}}")
+        {% endif %}
+        {% if administrador %}
+            $("#bloque_asesor").show()
+        {% else %}
+            $("#bloque_asesor").hide()
         {% endif %}
         // Cuando cambia tipo de cliente 0
         $("#id_tipo_cliente_0").on("change", function () {

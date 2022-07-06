@@ -101,6 +101,81 @@
                         {{ form.importe_x_pago|as_crispy_field }}
                     </div>
                 </div>
+                <label class="encabezados">Datos cliente</label>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.tipo_cliente|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0" id="gpo_razon">
+                        {{ form.razon|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.nombre|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.paterno|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.materno|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.rfc|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.curp|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.estado_civil|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row" id="gpo_conyuge">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.regimen|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.nombre_conyuge|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.paterno_conyuge|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.materno_conyuge|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.calle|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.colonia|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.codpos|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.municipio|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.estado|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.celular|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.correo|as_crispy_field }}
+                    </div>
+                </div>
+                <label class="encabezados">Documentos</label>
+                <hr>
                 <div class="form-row">
                     <div class="form-group col-md-3 mb-0">
                         {{ form.foto_elector_frente|as_crispy_field }}
@@ -147,7 +222,28 @@
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
+    function activa_moral() {
+        if (($("#id_tipo_cliente").val() == "False")) {
+            $("#gpo_razon").hide();
+            $("#id_razon").val("");
+        } else {
+            $("#gpo_razon").show();
+        }
+    }
+    function activa_conyuge() {
+        if (($("#id_estado_civil").val() == "2")) {
+            $("#gpo_conyuge").show();
+        } else {
+            $("#gpo_conyuge").hide();
+            $("#id_regimen").val("");
+            $("#id_nombre_conyuge").val("");
+            $("#id_paterno_conyuge").val("");
+            $("#id_materno_conyuge").val("");
+        }
+    }
     $(document).ready(function () {
+        activa_moral();
+        activa_conyuge();
         {% if sol %}
         {% for s in sol %}
         asesor_id = "{{ s.asesor.id }}";
@@ -164,7 +260,99 @@
         if ($("#id_asigna_descuento_0").is(':checked')) {
             $("#id_porcentaje_descuento").attr("readonly",true);
         }
+        $("#id_tipo_cliente").on("change", function () {
+            activa_moral();
+        });    
+        $("#id_estado_civil").on("change", function () {
+            activa_conyuge();
+        });    
+        $("#cliente_id").on("change", function () {
+            seleccion_cliente = $("#cliente_id").val();
+            {% for c in cliente_cmb %}
+            id_cliente_tb = "{{ c.id }}";
+            if (id_cliente_tb == seleccion_cliente) {
+                borra_campos_cliente();
+                $("#id_tipo_cliente").val("{{ c.tipo_cliente }}");
+                {% if c.razon %}
+                $("#id_razon").val("{{ c.razon }}");
+                {% endif %}
+                {% if c.nombre %}
+                $("#id_nombre").val("{{ c.nombre }}");
+                {% endif %}
+                {% if c.paterno %}
+                $("#id_paterno").val("{{ c.paterno }}");
+                {% endif %}
+                {% if c.materno %}
+                $("#id_materno").val("{{ c.materno }}");
+                {% endif %}
+                {% if c.nombre_conyuge %}
+                $("#id_nombre_conyuge").val("{{ c.nombre_conyuge }}");
+                {% endif %}
+                {% if c.paterno_conyuge %}
+                $("#id_paterno_conyuge").val("{{ c.paterno_conyuge }}");
+                {% endif %}
+                {% if c.materno_conyuge %}
+                $("#id_materno_conyuge").val("{{ c.materno_conyuge }}");
+                {% endif %}
+                {% if c.rfc %}
+                $("#id_rfc").val("{{ c.rfc }}");
+                {% endif %}
+                {% if c.curp %}
+                $("#id_curp").val("{{ c.curp }}");
+                {% endif %}
+                {% if c.estado_civil %}
+                $("#id_estado_civil").val("{{ c.estado_civil }}");
+                {% endif %}
+                {% if c.regimen %}
+                $("#id_regimen").val("{{ c.regimen }}");
+                {% endif %}
+                {% if c.calle %}
+                $("#id_calle").val("{{ c.calle }}");
+                {% endif %}
+                {% if c.colonia %}
+                $("#id_colonia").val("{{ c.colonia }}");
+                {% endif %}
+                {% if c.codpos %}
+                $("#id_codpos").val("{{ c.codpos }}");
+                {% endif %}
+                {% if c.municipio %}
+                $("#id_municipio").val("{{ c.municipio }}");
+                {% endif %}
+                {% if c.estado %}
+                $("#id_estado").val("{{ c.estado }}");
+                {% endif %}
+                {% if c.celular %}
+                $("#id_celular").val("{{ c.celular }}");
+                {% endif %}
+                {% if c.correo %}
+                $("#id_correo").val("{{ c.correo }}");
+                {% endif %}
+            }
+            {% endfor %}
+        });
     });
+    $("#gpo_razon").hide();
+    function borra_campos_cliente() {
+        $("#id_tipo_cliente").val("");
+        $("#id_razon").val("");
+        $("#id_nombre").val("");
+        $("#id_paterno").val("");
+        $("#id_materno").val("");
+        $("#id_nombre_conyuge").val("");
+        $("#id_paterno_conyuge").val("");
+        $("#id_materno_conyuge").val("");
+        $("#id_rfc").val("");
+        $("#id_curp").val("");
+        $("#id_estado_civil").val(0);
+        $("#id_regimen").val(0);
+        $("#id_calle").val("");
+        $("#id_colonia").val("");
+        $("#id_codpos").val("");
+        $("#id_municipio").val("");
+        $("#id_estado").val(0);
+        $("#id_celular").val("");
+        $("#id_correo").val("");
+    }
     $(function () {
         {% if sol %}
         {% for s in sol %}
