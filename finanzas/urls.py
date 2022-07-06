@@ -10,5 +10,7 @@ urlpatterns = [
     path('mod_pago/<pk>/<num_proyecto>/<sol>/', mod_pago.as_view(), name='mod_pago'), 
     path('estado_cuenta_PDF/<pk>/', estado_cuenta_PDF.as_view(), name='estado_cuenta_PDF'), 
     path('lista_pagos_PDF/<pk>/<num_proyecto>/', lista_pagos_PDF.as_view(), name='lista_pagos_PDF'), 
+    path('contrato_credito/<num_proyecto>/', contrato_credito.as_view(), name='contrato_credito'), 
+    path('contrato_contado/<num_proyecto>/', contrato_contado.as_view(), name='contrato_contado'), 
 ]
  

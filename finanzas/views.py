@@ -112,11 +112,7 @@ class tabla_amort_PDF(View):
 class pagar(ListView):
     model = Solicitud
     template_name = 'finanzas/pagar.html'
-#    lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=1)
-#    queryset = Solicitud.objects.all().filter(lote__in=Subquery(lotes.values('pk')))  \
-#        .filter(estatus_solicitud=10).order_by('num_contrato')
     paginate_by = settings.RENGLONES_X_PAGINA
-
     def get_queryset(self):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
@@ -549,3 +545,242 @@ class lista_pagos_PDF(View):
                 link_callback=self.link_callback,
             )
         return response
+
+class contrato_contado(ListView):
+    template_name = 'finanzas/contrato_contado.html'
+    paginate_by = settings.RENGLONES_X_PAGINA
+    def get_queryset(self):
+        asigna_solicitud = f_asigna_solicitud(self)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
+        if asigna_solicitud:
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
+                .filter(modo_pago__in=[1,3])        
+        else:
+            id_empleado = f_empleado(self)
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor_id=id_empleado) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
+                .filter(modo_pago__in=[1,3])
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(contrato_contado, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
+        asigna_solicitud = f_asigna_solicitud(self)
+        if asigna_solicitud:
+            totales = Solicitud.objects \
+                .filter(estatus_solicitud__in=[2,3,6,7,9], modo_pago__in=[1,3],lote__in=Subquery(lotes.values('pk'))) \
+                .aggregate(contratos=Count('id',distinct=True) \
+                    ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
+                    ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
+        else:
+            id_empleado = f_empleado(self)
+            totales = Solicitud.objects.filter(asesor_id=id_empleado) \
+                .filter(estatus_solicitud__in=[2,3,6,7,9], modo_pago__in=[1,3],lote__in=Subquery(lotes.values('pk'))) \
+                .aggregate(contratos=Count('id',distinct=True) \
+                    ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
+                    ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
+
+        if 'totales' not in context:
+            context['totales'] = totales
+        if 'menu' not in context:
+            context['menu'] = "contado"
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        context['num_proyecto'] = num_proyecto
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado de créditos
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+        return context
+
+class contrato_credito(ListView):
+    template_name = 'finanzas/contrato_credito.html'
+    paginate_by = settings.RENGLONES_X_PAGINA
+    def get_queryset(self):
+        asigna_solicitud = f_asigna_solicitud(self)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
+        if asigna_solicitud:
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+                .filter(modo_pago__in=[2,4])        
+        else:
+            id_empleado = f_empleado(self)
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor_id=id_empleado) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+                .filter(modo_pago__in=[2,4])        
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        asigna_solicitud = f_asigna_solicitud(self)
+        context = super(contrato_credito, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
+        if asigna_solicitud:
+            totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
+                .aggregate(contratos=Count('id',distinct=True) \
+                    ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
+                    ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
+        else:
+            id_empleado = f_empleado(self)
+            totales = Solicitud.objects.filter(asesor_id=id_empleado,lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
+                .aggregate(contratos=Count('id',distinct=True) \
+                    ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
+                    ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
+        if 'totales' not in context:
+            context['totales'] = totales
+        if 'menu' not in context:
+            context['menu'] = "credito"
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        context['num_proyecto'] = num_proyecto
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Listado de créditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+        return context

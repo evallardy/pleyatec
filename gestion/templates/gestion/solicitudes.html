@@ -29,18 +29,18 @@
             <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
             {% endif %}
             {% if menu_proy_listado_registro_mensual %}
-            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Pagos</a>
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
             {% endif %}
             {% if menu_proy_consulta_archivo %}
             <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
             {% endif %}
             {% if menu_proy_creditos %}
-            <a href="#" class="btn btn-primary" id="credito">Créditos</a>
+            <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
             {% endif %}
             {% if menu_proy_contados %}
-            <a href="#" class="btn btn-primary" id="contado">Contados</a>
+            <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
             {% endif %}
-            </div>
+        </div>
     </div>
     <div class="container col-12">
         <div class="container col-12">

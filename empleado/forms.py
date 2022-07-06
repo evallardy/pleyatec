@@ -61,7 +61,7 @@ class EmpleadoForm(forms.ModelForm):
             'subidPersdonal': 'Jefe',
             'tipo_empleado':'Tipo de empleado',
             'area_operativa':'Área operativa',
-            'asigna_solicitud':'Asigna solicitudes',
+            'asigna_solicitud':'Administrador',
             'estatus_personal': 'Estatus empleado',
             'foto': 'Fotogtafía empleado',
             'usuario': 'Usuario',

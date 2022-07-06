@@ -93,7 +93,7 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'rfc':'RFC',
             'curp':'CURP',
             'estado_civil':'Estado civil',
-            'regimen':'Régime',
+            'regimen':'Régimen',
             'calle':'Calle y número',
             'colonia':'Colonia',
             'codpos':'Cod.Pos.',
