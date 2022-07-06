@@ -205,16 +205,17 @@
                 $("#id_estatus_lote").val(1);
                 $("#id_estatus_solicitud").val(1);
                 $("#id_pago_adicional").val(0);
-                if (id_modo_pago == 1 || id_modo_pago == 3) {
+//                if (id_modo_pago == 1 || id_modo_pago == 3) {
+                if (id_modo_pago == 1) {
                     id_diferencia = id_precio_final - id_apartado;
-                    if (id_precio_final > id_apartado && id_apartado > 0) {
+                    if (id_precio_final > id_apartado && id_apartado >= 50000) {
                         $("#btsub").show();
                         $("#id_estatus_lote").val(2);
                         $("#id_estatus_solicitud").val(2);
                     }
                 } else {
                     id_diferencia = id_enganche - id_apartado;
-                    if (id_enganche > id_apartado && id_apartado > 0) {
+                    if (id_enganche > id_apartado && id_apartado >= 50000) {
                         $("#btsub").show();
                         $("#id_estatus_lote").val(2);
                         $("#id_estatus_solicitud").val(2);
