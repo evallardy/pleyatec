@@ -1,6 +1,8 @@
+from re import template
 from django.conf import settings
+from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -66,3 +68,26 @@ class mod_banco(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 def csrf_failure(request, reason=""):
     ctx = {'message': 'Hable a su administrador' }
     return render(request, 'core/mensaje.html', ctx)
+
+class cambiar_contrasena(LoginRequiredMixin, View):
+    template_name = 'core/cambiar_contrasena.html'
+    form_class = CambiaContrasenaForm
+    success_url = reverse_lazy("index")
+
+    def get(self, request, *args, **kwargs ):
+        return render(request, self.template_name, {'form': self.form_class})
+    
+    def post(self, request, *args, **kwargs ):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = User.objects.filter(id=request.user.id)
+            if user.exists():
+                user = user.first()
+                user.set_password(form.cleaned_data.get('password1'))
+                user.save()
+                return redirect(self.success_url)
+            return redirect(self.success_url)
+        else:
+            form = self.form_class(request.POST)
+            return render(request, self.template_name, {'form': form})
+
