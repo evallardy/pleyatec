@@ -84,7 +84,7 @@
                     <td style="text-align: center;">
                         {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
                         {% if app_proy_imprime_contrato %}
-                        <button class="btn btn-outline-dark" onclick="imprime('{{ e.id }}')">Imprime contrato</button>
+                        <button class="btn btn-outline-dark" onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')">Imprime contrato</button>
                         {% endif %}
                         {% endif %}
                     </td>
@@ -104,7 +104,8 @@
     {% block bljs %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
-    function imprime(dato) {
+    function imprime(dato, modoPago) {
+        alert(modoPago);
         $.confirm({
             theme: 'Material',
             title: "Precaución",
@@ -122,8 +123,10 @@
                     action: function () {
                         window.open("{{ reporte }}" + dato + "/{{num_proyecto}}/",
                             "Contrato", target = "_blank");
-                        window.open("{{ reporte1 }}" + dato + "/{{num_proyecto}}/",
-                            "Listado de pagos", target = "_blank");
+                        if (modoPago != "1") {
+                            window.open("{{ reporte1 }}" + dato + "/{{num_proyecto}}/",
+                                "Listado de pagos", target = "_blank");
+                        }
                     }
                 },
                 info1: {

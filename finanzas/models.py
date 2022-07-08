@@ -26,9 +26,8 @@ class Pago(models.Model, PermissionRequiredMixin):
     modified = models.DateTimeField("Actualizado", auto_now=True, null=True, blank=True)
     usuario_mod = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pg_user_mod',
         verbose_name="Usuario modificó", null=True, blank=True)
-    deposito = models.IntegerField("Depósito confirmado", choices=STATUS_DEPOSITO, default=0)
+    deposito = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=0)
     pagado_vencido = models.IntegerField("Pagado vencido", choices=STATUS_PAGADO_VENCIDO, default=0)
-    paso = models.IntegerField("prueba", choices=STATUS_PAGADO_VENCIDO, default=0)
     
 
     class Meta:
@@ -49,6 +48,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('nuvole_imp_estado_cuenta', 'Nuvole imprime estado de cuenta'),
                     ('nuvole_inluye_comprob_mensual', 'Nuvole Incluir comprobante de mensualidad'),
                     ('nuvole_confirma_deposito_mensual', 'Nuvole Confirma depósito mensualidad'),
+                    ('nuvole_confirma_deposito_pago', 'Nuvole Confirma depósito pago'),
             # Toscana
                     ('toscana_listado_registro_mensual', 'Toscana listado regsitro mensualidades'),
                     ('toscana_estado_cuenta', 'Toscana Mostrar estado de cuenta'),
@@ -56,6 +56,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('toscana_imp_estado_cuenta', 'Toscana imprime estado de cuenta'),
                     ('toscana_inluye_comprob_mensual', 'Toscana Incluir comprobante de mensualidad'),
                     ('toscana_confirma_deposito_mensual', 'Toscana Confirma depósito mensualidad'),
+                    ('toscana_confirma_deposito_pago', 'Toscana Confirma depósito pago'),
             # Local Punta Oriente
                     ('local_punta_o_listado_registro_mensual', 'Local Punta O listado regsitro mensualidades'),
                     ('local_punta_o_estado_cuenta', 'Local Punta O Mostrar estado de cuenta'),
@@ -63,6 +64,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('local_punta_o_imp_estado_cuenta', 'Local Punta O imprime estado de cuenta'),
                     ('local_punta_o_inluye_comprob_mensual', 'Local Punta O Incluir comprobante de mensualidad'),
                     ('local_punta_o_confirma_deposito_mensual', 'Local Punta O Confirma depósito mensualidad'),
+                    ('local_punta_o_confirma_deposito_pago', 'Local Punta O Confirma depósito pago'),
             # Consultorio Punta Oriente
                     ('consul_punta_o_listado_registro_mensual', 'Consultorio Punta O listado regsitro mensualidades'),
                     ('consul_punta_o_estado_cuenta', 'Consultorio Punta O Mostrar estado de cuenta'),
@@ -70,6 +72,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('consul_punta_o_imp_estado_cuenta', 'Consultorio Punta O imprime estado de cuenta'),
                     ('consul_punta_o_inluye_comprob_mensual', 'Consultorio Punta O Incluir comprobante de mensualidad'),
                     ('consul_punta_o_confirma_deposito_mensual', 'Consultorio Punta O Confirma depósito mensualidad'),
+                    ('consul_punta_o_confirma_deposito_pago', 'Consultorio Punta O Confirma depósito pago'),
             #  Torre Vento
                     ('torre_vento_listado_registro_mensual', 'Torre Vento listado regsitro mensualidades'),
                     ('torre_vento_estado_cuenta', 'Torre Vento Mostrar estado de cuenta'),
@@ -77,6 +80,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('torre_vento_imp_estado_cuenta', 'Torre Vento imprime estado de cuenta'),
                     ('torre_vento_inluye_comprob_mensual', 'Torre Vento Incluir comprobante de mensualidad'),
                     ('torre_vento_confirma_deposito_mensual', 'Torre Vento Confirma depósito mensualidad'),
+                    ('torre_vento_confirma_deposito_pago', 'Torre Vento Confirma depósito pago'),
             #  Fracción 34
                     ('fraccion34_listado_registro_mensual', 'Fracción 34 listado regsitro mensualidades'),
                     ('fraccion34_estado_cuenta', 'Fracción 34 Mostrar estado de cuenta'),
@@ -84,6 +88,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('fraccion34_imp_estado_cuenta', 'Fracción 34 imprime estado de cuenta'),
                     ('fraccion34_inluye_comprob_mensual', 'Fracción 34 Incluir comprobante de mensualidad'),
                     ('fraccion34_confirma_deposito_mensual', 'Fracción 34 Confirma depósito mensualidad'),
+                    ('fraccion34_confirma_deposito_pago', 'Fracción 34 Confirma depósito pago'),
             #  Vivienda Nuvole
                     ('vivienda_nuvole_listado_registro_mensual', 'Vivienda Nuvole listado regsitro mensualidades'),
                     ('vivienda_nuvole_estado_cuenta', 'Vivienda Nuvole Mostrar estado de cuenta'),
@@ -91,6 +96,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('vivienda_nuvole_imp_estado_cuenta', 'Vivienda Nuvole imprime estado de cuenta'),
                     ('vivienda_nuvole_inluye_comprob_mensual', 'Vivienda Nuvole Incluir comprobante de mensualidad'),
                     ('vivienda_nuvole_confirma_deposito_mensual', 'Vivienda Nuvole Confirma depósito mensualidad'),
+                    ('vivienda_nuvole_confirma_deposito_pago', 'Vivienda Nuvole Confirma depósito pago'),
             #  Pathe
                     ('pathe_listado_registro_mensual', 'Pathe listado regsitro mensualidades'),
                     ('pathe_estado_cuenta', 'Pathe Mostrar estado de cuenta'),
@@ -98,6 +104,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('pathe_imp_estado_cuenta', 'Pathe imprime estado de cuenta'),
                     ('pathe_inluye_comprob_mensual', 'Pathe Incluir comprobante de mensualidad'),
                     ('pathe_confirma_deposito_mensual', 'Pathe Confirma depósito mensualidad'),
+                    ('pathe_confirma_deposito_pago', 'Pathe Confirma depósito pago'),
             #  Condominio Múltiple
                     ('condom_multiple_listado_registro_mensual', 'Condominio Múltiple listado regsitro mensualidades'),
                     ('condom_multiple_estado_cuenta', 'Condominio Múltiple Mostrar estado de cuenta'),
@@ -105,8 +112,8 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('condom_multiple_imp_estado_cuenta', 'Condominio Múltiple imprime estado de cuenta'),
                     ('condom_multiple_inluye_comprob_mensual', 'Condominio Múltiple Incluir comprobante de mensualidad'),
                     ('condom_multiple_confirma_deposito_mensual', 'Condominio Múltiple Confirma depósito mensualidad'),
+                    ('condom_multiple_confirma_deposito_pago', 'Condominio Múltiple Confirma depósito pago'),
                     )
-
 
     def __str__(self):   
         return '%s, %s, %s, %s, %s, fecha_voucher:%s' % (self.id, self.convenio, self.numero_pago, self.fecha_pago, self.fecha_pago, self.fecha_voucher)

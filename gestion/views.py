@@ -210,7 +210,10 @@ class nva_solicitud(CreateView):
         if form.is_valid():
             solicitud1 = form.save()
             return HttpResponseRedirect(self.get_success_url())
-        return self.render_to_response(self.get_context_data(form=form))
+        else:
+            form = self.form_class(request.POST, request.FILES)
+            return render(request, self.template_name, {'form': form})
+#        return self.render_to_response(self.get_context_data(form=form))
     def get_success_url(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
@@ -483,7 +486,7 @@ class compromisos(ListView):
         context['num_proyecto'] = num_proyecto
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
-# Listado cmpromisos
+# Listado compromisos
         des_permiso = '_compromiso'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
@@ -564,7 +567,7 @@ class compromisos(ListView):
 
 class pagos(UpdateView): 
     model = Solicitud
-    form_class = Nuvole_SolicitudForm
+    form_class = Nuvole_CompromisoForm
     template_name = 'gestion/pagos.html'
     def get_context_data(self, **kwargs):
         context = super(pagos, self).get_context_data(**kwargs)
@@ -578,11 +581,25 @@ class pagos(UpdateView):
         context['proyecto_tb'] = proyecto_tb
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
+# Realizar listado pagos compromiso
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 # Realizar pago compromiso
         des_permiso = '_pago_compromiso'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+# Confirma depósito pago
+        des_permiso = '_confirma_deposito_pago'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 # Impresion recibos pagos
@@ -600,11 +617,30 @@ class pagos(UpdateView):
     def post(self, request, *args, **kwargs):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         paga = request.POST.get( 'paga')
+        if not paga:
+            paga = 1
         pk = self.kwargs.get('pk',0)
         apartado = float(request.POST.get('apartado'))
         pago_adicional = float(request.POST.get('pago_adicional'))
+        id_lote = request.POST.get('lote')
+        if pago_adicional > 0:
+            paga = 3
+        else:
+            if apartado > 0:
+                paga = 2
+        confirmacion_apartado = request.POST.get('confirmacion_apartado')
+        if not confirmacion_apartado:
+            if apartado > 0:
+                confirmacion_apartado = 2
+            else:
+                confirmacion_apartado = 1
+        confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
         lote_id = request.POST.get('lote')
-        solicitud = Solicitud.objects.filter(id=pk).update(estatus_solicitud=paga, apartado=apartado, pago_adicional=pago_adicional)
+        solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=id_lote) \
+            .update(estatus_solicitud=5)
+        solicitud = Solicitud.objects.filter(id=pk). \
+            update(estatus_solicitud=paga, apartado=apartado, pago_adicional=pago_adicional, \
+                confirmacion_pago_adicional=confirmacion_pago_adicional, confirmacion_apartado=confirmacion_apartado)
         lote = Lote.objects.filter(id=lote_id).update(estatus_lote=paga)
         return HttpResponseRedirect(reverse(('compromisos'), kwargs={'num_proyecto':num_proyecto} ,))
 
@@ -815,17 +851,21 @@ class contratos(ListView):
 
     def get_queryset(self):
         asigna_solicitud = f_asigna_solicitud(self)
-        lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=1)
+        proyecto = self.kwargs.get('num_proyecto',0)
+        lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=proyecto)
         if asigna_solicitud:
-            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+            queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(aprobacion_gerente=True, aprobacion_director=True) \
-                .filter(estatus_solicitud__in=[3,4,6,9,10]) 
+                .filter(estatus_solicitud__in=[3,4,6,9,10]) \
+                .filter(lote__in=Subquery(lotes.values('pk'))) \
+                .exclude(apartado__gt=0,confirmacion_apartado=1)
         else:
             id_empleado = f_empleado(self)
-            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+            queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(asesor_id=id_empleado) \
                 .filter(aprobacion_gerente=True, aprobacion_director=True) \
-                .filter(estatus_solicitud__in=[3,4,6,9,10])  
+                .filter(estatus_solicitud__in=[3,4,6,9,10]) \
+                .filter(lote__in=Subquery(lotes.values('pk')))
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -1039,11 +1079,9 @@ def archiva(request, id, estado, num_proyecto):
     if acceso:
         if estado == "6":
             archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 7)
-            print(archiva_solicitud)
         else:
             if estado == "99":
                 archiva_solicitud = Solicitud.objects.filter(id=id).update(estatus_solicitud = 8)
-                print(archiva_solicitud)
         
     return reverse('contratos', kwargs={'num_proyecto': num_proyecto})
 

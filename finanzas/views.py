@@ -521,12 +521,16 @@ class lista_pagos_PDF(View):
             context['pk'] = pk
             context['titulo'] = titulo
 
-            por_pagar = total_por_pagar[0].cantidad
-            importe_por_pagar = total_por_pagar[0].suma
-            pagado = total_pagado[0].cantidad
-            importe_pagado = total_pagado[0].suma
-            pagos_saldo = total_por_pagar[0].cantidad - total_pagado[0].cantidad
-            importe_saldo = total_por_pagar[0].suma - total_pagado[0].suma
+            por_pagar = total_por_pagar[0]['cantidad']
+            importe_por_pagar = total_por_pagar[0]['suma']
+            if total_pagado:
+                pagado = total_pagado[0]['cantidad']
+                importe_pagado = total_pagado[0]['suma']
+            else:
+                pagado = 0
+                importe_pagado = 0
+            pagos_saldo = por_pagar - pagado
+            importe_saldo = importe_por_pagar - importe_pagado
 
             context['por_pagar'] = por_pagar
             context['importe_por_pagar'] = importe_por_pagar
