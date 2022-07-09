@@ -47,7 +47,7 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -136,7 +136,7 @@ class toscana(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -200,7 +200,7 @@ class torrevento(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -267,7 +267,7 @@ class condominioM(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -334,7 +334,7 @@ class fraccion34(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -401,7 +401,7 @@ class viviendaNuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -468,7 +468,7 @@ class pathe(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -535,7 +535,7 @@ class TMpuntaorienta(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -602,7 +602,7 @@ class plazapuntaoriente(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #  Menu opcion pagos
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
 #  Menu opcion archivo
@@ -700,7 +700,7 @@ class bienes(ListView):
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
         variable_html = "menu_proy" + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion archivo

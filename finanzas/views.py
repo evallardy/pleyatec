@@ -189,7 +189,7 @@ class pagar(ListView):
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
         variable_html = "menu_proy" + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion archivo
@@ -644,7 +644,7 @@ class contrato_contado(ListView):
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
         variable_html = "menu_proy" + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion archivo
@@ -763,7 +763,7 @@ class contrato_credito(ListView):
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
         variable_html = "menu_proy" + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion archivo
