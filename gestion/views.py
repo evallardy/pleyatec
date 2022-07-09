@@ -1090,7 +1090,7 @@ def archiva(request, id, estado, num_proyecto):
         
     return reverse('contratos', kwargs={'num_proyecto': num_proyecto})
 
-class contratoPDF(View):
+class contratoPDF(CreateView):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -1295,8 +1295,12 @@ class contratoPDF(View):
             )
             if 'menu' not in context:
                 context['menu'] = "contrata"
+
         return response
  #       except:
  #           pass
  #       return HttpResponseRedirect(reverse_lazy('recibosPDF'))
+    def get_success_url(self):
+        num_proyecto = self.kwargs['num_proyecto']
+        return reverse_lazy('contratos', kwargs={'num_proyecto': num_proyecto})
 

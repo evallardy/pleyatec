@@ -56,6 +56,7 @@
                     <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
                     <th class="col-md-1" style="text-align: center;" scope="col"></th>
                     <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                    <th class="col-md-1" style="text-align: center;" scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,9 +85,19 @@
                     <td style="text-align: center;">
                         {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
                         {% if app_proy_imprime_contrato %}
-                        <button class="btn btn-outline-dark" onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')">Imprime contrato</button>
+                        <button class="btn btn-outline-dark" onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')">Imprime</button>
                         {% endif %}
                         {% endif %}
+                    </td>
+                    <td style="text-align: center;">
+                        {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10%}
+                        {% if app_proy_imprime_contrato %}
+                        {% if not e.num_contrato == 0 and not e.modo_pago == 1 %}
+                        <button class="btn btn-outline-dark" onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')">Calendario</button>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}
@@ -120,12 +131,40 @@
                     text: 'Si',
                     btnClass: 'btn-green',
                     action: function () {
-//                        window.open("{{ reporte }}" + dato + "/{{num_proyecto}}/",
-//                            "Contrato", target = "_blank");
-//                        if (modoPago == "2" || modoPago == "4") {
-                            window.open("{{ reporte1 }}" + dato + "/{{num_proyecto}}/",
-                                "Listado de pagos", target = "_blank");
-//                        }
+                        window.open("{{ reporte }}" + dato + "/{{num_proyecto}}/",
+                            "Contrato", target = "_blank");
+                    location.reload();
+                    }
+                },
+                info1: {
+                    text: 'No',
+                    btnClass: 'btn-red',
+                    keys: ['esc'],
+                    action: function () {
+                        $.alert("Cancelación de impresión");
+                    }
+                },
+            }
+        });
+    }
+    function imprimeCal(dato, modoPago) {
+        $.confirm({
+            theme: 'Material',
+            title: "Precaución",
+            icon: 'fa fa-info',
+            content: "Esta seguro de imprir el calendario de pagos",
+            columnClass: 'medium',
+            typeAnimated: true,
+            cancelButtonClass: 'btn-primary',
+            draggable: true,
+            dragWindowBorder: false,
+            buttons: {
+                info: {
+                    text: 'Si',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        window.open("{{ reporte1 }}" + dato + "/{{num_proyecto}}/",
+                            "Listado de pagos", target = "_blank");
                     }
                 },
                 info1: {
