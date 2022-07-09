@@ -34,20 +34,21 @@ function confirmacion(titulo, contenido, url_ok, url_nok, texto_ok, texto_nok) {
 }
 function aviso(titulo, contenido) {
     $.confirm({
-        theme: 'Material',
+//        theme: 'Material',
         title: titulo,
         icon: 'fa fa-info',
         content: contenido,
-        columnClass: 'small',
-        typeAnimated: true,
-        cancelButtonClass: 'btn-primary',
-        draggable: true,
-        dragWindowBorder: false,
+//        columnClass: 'small',
+        autoClose: false,
+//        typeAnimated: true,
+//        cancelButtonClass: 'btn-primary',
+//        draggable: true,
+//        dragWindowBorder: false,
         buttons: {
-            info: {
+            buttonName: {
                 text: 'OK',
-                btnClass: 'btn-green',
-                keys:['esc','enter']
+                btnClass: 'btn-blue',
+//                keys:['esc','enter'],
             }
         }
     });

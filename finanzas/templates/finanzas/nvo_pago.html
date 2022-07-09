@@ -99,7 +99,7 @@
             diff = pago - debe_pagar;
             d = Math.round(diff / (1000 * 60 * 60 * 24));
             if (d > 6) {
-                alert("Se pagó vencido");
+                aviso("Aviso","Se pagó vencido");
                 $("#id_pagado_vencido").val(2);
             } else {
                 $("#id_pagado_vencido").val(1);
@@ -126,10 +126,10 @@
                 op_guardar = false;
             } 
             if (op_guardar == true) {
-                alert("Se guardó correctamente");
+                aviso("Aviso","Se guardó correctamente");
                 return true;
             } else {
-                alert(texto);
+                aviso("Error",texto);
                 return false;
             }
         }
