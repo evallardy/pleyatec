@@ -26,6 +26,7 @@
                     <th style="text-align: center;">Pago en</th>
                     <th style="text-align: center;">Comprobante</th>
                     <th style="text-align: center;">Estatus</th>
+                    <th style="text-align: center;">Depósito</th>
                     <th style="text-align: center;"></th>
                 </tr>
             </thead>
@@ -38,6 +39,7 @@
                     <td style="text-align: left;">{{ p.get_forma_pago_display }}</td>
                     <td style="text-align: left;">{{ p.numero_comprobante }}</td>
                     <td style="text-align: left;">{{ p.get_estatus_pago_display }}</td>
+                    <td style="text-align: left;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
                         {% if app_proy_cap_dep_mensual %}
                         <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Actuliza</a>

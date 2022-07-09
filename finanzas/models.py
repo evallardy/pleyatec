@@ -26,7 +26,7 @@ class Pago(models.Model, PermissionRequiredMixin):
     modified = models.DateTimeField("Actualizado", auto_now=True, null=True, blank=True)
     usuario_mod = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pg_user_mod',
         verbose_name="Usuario modificó", null=True, blank=True)
-    deposito = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=0)
+    deposito = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=1)
     pagado_vencido = models.IntegerField("Pagado vencido", choices=STATUS_PAGADO_VENCIDO, default=0)
     
 
