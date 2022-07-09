@@ -67,10 +67,10 @@ class Cliente(models.Model, PermissionRequiredMixin):
             paterno = ""
         else:
             paterno = self.paterno
-        if self.tipo_cliente == 0:
-            razon = self.nombre + " " + paterno + " " + materno
-        else:
-            razon = self.razon
+#        if self.tipo_cliente == 0:
+        razon = self.nombre + " " + paterno + " " + materno
+#        else:
+#            razon = self.razon
         return '%s' % (razon) 
     nombre_completo = property(_get_nombre_completo)
 

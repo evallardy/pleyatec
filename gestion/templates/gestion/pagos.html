@@ -10,7 +10,7 @@
 {% block contenido %}
 {% if app_proy_compromiso %}
 {% for py in proyecto_tb %}
-<div class="container col-12">
+<div class="container col-12" style="width: 650px;">
     <h1 class="mt-2">Compromiso</h1>
     <hr class="mt-0 mb-4">
     <a class="btn btn-outline-dark" href="{% url 'compromisos' py.id %}">Regresar</a>
@@ -109,32 +109,16 @@
                     enctype="multipart/form-data" onkeypress="return anular(event)">
                     {% csrf_token %}
                     <div class="form-row">
-                        <div class="form-group col-3" id="gpo_apartado"
-                        {% if not app_proy_pago_compromiso %}
-                        hidden
-                        {% endif %}
-                        >
+                        <div class="form-group col-3" id="gpo_apartado">
                             {{ form.apartado|as_crispy_field }}
                         </div>
-                        <div class="form-group col-3" id="gpo_confirmacion_apartado"
-                        {% if not app_proy_confirma_deposito_pago %}
-                        hidden
-                        {% endif %}
-                        >
+                        <div class="form-group col-3" id="gpo_confirmacion_apartado">
                             {{ form.confirmacion_apartado|as_crispy_field }}
                         </div>
-                        <div class="form-group col-3"
-                        {% if not app_proy_pago_compromiso %}
-                        hidden
-                        {% endif %}
-                        >
+                        <div class="form-group col-3">
                             {{ form.pago_adicional|as_crispy_field }}
                         </div>
-                        <div class="form-group col-3" id="gpo_confirmacion_pago_adicional" 
-                        {% if not app_proy_confirma_deposito_pago %}
-                        hidden
-                        {% endif %}
-                        >
+                        <div class="form-group col-3" id="gpo_confirmacion_pago_adicional">
                             {{ form.confirmacion_pago_adicional|as_crispy_field }}
                         </div>
                     </div>
@@ -176,6 +160,19 @@
                 "Recibo", target = "_blank");
         }
         $(document).ready(function () {
+            {% if not app_proy_pago_compromiso %}
+            $("label[for='id_apartado']").hide();
+            $("label[for='id_pago_adicional']").hide();
+            $("#id_apartado").hide();
+            $("#id_pago_adicional").hide();
+            {% endif %}
+            {% if not app_proy_confirma_deposito_pago %}
+            $("label[for='id_confirmacion_apartado']").hide();
+            $("label[for='id_confirmacion_pago_adicional']").hide();
+            $("#id_confirmacion_apartado").hide();
+            $("#id_confirmacion_pago_adicional").hide();
+            {% endif %}
+
 //          Asignacion de valores            
             id_modo_pago = parseInt($("#id_modo_pago").val());
 //            if (id_modo_pago == "") { id_modo_pago = 0; }

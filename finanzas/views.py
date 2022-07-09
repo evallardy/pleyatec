@@ -389,8 +389,7 @@ class mod_pago(UpdateView):
         pk = self.kwargs.get('sol',0)
         return reverse_lazy('estado_cuenta', kwargs={'pk':pk, 'num_proyecto': num_proyecto})
 
-class estado_cuenta_PDF(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 'gestion.imprime_amortizacion'
+class estado_cuenta_PDF(View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
