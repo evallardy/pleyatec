@@ -87,9 +87,6 @@
             <tr class="renglon-normal1">
                 <td style="text-align: center; font-size: 30px;">RECIBO DE PAGO</td>
             </tr>
-            <tr class="renglon-normal">
-                <td class="espacio"></td>
-            </tr>
         </table>
         <table>
             <tr class="renglon-normal">
@@ -106,10 +103,6 @@
                 <td style="text-align: center;"></td>
                 <td></td>
             </tr>
-            <tr class="renglon-normal">
-                <td style="text-align: center;"></td>
-                <td></td>
-            </tr>
         </table>
         <table>
             <tr class="renglon-normal">
@@ -118,18 +111,28 @@
             </tr>
             <tr class="renglon-normal">
                 <td class="texto" style="vertical-align: top;">La cantidad de:</td>
-                <td style="height: 40px; vertical-align: top;">{{ comp.importe }} ({{ comp.importe_letras }} 00/100 pesos M.N.)</td>
+                <td style="height: 45px; vertical-align: top; width: 600px;">
+                    {{ comp.importe }} ({{ comp.importe_letras }} 00/100 pesos M.N.)
+                </td>
             </tr>
-            <tr class="renglon-normal">
+            <tr class="renglon-normal" style="font-size: 14px;">
                 <td class="texto">Por concepto de:</td>
                 {% if comp.pago == 'total' %}
                 {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
-                <td>Pago total del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}</td>
+                <td>
+                    Pago total del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                </td>
                 {% else %}
-                <td>Pago total del enganche del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}</td>
+                <td style="width: 600px; height: 45px;">
+                    <textarea rows="2" >
+                    Pago total del enganche del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                    </textarea>
+                </td>
                 {% endif %}
                 {% else %}
-                <td>Apartado del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}</td>
+                <td>
+                    Apartado del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                </td>
                 {% endif %}
             </tr>
             <tr class="renglon-normal">

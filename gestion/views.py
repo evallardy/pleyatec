@@ -635,6 +635,11 @@ class pagos(UpdateView):
             else:
                 confirmacion_apartado = 1
         confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
+        if not confirmacion_pago_adicional:
+            if pago_adicional > 0:
+                confirmacion_pago_adicional = 2
+            else:
+                confirmacion_pago_adicional = 1
         lote_id = request.POST.get('lote')
         solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=id_lote) \
             .update(estatus_solicitud=5)

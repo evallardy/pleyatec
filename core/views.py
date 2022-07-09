@@ -81,7 +81,7 @@ class cambiar_contrasena(LoginRequiredMixin, View):
         form = self.form_class(request.POST)
         if form.is_valid():
             user = User.objects.filter(id=request.user.id)
-            if user.exists():
+            if user.exists(): 
                 user = user.first()
                 user.set_password(form.cleaned_data.get('password1'))
                 user.save()
