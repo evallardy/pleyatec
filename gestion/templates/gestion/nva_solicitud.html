@@ -601,11 +601,11 @@
                 }
             } else {
 //                $("#id_porcentaje_descuento").val(0);
-                if ((parseInt(modo_pago) == 2 || parseInt(modo_pago) == 4) && (parseFloat(precio_lote) > 0)) {
+                if (((parseInt(modo_pago) == 2 || parseInt(modo_pago) == 4)) && (parseFloat(precio_lote) > 0)) {
                     precio_30 = Math.ceil(parseFloat((precio_lote * 0.30))).toFixed(2);
                     precio_50 = Math.ceil(parseFloat((precio_lote * 0.50))).toFixed(2);
                     if (parseFloat(enganche) >= parseFloat(precio_50)) {
-                        if (parseInt(modo_pago) == 2) {
+                        if ((parseInt(modo_pago) == 2) || (parseInt(modo_pago) == 4)) {
                             precio_final = Math.ceil(parseFloat((precio_lote * 0.95))).toFixed(2);
                             $("#id_porcentaje_descuento").val(5);
                         } else {

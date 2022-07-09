@@ -622,6 +622,7 @@ class pagos(UpdateView):
         pk = self.kwargs.get('pk',0)
         apartado = float(request.POST.get('apartado'))
         pago_adicional = float(request.POST.get('pago_adicional'))
+        precio_final = float(request.POST.get('precio_final'))
         id_lote = request.POST.get('lote')
         if pago_adicional > 0:
             paga = 3
@@ -647,6 +648,33 @@ class pagos(UpdateView):
             update(estatus_solicitud=paga, apartado=apartado, pago_adicional=pago_adicional, \
                 confirmacion_pago_adicional=confirmacion_pago_adicional, confirmacion_apartado=confirmacion_apartado)
         lote = Lote.objects.filter(id=lote_id).update(estatus_lote=paga)
+
+#   Asignar numero de contrato a la solicitud        
+        autorizado = 0
+        solis = Solicitud.objects.filter(id=pk)
+        num_contrato_sol = solis[0].num_contrato
+        if confirmacion_pago_adicional == '2':
+            if float(apartado) > 0 and confirmacion_apartado == 2:
+                autorizado = 1
+            elif apartado == 0:
+                autorizado = 1
+        if autorizado == 1 and num_contrato_sol == 0:
+            num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
+            if num_contrato == None:
+                num_contrato = 1
+            else:
+                num_contrato += 1
+            dato = str(solis[0].lote) + \
+                " del proyecto: " + str(solis[0].lote.proyecto)
+            observacion = "Contrato del " + dato
+            folio = Folios(
+                tipo = 2, 
+                numero = num_contrato,
+                observacion = observacion,
+                importe = precio_final)
+            folio.save()
+            sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
+                .update(num_contrato=num_contrato)
         return HttpResponseRedirect(reverse(('compromisos'), kwargs={'num_proyecto':num_proyecto} ,))
 
 class archivo(ListView):
@@ -1206,29 +1234,30 @@ class contratoPDF(CreateView):
 
             fecha_contrato_anio_s = str(fecha_contrato.year)
 
-            if num_contrato != 0:
-                num_contrato = num_contrato
-            else: 
-                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
-                if num_contrato == None:
-                    num_contrato = 1
-                else:
-                    num_contrato += 1
-                if modo_pago == 1 or modo_pago == 3:
-                    esta_sol = 6
-                else:
-                    esta_sol = 10
-                dato = str(solicitud.lote) + \
-                    " del proyecto: " + str(solicitud.lote.proyecto)
-                observacion = "Contrato del " + dato
-                folio = Folios(
-                    tipo = 2, 
-                    numero = num_contrato,
-                    observacion = observacion,
-                    importe = precio_final)
-                folio.save()
-                sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
-                    .update(num_contrato=num_contrato, estatus_solicitud=esta_sol)
+#            if num_contrato != 0:
+            num_contrato = num_contrato
+#            else: 
+#  Asiganr numero de contrato a la solcititud                
+#                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
+#                if num_contrato == None:
+#                    num_contrato = 1
+#                else:
+#                    num_contrato += 1
+#                if modo_pago == 1 or modo_pago == 3:
+#                    esta_sol = 6
+#                else:
+#                    esta_sol = 10
+#                dato = str(solicitud.lote) + \
+#                    " del proyecto: " + str(solicitud.lote.proyecto)
+#                observacion = "Contrato del " + dato
+#                folio = Folios(
+#                    tipo = 2, 
+#                    numero = num_contrato,
+#                    observacion = observacion,
+#                    importe = precio_final)
+#                folio.save()
+#                sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
+#                    .update(num_contrato=num_contrato, estatus_solicitud=esta_sol)
             importe_letras = numero_a_letras(apartado)
             importe_letras_t = numero_a_letras(pago_adicional)
             metro_letras = numero_a_letras(total)
