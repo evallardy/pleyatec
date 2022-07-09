@@ -490,7 +490,7 @@ class lista_pagos_PDF(View):
             )
         return path
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs): 
         num_proyecto = self.kwargs['num_proyecto']
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
     #  Proyecto

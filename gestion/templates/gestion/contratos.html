@@ -122,10 +122,11 @@
                     action: function () {
                         window.open("{{ reporte }}" + dato + "/{{num_proyecto}}/",
                             "Contrato", target = "_blank");
-//                        if (modoPago == "2" || modoPago == "4") {
+                        alter("presiona OK para continuar");
+                        if (modoPago == "2" || modoPago == "4") {
                             window.open("{{ reporte1 }}" + dato + "/{{num_proyecto}}/",
                                 "Listado de pagos", target = "_blank");
-  //                      }
+                        }
                     }
                 },
                 info1: {
