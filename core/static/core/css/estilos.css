@@ -275,3 +275,15 @@ input[type="checkbox"]:checked + label:after {
     position: absolute;
     cursor: pointer;
 }
+.loteApartado {
+    fill: yellow;
+    stroke: darkgrey;
+    position: absolute;
+    cursor: pointer;
+}
+.loteReservado {
+    fill: blue;
+    stroke: darkgrey;
+    position: absolute;
+    cursor: pointer;
+}

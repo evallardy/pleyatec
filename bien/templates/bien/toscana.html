@@ -67,9 +67,15 @@
                     <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
                         {% if e.estatus_lote == 1 %}
                             loteDisponible
-                        {% else %}
+                        {% elif e.estatus_lote == 2 %}
+                            loteApartado
+                        {% elif e.estatus_lote == 3 %}
                             loteVendido
-                        {% endif %}
+                        {% elif e.estatus_lote == 4 %}
+                            loteReservado
+                        {% else %}
+                
+                        {% endif %} 
                         ">
                         <title>{{e.lote}} - {{e.total}} m² {% if e.terraza > 0 %} - terraza {{ e.terraza }} m² {% endif %}
                         </title>
