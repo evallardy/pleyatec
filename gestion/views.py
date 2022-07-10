@@ -12,6 +12,9 @@ from xhtml2pdf import pisa
 import numpy as np
 from django.contrib.auth.decorators import login_required
 from finanzas.models import Pago
+from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.views.generic.edit import ModelFormMixin
 
 from .models import *
 from .funciones import *
@@ -656,25 +659,32 @@ class pagos(UpdateView):
         if confirmacion_pago_adicional == '2':
             if float(apartado) > 0 and confirmacion_apartado == 2:
                 autorizado = 1
-            elif apartado == 0:
+            elif float(apartado) == 0:
                 autorizado = 1
         if autorizado == 1 and num_contrato_sol == 0:
             num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
+            print(101)
             if num_contrato == None:
                 num_contrato = 1
             else:
                 num_contrato += 1
+            print(102)
             dato = str(solis[0].lote) + \
                 " del proyecto: " + str(solis[0].lote.proyecto)
+            print(103)
             observacion = "Contrato del " + dato
+            print(104)
             folio = Folios(
                 tipo = 2, 
                 numero = num_contrato,
                 observacion = observacion,
                 importe = precio_final)
+            print(105)
             folio.save()
+            print(106)
             sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
                 .update(num_contrato=num_contrato)
+            print(107)
         return HttpResponseRedirect(reverse(('compromisos'), kwargs={'num_proyecto':num_proyecto} ,))
 
 class archivo(ListView):
@@ -881,7 +891,6 @@ class contratos(ListView):
     context_object_name = 'obj'
     template_name = 'gestion/contratos.html'
     paginate_by = settings.RENGLONES_X_PAGINA
-
     def get_queryset(self):
         asigna_solicitud = f_asigna_solicitud(self)
         proyecto = self.kwargs.get('num_proyecto',0)
@@ -900,7 +909,6 @@ class contratos(ListView):
                 .filter(estatus_solicitud__in=[3,4,6,9,10]) \
                 .filter(lote__in=Subquery(lotes.values('pk')))
         return queryset
-
     def get_context_data(self, **kwargs):
         context = super(contratos, self).get_context_data(**kwargs)
         context['menu'] = "contrata"
@@ -1130,6 +1138,14 @@ class contratoPDF(CreateView):
         mUrl = settings.MEDIA_URL  # Typically /static/media/
         mRoot = settings.MEDIA_ROOT  # Typically /home/userX/project_static/media/
 
+#        result = finders.find(uri)
+#        if result:
+#                if not isinstance(result, (list, tuple)):
+#                        result = [result]
+#                result = list(os.path.realpath(path) for path in result)
+#                path=result[0]
+#        else:
+
         # convert URIs to absolute system paths
         if uri.startswith(mUrl):
             path = os.path.join(mRoot, uri.replace(mUrl, ""))
@@ -1158,7 +1174,9 @@ class contratoPDF(CreateView):
         acceso = self.request.user.has_perms([permiso_str])
         if acceso:
             solicitud = Solicitud.objects.all().filter(id=self.kwargs['pk']).first()
-            template = get_template('gestion/contratoPDF.html')
+            template_contrato = 'gestion/' + nom_proy + '_contratoPDF.html'
+#            template = get_template('gestion/contratoPDF.html')
+            template = get_template(template_contrato)
             field_object1 = Solicitud._meta.get_field('num_contrato')
             num_contrato = field_object1.value_from_object(solicitud)
 
@@ -1329,7 +1347,6 @@ class contratoPDF(CreateView):
  #       except:
  #           pass
  #       return HttpResponseRedirect(reverse_lazy('recibosPDF'))
-    def get_success_url(self):
-        num_proyecto = self.kwargs['num_proyecto']
-        return reverse_lazy('contratos', kwargs={'num_proyecto': num_proyecto})
-
+#    def get_queryset(self):
+#        queryset = Solicitud.objects.all()
+#        return queryset

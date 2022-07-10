@@ -280,12 +280,89 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     def __str__(self):   
         return '%s, %s, %s' % (self.id, self.lote, self.cliente)
 
+    def _get_nombre_completo(self):
+        if not self.nombre:
+            var_nombre = " "
+        else:
+            var_nombre = self.nombre
+        if not self.paterno:
+            var_paterno = " "
+        else:
+            var_paterno = self.paterno
+        if not self.materno:
+            var_materno = " "
+        else:
+            var_materno = self.materno
+        nombre_completo = var_nombre + " " + var_paterno + " " + var_materno
+        return nombre_completo
+    nombre_completo = property(_get_nombre_completo)
+
+    def _get_descripcion_cliente(self):
+        if self.tipo_cliente == 0:
+            if not self.nombre:
+                var_nombre = " "
+            else:
+                var_nombre = self.nombre
+            if not self.paterno:
+                var_paterno = " "
+            else:
+                var_paterno = self.paterno
+            if not self.materno:
+                var_materno = " "
+            else:
+                var_materno = self.materno
+            nombre_completo = var_nombre + " " + var_paterno + " " + var_materno
+        else:
+            nombre_completo = self.razon
+        return nombre_completo
+    descripcion_cliente = property(_get_descripcion_cliente)
+
+    def _get_cliente_inicio_contrato(self):
+        if not self.nombre:
+            var_nombre = " "
+        else:
+            var_nombre = self.nombre
+        if not self.paterno:
+            var_paterno = " "
+        else:
+            var_paterno = self.paterno
+        if not self.materno:
+            var_materno = " "
+        else:
+            var_materno = self.materno
+        nombre_completo = var_nombre + " " + var_paterno + " " + var_materno
+        representante = ""
+        if self.tipo_cliente == 1:
+            representante = self.razon + " a través de su apoderado legal " + nombre_completo
+        else:
+            representante = nombre_completo
+        return representante
+    cliente_inicio_contrato = property(_get_cliente_inicio_contrato)
+
+    def _get_representante(self):
+        representante = ""
+        if self.tipo_cliente == 1:
+            representante = "Apoderado legal"
+        return representante
+    representante = property(_get_representante)
+
     def _get_titulo_bien(self):
         if self.lote.proyecto.id == 1:
             return 'Contrato %s   %s' % (self.num_contrato, self.lote)
         if self.lote.proyecto.id == 2:
             return 'Contrato %s   %s' % (self.num_contrato, self.lote)
     titulo_bien = property(_get_titulo_bien)
+
+    def _get_entrega(self):
+        if self.lote.fase == 1:
+            return "30 de abril 2022"
+        elif self.lote.fase == 2:
+            return "30 de junio 2022"
+        elif self.lote.fase == 3:
+            return "31 de julio 2022"
+        else:
+            return ""
+    entrega = property(_get_entrega)
 
     def _get_total_pagado(self):
         return self.apartado + self.pago_adicional + self.importe_pagado
