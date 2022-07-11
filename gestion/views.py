@@ -1225,6 +1225,7 @@ class contratoPDF(CreateView):
             importe_x_pago = field_object8.value_from_object(solicitud)
             importe_x_pago_i = int(importe_x_pago)
             importe_x_pago_d = str(abs(importe_x_pago) - abs(int(importe_x_pago)))[-2:]
+            importe_x_pago_l = numero_a_letras(importe_x_pago_i)
 
             saldo = precio_final - enganche
             saldo_i = int(saldo)
@@ -1236,6 +1237,7 @@ class contratoPDF(CreateView):
             ultimo_pago = importe_x_pago - (importe_total_x_pagos - saldo)
             ultimo_pago_i = int(ultimo_pago)
             ultimo_pago_d = str(abs(ultimo_pago) - abs(int(ultimo_pago)))[-2:]
+            ultimo_pago_l = numero_a_letras(ultimo_pago_i)
 
             field_object9 = solicitud._meta.get_field('porcentaje_descuento')
             porcentaje_descuento = (100 - field_object9.value_from_object(solicitud)) / 100
@@ -1319,6 +1321,7 @@ class contratoPDF(CreateView):
                 'importe_x_pago':importe_x_pago,
                 'importe_x_pago_i':importe_x_pago_i,
                 'importe_x_pago_d':importe_x_pago_d,
+                'importe_x_pago_l':importe_x_pago_l,
                 'saldo':saldo,
                 'saldo_i':saldo_i,
                 'saldo_d':saldo_d,
@@ -1330,6 +1333,7 @@ class contratoPDF(CreateView):
                 'ultimo_pago':ultimo_pago,
                 'ultimo_pago_i':ultimo_pago_i,
                 'ultimo_pago_d':ultimo_pago_d,
+                'ultimo_pago_l':ultimo_pago_l,
                 'fecha_contrato_anio_s':fecha_contrato_anio_s,
             }
             html = template.render(context)

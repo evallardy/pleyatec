@@ -101,7 +101,7 @@
     </div>
 
     <div id="footer_content" style="text-align: center;">
-        página [<pdf:pagenumber />]
+        página [ <pdf:pagenumber /> de 15 ]
     </div>
 
     <div>
@@ -1307,6 +1307,7 @@
                 <td style="text-align: center;"><label>{{ solicitud.representante | upper }}</label></td>
             </tr>
         </table>
+        <br><br>
         <p style="text-align: center;"><label>T E S T I G O S</label></p>
         <table>
             <tr>
@@ -1324,15 +1325,16 @@
                 <td style="text-align: center;"><label>JUAN RAMON AVILES JURY</label></td>
             </tr>
         </table>
-        <br>
+        <br><br>
         <p>
             <label>HOJA DE FIRMAS DEL CONTRATO PRIVADO DE COMERCIALIZACIÓN INMOBILIARIA QUE SUSCRIBEN
-                POR UNA PARTE PLEYATEC S.A. DE C.V.., POR OTRA PARTE , RESPECTO DEL LOTE {{ solicitud.lote.lote }}
+                POR UNA PARTE PLEYATEC S.A. DE C.V., POR OTRA PARTE {{ solicitud.descripcion_cliente | upper}},
+                RESPECTO DEL LOTE {{ solicitud.lote.lote }}
                 DE LA MANZANA {{ solicitud.lote.manzana }}, FASE {{ solicitud.lote.fase }} DEL FRACCIONAMIENTO NÚVOLE RESIDENCIAL,
                 EN
                 FECHA
-                {{solicitud.fecha_contrato.day}} de
-                {{solicitud.fecha_contrato|date:'F'}} del año {{fecha_contrato_anio_s}} .</label>
+                {{solicitud.fecha_contrato.day}} DE
+                {{solicitud.fecha_contrato|date:'F'|upper}} DEL AÑO {{fecha_contrato_anio_s}}. </label>
         </p>
         </div>
     </div>
