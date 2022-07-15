@@ -5,6 +5,7 @@ from core.funciones import fecha_hoy
 from core.models import *
 from cliente.models import *
 from bien.models import *
+from PIL import Image
 
 from django.template.defaultfilters import date, default
 from django.utils.timezone import now
@@ -27,10 +28,21 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     descuento = models.DecimalField("Descuento", decimal_places=2, max_digits=10, default=0)
     modo_pago = models.IntegerField("Modo de pago",choices=MODO_PAGO,default=1)
     enganche = models.DecimalField("Enganche", decimal_places=2, max_digits=10, null=True, blank=True, default=0)
-    pago_adicional = models.DecimalField("Pago adicional", decimal_places=2, max_digits=10, null=True, blank=True, default=0)
-    confirmacion_pago_adicional = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=1)
+#  Pago apartado
     apartado = models.DecimalField("Apartado", decimal_places=2, max_digits=10, null=True, blank=True, default=0)
-    confirmacion_apartado = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=1)
+    confirmacion_apartado = models.IntegerField("Depósito apartado", choices=STATUS_DEPOSITO, default=0)
+    foto_comprobante_apartado = models.ImageField(upload_to="compApartado", blank=True, null=True,default=" ")
+    forma_pago_apa = models.IntegerField("Forma pago apartado",choices=STATUS_FORMA_PAGO, default=0)
+    cuenta_apa = models.CharField("Número de cuenta apartado",max_length=4, null=True, blank=True, default="")
+    numero_comprobante_apa = models.CharField("Número de comprobante apartado",max_length=40, null=True, blank=True, default="")
+#  Pago adicional
+    pago_adicional = models.DecimalField("Pago adicional", decimal_places=2, max_digits=10, null=True, blank=True, default=0)
+    confirmacion_pago_adicional = models.IntegerField("Depósito PA", choices=STATUS_DEPOSITO, default=0)
+    foto_comprobante_pago_adicional = models.ImageField(upload_to="compAdicional", blank=True, null=True,default=" ")
+    forma_pago_pa = models.IntegerField("Forma pago pago adic.",choices=STATUS_FORMA_PAGO, default=0)
+    cuenta_pa = models.CharField("Número de cuenta pago adic",max_length=4, null=True, blank=True, default="")
+    numero_comprobante_pa = models.CharField("Número de comprobante pago adic",max_length=40, null=True, blank=True, default="")
+
     cantidad_pagos = models.IntegerField("Pagos", null=True, blank=True, default=0)
     importe_x_pago = models.DecimalField("Importe por pago", decimal_places=2, max_digits=10, null=True, blank=True, default=0)
     aprobacion_gerente = models.BooleanField("Aprobación gerente de ventas", default=False)
@@ -42,7 +54,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     foto_matrimonio = models.ImageField(upload_to="matrimonio", blank=True, null=True,default=" ")
     foto_comprobante = models.ImageField(upload_to="comprobante", blank=True, null=True,default=" ")
     foto_alta_shcp = models.ImageField(upload_to="alta_shcp", blank=True, null=True,default=" ")
-    foto_acta_const = models.ImageField(upload_to="acte_cont", blank=True, null=True,default=" ")
+    foto_acta_const = models.ImageField(upload_to="acte_const", blank=True, null=True,default=" ")
     num_apartado = models.IntegerField("Recibo apartado", blank=True, null=True, default=0)
     num_adicional = models.IntegerField("Recibo adicional", blank=True, null=True, default=0)
     num_contrato = models.IntegerField("Número de contrato", blank=True, null=True, default=0)

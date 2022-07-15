@@ -6,20 +6,50 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 {{ form.media }}
+<style>
+    .file-select {
+        position: relative;
+        display: inline-block;
+    }
+
+    .file-select::before {
+        background-color: transparent;
+        color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 3px;
+        content: 'Seleccionar';
+        /* testo por defecto */
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .file-select input[type="file"] {
+        opacity: 0;
+        width: 200px;
+        height: 32px;
+        display: inline-block;
+    }
+</style>
 {% endblock %}
 {% block contenido %}
 {% if app_proy_compromiso %}
 {% for py in proyecto_tb %}
 <div class="container col-12" style="width: 850px;">
-    <h1 class="mt-2">Compromiso</h1>
+    <label class="encabezados">{{ py.nombre }} - Compromiso de la solicitud {{ pk }}</label><br>
     <hr class="mt-0 mb-4">
     <a class="btn btn-outline-dark" href="{% url 'compromisos' py.id %}">Regresar</a>
     <div class="container col-12">
         <div class="wrapper fadeInDown">
             {% for s in sol %}
             <br>
+            <input type="text" value="{{ s.foto_comprobante_apartado }}" id="foto_comprobante_apartado" hidden>
+            <input type="text" value="{{ s.foto_comprobante_pago_adicional }}" id="foto_comprobante_pago_adicional" hidden>
             <input type="text" value="{{ s.lote.estatus_lote }}" id="id_estatus_lote" hidden>
-            <input type="text" value="{{ s.estatus_solicitud }}" id="id_estatus_solicitud" hidden>
             <input type="text" value="{{ s.modo_pago }}" id="id_modo_pago" hidden>
             <input type="text" value="{{ s.precio_final }}" id="id_precio_final" hidden>
             <input type="text" value="{{ s.enganche }}" id="id_enganche" hidden>
@@ -108,48 +138,112 @@
                 <form id="for-sol" name="for-sol" action="" method="POST" style="text-align: left;"
                     enctype="multipart/form-data" onkeypress="return anular(event)">
                     {% csrf_token %}
-                    <div class="form-row">
+                    <hr id="bloque_apartado4">
+                    <h4 style="font-style: italic;" id="bloque_apartado5">Apartado</h4>
+                    <div class="form-row" id="bloque_apartado1">
                         <div class="form-group col-3" id="gpo_apartado">
                             {{ form.apartado|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_apartado">
                             {{ form.confirmacion_apartado|as_crispy_field }}
                         </div>
+                        <div class="form-group col-3" id="gpo_confirmacion_apartado1">
+                            <label for="confirmacion_apartado1">Depósito</label>
+                            <input class="form-control" name="confirmacion_apartado1" id="id_confirmacion_apartado1"
+                                readonly>
+                        </div>
+                        <div class="form-group col-3" id="gpo_confirmacion_apartado" style="text-align: center;">
+                            <label for="btn_recibo"> </label><br>
+                            <button id="btn_recibo" class="btn btn-outline-dark"
+                                onclick="imprime('parcial')">Imprimir</button>
+                            <input id="id_btsubapartado" name="btsubapartado" type="submit" value="Guarda"
+                                class="btn btn-success">
+                        </div>
+                    </div>
+                    <div class="form-row" id="bloque_apartado2">
+                        <div class="form-group col-3" id="gpo_forma_pago_apa">
+                            {{ form.forma_pago_apa|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3" id="gpo_forma_pago_apa1">
+                            <label for="id_forma_pago_apa1">Forma pago</label>
+                            <input type="text" name="id_forma_pago_apa1" id="id_forma_pago_apa1" readonly
+                                class="form-control">
+                        </div>
+                        <div class="form-group col-3" id="gpo_cuenta_apa">
+                            {{ form.cuenta_apa|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3" id="gpo_numero_comprobante">
+                            {{ form.numero_comprobante_apa|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row" id="bloque_apartado3">
+                        <div class="form-group col-3" id="gpo_comprobante_apartado">
+                            {{ form.foto_comprobante_apartado }}
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 style="font-style: italic;">Pago adicional</h4>
+                    <div class="form-row">
                         <div class="form-group col-3">
                             {{ form.pago_adicional|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_pago_adicional">
                             {{ form.confirmacion_pago_adicional|as_crispy_field }}
                         </div>
-                    </div>
-                    <div class="form-row">
+                        <div class="form-group col-3" id="gpo_confirmacion_pago_adicional1">
+                            <label for="confirmacion_pago_adicional1">Depósito</label>
+                            <input class="form-control" name="confirmacion_pago_adicional1"
+                                id="id_confirmacion_pago_adicional1" readonly>
+                        </div>
                         <div class="form-group col-3">
                             <label for="id_diferencia">Por pagar</label>
-                            <input class="form-control" name="diferencia" id="diferencia">
+                            <input class="form-control" name="diferencia" id="diferencia" readonly>
+                        </div>
+                        <div class="form-group col-3" style="text-align: center;">
+                            <label for="btn_adicional"> </label><br>
+                            <button id="btn_adicional" class="btn btn-outline-dark"
+                                onclick="imprime('total')">Imprimir</button>
+                            <input id="id_btsubpa" name="btsubpa" type="submit" value="Guarda" 
+                                class="btn btn-success">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3" id="gpo_forma_pago_pa">
+                            {{ form.forma_pago_pa|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3" id="gpo_forma_pago_pa1">
+                            <label for="id_forma_pago_pa1">Forma pago</label>
+                            <input type="text" name="id_forma_pago_pa1" id="id_forma_pago_pa1" readonly
+                                class="form-control">
+                        </div>
+                        <div class="form-group col-3" id="gpo_cuenta_pa">
+                            {{ form.cuenta_pa|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3" id="gpo_numero_comprobante_pa">
+                            {{ form.numero_comprobante_pa|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3" id="gpo_foto_comprobante_pago_adicional">
+                            {{ form.foto_comprobante_pago_adicional|as_crispy_field }}
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-1 mb-0" hidden>
                             {{ form.lote|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-1 mb-0" hidden>
-                            {{ form.precio_final|as_crispy_field }}
+                        <div class="form-group col-md-8 mb-0" hidden>
+                            {{ form.estatus_solicitud|as_crispy_field }}
                         </div>
                         <div class="form-group col-1">
                             <input type="number" class="form-control" name="paga" id="paga" hidden>
                         </div>
                     </div>
-                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
                 </form>
             </div>
-            {% if app_proy_imp_pago_compromiso %}
             <div style="text-align: center;">
-                <button id="btn_recibo" class="btn btn-outline-dark" onclick="imprime('parcial')">Imprime
-                    apartado</button>
-                <button id="btn_adicional" class="btn btn-outline-dark" onclick="imprime('total')">Imprime pago
-                    adicional</button>
+
             </div>
-            {% endif %}
             <br>
         </div>
     </div>
@@ -163,224 +257,302 @@
                 "Recibo", target = "_blank");
         }
         $(document).ready(function () {
-            {% if not app_proy_pago_compromiso %}
-            $("label[for='id_apartado']").hide();
-            $("label[for='id_pago_adicional']").hide();
-            $("#id_apartado").hide();
-            $("#id_pago_adicional").hide();
-            {% endif %}
-            {% if not app_proy_confirma_deposito_pago %}
-            $("label[for='id_confirmacion_apartado']").hide();
-            $("label[for='id_confirmacion_pago_adicional']").hide();
-            $("#id_confirmacion_apartado").hide();
-            $("#id_confirmacion_pago_adicional").hide();
-            {% endif %}
-
-//          Asignacion de valores            
-            id_modo_pago = parseInt($("#id_modo_pago").val());
-//            if (id_modo_pago == "") { id_modo_pago = 0; }
-            id_estatus_lote = parseInt($("#id_estatus_lote").val());
-//            if (id_estatus_lote == "") { id_estatus_lote = 0; }
-            id_estatus_solicitud = parseInt($("#id_estatus_solicitud").val());
-//            if (id_estatus_solicitud == "") { id_estatus_solicitud = 0; }
-            id_precio_final = $("#id_precio_final").val();
-            if (id_precio_final == "") { id_precio_final = 0; } else { id_precio_final = id_precio_final.replace(",", "").replace(",", "") }
-            id_precio_final = parseFloat(id_precio_final);
-            id_enganche = $("#id_enganche").val();
-            if (id_enganche == "") { id_enganche = 0; } else { id_enganche = id_enganche.replace(",", "").replace(",", "") }
-            id_enganche = parseFloat(id_enganche);
-            id_apartado = parseFloat($("#id_apartado").val());
-//            if (id_apartado == "") { id_apartado = 0; } else { id_apartado = id_apartado.replace(",", "").replace(",", "") }
-//            id_apartado = parseFloat(id_apartado);
-            id_pago_adicional = parseFloat($("#id_pago_adicional").val());
-//          Calcular diferencia
-//            if (id_modo_pago == "1" || id_modo_pago == "3") {
-            if (id_modo_pago == "1") {
-                id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
-            } else {
-                id_diferencia = id_enganche - id_apartado - id_pago_adicional;
-            }
-            $("#diferencia").val(id_diferencia);
-
-            //  Oculta los botones
-            $("#btsub").hide();
-            $("#btn_recibo").hide();
-            $("#btn_adicional").hide();
-
-            // Campo diferencia = 0
-//            $("#diferencia").val(0);
-//            id_diferencia = 0;
-
+            var id_diferencia = 0;
             //  Alinear campos numericos
             $("#id_apartado").css("text-align", "right");
             $("#id_pago_adicional").css("text-align", "right");
             $("#diferencia").css("text-align", "right");
 
-            // Campos de solo lectura
-            $("#diferencia").attr('readonly', 'true');
+            $('#gpo_confirmacion_apartado1').hide();
+            $('#gpo_forma_pago_apa1').hide();
+            $('#id_btsubapartado').hide();
 
-            // Oculta campos credito si es contado
-//            if (id_modo_pago == 1 || id_modo_pago == 3) {
+            $('#gpo_confirmacion_pago_adicional1').hide();
+            $('#gpo_forma_pago_pa1').hide();
+            $('#id_btsubpa').hide();
+
+            //  Poner ceros en campos vacios
+            if ($("#id_apartado").val() == "") { $("#id_apartado").val(0.00) }
+            if ($("#id_pago_adicional").val() == "") { $("#id_apartado").val(0.00) }
+            //  Asignacion de valores            
+            var id_modo_pago = parseInt($("#id_modo_pago").val());
+            var id_estatus_lote = parseInt($("#id_estatus_lote").val());
+            var id_estatus_solicitud = parseInt($("#id_estatus_solicitud").val());
+            //  Precio Final
+            var id_precio_final = $("#id_precio_final").val();
+            id_precio_final = parseFloat(id_precio_final.replace(",", "").replace(",", ""))
+            id_precio_final = parseFloat(id_precio_final);
+            //  Enganche
+            var id_enganche = $("#id_enganche").val();
+            if (id_enganche == "") { id_enganche = 0; } else { id_enganche = id_enganche.replace(",", "").replace(",", "") }
+            id_enganche = parseFloat(id_enganche);
+            //  Apartado
+            var id_apartado = parseFloat($("#id_apartado").val());
+            //  Pago adicional
+            var id_pago_adicional = parseFloat($("#id_pago_adicional").val());
+            //  Calcular diferencia
+            calcula_diferencia();
+            function calcula_diferencia() {
+                if ($("#id_apartado").val() == "") {
+                    id_apartado = 0;
+                } else {
+                    id_apartado = parseFloat($("#id_apartado").val());
+                }
+                if ($("#id_pago_adicional").val() == "") {
+                    id_pago_adicional = 0;
+                } else {
+                    id_pago_adicional = parseFloat($("#id_pago_adicional").val());
+                }
+                id_pago_adicional = parseFloat($("#id_pago_adicional").val());
+                if (id_modo_pago == "1") {
+                    id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
+                } else {
+                    id_diferencia = id_enganche - id_apartado - id_pago_adicional;
+                }
+                $("#diferencia").val(id_diferencia.toFixed(2));
+            }
+            //  Oculta campos credito si es contado
             if (id_modo_pago == 1) {
                 $("#credito").hide();
             }
+            if ($('#id_confirmacion_apartado').val() == 2) {
+                $("#btn_recibo").show();
+                proteje_apartado();
+            } else {
+                $("#btn_recibo").hide();
+                if (id_apartado > 0) {
+                    inicia_pago_adicional();
+                    proteje_adicional();
+                }
+            }
+            if ($("#id_confirmacion_pago_adicional").val() == 2) {
+                proteje_apartado();
+                proteje_adicional();
+                $("#btn_adicional").show();
+            } else {
+                $("#btn_adicional").hide();
+                if (id_pago_adicional > 0) {
+                    proteje_apartado();
+                }
+            }
+            //  Inicia campos apartado
+            function inicia_apartado() {
+                $("#id_apartado").val(0.00);
+                id_apartado = 0;
+                //                $("#id_confirmacion_apartado").val(0);
+                $("#id_forma_pago_apa").val(0);
+                $('#id_cuenta_apa').val('');
+                $('#id_numero_comprobante_apa').val('');
+                $("#id_foto_comprobante_apartado").val('');
+                $("#id_btsubapartado").hide();
+            }
 
-            // Cuando cambia valor apartado
-            estatus_anterior_lote = id_estatus_lote;
-            $("#btn_recibo").hide();
+            //  Inicia campos apartado
+            function inicia_pago_adicional() {
+                $("#id_pago_adicional").val(0.00);
+                id_pago_adicional = 0;
+                //                $("#id_confirmacion_pago_adicional").val(0);
+                $("#id_forma_pago_pa").val(0);
+                $('#id_cuenta_pa').val('');
+                $('#id_numero_comprobante_pa').val('');
+                $("#id_foto_comprobante_pago_adicional").val('');
+                $("#id_btsubpa").hide();
+            }
+
+            function proteje_apartado() {
+                $('#id_apartado').attr('readonly', true);
+                $("#id_confirmacion_apartado1").val(
+                    $('select[name="confirmacion_apartado"] option:selected').text());
+                $("#gpo_confirmacion_apartado").hide();
+                $("#gpo_confirmacion_apartado1").show();
+                $("#id_forma_pago_apa1").val(
+                    $('select[name="forma_pago_apa"] option:selected').text());
+                $("#gpo_forma_pago_apa").hide();
+                $("#gpo_forma_pago_apa1").show();
+                $('#id_cuenta_apa').attr('readonly', true);
+                $('#id_numero_comprobante_apa').attr('readonly', true);
+                document.getElementById("id_foto_comprobante_apartado").disabled = true;
+                $("#id_btsubapartado").hide();
+            }
+
+            function proteje_adicional() {
+                $('#id_pago_adicional').attr('readonly', true);
+                $("#id_confirmacion_pago_adicional1").val(
+                    $('select[name="confirmacion_pago_adicional"] option:selected').text());
+                $('#gpo_confirmacion_pago_adicional').hide();
+                $('#id_confirmacion_pago_adicional1').show();
+                $("#id_forma_pago_pa1").val(
+                    $('select[name="forma_pago_pa"] option:selected').text());
+                $('#gpo_forma_pago_pa').hide();
+                $('#gpo_forma_pago_pa1').show();
+                $('#id_cuenta_pa').attr('readonly', true);
+                $('#id_numero_comprobante_pa').attr('readonly', true);
+                document.getElementById("id_foto_comprobante_pago_adicional").disabled = true;
+                $("#id_btsubpa").hide();
+            }
+
+            function oculta_apartado() {
+                $("#bloque_apartado1").hide();
+                $("#bloque_apartado2").hide();
+                $("#bloque_apartado3").hide();
+                $("#bloque_apartado4").hide();
+                $("#bloque_apartado5").hide();
+            }
+
+            //  Cuando cambia valor en el bloque de apartado
             $("#id_apartado").on("keyup", function () {
                 apartado();
             });
             $("#id_apartado").on("change", function () {
                 apartado();
             });
+            $("#id_confirmacion_apartado").on("change", function () {
+                apartado();
+            });
+            $("#id_forma_pago_apa").on("change", function () {
+                apartado();
+            });
+            $("#id_cuenta_apa").on("keyup", function () {
+                if ($("#id_cuenta_apa").val().length > 4) {
+                    $("#id_cuenta_apa").val($("#id_cuenta_apa").val().substr(0, 4));
+                }
+                apartado();
+            });
+            $("#id_cuenta_apa").on("change", function () {
+                apartado();
+            });
+            $("#id_numero_comprobante_apa").on("keyup", function () {
+                apartado();
+            });
+            $("#id_numero_comprobante_apa").on("change", function () {
+                apartado();
+            });
+            $("#id_foto_comprobante_apartado").on("change", function () {
+                apartado();
+            });
             function apartado() {
-                $("#id_confirmacion_pago_adicional").val(1);
-                $("#id_confirmacion_apartado").val(1);
-                $("#btsub").hide();
-                if ($("#id_apartado").val() == "") {
-                    id_apartado = 0;
+                $("#id_btsubapartado").hide();
+                inicia_pago_adicional();
+                calcula_diferencia();
+                guarda = true;
+                if ($("#id_forma_pago_apa").val() == 3) {
+                    $("#id_cuenta_apa").val("").attr("readonly", true);
+                    $("#id_numero_comprobante_apa").val("").attr("readonly", true);
                 } else {
-                    id_apartado = parseFloat($("#id_apartado").val());
-                }
-                pago_adicional = 0;
-                $("#id_estatus_lote").val(1);
-                $("#id_estatus_solicitud").val(1);
-                $("#id_pago_adicional").val(0);
-//                if (id_modo_pago == 1 || id_modo_pago == 3) {
-                if (id_modo_pago == 1) {
-                    id_diferencia = id_precio_final - id_apartado;
-                    if (id_precio_final > id_apartado && id_apartado >= 50000) {
-                        $("#btsub").show();
-                        $("#id_estatus_lote").val(2);
-                        $("#id_estatus_solicitud").val(2);
-                    }
-                } else {
-                    id_diferencia = id_enganche - id_apartado;
-                    if (id_enganche > id_apartado && id_apartado >= 50000) {
-                        $("#btsub").show();
-                        $("#id_estatus_lote").val(2);
-                        $("#id_estatus_solicitud").val(2);
+                    if (($("#id_forma_pago_apa").val() == 1) || ($("#id_forma_pago_apa").val() == 2)) {
+                        $("#id_cuenta_apa").attr("readonly", false);
+                        $("#id_numero_comprobante_apa").attr("readonly", false);
+                        if ($("#id_cuenta_apa").val().trim() == "") {
+                            guarda = false;
+                        }
+                        if ($("#id_numero_comprobante_apa").val().trim() == "") {
+                            guarda = false;
+                        }
+                    } else {
+                        guarda = false;
                     }
                 }
-                $("#diferencia").val(id_diferencia);
+                if ($("#id_foto_comprobante_apartado").val().trim() == "") {
+                    if ($('#foto_comprobante_apartado').val().trim() == "") {
+                        guarda = false;
+                    }
+                }
+                if (id_apartado < 50000) {
+                    guarda = false;
+                }
+                if ($("#id_confirmacion_apartado").val() == 2) {
+                    $('#id_estatus_lote').val(2);
+                    $('#id_estatus_solicitud').val(2);
+                } else {
+                    $('#id_estatus_lote').val(1);
+                    $('#id_estatus_solicitud').val(1);
+                }
+                $('#id_estatus_solicitud').change();
+                if (guarda == true) {
+                    $("#id_btsubapartado").show();
+                }
             }
 
-//            Cuando se modifica pago adicional
+            //  Cuando se modifica el bloque de pago adicional
             $("#id_pago_adicional").on("keyup", function () {
                 adicional()
-            }); 
+            });
             $("#id_pago_adicional").on("change", function () {
                 adicional()
-            }); 
-            function adicional() {
-                $("#id_confirmacion_pago_adicional").val(1);
-                if ($("#id_confirmacion_apartado").attr('enabled') == 'False') {
-                    $("#id_confirmacion_apartado").val(1);
-                }
-                $("#btsub").hide();
-                if ($("#id_pago_adicional").val() == "") {
-                    id_pago_adicional = 0;
-                } else {
-                    id_pago_adicional = parseFloat($("#id_pago_adicional").val());
-                }
-                if (!$("#id_apartado").is('[readonly]')) {
-                    id_apartado = 0;
-                    $("#id_apartado").val(0);
-                }
-                if (id_pago_adicional > 0) {
-                    if (id_modo_pago == "1" || id_modo_pago == "3") {
-                        if ((id_apartado + id_pago_adicional) == id_precio_final) {
-                            $("#id_estatus_lote").val(3);
-                            $("#id_estatus_solicitud").val(3);
-                            id_diferencia = 0;
-                            $("#btsub").show();
-                        } else {
-                            $("#id_estatus_lote").val(estatus_anterior_lote);
-                            $("#id_estatus_solicitud").val(id_estatus_solicitud);
-                        }
-                    } else {
-                        if ((id_apartado + id_pago_adicional) == id_enganche) {
-                            $("#id_estatus_lote").val(3);
-                            $("#id_estatus_solicitud").val(3);
-                            id_diferencia = 0;
-                            $("#btsub").show();
-                        } else {
-                            $("#diferencia").val(id_diferencia);
-                            $("#id_estatus_lote").val(estatus_anterior_lote);
-                            $("#id_estatus_solicitud").val(id_estatus_solicitud);
-                        }
-                    }
-                } else {
-                    $("#id_estatus_lote").val(estatus_anterior_lote);
-                    $("#id_estatus_solicitud").val(id_estatus_solicitud);
-                }
-                if ($("#id_modo_pago").val() == 1 || $("#id_modo_pago").val() == 3) {
-                    id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
-                } else {
-                    id_diferencia = id_enganche - id_apartado - id_pago_adicional;
-                }
-                $("#diferencia").val(id_diferencia);
-            }
-            
-            if (id_apartado > 0) {
-                $("#id_apartado").attr('readonly', 'true');
-                $("#id_confirmacion_apartado").attr('enabled','true');
-            }
-
-            if (id_pago_adicional > 0) {
-                $("#id_confirmacion_pago_adicional").attr('enabled','true');
-                $("#id_pago_adicional").attr('readonly', 'true');
-                $("#id_apartado").attr('readonly', 'true');
-                $("#diferencia").val(0);
-                if (id_apartado == 0) {
-                    $("#id_confirmacion_apartado").attr('disabled','true');
-                }
-            }
-            if ($("#id_confirmacion_apartado").val()==2) {
-                $("#btn_recibo").show();
-                $("#id_confirmacion_apartado").attr('disabled','true');
-
-            }
-            if ($("#id_confirmacion_pago_adicional").val()==2) {
-                $("#btn_adicional").show();
-                $("#id_confirmacion_pago_adicional").attr('disabled','true');
-            }
-            $("#id_confirmacion_apartado").on("change", function () {
-                id_apartado = parseFloat($("#id_apartado").val());
-                if (id_apartado == 0) {
-                    $("#id_confirmacion_apartado").val(1);
-                } else {
-                    if ($("#id_confirmacion_apartado").val() == 2 && id_apartado > 0) {
-                        $('#btsub').show();
-                        $("#paga").val(2);
-                    } else {
-                        if ($("#id_apartado").attr('readonly') == 'False') {
-                            $('#btsub').hide();
-                        } else {
-                            $('#btsub').show();
-                        }
-                    }
-                }
             });
             $("#id_confirmacion_pago_adicional").on("change", function () {
-                id_pago_adicional = parseFloat($("#id_pago_adicional").val());
-                if (id_pago_adicional == 0) {
-                    $("#id_confirmacion_pago_adicional").val(1);
+                adicional();
+            });
+            $("#id_forma_pago_pa").on("change", function () {
+                adicional()
+            });
+            $("#id_cuenta_pa").on("keyup", function () {
+                if ($("#id_cuenta_pa").val().length > 4) {
+                    $("#id_cuenta_pa").val($("#id_cuenta_pa").val().substr(0, 4));
+                }
+                adicional()
+            });
+            $("#id_cuenta_pa").on("change", function () {
+                adicional()
+            });
+            $("#id_numero_comprobante_pa").on("keyup", function () {
+                adicional()
+            });
+            $("#id_numero_comprobante_pa").on("change", function () {
+                adicional()
+            });
+            $("#id_foto_comprobante_pago_adicional").on("change", function () {
+                adicional()
+            });
+            function adicional() {
+                $("#id_btsubpa").hide();
+                if ($("#id_confirmacion_apartado").val() == 1) {
+                    inicia_apartado();
+                }
+                calcula_diferencia();
+                guarda = true;
+                if ($("#id_forma_pago_pa").val() == 3) {
+                    $("#id_cuenta_pa").val("").attr("readonly", true);
+                    $("#id_numero_comprobante_pa").val("").attr("readonly", true);
                 } else {
-                    if ($("#id_confirmacion_pago_adicional").val() == 2 && id_pago_adicional > 0) {
-                        $('#btsub').show();
-                        $("#paga").val(3);
-                    } else {
-                        if ($("#id_pago_adicional").attr('readonly') == 'False') {
-                            $('#btsub').hide();
-                        } else {
-                            $('#btsub').show();
+                    if (($("#id_forma_pago_pa").val() == 1) || ($("#id_forma_pago_pa").val() == 2)) {
+                        $("#id_cuenta_pa").attr("readonly", false);
+                        $("#id_numero_comprobante_pa").attr("readonly", false);
+                        if ($("#id_cuenta_pa").val().trim() == "") {
+                            guarda = false;
                         }
+                        if ($("#id_numero_comprobante_pa").val().trim() == "") {
+                            guarda = false;
+                        }
+                    } else {
+                        guarda = false;
                     }
                 }
-            });
-
+                if ($("#id_foto_comprobante_pago_adicional").val().trim() == "") {
+                    if ($("#foto_comprobante_pago_adicional").val().trim() == "") {
+                        guarda = false;
+                    }
+                }
+                if (id_diferencia > 0) {
+                    guarda = false;
+                }
+                if ($("#id_confirmacion_pago_adicional").val() == 2) {
+                    $('#id_estatus_lote').val(3);
+                    $('#id_estatus_solicitud').val(3);
+                } else {
+                    if ($("#id_confirmacion_apartado").val() == 2) {
+                        $('#id_estatus_lote').val(2);
+                        $('#id_estatus_solicitud').val(2);
+                    } else {
+                        $('#id_estatus_lote').val(1);
+                        $('#id_estatus_solicitud').val(1);
+                    }
+                }
+                $('#id_estatus_solicitud').change();
+                if (guarda == true) {
+                    $("#id_btsubpa").show();
+                }
+            }
         });
     </script>
     {% endfor %}

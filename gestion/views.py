@@ -618,74 +618,48 @@ class pagos(UpdateView):
         queryset = Solicitud.objects.all().filter(id=pk)
         return queryset
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        paga = request.POST.get( 'paga')
-        if not paga:
-            paga = 1
         pk = self.kwargs.get('pk',0)
-        apartado = float(request.POST.get('apartado'))
-        pago_adicional = float(request.POST.get('pago_adicional'))
-        precio_final = float(request.POST.get('precio_final'))
-        id_lote = request.POST.get('lote')
-        if pago_adicional > 0:
-            paga = 3
-        else:
-            if apartado > 0:
-                paga = 2
-        confirmacion_apartado = request.POST.get('confirmacion_apartado')
-        if not confirmacion_apartado:
-            if apartado > 0:
-                confirmacion_apartado = 2
-            else:
-                confirmacion_apartado = 1
-        confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
-        if not confirmacion_pago_adicional:
-            if pago_adicional > 0:
-                confirmacion_pago_adicional = 2
-            else:
-                confirmacion_pago_adicional = 1
-        lote_id = request.POST.get('lote')
-        solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=id_lote) \
-            .update(estatus_solicitud=5)
-        solicitud = Solicitud.objects.filter(id=pk). \
-            update(estatus_solicitud=paga, apartado=apartado, pago_adicional=pago_adicional, \
-                confirmacion_pago_adicional=confirmacion_pago_adicional, confirmacion_apartado=confirmacion_apartado)
-        lote = Lote.objects.filter(id=lote_id).update(estatus_lote=paga)
-
+        solicitud = self.model.objects.get(id=pk)
+        form = self.form_class(request.POST, request.FILES, instance=solicitud)
+        if form.is_valid():
+            form.save()
+            solis = Solicitud.objects.filter(id=pk)
+            numero_lote = solis[0].lote.id
+            estatus = solis[0].estatus_solicitud
+            lote = Lote.objects.filter(id=numero_lote).update(estatus_lote=estatus)
+            solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=numero_lote) \
+                .update(estatus_solicitud=5)
+            solicitud_actual = Solicitud.objects.filter(id=pk).update(estatus_solicitud=estatus)
 #   Asignar numero de contrato a la solicitud        
-        autorizado = 0
-        solis = Solicitud.objects.filter(id=pk)
-        num_contrato_sol = solis[0].num_contrato
-        if confirmacion_pago_adicional == '2':
-            if float(apartado) > 0 and confirmacion_apartado == 2:
-                autorizado = 1
-            elif float(apartado) == 0:
-                autorizado = 1
-        if autorizado == 1 and num_contrato_sol == 0:
-            num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
-            print(101)
-            if num_contrato == None:
-                num_contrato = 1
-            else:
-                num_contrato += 1
-            print(102)
-            dato = str(solis[0].lote) + \
-                " del proyecto: " + str(solis[0].lote.proyecto)
-            print(103)
-            observacion = "Contrato del " + dato
-            print(104)
-            folio = Folios(
-                tipo = 2, 
-                numero = num_contrato,
-                observacion = observacion,
-                importe = precio_final)
-            print(105)
-            folio.save()
-            print(106)
-            sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
-                .update(num_contrato=num_contrato)
-            print(107)
-        return HttpResponseRedirect(reverse(('compromisos'), kwargs={'num_proyecto':num_proyecto} ,))
+            autorizado = 0
+            precio_final = solis[0].precio_final
+            num_contrato_sol = solis[0].num_contrato
+            confirmacion_pago_adicional = solis[0].confirmacion_pago_adicional
+            if confirmacion_pago_adicional == '2' and num_contrato_sol == 0:
+                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
+                if num_contrato == None:
+                    num_contrato = 1
+                else:
+                    num_contrato += 1
+                dato = str(solis[0].lote) + \
+                    " del proyecto: " + str(solis[0].lote.proyecto)
+                observacion = "Contrato del " + dato
+                folio = Folios(
+                    tipo = 2, 
+                    numero = num_contrato,
+                    observacion = observacion,
+                    importe = precio_final)
+                folio.save()
+                sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
+                    .update(num_contrato=num_contrato)
+#            return HttpResponseRedirect(self.get_success_url())
+        return self.render_to_response(self.get_context_data(form=form))
+    def get_success_url(self):
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        return reverse_lazy('compromisos', kwargs={'num_proyecto': num_proyecto})
+
 
 class archivo(ListView):
 #    model = Solicitud

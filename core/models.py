@@ -134,6 +134,7 @@ STATUS_COTIZACION = (
     (99, 'Cancelada'),
 )
 STATUS_DEPOSITO = (
+    (0, '---------'),
     (1, 'Sin confirmar'),
     (2, 'Confirmado'),
 )
@@ -142,6 +143,7 @@ STATUS_FOLIO = (
     (9, 'Cancelado'),
 )
 STATUS_FORMA_PAGO = (
+    (0, '---------'),
     (1, 'Cheque'),
     (2, 'Transferencia'),
     (3, 'Efectivo'),
