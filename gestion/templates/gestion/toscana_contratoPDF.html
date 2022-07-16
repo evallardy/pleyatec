@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playatec</title>
+    <title>Playatec contrato</title>
     <link rel="stylesheet" href="{% static 'core/css/jquery.bxslider.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
     <!-- Jquery Confirm -->
     <link rel="stylesheet" href="{% static 'core/css/jquery-confirm.min.css' %}">
-    <style>
+    <style type="text/css">
         @page {
             size: letter portrait;
 
@@ -42,10 +42,8 @@
                 top: 742pt;
                 height: 40pt;
             }
-            #firmas {
-                -pdf-keep-in-frame-mode: shrink;
-            }
         }
+
         .parrafo_negritas {
             font-weight: bold;
         }
@@ -82,7 +80,6 @@
             padding-left: 5 px;
             margin-left: 5px;
         }
-
     </style>
 </head>
 
@@ -91,7 +88,7 @@
     <div id="header_content">
         <p style="text-align: right;">
             <Label>
-                PLAZA TOSCANA, LOCAL COMERCIAL {{ solicitud.lote.lote }}
+                PLAZA TOSCANA LOCAL {{ solicitud.lote.lote }}
             </label>
             <br>
             <Label>
@@ -105,648 +102,637 @@
         <pdf:pagenumber /> de 8 ]
     </div>
 
-    <div>
-        <p class="parrafo_negritas">
-            CONTRATO DE COMPRAVENTA,
-            SUJETO A CONDICIÓN SUSPENSIVA, QUE CELEBRAN, POR UNA PARTE, LA PERSONA MORAL DENOMINADA
-            PLEYATEC S.A. DE C.V., REPRESENTADA EN ESTE ACTO POR ARTURO DOMÍNGUEZ RUÍZ, A QUIÉN EN
-            LO SUCESIVO SE LE DENOMINARÁ "EL VENDEDOR", Y POR OTRA PARTE {{ solicitud.cliente_inicio_contrato|upper }},
-            A QUIEN EN LO SUCESIVO SE DENOMINARÁ "EL COMPRADOR", DANDO FORMALIDAD AL PRESENTE
-            MEDIANTE LOS ANTECEDENTES Y CLÁUSULAS SIGUIENTES:
-        </p>
-        <p class="parrafo_negritas" style="text-align: center;">
-            -A N T E C E D E N T E S-
-        </p>
-        <p class="parrafo_negritas">
-            I.- DE LA PROPIEDAD.
-        </p>
-        <p>
-            <label>I.- </label> Mediante Escritura Pública número 6,848 con fecha 7 de diciembre de 2016
-            pasada ante la fe del Lic. Jorge Maldonado Guerrero, titular de la Notaría Pública número 27
-            de esta Ciudad de Querétaro, Querétaro, se hizo constar, la celebración del Contrato de compraventa
-            con reserva de dominio al que comparecieron por una primera parte la sociedad mercantil denominada
-            “DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE,
-            representada por su apoderado legal MIGUEL ANGEL OSORIO ALEJO y la persona moral denominada VISTA
-            COUNTRY CLUB SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE, representada por su apoderado legal el señor
-            EULOGIO ORTIZ AZOÑOS.
-            Cuyo primer testimonio quedo inscrito el día 27 de diciembre de 2016 en el Registro Público de la
-            Propiedad y del Comercio de dicha Ciudad de Querétaro, Querétaro, en los folios inmobiliarios
-            00160960/0006, 00160973/0006, 00162275/0004, 00162277/0004,
-            00162281/0004, 00162286/0004, 00162370/0004, 00163913/0004,
-            00163922/0004, 00163959/0004, 00163961/0004, 00164556/0004, 00164564/0004, 00165388/0003.
+    <p class="parrafo_negritas">
+        CONTRATO PRIVADO DE COMERCIALIZACIÓN INMOBILIARIA,
+        QUE SUSCRIBEN POR UNA PARTE LA PERSONA MORAL DENOMINADA PLEYATEC S.A. DE C.V., A TRAVÉS DE SU
+        APODERADO LEGAL ARTURO DOMINGUEZ RUIZ, A QUIEN PARA EFECTOS DEL PRESENTE INSTRUMENTO EN LO
+        SUCESIVO SE LE DENOMINARÁ "EL VENDEDOR"; Y POR OTRA PARTE {{ solicitud.cliente_inicio_contrato|upper }},
+        A QUIEN PARA EFECTOS DEL PRESENTE INSTRUMENTO EN LO SUCESIVO SE LE DENOMINARÁ "EL COMPRADOR",
+        AL TENOR DE LAS SIGUIENTES:
+    </p>
 
-        </p>
-        <p>
-            <label>II.- </label>Mediante Escritura Pública número 9,056 con fecha 15 días del mes de
-            mayo de 2017 pasada ante la fe del Lic. Samuel Palacios Vega, titular de la
-            Notaria Pública número 27 de esta Ciudad de Querétaro, Querétaro, se hizo
-            constar, LA CANCELACION DE RESERVA DE DOMINIO a favor de la persona moral
-            denominada “DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD
-            LIMITADA DE CAPITAL VARIABLE, representada por su apoderado legal MIGUEL ANGEL
-            OSORIO ALEJO y la persona moral denominada VISTA COUNTRY CLUB SOCIEDAD
-            ANONIMA DE CAPITAL VARIABLE, representada por su apoderado legal el
-            señor EULOGIO ORTIZ AZOÑOS.
-        </p>
-        <p>
-            <label>III.- </label>Mediante contrato privado denominado de asociación en participación
-            la persona moral “DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE
-            RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE, representada por su apoderado
-            legal MIGUEL ANGEL OSORIO ALEJO y la persona moral denominada PLEYATEC S.A. DE C.V.,
-            representada por su apoderado legal ARTURO DOMINGUEZ RUIZ, acuerdan el llevar a cabo
-            un desarrollo mixto sobre el predio en mención consistente en FRACCIONAMIENTO,
-            PLAZA COMERCIAL Y DEPARTAMENTOS, en dicho contrato la persona moral “DESARROLLADORA
-            INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL
-            VARIABLE, otorga a PLEYATEC S.A. DE C.V. el poder para que realice los
-            trabajos de proyectos, estudios, campaña de ventas, ventas, urbanizaciones,
-            construcciones referentes al proyecto y autorización para recibir todos los pagos productos
-            de las ventas de los clientes compradores de cada uno de los inmuebles a desarrollar en el
-            proyecto, que consiste en:
-        </p>
-        <p>
-            El diseño, construcción, comercialización de una unidad condominal de uso comercial dentro del
-            macrolote 2 designado en proyecto con una superficie de 2032 m² en el que se desarrollara un
-            conjunto de locales comerciales en régimen de condominio consistente en 24 unidades de acuerdo
-            al diseño arquitectónico y lista de acabados que se indican en proyecto e información comercial.
-        </p>
-        <p>
-            <label>IV.- </label> Que el inmueble objeto del presente contrato de compraventa se
-            encuentra dentro del edificio comercial denominado <label>PLAZA TOSCANA </label>
-            que a su vez se encuentra en el macro desarrollo denominado residencial
-            <label>“NÚVOLE RESIDENCIAL”</label>, Ubicado en la calle Camino a
-            Rancho San Francisco S/N Colonia Vista Real, Código postal 76905, Corregidora, Querétaro.
-        </p>
-        <p>
-            El predio en compra venta es el local {{ solicitud.lote.local}}, <label>Nivel</label> {{
-            solicitud.lote.nivel}},
-            del desarrollo comercial <label>"PLAZA TOSCANA"</label> con una área de <label>superficie total de {{
-                solicitud.lote.total }} m²
-                ({{ comp.metros_letra }} m²), con las medidas siguientes:
-<!--                 Vericar si tiene terraza     -->
-        </p>
-        <p class="parrafo_negritas">FRENTE: {{ solicitud.lote.frente}} mts.</p>
-        <p class="parrafo_negritas">FONDO: {{ solicitud.lote.fondo}} mts.</p>
-        <p class="parrafo_negritas">ALTURA LIBRE: {{ solicitud.lote.altura}} mts.</p>
-        <p>
-            En el presente contrato, al inmueble identificado en este Antecedente,
-            se le denominará como el <label>“EL LOCAL”</label>.
-        </p>
-        <p>
-            Se agregan como anexos debidamente firmados por las partes, el <label>"Anexo 1”</label>
-            consistente en el Plano Individual en planta del <label>LOCAL COMERCIAL</label>
-            y en el cual se precisan la superficie, medidas y
-            linderos del inmueble objeto de la presente compraventa.
-        </p>
-        <p>
-            V.- Declara <label>“EL ADQUIRENTE”</label> que:
-        </p>
+    <p class="parrafo_negritas" style="text-align: center;">
+        -A N T E C E D E N T E S-
+    </p>
+    <p class="parrafo_negritas">
+        DE LA PROPIEDAD.
+    </p>
+    <p>
+        <label>I.- </label> Mediante Escritura Pública número 6,848 con fecha 7 de diciembre de 2016
+        pasada ante la fe del Lic. Jorge Maldonado Guerrero, titular de la Notaría Pública número 27
+        de esta Ciudad de Querétaro, Querétaro, se hizo constar, la celebración del Contrato de compraventa
+        con reserva de dominio al que comparecieron por una primera parte la sociedad mercantil denominada
+        "DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE,
+        representada por su apoderado legal MIGUEL ANGEL OSORIO ALEJO y la persona moral denominada VISTA
+        COUNTRY CLUB SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE, representada por su apoderado legal el señor
+        EULOGIO ORTIZ AZOÑOS.
+        Cuyo primer testimonio quedo inscrito el día 27 de diciembre de 2016 en el Registro Público de la
+        Propiedad y del Comercio de dicha Ciudad de Querétaro, Querétaro, en los folios inmobiliarios
+        00160960/0006, 00160973/0006, 00162275/0004, 00162277/0004,
+        00162281/0004, 00162286/0004, 00162370/0004, 00163913/0004,
+        00163922/0004, 00163959/0004, 00163961/0004, 00164556/0004, 00164564/0004, 00165388/0003.
 
-        <ol type="A">
-            <li>
-                Que es de nacionalidad mexicana, mayor de edad, con capacidad jurídica plena
-                para contratar y obligarse en los términos y cláusulas del presente instrumento,
-                con domicilio ubicado en:
+    </p>
+    <p>
+        <label>II.- </label>Mediante Escritura Pública número 9,056 con fecha 15 días del mes de
+        mayo de 2017 pasada ante la fe del Lic. Samuel Palacios Vega, titular de la
+        Notaria Pública número 27 de esta Ciudad de Querétaro, Querétaro, se hizo
+        constar, LA CANCELACION DE RESERVA DE DOMINIO a favor de la persona moral
+        denominada "DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD
+        LIMITADA DE CAPITAL VARIABLE, representada por su apoderado legal MIGUEL ANGEL
+        OSORIO ALEJO y la persona moral denominada VISTA COUNTRY CLUB SOCIEDAD
+        ANONIMA DE CAPITAL VARIABLE, representada por su apoderado legal el
+        señor EULOGIO ORTIZ AZOÑOS.
+    </p>
+    <p>
+        <label>III.- </label>Mediante contrato privado denominado de asociación en participación
+        la persona moral "DESARROLLADORA INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE
+        RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE, representada por su apoderado
+        legal MIGUEL ANGEL OSORIO ALEJO y la persona moral denominada PLEYATEC S.A. DE C.V.,
+        representada por su apoderado legal ARTURO DOMINGUEZ RUIZ, acuerdan el llevar a cabo
+        un desarrollo mixto sobre el predio en mención consistente en FRACCIONAMIENTO,
+        PLAZA COMERCIAL Y DEPARTAMENTOS, en dicho contrato la persona moral "DESARROLLADORA
+        INMOBILIARIA PUNTA ORIENTE SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL
+        VARIABLE, otorga a PLEYATEC S.A. DE C.V. el poder para que realice los
+        trabajos de proyectos, estudios, campaña de ventas, ventas, urbanizaciones,
+        construcciones referentes al proyecto y autorización para recibir todos los pagos productos
+        de las ventas de los clientes compradores de cada uno de los inmuebles a desarrollar en el
+        proyecto, que consiste en:
+    </p>
+    <p>
+        El diseño, construcción, comercialización de una unidad condominal de uso comercial dentro del
+        macrolote 2 designado en proyecto con una superficie de 2032 m² en el que se desarrollara un
+        conjunto de locales comerciales en régimen de condominio consistente en 24 unidades de acuerdo
+        al diseño arquitectónico y lista de acabados que se indican en proyecto e información comercial.
+    </p>
+    <p>
+        <label>IV.- </label> Que el inmueble objeto del presente contrato de compraventa se
+        encuentra dentro del edificio comercial denominado <label>PLAZA TOSCANA </label>
+        que a su vez se encuentra en el macro desarrollo denominado residencial
+        <label>"NUVOLE RESIDENCIAL"</label>, Ubicado en la calle Camino a
+        Rancho San Francisco S/N Colonia Vista Real, Código postal 76905, Corregidora, Querétaro.
+    </p>
+    <p>
+        El predio en compra venta es el local {{ solicitud.lote.lote}}, <label>Nivel</label> {{ solicitud.lote.nivel}},
+        del desarrollo comercial <label>"PLAZA TOSCANA"</label> con una área de <label>superficie total de 
+            {{solicitud.lote.total }} m²
+            ({{ comp.metros_letra }} m²), con las medidas siguientes:
+ <!-- Vericar si tiene terraza   -->
+    </p>
+    <p class="parrafo_negritas">FRENTE: {{ solicitud.lote.frente}} mts.</p>
+    <p class="parrafo_negritas">FONDO: {{ solicitud.lote.fondo}} mts.</p>
+    <p class="parrafo_negritas">ALTURA LIBRE: {{ solicitud.lote.altura}} mts.</p>
+    {% if solicitud.lote.terraza > 0 %}
+    <p class="parrafo_negritas">TERRAZA: {{ solicitud.lote.terraza }} m².</p>
+    {% endif %}
+    <p>
+        En el presente contrato, al inmueble identificado en este Antecedente,
+        se le denominará como el <label>"EL LOCAL"</label>.
+    </p>
+    <p>
+        Se agregan como anexos debidamente firmados por las partes, el <label>"Anexo 1"</label>
+        consistente en el Plano Individual en planta del <label>LOCAL COMERCIAL</label>
+        y en el cual se precisan la superficie, medidas y
+        linderos del inmueble objeto de la presente compraventa.
+    </p>
+    <p>
+        V.- Declara <label>"EL VENDEDOR"</label> que:
+    </p>
 
-                <p class="vineta">
-                    Calle: <label>{{ solicitud.calle }}</label><br>
-                    Colonia: <label>{{ solicitud.colonia }}</label><br>
-                    Codigo postal: <label>{{ solicitud.codpos }}</label><br>
-                    Municipio: <label>{{ solicitud.municipio }}</label><br>
-                    Estado: <label>{{ solicitud.get_estado_display }}</label>
-                </p>
-            </li>
+    <ol type="A">
+        <li>
+            Que es de nacionalidad mexicana, mayor de edad, con capacidad jurídica plena
+            para contratar y obligarse en los términos y cláusulas del presente instrumento,
+            con domicilio ubicado en:
 
-            <li>
-                Que es su deseo obligarse en todos los términos y condiciones del presente instrumento,
-                respecto de <label>“EL LOCAL”</label>.
-            </li>
-            <li>
-                Que conoce el proyecto y las características físicas, proyectadas
-                proyectadas para el DESARROLLO COMERCIAL denominada <label>PLAZA TOSCANA</label>
-                y en específico de <label>“EL LOCAL” número {{ solicitud.lote.local}</label>,
-                así como que es de su conocimiento de que en la actualidad dicho desarrollo inmobiliario
-                se encuentra en proceso de desarrollo.
-            </li>
-            <li>
-                Que es de su conocimiento las circunstancias enunciadas en el capítulo de Antecedente fración II
-                de este Instrumento, al día de hoy, y previa obtención de las autorizaciones, licencias y
-                permisos de Ley, se constituirá un Régimen en Condominio Comercial, cuya denominación será
-                <label>“PLAZA TOSCANA”</label>, o bien la denominación que finalmente sea autorizada por las entidades
-                oficiales
-                correspondientes, ubicada en Camino a Rancho San Francisco S/N Colonia Vista Real, Código postal 76905,
-                Corregidora, Querétaro. Dicho régimen de propiedad en condominio a los que se sujeta <label>“EL
-                    LOCAL”</label> objeto
-                de la presente operación.
-            </li>
+            <p class="vineta">
+                Calle: <label>{{ solicitud.cliente.calle }}</label><br>
+                Colonia: <label>{{ solicitud.cliente.colonia }}</label><br>
+                Codigo postal: <label>{{ solicitud.cliente.codpos }}</label><br>
+                Municipio: <label>{{ solicitud.cliente.municipio }}</label><br>
+                Estado: <label>{{ solicitud.cliente.get_estado_display }}</label>
+            </p>
+        </li>
 
-            <li>
-                Manifiesta también <label>“EL COMPRADOR"</label> que ha tenido a la vista el plano del proyecto
-                arquitectónico.
-            </li>
-        </ol>
-        <p>
-            <label> VI.-</label> Declaran ambas partes que:
-        </p>
-        <ol type="A">
-            <li>
-                Se reconocen en forma recíproca las personalidades con que comparecen a la celebración
-                del presente contrato.
-            </li>
-            <li>
-                Con fines de cumplimiento de lo pactado en el presente contrato, se dan por conformes y
-                satisfechas con los términos aquí pactados, puesto que tienen capacidad jurídica para
-                así convenirlo.
-            </li>
-        </ol>
-        <p>
-            Expuesto lo anterior, las partes convienen en las siguientes:
-        </p>
-        <p class="parrafo_negritas" style="text-align: center;">
-            C L Á U S U L A S
-        </p>
-        <p>
-            <label>PRIMERA. - OBJETO DEL CONTRATO. -</label>
-            La sociedad mercantil denominada <label>PLEYATEC S.A. DE C.V.,</label> representada
-            en este acto por el licenciado ARTURO DOMÍNGUEZ RUÍZ, por medio del
-            presente instrumento <label>VENDE Y EL COMPRADOR, COMPRA PARA SI,</label> sujeto a
-            condición suspensiva, señalada en la cláusula SÉPTIMA del presente
-            contrato; el <label>LOCAL COMERCIAL marcado como NUMERO {{ solicitud.lote.local},
-            </label> de la <label>PLAZA COMERCIAL TOSCANA,</label>
-            del cual más adelante se especifica precio y forma de pago del mismo; cuyas medidas,
-            características y demás especificaciones se detallan en el anexo “A-1”, según el
-            proyecto arquitectónico que en este momento se exhibe y que se agrega al presente
-            instrumento como anexo “A” así como con los acabados y accesorios de los cuales se
-            enlistan en el documento que las partes adjuntan al presente contrato,
-            debidamente firmado y marcado con la letra “B”, documentos que van
-            debidamente firmados por las partes, y que desde este momento se dan
-            aquí por reproducidas como si se hubieran insertado a la letra, estando a la fecha libre
-            de todo gravamen y responsabilidad fiscal.
-        </p>
+        <li>
+            Que es su deseo obligarse en todos los términos y condiciones del presente instrumento,
+            respecto de <label>"EL LOCAL"</label>.
+        </li>
+        <li>
+            Que conoce el proyecto y las características físicas, proyectadas
+            proyectadas para el DESARROLLO COMERCIAL denominada <label>PLAZA TOSCANA</label>
+            y en específico de <label>"EL LOCAL" número {{ solicitud.lote.lote}}</label>,
+            así como que es de su conocimiento de que en la actualidad dicho desarrollo inmobiliario
+            se encuentra en proceso de desarrollo.
+        </li>
+        <li>
+            Que es de su conocimiento las circunstancias enunciadas en el capítulo de Antecedente fración II
+            de este Instrumento, al día de hoy, y previa obtención de las autorizaciones, licencias y
+            permisos de Ley, se constituirá un Régimen en Condominio Comercial, cuya denominación será
+            <label>"PLAZA TOSCANA"</label>, o bien la denominación que finalmente sea autorizada por las entidades
+            oficiales
+            correspondientes, ubicada en Camino a Rancho San Francisco S/N Colonia Vista Real, Código postal 76905,
+            Corregidora, Querétaro. Dicho régimen de propiedad en condominio a los que se sujeta <label>"EL
+                LOCAL"</label> objeto
+            de la presente operación.
+        </li>
 
-        <p>
-            <label>SEGUNDA. - PRECIO Y FORMA DE PAGO. - “LAS PARTES”</label> convienen que el
-            precio por la adquisición de <label>“EL LOCAL”</label>, será por la:
-        </p>
+        <li>
+            Manifiesta también <label>"EL COMPRADOR"</label> que ha tenido a la vista el plano del proyecto
+            arquitectónico.
+        </li>
+    </ol>
+    <p>
+        <label> VI.-</label> Declaran ambas partes que:
+    </p>
+    <ol type="A">
+        <li>
+            Se reconocen en forma recíproca las personalidades con que comparecen a la celebración
+            del presente contrato.
+        </li>
+        <li>
+            Con fines de cumplimiento de lo pactado en el presente contrato, se dan por conformes y
+            satisfechas con los términos aquí pactados, puesto que tienen capacidad jurídica para
+            así convenirlo.
+        </li>
+    </ol>
+    <p>
+        Expuesto lo anterior, las partes convienen en las siguientes:
+    </p>
+    <br>
+    <p class="parrafo_negritas" style="text-align: center;">
+        C L Á U S U L A S
+    </p>
+    <p>
+        <label>PRIMERA. - OBJETO DEL CONTRATO. -</label>
+        La sociedad mercantil denominada <label>PLEYATEC S.A. DE C.V.,</label> representada
+        en este acto por el licenciado ARTURO DOMÍNGUEZ RUÍZ, por medio del
+        presente instrumento <label>VENDE Y "EL COMPRADOR", COMPRA PARA SI,</label> sujeto a
+        condición suspensiva, señalada en la cláusula SÉPTIMA del presente
+        contrato; el <label>LOCAL COMERCIAL marcado como NUMERO {{ solicitud.lote.lote}},
+        </label> de la <label>PLAZA COMERCIAL TOSCANA,</label>
+        del cual más adelante se especifica precio y forma de pago del mismo; cuyas medidas,
+        características y demás especificaciones se detallan en el anexo "A-1", según el
+        proyecto arquitectónico que en este momento se exhibe y que se agrega al presente
+        instrumento como anexo "A" así como con los acabados y accesorios de los cuales se
+        enlistan en el documento que las partes adjuntan al presente contrato,
+        debidamente firmado y marcado con la letra "B", documentos que van
+        debidamente firmados por las partes, y que desde este momento se dan
+        aquí por reproducidas como si se hubieran insertado a la letra, estando a la fecha libre
+        de todo gravamen y responsabilidad fiscal.
+    </p>
+
+    <p>
+        <label>SEGUNDA. - PRECIO Y FORMA DE PAGO. - "LAS PARTES"</label> convienen que el
+        precio por la adquisición de <label>"EL LOCAL"</label>, será por la:
+    </p>
+    <ul>
+        <li>cantidad de $ {{ precio_x_mt_i }} ({{ precio_x_mt_l }} pesos {{ precio_x_mt_d }}/100 M.N.), por metro
+            cuadrado,</li>
+        <li>dando un total de {{ precio_i }} ({{ precio_l }} pesos {{ precio_d }}/100 M.N.)</li>
+        <li>pago que se realizará de acuerdo a la siguiente negociación:</li>
         <ul>
-            <li>cantidad de $ {{ precio_x_mt_i }} ({{ precio_x_mt_l }} pesos {{ precio_x_mt_d }}/100 M.N.), por metro
-                cuadrado,</li>
-            <li>dando un total de {{ precio_i }} ({{ precio_l }} pesos {{ precio_d }}/100 M.N.)</li>
-            <li>pago que se realizará de acuerdo a la siguiente negociación:</li>
-            <ul>
-                {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
-                <li>Descuento del {{ solicitud.porcentaje_descuento }}% por pago de contado</li>
-                {% else %}
-                <li>Descuento del {{ solicitud.porcentaje_descuento }}% por el importe de enganche pagado</li>
-                {% endif %}
-                <li>arrojando un precio por m² de ${{ precio_x_mt_n_i }} ({{precio_x_mt_n_l}} pesos {{ precio_x_mt_n_d
-                    }}/100 M.N.), por m², </li>
-                <li>quedando como valor total de <label>"El Lote"</label> la cantidad de
-                    ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.),</li>
-            </ul>
-            <li>Quedando un importe total a la firma de contrato</li>
-            <ul>
-                <li>del Local de ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.)</li>
-                {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
-                <li>pago total por ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.)</li>
-                <li>Saldo la cantidad de $0 (cero pesos 00/100M.N.)</li>
-                {% else %}
-                <li>Enganche por ${{ enganche_i }} ({{enganche_l}} pesos {{ enganche_d }}/100 M.N.)</li>
-                <li>Saldo la cantidad de ${{ saldo_i }} ({{saldo_l}} pesos {{ saldo_d }}/100M.N.)</li>
-                {% if ultimo_pago == importe_x_pago %}
-                <li>
-                    Que será pagado en {{ solicitud.cantidad_pagos}} pagos mensuales
-                    con un importe de ${{ importe_x_pago_i }} ({{ importe_x_pago_l }} pesos {{ importe_x_pago_d }}/100
-                    M.N.)
-                </li>
-                {% else %}
-                <li>
-                    Que será pagado en {{ cantidad_pagos_1 }} pagos mensuales de
-                    con un importe de ${{ importe_x_pago_i }} ({{ importe_x_pago_l }} pesos {{ importe_x_pago_d }}/100
-                    M.N.) y
-                    un pago final de ${{ ultimo_pago_i }} ({{ ultimo_pago_l }} pesos {{ ultimo_pago_d }}/100 M.N.)
-                </li>
-                {% endif %}
-                {% endif %}
-            </ul>
-        </ul>
-
-        <p>
-            {% if not solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
-            <label>“LAS PARTES”</label> acuerdan que, en caso de retraso en el pago del precio pactado,
-            la parte que sea responsable del incumplimiento pagará a la parte inocente y
-            afectada con el incumplimiento, un interés moratorio del 18 % (dieciocho por
-            ciento) anual sobre saldos vencidos y no pagados.
+            {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+            <li>Descuento del {{ solicitud.porcentaje_descuento }}% por pago de contado</li>
+            {% else %}
+            <li>Descuento del {{ solicitud.porcentaje_descuento }}% por el importe de enganche pagado</li>
             {% endif %}
-        </p>
-        <p>
-            Los pagos señalados con anterioridad deberán realizarse a la cuenta que se
-            señala a continuación:
-        </p>
-        <ul>
-            <li>
-                BANCO: INTERCAM BANCO S.A. DE C.V.
-            </li>
-            <li>
-                BENEFICIARIO: PLEYATEC S.A. DE C.V.
-            </li>
-            <li>
-                PARA PAGO EN VENTANILLA: 017 99 462 001 1
-            </li>
-            <li>
-                Sucursal: 017
-            </li>
-            <li>
-                Referencia: <label>A24F1</label>
-            </li>
-            <li>
-                PARA PAGO CON TRANSFERENCIA INTERBANCARIA: 136 680 179 946 200 118
-            </li>
+            <li>arrojando un precio de ${{ precio_x_mt_n_i }} ({{precio_x_mt_n_l}} pesos 
+                {{ precio_x_mt_n_d}}/100 M.N.), por m², </li>
+            <li>quedando como valor total de <label>"EL LOCAL"</label> la cantidad de
+                ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.),</li>
         </ul>
-        <p>
-            Los pagos deberán realizarse en días y horas hábiles, por lo que si la
-            fecha de una o más de las exhibiciones antes señaladas coincide con un
-            día inhábil, <label>“EL COMPRADOR</label> deberá realizar el pago en el día hábil
-            inmediato siguiente a la fecha de vencimiento del calendario de pagos
-            precedente.
-        </p>
-        <p>
-            En este acto <label>“EL COMPRADOR</label> suscribirá {{cantidad_pagos}} ({{cantidad_pagos_l}})
-            pagares que garantizarán los pagos establecidos en el calendario de pagos,
-            mismos que estarán numerados del 1/{{cantidad_pagos}} al
-            {{cantidad_pagos}}/{{cantidad_pagos}}, los cuales quedarán en posesión de
-            <label>“EL VENDEDOR”</label> y serán cancelados y entregados a
-            <label>“EL COMPRADOR</label> contra el recibo de pago correspondiente.
-        </p>
-        <p>
-            Únicamente se aceptarán como medios de pago transferencias electrónicas,
-            tarjeta de crédito o débito, cheques “para abono en cuenta” y similares
-            y/o financiamientos de cualquier tipo que tengan origen en instituciones
-            financieras acreditadas en México o en aquellos países que establezcan
-            requisitos equivalentes a los de la legislación mexicana para la
-            realización de este tipo de actividades.
-        </p>
-        <p>
-            <label>“EL COMPRADOR</label> deberá realizar el canje de los comprobantes de pago por
-            recibos, con el asesor correspondiente, dentro de los 5 días naturales
-            siguientes a la fecha de pago, siempre y cuando haya enviado el comprobante
-            del pago efectuado al correo comprobantes@geztio.mx incluyendo los datos
-            para identificar el número de lote, manzana y etapa, así como acompañar
-            al comprobante su nombre y firma en cualquier parte del documento.
-            Cuando el pago se haya realizado vía depósito con cheque, deberá
-            enviar copia del cheque junto con el comprobante de pago.
-        </p>
-        <p>
-            <label>TERCERA.- ESCRITURA PÚBLICA.- “EL VENDEDOR”</label> se obliga a otorgar la escritura pública que
-            formalice el presente contrato a favor de <label></label>“EL COMPRADOR”</label>, a más tardar en el mes de
-            diciembre de 2022 dos
-            mil veintidós, siempre y cuando se haya dado cumplimiento a la condición suspensiva
-            señalada en la cláusula séptima de este contrato, para lo cual se observará lo siguiente:
-        </p>
-        <ol type="A">
+        <li>Quedando un importe total a la firma de contrato</li>
+        <ul>
+            <li>del Local de ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.)</li>
+            {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+            <li>pago total por ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.)</li>
+            <li>Saldo la cantidad de $0 (cero pesos 00/100M.N.)</li>
+            {% else %}
+            <li>Enganche por ${{ enganche_i }} ({{enganche_l}} pesos {{ enganche_d }}/100 M.N.)</li>
+            <li>Saldo la cantidad de ${{ saldo_i }} ({{saldo_l}} pesos {{ saldo_d }}/100M.N.)</li>
+            {% if ultimo_pago == importe_x_pago %}
             <li>
-                <label>>“EL VENDEDOR”</label> se obliga a otorgar la escritura pública que formalice la transmisión de
-                <label>“EL
-                    LOCAL”</label> referido a favor de <label>“EL COMPRADOR”</label>.
+                Que será pagado en {{ solicitud.cantidad_pagos}} pagos mensuales
+                con un importe de ${{ importe_x_pago_i }} ({{ importe_x_pago_l }} pesos {{ importe_x_pago_d }}/100 M.N.)
             </li>
+            {% else %}
             <li>
-                El otorgamiento de la escritura pública que formalice la transmisión de <label>“EL LOCAL”</label>, se
-                realizará
-                ante la fe del Licenciado Jorge Maldonado Guerrero, Titular de la Notaría Pública número 4 (cuatro), de
-                esta Demarcación Notarial del estado de Querétaro.
+                Que será pagado en {{ cantidad_pagos_1 }} pagos mensuales de
+                con un importe de ${{ importe_x_pago_i }} ({{ importe_x_pago_l }} pesos {{ importe_x_pago_d }}/100 M.N.)
+                y
+                un pago final de ${{ ultimo_pago_i }} ({{ ultimo_pago_l }} pesos {{ ultimo_pago_d }}/100 M.N.)
             </li>
-            <li>
-                Todos los impuestos, derechos, honorarios y gastos que se generen en virtud de la transmisión correrán a
-                cargo de la aquí señalada como <label>“EL COMPRADOR”</label>,
-                exceptuando el Impuesto Sobre la Renta por enajenación que dicha operación genere, mismo que correrá a
-                cargo de la
-                aquí señalada como <label>“EL VENDEDOR”</label>, quedando ambas partes obligadas a realizar los enteros
-                correspondientes en forma personal y directa.
-            </li>
-            <li>
-                Ambas partes se obligan a hacer llegar con toda oportunidad al Notario Público para formalizar la
-                transmisión, los documentos e información que sea necesaria para que
-                en la fecha indicada se formalice la transmisión del local comercial.
-            </li>
-            <li>
-                Al momento de la firma señalada, se hará entrega del dominio y propiedad
-                del <label>"EL LOCAL" NUMERO</label> <label>{{ solicitud.lote.local}</label> del desarrollo comercial
-                denominado
-                <label>“PLAZA TOSCANA”</label>, obligándose la aquí
-                señalada como <label>“EL VENDEDOR”</label> al saneamiento para el caso de
-                evicción en los términos de Ley y a garantizar el inmueble por vicios ocultos
-                durante un año a partir de dicha entrega.
-            </li>
-            <li>
-                La anterior transmisión se realizará, obviamente, previo cumplimiento de la condición suspensiva pactada
-                en la cláusula
-                séptima de este contrato, consistente en que<label>“EL VENDEDOR”</label> haya formalizado en Escritura
-                Pública la constitución del
-                régimen de propiedad en condominio al cual se sujetará <label>“EL LOCAL”</label> objeto de esta
-                operación.
-            </li>
-        </ol>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </ul>
 
-        <p>
-            <label>CUARTA.- RESERVA DE DOMINIO Y PROPIEDAD.- “EL VENDEDOR”</label> en este acto se reserva el
-            dominio y propiedad del inmueble objeto de esta operación, derechos que entregará a <label>“EL
-                COMPRADOR”</label>,
-            precisamente al momento del otorgamiento de la escritura pública a que se refiere
-            la cláusula tercera, obligándose en su momento al saneamiento para el caso de evicción en los
-            términos de Ley.
-        </p>
-        <p>
-            <label>QUINTA.- DE LA ENTREGA DE LA POSESIÓN.- "EL VENDEDOR"</label> se obliga a entregar a
-            <label>“EL COMPRADOR”</label> la posesión física de <label>“EL LOCAL”</label> objeto de la presente
-            operación,
-            totalmente construido y con los acabados y especificaciones pactados, al momento en que se otorgue la
-            escritura pública.
-            Las partes están de acuerdo en que la fecha antes señalada podrá ampliarse en 120 (ciento veinte)
-            días naturales adicionales de ser necesario para el mejor logro del proyecto de construcción.
-        </p>
-        <p>
-            A partir de que <label>“EL COMPRADOR”</label> reciba físicamente <label>“EL LOCAL”</label>, será responsable
-            en forma única del
-            pago de los servicios como lo es agua, electricidad, así como cuotas de mantenimiento y/o conservación
-            y/o administración, y demás impuestos y servicios correspondientes al inmueble objeto de la presente
-            operación, lo cual será extensivo para cualquier persona que llegue a ocupar o usar el Inmueble.
-        </p>
-        <p>
-            Asimismo, para efectos de lo anterior, las partes convienen que se hará constar en la escritura pública la
-            entrega física del local,
-            la cual hará las veces de constancia de entrega del mismo, y desde esa fecha inicien las obligaciones de
-            pago pactadas en el párrafo anterior.
-        </p>
-        <p>
-            Ambas partes pactan que una vez que se esté en posibilidad de otorgar la escritura pública correspondiente y
-            hacer la entrega del inmueble
-            objeto del presente instrumento, <label>“EL COMPRADOR”</label> contará con el plazo de 3 meses a partir de
-            haber sido notificada por <label>“EL VENDEDOR”</label> de estar
-            en aptitud de otorgar la escritura pública y entregarle la posesión para que se pueda otorgar la
-            correspondiente escritura pública, en cuyo caso
-            <label>“EL VENDEDOR”</label> podrá el derecho de rescindir el presente contrato a <label>“EL
-                COMPRADOR”</label> y hacerle efectiva una pena convencional pactada en la cláusula
-            novena de este contrato.
-        </p>
-        <p>
-            <label>“EL COMPRADOR”</label>, al ser sabedora que al día de hoy se encuentra pendiente de obtener las
-            autorizaciones y permisos correspondientes para formalizar la Constitución del Régimen de
-            Propiedad en Condominio al que pertenece el Local, acepta que puede haber variación en algunas
-            medidas y colindancias hasta en un 3% tres por ciento de la distribución de las áreas comunes del
-            condominio al que pertenece. No obstante, lo anterior, las partes acuerdan que si es el caso que
-            existiesen las variaciones antes mencionadas, esto no provocará ninguna modificación a las
-            superficies privativas que corresponden al Local objeto de esta operación.
-        </p>
-        <p>
-            Asimismo, por lo que respecta al suministro de telefonía, televisión, etcétera, del Local, se deberán
-            utilizar las instalaciones, conducciones y cableado que existirán en las denominadas áreas de
-            servicio, no pudiendo por tanto colocarse otros distintos a los referidos. Todos los consumos de
-            servicios serán pagados por <label>“EL COMPRADOR”</label> y/o su inquilino.
-        </p>
+    <p>
+        {% if not solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
+        <label>"LAS PARTES"</label> acuerdan que, en caso de retraso en el pago del precio pactado,
+        la parte que sea responsable del incumplimiento pagará a la parte inocente y
+        afectada con el incumplimiento, un interés moratorio del 18 % (dieciocho por
+        ciento) anual sobre saldos vencidos y no pagados.
+        {% endif %}
+    </p>
+    <p>
+        Los pagos señalados con anterioridad deberán realizarse a la cuenta que se
+        señala a continuación:
+    </p>
+    <ul>
+        <li>
+            BANCO: INTERCAM BANCO S.A. DE C.V.
+        </li>
+        <li>
+            BENEFICIARIO: PLEYATEC S.A. DE C.V.
+        </li>
+        <li>
+            PARA PAGO EN VENTANILLA: 017 99 462 001 1
+        </li>
+        <li>
+            Sucursal: 017
+        </li>
+        <li>
+            Referencia: <label>A24F1</label>
+        </li>
+        <li>
+            PARA PAGO CON TRANSFERENCIA INTERBANCARIA: 136 680 179 946 200 118
+        </li>
+    </ul>
+    <p>
+        Los pagos deberán realizarse en días y horas hábiles, por lo que si la
+        fecha de una o más de las exhibiciones antes señaladas coincide con un
+        día inhábil, <label>"EL COMPRADOR"</label> deberá realizar el pago en el día hábil
+        inmediato siguiente a la fecha de vencimiento del calendario de pagos
+        precedente.
+    </p>
+    <p>
+        En este acto <label>"EL COMPRADOR"</label> suscribirá {{cantidad_pagos}} ({{cantidad_pagos_l}})
+        pagares que garantizarán los pagos establecidos en el calendario de pagos,
+        mismos que estarán numerados del 1/{{cantidad_pagos}} al
+        {{cantidad_pagos}}/{{cantidad_pagos}}, los cuales quedarán en posesión de
+        <label>"EL VENDEDOR"</label> y serán cancelados y entregados a
+        <label>"EL COMPRADOR"</label> contra el recibo de pago correspondiente.
+    </p>
+    <p>
+        Únicamente se aceptarán como medios de pago transferencias electrónicas,
+        tarjeta de crédito o débito, cheques "para abono en cuenta" y similares
+        y/o financiamientos de cualquier tipo que tengan origen en instituciones
+        financieras acreditadas en México o en aquellos países que establezcan
+        requisitos equivalentes a los de la legislación mexicana para la
+        realización de este tipo de actividades.
+    </p>
+    <p>
+        <label>"EL COMPRADOR"</label> deberá realizar el canje de los comprobantes de pago por
+        recibos, con el asesor correspondiente, dentro de los 5 días naturales
+        siguientes a la fecha de pago, siempre y cuando haya enviado el comprobante
+        del pago efectuado al correo comprobantes@geztio.mx incluyendo los datos
+        para identificar el número de local, así como acompañar
+        al comprobante su nombre y firma en cualquier parte del documento.
+        Cuando el pago se haya realizado vía depósito con cheque, deberá
+        enviar copia del cheque junto con el comprobante de pago.
+    </p>
+    <p>
+        <label>TERCERA.- ESCRITURA PÚBLICA.- "EL VENDEDOR"</label> se obliga a otorgar la escritura pública que
+        formalice el presente contrato a favor de <label></label>"EL COMPRADOR"</label>, a más tardar en el mes de
+        diciembre de 2022 dos
+        mil veintidós, siempre y cuando se haya dado cumplimiento a la condición suspensiva
+        señalada en la cláusula séptima de este contrato, para lo cual se observará lo siguiente:
+    </p>
+    <ol type="a">
+        <li>
+            <label>"EL VENDEDOR"</label> se obliga a otorgar la escritura pública que formalice la transmisión de
+            <label>"EL LOCAL"</label> referido a favor de <label>"EL COMPRADOR"</label>.
+        </li>
+        <li>
+            El otorgamiento de la escritura pública que formalice la transmisión de <label>"EL LOCAL"</label>, se
+            realizará
+            ante la fe del Licenciado Jorge Maldonado Guerrero, Titular de la Notaría Pública número 4 (cuatro), de esta
+            Demarcación Notarial del estado de Querétaro.
+        </li>
+        <li>
+            Todos los impuestos, derechos, honorarios y gastos que se generen en virtud de la transmisión correrán a
+            cargo de la aquí señalada como <label>"EL COMPRADOR"</label>,
+            exceptuando el Impuesto Sobre la Renta por enajenación que dicha operación genere, mismo que correrá a cargo
+            de la
+            aquí señalada como <label>"EL VENDEDOR"</label>, quedando ambas partes obligadas a realizar los enteros
+            correspondientes en forma personal y directa.
+        </li>
+        <li>
+            Ambas partes se obligan a hacer llegar con toda oportunidad al Notario Público para formalizar la
+            transmisión, los documentos e información que sea necesaria para que
+            en la fecha indicada se formalice la transmisión del local comercial.
+        </li>
+        <li>
+            Al momento de la firma señalada, se hará entrega del dominio y propiedad
+            del <label>"EL LOCAL" NUMERO</label> <label>{{ solicitud.lote.lote}}</label> del desarrollo comercial
+            denominado
+            <label>"PLAZA TOSCANA"</label>, obligándose la aquí
+            señalada como <label>"EL VENDEDOR"</label> al saneamiento para el caso de
+            evicción en los términos de Ley y a garantizar el inmueble por vicios ocultos
+            durante un año a partir de dicha entrega.
+        </li>
+        <li>
+            La anterior transmisión se realizará, obviamente, previo cumplimiento de la condición suspensiva pactada en
+            la cláusula
+            séptima de este contrato, consistente en que<label>"EL VENDEDOR"</label> haya formalizado en Escritura
+            Pública la constitución del
+            régimen de propiedad en condominio al cual se sujetará <label>"EL LOCAL"</label> objeto de esta operación.
+        </li>
+    </ol>
 
-        <p>
-            <label>SEXTA.- ADEUDOS DE CONTRIBUCIONES.- “LAS PARTES”</label> Para todos los efectos legales a que haya
-            lugar,
-            <label>“EL VENDEDOR”</label> se obliga a cubrir a <label>“EL COMPRADOR”</label>, todo adeudo y diferencia de
-            contribuciones
-            prediales, multas o cualquier otro Impuesto, así como cuotas de condóminos, y cualquier otro
-            servicio u obligación que recaiga sobre el inmueble objeto de la presente operación, originados
-            hasta la fecha de formalización de escrituras del inmueble, o a reembolsar a su contratante, de cualquier
-            cantidad que hubiere que pagar por ese concepto.
-        </p>
-        <p>
-            Una vez formalizado la escrituración del inmueble por <label>“EL VENDEDOR”</label> a favor de <label>“EL
-                COMPRADOR”</label>, todos los
-            impuestos, servicios, cuotas y demás que recaigan sobre el mismo, serán a cargo de <label>“EL
-                COMPRADOR”</label>, quien
-            desde este momento acepta dicha obligación así como la responsabilidad absoluta respecto de cualquier
-            problema que se origine desde EL <label>"EL LOCAL NUMERO {{ solicitud.lote.local}, DE LA PLAZA
-                TOSCANA</label> ese momento por el mantenimiento o
-            mejora del inmueble, lo anterior en virtud de que “EL COMPRADOR” en este acto reitera conocer el inmueble
-            objeto de la compraventa, y en su momento lo recibirá con todo lo que de hecho y por derecho le corresponde.
-        </p>
-        <p>
-            <label>SÉPTIMA. - CONDICIÓN SUSPENSIVA. -</label> Las partes sujetan el presente contrato a la CONDICIÓN
-            <label>SUSPENSIVA</label> consistente en que <label>“EL VENDEDOR”</label>, deberá formalizar tanto la
-            constitución del
-            régimen en condominio a que pertenece el inmueble objeto de la presente operación en un término
-            que no exceda el mes de diciembre de 2022 dos mil veintidós.
-        </p>
-        <p>
-            Convienen las partes que en el supuesto de que no se cumpla la <label>CONDICIÓN SUSPENSIVA</label> pactada
-            en el párrafo inmediato anterior, esto es que si llegado el mes de diciembre de dos mil veintidós,
-            <label>“EL VENDEDOR”</label> no haya formalizado en escritura pública la constitución del régimen en
-            condominio al
-            que pertenece el inmueble objeto de este contrato, luego entonces <label>“EL COMPRADOR”</label> podrá optar
-            por
-            cualquiera de las siguientes opciones:
-        </p>
-        <p>
-            Será potestativo de <label>“EL COMPRADOR”:</label>
-        </p>
-        <ol type="A">
-            <li>
-                El otorgar una prórroga de 6 seis meses más, a <label>“EL VENDEDOR”</label>, para formalizar en
-                Escritura Pública la constitución
-                del régimen en condominio aludido, siempre y cuando <label>“EL VENDEDOR”</label> acredite
-                fehacientemente a <label>“EL COMPRADOR”</label> que
-                sigue realizando los trámites para la obtención de las autorizaciones correspondientes, o; Rescindir el
-                contrato,
-                procediendo en consecuencia conforme a lo pactado en la cláusula novena de este contrato.
-            </li>
-            <li>
-                Una vez cumplida la prórroga de 6 seis meses señalada en el inciso que antecede, si <label>“EL
-                    VENDEDOR”</label> no ha formalizado
-                en escritura pública la constitución del condominio, luego entonces <label>“EL COMPRADOR”</label> podrá
-                otorgar una nueva prórroga
-                o bien rescindir el contrato, procediendo en consecuencia conforme a lo pactado en la cláusula novena de
-                este contrato.
-            </li>
-        </ol>
-        <p>
-            <label>OCTAVA. - RESCISIÓN.-</label> Las partes contratantes convienen desde ahora en que las causas de
-            rescisión del presente contrato serán:
-        </p>
-        <ol type="A">
-            <li>
-                Que <label>“EL COMPRADOR”</label> incumpla con el pago puntual de cualquiera de los pagos pactados en
-                la cláusula segunda del presente contrato.
-            </li>
-            <li>
-                Que <label>“EL VENDEDOR”</label> no pueda formalizar en escritura pública el presente documento, de
-                conformidad con la cláusulas tercera, quinta y séptima y/o que en <label>“EL LOCAL” NÚMERO {{
-                    solicitud.lote.local} DEL DESARROLLO COMERCIAL PLAZA TOSCANA</label>
-                apareciere un gravamen, afectación, embargo o limitación de dominio sobre el inmueble objeto de este
-                contrato.
-            </li>
-        </ol>
-        <p>
-            <label> NOVENA. - PENA CONVENCIONAL.-</label> Para el caso de que <label>“EL COMPRADOR”</label> no diera
-            cumplimiento a cualquiera de las obligaciones
-            que asume en virtud de “EL CONTRATO”, o decida en forma unilateral cancelar la operación de transmisión
-            objeto material
-            de <label>“EL CONTRATO”</label>, este se hará acreedor a la aplicación de una pena convencional consistente
-            en el 20% (veinte por ciento)
-            del valor total de la operación consignado en el presente instrumento, facultando <label>“EL
-                COMPRADOR”</label> a <label>“EL VENDEDOR ”</label> en este
-            acto, sin reserva ni restricción alguna, a deducir y descontar dicha cantidad de la cantidad entregada por
-            concepto de
-            anticipo, apartado, enganche y/o parcialidades pactadas, y devolver el remanente a <label>“EL
-                COMPRADOR”</label> en forma inmediata, lo
-            anterior siempre y cuando se haya agotado el período para remediar incumplimientos previsto en la cláusula
-            inmediata anterior.
-        </p>
-        <p>
-            En relación con lo anterior, <label>“EL COMPRADOR”</label> autoriza desde este momento a <label>“EL
-                VENDEDOR”</label> para
-            que disponga de las cantidades de dinero pagadas a cuenta del precio convenido, a fin de que pueda
-            aplicarlas al pago de las penas convencionales y/o penas moratorias pactadas en “EL CONTRATO”,
-            lo anterior sin necesidad de declaración judicial, por lo que “EL VENDEDOR” no tendrá
-            responsabilidad alguna de ningún tipo en la aplicación de este pacto y estará en posibilidad de
-            disponer del dinero que le haya sido entregado, como mejor convenga a sus intereses.
-        </p>
-        <p>
-            <label>“LAS PARTES”</label> convienen que el pago de las parcialidades a cargo de <label>“EL
-                COMPRADOR”</label>, establecidas
-            en la cláusula Segunda de “EL CONTRATO”, están sujetas a la condición de que, al no pagarse cualquiera
-            de ellas a su vencimiento, serán exigibles todas las que le sigan en número, además de las ya vencidas,
-            más el pago de la pena moratoria y demás penas aplicables.
-        </p>
-        <p>
-            Ante el caso de incumplimiento de <label>“EL COMPRADOR”</label> de las obligaciones de pago pactadas en
-            <label>“EL CONTRATO”</label>, <label>“EL VENDEDOR”</label> podrá optar de manera unilateral, entre exigir
-            el cumplimiento forzoso de “EL CONTRATO” más el pago de la pena moratoria, o bien, darlo por rescindido sin
-            necesidad de declaración judicial y sin responsabilidad para “EL VENDEDOR”, más el pago de la pena
-            convencional pactada, en los términos del artículo 88 del Código de Comercio.
-        </p>
-        <p>
-            En caso de que <label>“EL VENDEDOR”</label> incumpla en el tiempo de entrega compromiso que se fija en este
-            contrato, esta pagará a <label>“EL COMPRADOR”</label> una pena convencional equivalente al 3% (tres por
-            ciento)
-            del importe de la operación que se especifica en este contrato, salvo que el retraso se deba a
-            cuestiones de fuerza mayor o caso fortuito no imputables a <label>“EL VENDEDOR”</label>.
-        </p>
+    <p>
+        <label>CUARTA.- RESERVA DE DOMINIO Y PROPIEDAD.- "EL VENDEDOR"</label> en este acto se reserva el
+        dominio y propiedad del inmueble objeto de esta operación, derechos que entregará a <label>"EL
+            COMPRADOR"</label>,
+        precisamente al momento del otorgamiento de la escritura pública a que se refiere
+        la cláusula tercera, obligándose en su momento al saneamiento para el caso de evicción en los
+        términos de Ley.
+    </p>
+    <p>
+        <label>QUINTA.- DE LA ENTREGA DE LA POSESIÓN.- "EL VENDEDOR"</label> se obliga a entregar a
+        <label>"EL COMPRADOR"</label> la posesión física de <label>"EL LOCAL"</label> objeto de la presente operación,
+        totalmente construido y con los acabados y especificaciones pactados, al momento en que se otorgue la escritura
+        pública.
+        Las partes están de acuerdo en que la fecha antes señalada podrá ampliarse en 120 (ciento veinte)
+        días naturales adicionales de ser necesario para el mejor logro del proyecto de construcción.
+    </p>
+    <p>
+        A partir de que <label>"EL COMPRADOR"</label> reciba físicamente <label>"EL LOCAL"</label>, será responsable en
+        forma única del
+        pago de los servicios como lo es agua, electricidad, así como cuotas de mantenimiento y/o conservación
+        y/o administración, y demás impuestos y servicios correspondientes al inmueble objeto de la presente
+        operación, lo cual será extensivo para cualquier persona que llegue a ocupar o usar el Inmueble.
+    </p>
+    <p>
+        Asimismo, para efectos de lo anterior, las partes convienen que se hará constar en la escritura pública la
+        entrega física del local,
+        la cual hará las veces de constancia de entrega del mismo, y desde esa fecha inicien las obligaciones de pago
+        pactadas en el párrafo anterior.
+    </p>
+    <p>
+        Ambas partes pactan que una vez que se esté en posibilidad de otorgar la escritura pública correspondiente y
+        hacer la entrega del inmueble
+        objeto del presente instrumento, <label>"EL COMPRADOR"</label> contará con el plazo de 3 meses a partir de haber
+        sido notificada por <label>"EL VENDEDOR"</label> de estar
+        en aptitud de otorgar la escritura pública y entregarle la posesión para que se pueda otorgar la correspondiente
+        escritura pública, en cuyo caso
+        <label>"EL VENDEDOR"</label> podrá el derecho de rescindir el presente contrato a <label>"EL COMPRADOR"</label>
+        y hacerle efectiva una pena convencional pactada en la cláusula
+        novena de este contrato.
+    </p>
+    <p>
+        <label>"EL COMPRADOR"</label>, al ser sabedora que al día de hoy se encuentra pendiente de obtener las
+        autorizaciones y permisos correspondientes para formalizar la Constitución del Régimen de
+        Propiedad en Condominio al que pertenece el Local, acepta que puede haber variación en algunas
+        medidas y colindancias hasta en un 3% tres por ciento de la distribución de las áreas comunes del
+        condominio al que pertenece. No obstante, lo anterior, las partes acuerdan que si es el caso que
+        existiesen las variaciones antes mencionadas, esto no provocará ninguna modificación a las
+        superficies privativas que corresponden al Local objeto de esta operación.
+    </p>
+    <p>
+        Asimismo, por lo que respecta al suministro de telefonía, televisión, etcétera, del Local, se deberán
+        utilizar las instalaciones, conducciones y cableado que existirán en las denominadas áreas de
+        servicio, no pudiendo por tanto colocarse otros distintos a los referidos. Todos los consumos de
+        servicios serán pagados por <label>"EL COMPRADOR"</label> y/o su inquilino.
+    </p>
 
-        <p>En caso de que se materialice el supuesto antes señalado y <label> OPERADORA”</label>
-            dé por rescindido<label>“EL CONTRATO”</label>, ésta exclusivamente estará obligada
-            a reintegrar la cantidad que a la fecha de rescisión haya recibido de
-            <label>“EL ADQUIRENTE”</label>, descontando las cantidades que en virtud de <label>“EL CONTRATO”</label>
-            sean aplicables, sin obligación de reintegrar alguna otra cantidad por
-            concepto de intereses, situación con la que está de acuerdo y acepta de
-            conformidad <label>“EL ADQUIRENTE”</label>.
-        </p>
-        <p>
-            <label>DÉCIMA. CUMPLIMIENTO DE REGLAMENTOS - “EL COMPRADOR”</label> acepta ser condómino de la que
-            será la Unidad Condominal Comercial <label>PLAZA TOSCANA</label>, y asume la obligación de aceptar, observar
-            y cumplir sus Reglamentos de Administración y/o construcción y/o cualquier otra que los rija,
-            además de sus Escrituras de Constitución y el Código Urbano, así como cubrir puntualmente las
-            cuotas de mantenimiento del Condominio a partir de la posesión física del inmueble objeto del
-            presente contrato.
-        </p>
-        <p>
-            <label>DÉCIMA PRIMERA. CESIONES-</label> Las partes acuerdan que <label>“EL VENDEDOR”</label> tiene
-            obligación de
-            formalizar la presente operación única y exclusivamente a favor de <label>“EL COMPRADOR”</label>, y bajo el
-            precio y condiciones señalados en este contrato, por lo que si fuese el caso que <label>“EL
-                COMPRADOR”</label>
-            llegase a transmitir, por cualquier título, los derechos y obligaciones que adquiere en virtud del
-            presente contrato, y esto resultase en la obligación de <label>“EL VENDEDOR”</label> de formalizar la
-            transmisión
-            de <label>“EL LOCAL”</label> a favor de terceras personas, entonces <label>“EL COMPRADOR”</label> y/o el
-            nuevo
-            titular de los derechos del presente contrato, deberá(n) pagar todos los impuestos, derechos, honorarios y
-            gastos
-            que la presente transmisión o cualquier otra llegasen a generar, debiendo hacer los pagos y enteros en forma
-            personal
-            y directa, liberando desde este momento a <label>“EL VENDEDOR”</label> de cualquier responsabilidad al
-            respecto.
-        </p>
-        <p>
-            <label>DÉCIMA SEGUNDA. - DOMICILIOS.</label> Para todos los efectos judiciales y extrajudiciales cada parte
-            señala como domicilio, para los efectos legales a que haya lugar, el siguiente:
-        </p>
-        <p>
-            <label>“EL VENDEDOR”</label> en Av. Paseo Monte Miranda #17, Col Monte Miranda, C.P. 76246, El Marques,
-            Querétaro;
-            y adicionalmente, como medio alternativo de comunicación la dirección de correo electrónico
-            ventas@geztio.mx.
-        </p>
-        <p>
-            <label>“EL COMPRADOR”:</label> {{ solicitud.calle }}, {{ solicitud.colonia }}, {{
-            solicitud.codpos }},
-            {{ solicitud.municipio }}, {{ solicitud.get_estado_display }}.
-        </p>
-        <p>
-            Mientras las partes no se notifiquen por escrito el cambio de su respectivo domicilio, los
-            emplazamientos y demás diligencias judiciales o extrajudiciales se practicarán en los domicilios
-            señalados en la presente cláusula.
-        </p>
-        <p>
-            <label>DÉCIMA TERCERA JURISDICCIÓN Y LEGISLACIÓN APLICABLE. -</label> Las partes manifiestan que, en caso
-            de cualquier controversia con motivo del presente contrato, se someten en forma expresa a las
-            leyes del estado de Querétaro y a los Tribunales de esta ciudad de Querétaro, renunciando a los de
-            cualquier otro lugar que debido a su domicilio presente o futuro les llegase a corresponder.
-        </p>
-        <p>
-            De igual modo y en cumplimiento de Ley Federal Para la Prevención e Identificación <label>DESARROLLO
-                COMERCIAL PLAZA TOSCANA</label> De Operaciones con Recursos de Procedencia Ilícita, la parte COMPRADORA
-            deberá
-            llenar de su puño y letra el formato anexo al presente contrato, y estampar su firma autógrafa en el
-            mismo.<br>
-            <label>Revisar este parráfo.</label>
-        </p>
-        <p>
-            <label>DÉCIMA CUARTA EQUIPAMIENTO. –</label> El equipamiento arquitectónico con que cuenta PLAZA TOSCANA son
-            los descritos en
-            los planos arquitectónicos que forman parte del presente contrato. (anexo 1).
-        </p>
-        <p>
-            Leído por las partes el presente contrato y sabedoras de su contenido, alcance y fuerza legal, lo
-            ratifican y firman de conformidad, por duplicado, en esta ciudad de Querétaro, Querétaro a
-            {{solicitud.fecha_contrato.day}} de {{solicitud.fecha_contrato|date:'F'}} del año
-            {{fecha_contrato_anio_s}}.
-        </p>
-        <table style="width: 100%;">
-            <tr>
-                <td style="width: 50%; text-align: center;"><label>“LA OPERADORA”</label></td>
-                <td style="width: 50%; text-align: center;"><label>“EL ADQUIRENTE”</label></td>
-            </tr>
-            <tr>
-                <td style="height: 100px; text-align: center; vertical-align: bottom;">________________________</td>
-                <td style="text-align: center; vertical-align: bottom;">________________________</td>
-            </tr>
-            <tr>
-                <td style="text-align: center;"><label>ARTURO DOMÍNGUEZ RUÍZ</label></td>
-                <td style="text-align: center;"><label>{{ solicitud.nombre_completo | upper }}</label></td>
-            </tr>
-            <tr>
-                <td style="text-align: center;"><label></label></td>
-                <td style="text-align: center;"><label>{{ solicitud.representante | upper }}</label> </td>
-            </tr>
-        </table><br><br>
-        <p style="text-align: center;"><label>T E S T I G O S</label></p>
-        <table>
-            <tr>
-                <td style="width: 50%; text-align: center;"><label>TESTIGO 1</label></td>
-                <td style="width: 50%; text-align: center;"><label>TESTIGO 2</label></td>
-            </tr>
-            <tr>
-                <td style="height: 100px; text-align: center; vertical-align: bottom;">
-                    <label>________________________</label>
-                </td>
-                <td style="text-align: center; vertical-align: bottom;"><label>________________________</label></td>
-            </tr>
-            <tr>
-                <td style="text-align: center;"><label>LUIS ANGEL ENRIQUEZ CRISTOBAL</label></td>
-                <td style="text-align: center;"><label>JUAN RAMÓN AVILÉS JURY</label></td>
-            </tr>
-        </table>
-        <br><br>
-        <p>
-            <label>HOJA DE FIRMAS DEL CONTRATO PRIVADO DE COMERCIALIZACIÓN INMOBILIARIA QUE SUSCRIBEN
-                POR UNA PARTE PLEYATEC S.A. DE C.V.., POR OTRA PARTE , RESPECTO DEL LOCAL {{ solicitud.lote.local }}
-                DEL DESARROLLO COMERCIAL PLAZA TOSCANA, EN FECHA {{solicitud.fecha_contrato.day}} DE
-                {{solicitud.fecha_contrato|date:'F'|upper}} DEL AÑO {{fecha_contrato_anio_s}} .</label>
-        </p>
-    </div>
+    <p>
+        <label>SEXTA.- ADEUDOS DE CONTRIBUCIONES.- "LAS PARTES"</label> Para todos los efectos legales a que haya lugar,
+        <label>"EL VENDEDOR"</label> se obliga a cubrir a <label>"EL COMPRADOR"</label>, todo adeudo y diferencia de
+        contribuciones
+        prediales, multas o cualquier otro Impuesto, así como cuotas de condóminos, y cualquier otro
+        servicio u obligación que recaiga sobre el inmueble objeto de la presente operación, originados
+        hasta la fecha de formalización de escrituras del inmueble, o a reembolsar a su contratante, de cualquier
+        cantidad que hubiere que pagar por ese concepto.
+    </p>
+    <p>
+        Una vez formalizado la escrituración del inmueble por <label>"EL VENDEDOR"</label> a favor de <label>"EL
+            COMPRADOR"</label>, todos los
+        impuestos, servicios, cuotas y demás que recaigan sobre el mismo, serán a cargo de <label>"EL
+            COMPRADOR"</label>, quien
+        desde este momento acepta dicha obligación así como la responsabilidad absoluta respecto de cualquier
+        problema que se origine desde EL <label>"EL LOCAL NUMERO {{ solicitud.lote.lote}}, DE LA PLAZA TOSCANA</label>
+        ese momento por el mantenimiento o
+        mejora del inmueble, lo anterior en virtud de que <label>"EL COMPRADOR"</label> en este acto reitera conocer el inmueble
+        objeto de la compraventa, y en su momento lo recibirá con todo lo que de hecho y por derecho le corresponde.
+    </p>
+    <p>
+        <label>SÉPTIMA. - CONDICIÓN SUSPENSIVA. -</label> Las partes sujetan el presente contrato a la 
+        <label>CONDICIÓN SUSPENSIVA</label> consistente en que <label>"EL VENDEDOR"</label>, deberá 
+        formalizar tanto la constitución del régimen en condominio a que pertenece el inmueble objeto
+        de la presente operación en un término que no exceda el mes de diciembre de 2022 dos mil veintidós.
+    </p>
+    <p>
+        Convienen las partes que en el supuesto de que no se cumpla la <label>CONDICIÓN SUSPENSIVA</label> pactada
+        en el párrafo inmediato anterior, esto es que si llegado el mes de diciembre de dos mil veintidós,
+        <label>"EL VENDEDOR"</label> no haya formalizado en escritura pública la constitución del régimen en condominio
+        al
+        que pertenece el inmueble objeto de este contrato, luego entonces <label>"EL COMPRADOR"</label> podrá optar por
+        cualquiera de las siguientes opciones:
+    </p>
+    <p>
+        Será potestativo de <label>"EL COMPRADOR":</label>
+    </p>
+    <ol type="A">
+        <li>
+            El otorgar una prórroga de 6 seis meses más, a <label>"EL VENDEDOR"</label>, para formalizar en Escritura
+            Pública la constitución
+            del régimen en condominio aludido, siempre y cuando <label>"EL VENDEDOR"</label> acredite fehacientemente a
+            <label>"EL COMPRADOR"</label> que
+            sigue realizando los trámites para la obtención de las autorizaciones correspondientes, o; Rescindir el
+            contrato,
+            procediendo en consecuencia conforme a lo pactado en la cláusula novena de este contrato.
+        </li>
+        <li>
+            Una vez cumplida la prórroga de 6 seis meses señalada en el inciso que antecede, si <label>"EL
+                VENDEDOR"</label> no ha formalizado
+            en escritura pública la constitución del condominio, luego entonces <label>"EL COMPRADOR"</label> podrá
+            otorgar una nueva prórroga
+            o bien rescindir el contrato, procediendo en consecuencia conforme a lo pactado en la cláusula novena de
+            este contrato.
+        </li>
+    </ol>
+    <p>
+        <label>OCTAVA. - RESCISIÓN.-</label> Las partes contratantes convienen desde ahora en que las causas de
+        rescisión del presente contrato serán:
+    </p>
+    <ol type="A">
+        <li>
+            Que <label>"EL COMPRADOR"</label> incumpla con el pago puntual de cualquiera de los pagos pactados en
+            la cláusula segunda del presente contrato.
+        </li>
+        <li>
+            Que <label>"EL VENDEDOR"</label> no pueda formalizar en escritura pública el presente documento, de
+            conformidad con la cláusulas tercera, quinta y séptima y/o que en <label>"EL LOCAL" NÚMERO 
+                {{solicitud.lote.lote}} DEL DESARROLLO COMERCIAL PLAZA TOSCANA</label>
+            apareciere un gravamen, afectación, embargo o limitación de dominio sobre el inmueble objeto de este
+            contrato.
+        </li>
+    </ol>
+    <p>
+        <label> NOVENA. - PENA CONVENCIONAL.-</label> Para el caso de que <label>"EL COMPRADOR"</label> no diera
+        cumplimiento a cualquiera de las obligaciones
+        que asume en virtud de <label>"EL CONTRATO"</label>, o decida en forma unilateral cancelar la operación de transmisión objeto
+        material
+        de <label>"EL CONTRATO"</label>, este se hará acreedor a la aplicación de una pena convencional consistente en
+        el 20% (veinte por ciento)
+        del valor total de la operación consignado en el presente instrumento, facultando <label>"EL COMPRADOR"</label>
+        a <label>"EL VENDEDOR "</label> en este
+        acto, sin reserva ni restricción alguna, a deducir y descontar dicha cantidad de la cantidad entregada por
+        concepto de
+        anticipo, apartado, enganche y/o parcialidades pactadas, y devolver el remanente a <label>"EL COMPRADOR"</label>
+        en forma inmediata, lo
+        anterior siempre y cuando se haya agotado el período para remediar incumplimientos previsto en la cláusula
+        inmediata anterior.
+    </p>
+    <p>
+        En relación con lo anterior, <label>"EL COMPRADOR"</label> autoriza desde este momento a <label>"EL
+            VENDEDOR"</label> para
+        que disponga de las cantidades de dinero pagadas a cuenta del precio convenido, a fin de que pueda
+        aplicarlas al pago de las penas convencionales y/o penas moratorias pactadas en <label>"EL CONTRATO"</label>,
+        lo anterior sin necesidad de declaración judicial, por lo que <label>"EL VENDEDOR"</label> no tendrá
+        responsabilidad alguna de ningún tipo en la aplicación de este pacto y estará en posibilidad de
+        disponer del dinero que le haya sido entregado, como mejor convenga a sus intereses.
+    </p>
+    <p>
+        <label>"LAS PARTES"</label> convienen que el pago de las parcialidades a cargo de <label>"EL COMPRADOR"</label>,
+        establecidas
+        en la cláusula Segunda de <label>"EL CONTRATO"</label>, están sujetas a la condición de que, al no pagarse cualquiera
+        de ellas a su vencimiento, serán exigibles todas las que le sigan en número, además de las ya vencidas,
+        más el pago de la pena moratoria y demás penas aplicables.
+    </p>
+    <p>
+        Ante el caso de incumplimiento de <label>"EL COMPRADOR"</label> de las obligaciones de pago pactadas en
+        <label>"EL CONTRATO"</label>, <label>"EL VENDEDOR"</label> podrá optar de manera unilateral, entre exigir
+        el cumplimiento forzoso de <label>"EL CONTRATO"</label> más el pago de la pena moratoria, o bien, darlo por rescindido sin
+        necesidad de declaración judicial y sin responsabilidad para <label>"EL VENDEDOR"</label>, más el pago de la pena
+        convencional pactada, en los términos del artículo 88 del Código de Comercio.
+    </p>
+    <p>
+        En caso de que <label>"EL VENDEDOR"</label> incumpla en el tiempo de entrega compromiso que se fija en este
+        contrato, esta pagará a <label>"EL COMPRADOR"</label> una pena convencional equivalente al 3% (tres por ciento)
+        del importe de la operación que se especifica en este contrato, salvo que el retraso se deba a
+        cuestiones de fuerza mayor o caso fortuito no imputables a <label>"EL VENDEDOR"</label>.
+    </p>
+
+    <p>En caso de que se materialice el supuesto antes señalado y <label>"EL VENDEDOR"</label>
+        dé por rescindido<label>"EL CONTRATO"</label>, ésta exclusivamente estará obligada
+        a reintegrar la cantidad que a la fecha de rescisión haya recibido de
+        <label>"EL VENDEDOR"</label>, descontando las cantidades que en virtud de <label>"EL CONTRATO"</label>
+        sean aplicables, sin obligación de reintegrar alguna otra cantidad por
+        concepto de intereses, situación con la que está de acuerdo y acepta de
+        conformidad <label>"EL VENDEDOR"</label>.
+    </p>
+    <p>
+        <label>DÉCIMA. CUMPLIMIENTO DE REGLAMENTOS - "EL COMPRADOR"</label> acepta ser condómino de la que
+        será la Unidad Condominal Comercial <label>PLAZA TOSCANA</label>, y asume la obligación de aceptar, observar
+        y cumplir sus Reglamentos de Administración y/o construcción y/o cualquier otra que los rija,
+        además de sus Escrituras de Constitución y el Código Urbano, así como cubrir puntualmente las
+        cuotas de mantenimiento del Condominio a partir de la posesión física del inmueble objeto del
+        presente contrato.
+    </p>
+    <p>
+        <label>DÉCIMA PRIMERA. CESIONES-</label> Las partes acuerdan que <label>"EL VENDEDOR"</label> tiene obligación
+        de
+        formalizar la presente operación única y exclusivamente a favor de <label>"EL COMPRADOR"</label>, y bajo el
+        precio y condiciones señalados en este contrato, por lo que si fuese el caso que <label>"EL COMPRADOR"</label>
+        llegase a transmitir, por cualquier título, los derechos y obligaciones que adquiere en virtud del
+        presente contrato, y esto resultase en la obligación de <label>"EL VENDEDOR"</label> de formalizar la
+        transmisión
+        de <label>"EL LOCAL"</label> a favor de terceras personas, entonces <label>"EL COMPRADOR"</label> y/o el nuevo
+        titular de los derechos del presente contrato, deberá(n) pagar todos los impuestos, derechos, honorarios y
+        gastos
+        que la presente transmisión o cualquier otra llegasen a generar, debiendo hacer los pagos y enteros en forma
+        personal
+        y directa, liberando desde este momento a <label>"EL VENDEDOR"</label> de cualquier responsabilidad al respecto.
+    </p>
+    <p>
+        <label>DÉCIMA SEGUNDA. - DOMICILIOS.</label> Para todos los efectos judiciales y extrajudiciales cada parte
+        señala como domicilio, para los efectos legales a que haya lugar, el siguiente:
+    </p>
+    <p>
+        <label>"EL VENDEDOR"</label> en Av. Paseo Monte Miranda #17, Col Monte Miranda, C.P. 76246, El Marques,
+        Querétaro;
+        y adicionalmente, como medio alternativo de comunicación la dirección de correo electrónico ventas@geztio.mx.
+    </p>
+    <p>
+        <label>"EL COMPRADOR":</label> {{ solicitud.cliente.calle }}, {{ solicitud.cliente.colonia }}, 
+        {{ solicitud.cliente.codpos }},
+        {{ solicitud.cliente.municipio }}, {{ solicitud.cliente.get_estado_display }}.
+    </p>
+    <p>
+        Mientras las partes no se notifiquen por escrito el cambio de su respectivo domicilio, los
+        emplazamientos y demás diligencias judiciales o extrajudiciales se practicarán en los domicilios
+        señalados en la presente cláusula.
+    </p>
+    <p>
+        <label>DÉCIMA TERCERA JURISDICCIÓN Y LEGISLACIÓN APLICABLE. -</label> Las partes manifiestan que, en caso
+        de cualquier controversia con motivo del presente contrato, se someten en forma expresa a las
+        leyes del estado de Querétaro y a los Tribunales de esta ciudad de Querétaro, renunciando a los de
+        cualquier otro lugar que debido a su domicilio presente o futuro les llegase a corresponder.
+    </p>
+    <p>
+        De igual modo y en cumplimiento de Ley Federal Para la Prevención e Identificación <label>DESARROLLO
+            COMERCIAL PLAZA TOSCANA</label> De Operaciones con Recursos de Procedencia Ilícita, 
+            <label>"EL COMPRADOR"</label> deberá llenar de su puño y letra el formato anexo al presente
+            contrato, y estampar su firma autógrafa en el mismo.
+    </p>
+    <p>
+        <label>DÉCIMA CUARTA EQUIPAMIENTO. –</label> El equipamiento arquitectónico con que cuenta PLAZA TOSCANA son los
+        descritos en
+        los planos arquitectónicos que forman parte del presente contrato. (anexo 1).
+    </p>
+    <p>
+        Leído por las partes el presente contrato y sabedoras de su contenido, alcance y fuerza legal, lo
+        ratifican y firman de conformidad, por duplicado, en esta ciudad de Querétaro, Querétaro a
+        {{solicitud.fecha_contrato.day}} de {{solicitud.fecha_contrato|date:'F'}} del año {{fecha_contrato_anio_s}}.
+    </p>
+    <br>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%; text-align: center;"><label>"EL VENDEDOR"</label></td>
+            <td style="width: 50%; text-align: center;"><label>"EL COMPRADOR"</label></td>
+        </tr>
+        <tr>
+            <td style="height: 100px; text-align: center; vertical-align: bottom;">________________________</td>
+            <td style="text-align: center; vertical-align: bottom;">________________________</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"><label>ARTURO DOMÍNGUEZ RUÍZ</label></td>
+            <td style="text-align: center;"><label>{{ solicitud.nombre_completo | upper }}</label></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"><label></label></td>
+            <td style="text-align: center;"><label>{{ solicitud.representante | upper }}</label></td>
+        </tr>
+    </table>
+    <br>
+    <p style="text-align: center;"><label>T E S T I G O S</label></p>
+    <table>
+        <tr>
+            <td style="width: 50%; text-align: center;"><label>TESTIGO 1</label></td>
+            <td style="width: 50%; text-align: center;"><label>TESTIGO 2</label></td>
+        </tr>
+        <tr>
+            <td style="height: 100px; text-align: center; vertical-align: bottom;">
+                <label>________________________</label>
+            </td>
+            <td style="text-align: center; vertical-align: bottom;"><label>________________________</label></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"><label>LUIS ANGEL ENRIQUEZ CRISTOBAL</label></td>
+            <td style="text-align: center;"><label>JUAN RAMÓN AVILÉS JURY</label></td>
+        </tr>
+    </table>
+    <br><br>
+    <p>
+        <label>HOJA DE FIRMAS DEL CONTRATO PRIVADO DE COMERCIALIZACIÓN INMOBILIARIA QUE SUSCRIBEN
+            POR UNA PARTE PLEYATEC S.A. DE C.V.., POR OTRA PARTE , RESPECTO DEL LOCAL {{ solicitud.lote.lote }}
+            DEL DESARROLLO COMERCIAL PLAZA TOSCANA, EN FECHA {{solicitud.fecha_contrato.day}} de
+            {{solicitud.fecha_contrato|date:'F'}} del año {{fecha_contrato_anio_s}} .</label>
+    </p>
 </body>
 
 </html>
