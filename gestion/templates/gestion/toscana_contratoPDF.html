@@ -307,10 +307,10 @@
             <li>del Local de ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.)</li>
             {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
             <li>pago total por ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.)</li>
-            <li>Saldo la cantidad de $0 (cero pesos 00/100M.N.)</li>
+            <li>Saldo la cantidad de $0 (cero pesos 00/100 M.N.)</li>
             {% else %}
             <li>Enganche por ${{ enganche_i }} ({{enganche_l}} pesos {{ enganche_d }}/100 M.N.)</li>
-            <li>Saldo la cantidad de ${{ saldo_i }} ({{saldo_l}} pesos {{ saldo_d }}/100M.N.)</li>
+            <li>Saldo la cantidad de ${{ saldo_i }} ({{saldo_l}} pesos {{ saldo_d }}/100 M.N.)</li>
             {% if ultimo_pago == importe_x_pago %}
             <li>
                 Que será pagado en {{ solicitud.cantidad_pagos}} pagos mensuales
