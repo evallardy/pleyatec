@@ -19,7 +19,7 @@ class Pago(models.Model, PermissionRequiredMixin):
     cuenta = models.CharField("Número de cuenta",max_length=4, null=True, blank=True, default="")
     numero_comprobante = models.CharField("Número de comprobante",max_length=40, null=True, blank=True, default="")
     estatus_pago = models.IntegerField("Estatus de pago",choices=STATUS_PAGO,default=1)
-    foto_voucher = models.ImageField(upload_to="vouchers", blank=True, null=True,default=" ")
+    file_comprobante = models.FileField(upload_to="comprobante", blank=True, null=True,default=" ")
     created = models.DateTimeField("Creado", auto_now_add=True, null=True, blank=True)
     usuario_ins = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pg_user_ins',
         verbose_name="Usuario insertó", null=True, blank=True)
