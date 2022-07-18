@@ -200,8 +200,8 @@ STATUS_SOLICITUD = (
     (6, 'Terminada'),
     (7, 'Archivo-Terminada'),
     (8, 'Archivo-Cancelada'),
-    (9, 'Contado, con datos de contrato'),
-    (10, 'Pagando a crédito, con datos de contrato'),
+    (9, 'Contado'),
+    (10, 'Pagando a crédito'),
     (99, 'Cancelada'),
 )
 STATUS_TIPO_BIEN = (
@@ -246,7 +246,7 @@ TIPO_FOLIO = (
     (3, 'Comisiones'),
     (4, 'Facturas'),
     (5, 'Remisiones'),
-
+    (6, 'Mensualidades'),
 )
 TIPO_LOTE = (
     (True, "Regular"),

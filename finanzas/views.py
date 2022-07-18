@@ -340,8 +340,9 @@ class mod_pago(UpdateView):
         acceso = self.request.user.has_perms([permiso_str])
         context["proyecto_tb"] = proyecto_tb
         pk = self.kwargs.get('pk',0)
-        tabla1 = Pago.objects.filter(id=pk).first()
-        fecha1 = str(tabla1.fecha_voucher)
+        tabla1 = Pago.objects.filter(id=pk)
+        context['tabla1'] = tabla1
+        fecha1 = str(tabla1[0].fecha_voucher)
         sol = self.kwargs.get('sol',0)
         context['sol'] = sol
         context['pk'] = pk
@@ -382,7 +383,7 @@ class mod_pago(UpdateView):
 
             sol_act = Solicitud.objects.filter(id=sol). \
                 update(pagos_pagados=pagos_pagados, importe_pagado=importe_pagado)
-
+#        return reverse_lazy(self.get_context_data(form=form))
         return HttpResponseRedirect(self.get_success_url())
     def get_success_url(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)

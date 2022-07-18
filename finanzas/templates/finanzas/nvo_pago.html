@@ -29,8 +29,13 @@
                         <div class="form-group col-md-3 mb-0">
                             {{ form.importe|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md-3 mb-0" hidden>
                             {{ form.pagado_vencido|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3" id="gpo_pagado_vencido">
+                            <label for="id_forma_pago_pa1">Pagado</label>
+                            <input type="text" name="id_pagado_vencido1" id="id_pagado_vencido1" readonly
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-row">
@@ -40,31 +45,53 @@
                         <div class="form-group col-md-3 mb-0">
                             {{ form.importe_pagado|as_crispy_field }}
                         </div>
+                        {% if app_proy_confirma_deposito_mensual %}
+                        <div class="form-group col-md-3 mb-0"  id="gpo_deposito">
+                            {{ form.deposito|as_crispy_field }}
+                        </div>
+                        {% endif %}
+                        <div class="form-group col-3" id="gpo_deposito1">
+                            <label for="id_forma_pago1">Depósito</label>
+                            <input type="text" name="id_deposito1" id="id_deposito1" readonly
+                                class="form-control">
+                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md-3 mb-0" id="gpo_forma_pago">
                             {{ form.forma_pago|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.numero_comprobante|as_crispy_field }}
+                        <div class="form-group col-3" id="gpo_forma_pago1">
+                            <label for="id_forma_pago1">Forma de pago</label>
+                            <input type="text" name="id_forma_pago1" id="id_forma_pago1" readonly
+                                class="form-control">
                         </div>
                         <div class="form-group col-md-3 mb-0">
                             {{ form.cuenta|as_crispy_field }}
                         </div>
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.numero_comprobante|as_crispy_field }}
+                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md-3 mb-0" hidden>
                             {{ form.estatus_pago|as_crispy_field }}
                         </div>
-                        {% if app_proy_confirma_deposito_mensual %}
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.deposito|as_crispy_field }}
+                        <div class="form-group col-3" id="gpo_estatus_pago">
+                            <label for="id_estatus_pago1">Pagado</label>
+                            <input type="text" name="id_estatus_pago1" id="id_estatus_pago1" readonly
+                                class="form-control">
                         </div>
-                        {% endif %}
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-0">
                             {{ form.file_comprobante|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3" id="gpo_file_comprobante" hidden>
+                            <label for="id_file_comprobante1">Imagen</label>
+                            {% for a in tabla1 %}
+                            <input type="text" name="id_file_comprobante1" id="id_file_comprobante1" readonly
+                                class="form-control" value="{{a.file_comprobante}}">
+                            {% endfor %}
                         </div>
                     </div>
                     <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
@@ -87,6 +114,55 @@
         $("#id_importe_pagado").css("text-align", "right");
         $("#id_estatus_pago").attr("readonly", true);
         $("#id_pagado_vencido").attr("readonly", true);
+
+        if ($("#id_deposito").val() == 2) {
+            $("#id_fecha_voucher").attr("readonly", true);
+            $("#id_importe_pagado").attr("readonly", true);
+            $("#id_deposito").attr("readonly", true);
+            $("#id_cuenta").attr("readonly", true);
+            $("#id_numero_comprobante").attr("readonly", true);
+            $("#gpo_deposito").hide();
+            $("#gpo_deposito1").show();
+            $("#gpo_forma_pago").hide();
+            $("#gpo_forma_pago1").show();
+            $("#btsub").hide()
+            document.getElementById("id_file_comprobante").disabled = true;
+        } else {
+            $("#gpo_deposito").show();
+            $("#gpo_deposito1").hide();
+            $("#gpo_forma_pago").show();
+            $("#gpo_forma_pago1").hide();
+        }
+
+        $("#id_deposito1").val(
+            $('select[name="deposito"] option:selected').text());
+        $("#id_pagado_vencido1").val(
+            $('select[name="pagado_vencido"] option:selected').text());
+        $("#id_forma_pago1").val(
+            $('select[name="forma_pago"] option:selected').text());
+        $("#id_estatus_pago1").val(
+            $('select[name="estatus_pago"] option:selected').text());
+            
+        $("#id_pagado_vencido").on('change', function () {
+            $("#id_pagado_vencido1").val(
+                    $('select[name="pagado_vencido"] option:selected').text());
+        });
+        $("#id_forma_pago").on('change', function () {
+            $("#id_forma_pago1").val(
+                    $('select[name="forma_pago"] option:selected').text());
+            if ($("#id_forma_pago").val() == 3) {
+                $("#id_cuenta").attr("readonly", true);
+                $("#id_numero_comprobante").attr("readonly", true);
+            } else {
+                $("#id_cuenta").attr("readonly", false);
+                $("#id_numero_comprobante").attr("readonly", false);
+            }
+        });
+        $("#id_estatus_pago").on('change', function () {
+            $("#id_estatus_pago1").val(
+                    $('select[name="estatus_pago"] option:selected').text());
+        });
+
         $("#id_fecha_voucher").on('change', function (e) {
             dia = parseInt($("#id_fecha_pago").val().substr(0, 2));
             mes = parseInt($("#id_fecha_pago").val().substr(3, 2)) - 1;
@@ -104,28 +180,46 @@
             } else {
                 $("#id_pagado_vencido").val(1);
             }
+            $("#id_pagado_vencido1").val(
+                $('select[name="pagado_vencido"] option:selected').text());
         });
         function guarda() {
-            $("#id_estatus_pago").val(2);
             op_guardar = true;
             texto = "";
             if (parseFloat($("#id_importe").val()) > parseFloat($("#id_importe_pagado").val())) {
-                texto += "Importe menor al que se debe de pagar \n";
+                texto += "Importe menor al que se debe de pagar, ";
                 op_guardar = false;
             }
+            if ($("#id_forma_pago").val()==3) {
+            
+            } else {
+                if ($("#id_forma_pago").val()>0) {
+                    if ($("#id_cuenta").val().trim()=="") {
+                        texto += "Faltan los 4 digitos de la cuenta, ";
+                        op_guardar = false;
+                    } 
+                    if ($("#id_numero_comprobante").val().trim()=="") {
+                        texto += "Falta número de comprobante, ";
+                        op_guardar = false;
+                    } 
+                } else {
+                    texto += "Falta forma de pago, ";
+                    op_guardar = false;
+                }
+            }
+
             if ($("#id_fecha_voucher").val()=="") {
-                texto += "Falta la fecha del comprobante \n";
+                texto += "Falta la fecha del comprobante, ";
                 op_guardar = false;
             } 
-            if ($("#id_cuenta").val()=="") {
-                texto += "Faltan los 4 digitos de la cuenta \n";
-                op_guardar = false;
-            } 
-            if ($("#id_numero_comprobante").val().trim().length==0) {
-                texto += "Falta número de comprobante \n";
+            if (($("#id_file_comprobante").val().trim()=="") && ($("#id_file_comprobante1").val().trim()=="")) {
+                texto += "Falta archivo de comprobante";
                 op_guardar = false;
             } 
             if (op_guardar == true) {
+                if ($("#id_deposito").val()==2) {
+                    $('#id_estatus_pago').val(2);
+                }
                 aviso("Aviso","Se guardó correctamente");
                 return true;
             } else {
