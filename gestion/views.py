@@ -654,11 +654,12 @@ class pagos(UpdateView):
                 folio.save()
                 sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
                     .update(num_contrato=num_contrato)
-#            return HttpResponseRedirect(self.get_success_url())
-        return self.render_to_response(self.get_context_data(form=form))
+        return HttpResponseRedirect(self.get_success_url())
+#        return self.render_to_response(self.get_context_data(form=form))
     def get_success_url(self):
+        pk = self.kwargs.get('pk',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        return reverse_lazy('compromisos', kwargs={'num_proyecto': num_proyecto})
+        return reverse_lazy('pagos', kwargs={'num_proyecto': num_proyecto, 'pk': pk})
 
 
 class archivo(ListView):

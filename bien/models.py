@@ -13,6 +13,8 @@ class Proyecto(models.Model):
     plano = models.ImageField(upload_to="proyecto", blank=True, null=True)
     estatus_proyecto = models.IntegerField("Activo",choices=STATUS_SI_NO,default=1)
     created = models.DateTimeField("Creado", auto_now_add=True)
+    comision_asesor = models.DecimalField("Comision Asesor", max_digits=4, decimal_places=2, default=0)
+    comision_jefe_asesor = models.DecimalField("Comision jefe Asesor", max_digits=4, decimal_places=2, default=0)
     usuario_ins = models.ForeignKey(Empleado, on_delete=models.SET_NULL, related_name='py_user_ins',
         verbose_name="Usuario insertó", null=True, blank=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
@@ -81,6 +83,9 @@ class Lote(models.Model, PermissionRequiredMixin):
     posicion_circulo_x = models.IntegerField("Posición X circulo", blank=True, null=True)
     posicion_circulo_y = models.IntegerField("Posición Y circulo", blank=True, null=True)
     estacionamientos = models.IntegerField("Estacionamientos", default=0, blank=True, null=True)
+    bien_anexo = models.CharField('Anexo del bien', max_length=12, null=True, blank=True)
+    gpo_lote = models.CharField('Grupo de bienes', max_length=12, null=True, blank=True)
+    reciente = models.IntegerField('Ultimos lotes', default=0)
     created = models.DateTimeField("Creado", auto_now_add=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
  

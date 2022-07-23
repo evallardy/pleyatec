@@ -211,6 +211,7 @@ STATUS_TIPO_BIEN = (
     (4, 'Vivienda vertical'),
     (5, 'Consultorios'),
     (6, 'Locales comerciales y oficinas'),
+    (7, 'Estacionamientos')
 )
 
 TIPO_CALCULO = (
