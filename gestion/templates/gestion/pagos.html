@@ -230,10 +230,16 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-1 mb-0" hidden>
-                            {{ form.lote|as_crispy_field }}
+                            {{ form.precio_final }}
+                        </div>
+                        <div class="form-group col-md-1 mb-0" hidden>
+                            {{ form.lote }}
                         </div>
                         <div class="form-group col-md-8 mb-0" hidden>
-                            {{ form.estatus_solicitud|as_crispy_field }}
+                            {{ form.estatus_solicitud }}
+                        </div>
+                        <div class="form-group col-md-8 mb-0" hidden>
+                            {{ form.num_contrato }}
                         </div>
                         <div class="form-group col-1">
                             <input type="number" class="form-control" name="paga" id="paga" hidden>
@@ -347,11 +353,11 @@
                 $("#id_btsubapartado").hide();
             }
 
-            //  Inicia campos apartado
+//  Inicia campos apartado
             function inicia_pago_adicional() {
                 $("#id_pago_adicional").val(0.00);
                 id_pago_adicional = 0;
-                //                $("#id_confirmacion_pago_adicional").val(0);
+//                $("#id_confirmacion_pago_adicional").val(0);
                 $("#id_forma_pago_pa").val(0);
                 $('#id_cuenta_pa').val('');
                 $('#id_numero_comprobante_pa').val('');
@@ -380,7 +386,7 @@
                 $("#id_confirmacion_pago_adicional1").val(
                     $('select[name="confirmacion_pago_adicional"] option:selected').text());
                 $('#gpo_confirmacion_pago_adicional').hide();
-                $('#id_confirmacion_pago_adicional1').show();
+                $('#gpo_confirmacion_pago_adicional1').show();
                 $("#id_forma_pago_pa1").val(
                     $('select[name="forma_pago_pa"] option:selected').text());
                 $('#gpo_forma_pago_pa').hide();

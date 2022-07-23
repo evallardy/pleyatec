@@ -50,7 +50,6 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'estado',
             'celular',
             'correo',
-
         ]
         labels = {
             'id': 'Clave',
@@ -132,6 +131,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
             'forma_pago_pa',
             'cuenta_pa',
             'numero_comprobante_pa',
+            'num_contrato',
+            'precio_final',
         ]
         labels = {
             'id': 'Clave',
@@ -149,6 +150,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
             'forma_pago_pa':'Forma pago',
             'cuenta_pa':'Cuenta',
             'numero_comprobante_pa':'Núm. comprobante',
+            'num_contrato':'Núm. contrato',
+            'precio_final':'Precio final',
         }
         widgets = {
             'apartado':forms.NumberInput(),

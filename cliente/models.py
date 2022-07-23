@@ -40,7 +40,7 @@ class Cliente(models.Model, PermissionRequiredMixin):
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
         ordering = ['paterno','materno','nombre']
-        unique_together= (('rfc',),('curp',),)
+#        unique_together= (('rfc',),('curp',),)
         db_table = 'Cliente'
 
     def __str__(self):   # para poner los nombre en los renglones

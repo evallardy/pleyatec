@@ -1,5 +1,6 @@
 import os
 import datetime
+from turtle import update
 from django.db.models import Max, Q, Subquery
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -8,6 +9,7 @@ from django.views.generic import ListView, CreateView, UpdateView
 from django.views.generic.base import View
 from django.template.loader import get_template
 from time import gmtime, strftime
+from requests import post
 from xhtml2pdf import pisa
 import numpy as np
 from django.contrib.auth.decorators import login_required
@@ -15,6 +17,7 @@ from finanzas.models import Pago
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.views.generic.edit import ModelFormMixin
+from django.db import transaction
 
 from .models import *
 from .funciones import *
@@ -151,6 +154,38 @@ class solicitudes(ListView):
         context[variable_html] = acceso
         return context
 
+@login_required
+def guarda_cliente(request):
+    id_cliente = request.POST.get('cliente')
+    tipo_cliente = request.POST.get('tipo_cliente')
+    razon = request.POST.get('razon')
+    nombre = request.POST.get('nombre')
+    paterno = request.POST.get('paterno')
+    materno = request.POST.get('materno')
+    nombre_conyuge = request.POST.get('nombre_conyuge')
+    paterno_conyuge = request.POST.get('paterno_conyuge')
+    materno_conyuge = request.POST.get('materno_conyuge')
+    rfc = request.POST.get('rfc')
+    curp = request.POST.get('curp')
+    estado_civil = request.POST.get('estado_civil')
+    regimen = request.POST.get('regimen')
+    calle = request.POST.get('calle')
+    colonia = request.POST.get('colonia')
+    codpos = request.POST.get('codpos')
+    municipio = request.POST.get('municipio')
+    estado = request.POST.get('estado')
+    celular = request.POST.get('celular')
+    correo = request.POST.get('correo')
+    print(id_cliente)
+    upd_cliente = Cliente.objects.filter(id=id_cliente) \
+        .update(tipo_cliente=tipo_cliente, razon=razon,nombre=nombre, \
+        paterno=paterno, materno=materno, nombre_conyuge=nombre_conyuge, \
+        paterno_conyuge=paterno_conyuge, materno_conyuge=materno_conyuge, \
+        rfc=rfc, curp=curp, estado_civil=estado_civil, regimen=regimen, \
+        calle=calle, colonia=colonia, codpos=codpos, municipio=municipio, \
+        estado=estado, celular=celular, correo=correo)
+
+
 class nva_solicitud(CreateView):
     model = Solicitud
     form_class = Nuvole_SolicitudForm
@@ -212,6 +247,7 @@ class nva_solicitud(CreateView):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             solicitud1 = form.save()
+            guarda_cliente(self.request)
             return HttpResponseRedirect(self.get_success_url())
         else:
             form = self.form_class(request.POST, request.FILES)
@@ -283,6 +319,7 @@ class mod_solicitud(UpdateView):
         form = self.form_class(request.POST, request.FILES, instance=solicitud)
         if form.is_valid():
             form.save()
+            guarda_cliente(self.request)
             return HttpResponseRedirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
     def get_success_url(self):
@@ -624,36 +661,39 @@ class pagos(UpdateView):
         solicitud = self.model.objects.get(id=pk)
         form = self.form_class(request.POST, request.FILES, instance=solicitud)
         if form.is_valid():
-            form.save()
-            solis = Solicitud.objects.filter(id=pk)
-            numero_lote = solis[0].lote.id
-            estatus = solis[0].estatus_solicitud
-            lote = Lote.objects.filter(id=numero_lote).update(estatus_lote=estatus)
-            solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=numero_lote) \
-                .update(estatus_solicitud=5)
-            solicitud_actual = Solicitud.objects.filter(id=pk).update(estatus_solicitud=estatus)
+            with transaction.atomic():
+                form.save()
+                numero_lote = request.POST.get('lote')
+                num_contrato_sol = request.POST.get('num_contrto')
+                estatus = request.POST.get('estatus_solicitud')
+                confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
+                precio_final = request.POST.get('precio_final')
+                solis = Solicitud.objects.filter(id=pk)
+                lote = Lote.objects.filter(id=numero_lote).update(estatus_lote=estatus)
+                solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=numero_lote) \
+                    .update(estatus_solicitud=5)
+                solicitud_actual = Solicitud.objects.filter(id=pk).update(estatus_solicitud=estatus)
 #   Asignar numero de contrato a la solicitud        
-            autorizado = 0
-            precio_final = solis[0].precio_final
-            num_contrato_sol = solis[0].num_contrato
-            confirmacion_pago_adicional = solis[0].confirmacion_pago_adicional
-            if confirmacion_pago_adicional == '2' and num_contrato_sol == 0:
-                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
-                if num_contrato == None:
-                    num_contrato = 1
-                else:
-                    num_contrato += 1
-                dato = str(solis[0].lote) + \
-                    " del proyecto: " + str(solis[0].lote.proyecto)
-                observacion = "Contrato del " + dato
-                folio = Folios(
-                    tipo = 2, 
-                    numero = num_contrato,
-                    observacion = observacion,
-                    importe = precio_final)
-                folio.save()
-                sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
-                    .update(num_contrato=num_contrato)
+                autorizado = 0
+                if not num_contrato_sol:
+                    num_contrato_sol = 0
+                if confirmacion_pago_adicional == '2' and num_contrato_sol == 0:
+                    num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
+                    if num_contrato == None:
+                        num_contrato = 1
+                    else:
+                        num_contrato += 1
+                    dato = str(solis[0].lote) + \
+                        " del proyecto: " + str(solis[0].lote.proyecto)
+                    observacion = "Contrato del " + dato
+                    folio = Folios(
+                        tipo = 2, 
+                        numero = num_contrato,
+                        observacion = observacion,
+                        importe = precio_final)
+                    folio.save()
+                    sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
+                        .update(num_contrato=num_contrato)
         return HttpResponseRedirect(self.get_success_url())
 #        return self.render_to_response(self.get_context_data(form=form))
     def get_success_url(self):
