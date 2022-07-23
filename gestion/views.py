@@ -1,6 +1,5 @@
 import os
 import datetime
-from turtle import update
 from django.db.models import Max, Q, Subquery
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
