@@ -144,7 +144,11 @@
                         <div class="form-group col-3" id="gpo_apartado">
                             {{ form.apartado|as_crispy_field }}
                         </div>
-                        <div class="form-group col-3" id="gpo_confirmacion_apartado">
+                        <div class="form-group col-3" id="gpo_confirmacion_apartado"
+                        {% not app_proy_confirma_deposito_pago %}
+                            hidden
+                        {% endif %}
+                        >
                             {{ form.confirmacion_apartado|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_apartado1">
@@ -152,6 +156,7 @@
                             <input class="form-control" name="confirmacion_apartado1" id="id_confirmacion_apartado1"
                                 readonly>
                         </div>
+                        {% if app_proy_imp_pago_compromiso %}
                         <div class="form-group col-3" id="gpo_confirmacion_apartado" style="text-align: center;">
                             <label for="btn_recibo"> </label><br>
                             <button id="btn_recibo" class="btn btn-outline-dark"
@@ -159,6 +164,7 @@
                             <input id="id_btsubapartado" name="btsubapartado" type="submit" value="Guarda"
                                 class="btn btn-success">
                         </div>
+                        {% endif %}
                     </div>
                     <div class="form-row" id="bloque_apartado2">
                         <div class="form-group col-3" id="gpo_forma_pago_apa">
@@ -187,7 +193,11 @@
                         <div class="form-group col-3">
                             {{ form.pago_adicional|as_crispy_field }}
                         </div>
-                        <div class="form-group col-3" id="gpo_confirmacion_pago_adicional">
+                        <div class="form-group col-3" id="gpo_confirmacion_pago_adicional"
+                        {% not app_proy_confirma_deposito_pago %}
+                            hidden
+                        {% endif %}
+                        >
                             {{ form.confirmacion_pago_adicional|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_pago_adicional1">
@@ -199,6 +209,7 @@
                             <label for="id_diferencia">Por pagar</label>
                             <input class="form-control" name="diferencia" id="diferencia" readonly>
                         </div>
+                        {% if app_proy_imp_pago_compromiso %}
                         <div class="form-group col-3" style="text-align: center;">
                             <label for="btn_adicional"> </label><br>
                             <button id="btn_adicional" class="btn btn-outline-dark"
@@ -206,6 +217,7 @@
                             <input id="id_btsubpa" name="btsubpa" type="submit" value="Guarda" 
                                 class="btn btn-success">
                         </div>
+                        {% endif %}
                     </div>
                     <div class="form-row">
                         <div class="form-group col-3" id="gpo_forma_pago_pa">
@@ -258,10 +270,12 @@
             tecla = (document.all) ? e.keyCode : e.which;
             return (tecla != 13);
         }
+        {% if app_proy_imp_pago_compromiso %}
         function imprime(dato) {
             window.open("/gestion/reciboPDF/" + "{{ pk }}" + "/" + dato + "/",
                 "Recibo", target = "_blank");
         }
+        {% endif %}
         $(document).ready(function () {
             var id_diferencia = 0;
             //  Alinear campos numericos

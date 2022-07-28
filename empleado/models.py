@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import models
 from core.models import *
+from bien.models import *
 from django.contrib.auth.models import User
 
 class Empleado(models.Model,PermissionRequiredMixin):
@@ -182,3 +183,43 @@ class Empleado(models.Model,PermissionRequiredMixin):
             return self.subidPersdonal.nombre_completo
     subidPersdonal_val = property(_get_subidPersdonal)
 
+class ComisionAgente:
+    proyecto = models.ForeignKey('Proyecto', on_delete=models.CASCADE, verbose_name="Proyecto")
+    empleado = models.ForeignKey('Empleado', on_delete=models.CASCADE, verbose_name="Empleado")
+    comsion = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
+    created = models.DateTimeField("Creado", auto_now_add=True)
+    modified = models.DateTimeField("Actualizado", auto_now=True)
+
+    class Meta:
+        verbose_name = 'Comisión por asesor'
+        verbose_name_plural = 'Comisiones'
+        ordering = ['empleado','proyecto',]
+        unique_together= (('proyecto',),('empleado',),)
+        db_table = 'ComisionAgente'
+
+    def __str__(self):
+        return '%s %s, %s' % (self.empleado, self.proyecto, self.comsion)
+
+class PagoComision:
+    empleado = models.ForeignKey('Empleado', on_delete=models.CASCADE, verbose_name="Empleado")
+    bien = models.ForeignKey('Lote', on_delete=models.CASCADE, verbose_name="Bien")
+    modo_pago = models.IntegerField("Modo de pago", choices=MODO_PAGO, default=1)
+    precio_final = models.DecimalField("Precio final", decimal_places=2, max_digits=10, default=0.00)
+    enganche = models.DecimalField("Enganche", decimal_places=2, max_digits=10, null=True, blank=True, default=0.00)
+    fecha_confirma_pago_adicional = models.DateField("Fecha confirmado", blank=True, null=True)
+    fecha_contrato = models.DateField("Fecha de contrato", blank=True, null=True)
+    comsion = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
+    importe = models.DecimalField("Importe comisión", decimal_places=2, max_digits=10, default=0)
+    estatus_pago = models.IntegerField("Pagado",choices=RESP_SI_NO,default=False)
+    created = models.DateTimeField("Creado", auto_now_add=True)
+    modified = models.DateTimeField("Actualizado", auto_now=True)
+
+    class Meta:
+        verbose_name = 'Comisión por asesor'
+        verbose_name_plural = 'Comisiones'
+        ordering = ['empleado','proyecto',]
+        unique_together= (('proyecto',),('empleado',),)
+        db_table = 'ComisionAgente'
+
+    def __str__(self):
+        return '%s %s, %s' % (self.empleado, self.proyecto, self.comsion)

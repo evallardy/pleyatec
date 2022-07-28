@@ -42,6 +42,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     forma_pago_pa = models.IntegerField("Forma pago pago adic.",choices=STATUS_FORMA_PAGO, default=0)
     cuenta_pa = models.CharField("Número de cuenta pago adic",max_length=4, null=True, blank=True, default="")
     numero_comprobante_pa = models.CharField("Número de comprobante pago adic",max_length=40, null=True, blank=True, default="")
+    fecha_confirma_pago_adicional = models.DateField("Fecha confirmado", blank=True, null=True)
 
     cantidad_pagos = models.IntegerField("Pagos", null=True, blank=True, default=0)
     importe_x_pago = models.DecimalField("Importe por pago", decimal_places=2, max_digits=10, null=True, blank=True, default=0)
