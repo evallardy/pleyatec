@@ -145,7 +145,7 @@
                             {{ form.apartado|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_apartado"
-                        {% not app_proy_confirma_deposito_pago %}
+                        {% if not app_proy_confirma_deposito_pago %}
                             hidden
                         {% endif %}
                         >
@@ -194,7 +194,7 @@
                             {{ form.pago_adicional|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_pago_adicional"
-                        {% not app_proy_confirma_deposito_pago %}
+                        {% if not app_proy_confirma_deposito_pago %}
                             hidden
                         {% endif %}
                         >

@@ -1,0 +1,283 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% load crispy_forms_tags %}
+{% block contenido %}
+{% for py in proyecto_tb %}
+{% if app_proy_add or app_proy_chag %}
+<div class="container" id="forma"></div>
+<label class="encabezados">{{ py.nombre }} - {{ py.get_tipo_proyecto_display }}</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+<hr class="mt-0 mb-4">
+<a class="btn btn-outline-dark" href="{% url 'bienes' py.id %}">Regresar</a>
+<div class="container col-12">
+    <div class="wrapper fadeInDown">
+        <div id="formContent" style="text-align: right;">
+            <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
+                onkeypress="return anular(event)">
+                {% csrf_token %}
+                <div class="form-row" hidden>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.proyecto|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0" id="fase">
+                        {{ form.fase|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="manzana">
+                        {{ form.manzana|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="lote">
+                        {{ form.lote|as_crispy_field }}
+                    </div>
+                    {% if app_proy_reservar %}
+                    <div class="form-group col-md-3 mb-0">
+                        <label for="">Estatus bien</label>
+                        <select name="estatus" id="estatus" class="form-control">
+                            <option value="1">Disponible</option>
+                            <option value="4">Reservado</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="lote" hidden>
+                        {{ form.estatus_lote|as_crispy_field }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-row" id="gpo-lote">
+                    <div class="form-group col-md-3 mb-0" id="altura">
+                        {{ form.altura|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" style="text-align: center;" id="tipo_lote">
+                        {{ form.tipo_lote|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0" id="obs_irregular">
+                        {{ form.obs_irregular|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="frente">
+                        {{ form.frente|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="fondo">
+                        {{ form.fondo|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3" style="text-align: center;" id="esquina">
+                        {{ form.esquina|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3 mb-0" id="total">
+                        {{ form.total|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="precio_x_mt">
+                        {{ form.precio_x_mt|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="precio">
+                        {{ form.precio|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row" id="gpo-terraza">
+                    <div class="form-group col-md-3 mb-0" id="terraza">
+                        {{ form.terraza|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="precio_x_mt_t">
+                        {{ form.precio_x_mt_t|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="precio_terraza">
+                        {{ form.precio_terraza|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row" id="estacionamientos">
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.estacionamientos|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row" >
+                    <div class="form-group col-md-4 mb-0" id="gran_total">
+                        {{ form.gran_total|as_crispy_field }}
+                    </div>
+                </div>
+                <div id="colindancias">
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_norte">
+                        {{ form.colindancia_norte|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_sur">
+                        {{ form.colindancia_sur|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_este">
+                        {{ form.colindancia_este|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_oeste">
+                        {{ form.colindancia_oeste|as_crispy_field }}
+                    </div>
+                </div>
+                </div>
+                {% if app_proy_add or app_proy_chag %}
+                <input type="submit" value="Guarda" class="btn btn-success">
+                {% endif %}
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+<script>
+    {% block bljs %}
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+    $(function () {
+        window.captureEvents(Event.SUBMIT);
+        window.onsubmit = guarda;
+        function guarda() {
+            aviso("Aviso", "Guardado exitosamente");
+            return true;
+        }
+        
+        function activa_campos() {
+            if ($("#id_tipo_lote_0").is(':checked')) {
+                $("#obs_irregular").hide();
+                $("#frente").show();
+                $("#fondo").show();
+            } else {
+                $("#obs_irregular").show();
+                $("#frente").hide();
+                $("#fondo").hide();
+            }
+        }
+        // inicializa campos en Alta
+        {% if accion == 'Alta' %}
+        $("#id_tipo_lote_0").prop("checked", true);
+        $("#id_esquina_0").prop("checked", true);
+        {% endif %}
+        // tipo de lote visible si trae datos
+        activa_campos();
+        //Inicializa el valor del proyecto
+        $("#id_proyecto").val({{ num_proyecto }}).change();
+        $("#estatus").val($("#id_estatus_lote").val());
+        //  Alinear campos numericos
+        $("#id_fase").css("text-align", "center");
+        $("#id_manzana").css("text-align", "center");
+        $("#id_frente").css("text-align", "right");
+        $("#id_fondo").css("text-align", "right");
+        $("#id_total").css("text-align", "right");
+        $("#id_precio_x_mt").css("text-align", "right");
+        $("#id_precio").css("text-align", "right");
+        $("#id_precio_x_mt_t").css("text-align", "right");
+        $("#id_precio_terraza").css("text-align", "right");
+        $("#id_altura").css("text-align", "right");
+        $("#id_estacionamientos").css("text-align", "right");
+        $("#id_terraza").css("text-align", "right");
+        $("#id_gran_total").css("text-align", "right");
+
+        // Campos de solo lectura
+        $("#id_precio").attr('readonly', true);
+        $("#id_gran_total").attr('readonly', true);
+        $("#id_precio_terraza").attr('readonly', true);
+
+        // Cuando cambia valor fondo
+        $("#id_fondo").on("keyup", function () {
+            calculaMetros();
+        });
+        // Cuando cambia valor frente
+        $("#id_frente").on("keyup", function () {
+            calculaMetros();
+        });
+        $("#id_total").on("keyup", function () {
+            calcula();
+        });
+        $("#id_terraza").on("keyup", function () {
+            calcula();
+        });
+        $("#precio_x_mt_t").on("keyup", function () {
+            calcula();
+        });
+        // Cuando cambia el estatus lote
+        $("#estatus").on("change", function () {
+            $("#id_estatus_lote").val($("#estatus").val());
+        });
+        // Cuando cambia valor fondo
+        $("#id_tipo_lote_0").on("change", function () {
+            activa_campos();
+            $("#id_frente").val(0);
+            $("#id_fondo").val(0);
+            $("#id_total").val(0);
+            $("#id_precio_x_mt").val(0);
+            $("#id_precio").val(0);
+            $("#obs_irregular").val("");
+        }); 
+        $("#id_tipo_lote_1").on("change", function () {
+            activa_campos();
+            $("#id_frente").val(0);
+            $("#id_fondo").val(0);
+            $("#id_total").val(0);
+            $("#id_precio_x_mt").val(0);
+            $("#id_precio").val(0);
+            $("#obs_irregular").val("");
+        }); 
+        // Cuando cambia valor precio_x_mt
+        $("#id_precio_x_mt").on("keyup", function () {
+            calcula();
+        });
+        // Funcion para calcular el importe por cada pago
+        function calcula() {
+            total = parseFloat($("#id_total").val());
+            precio_x_mt = parseFloat($("#id_precio_x_mt").val());
+            precio = (total * precio_x_mt).toFixed(2);
+
+            terraza = parseFloat($("#id_terraza").val());
+            precio_x_mt_t = parseFloat($("#id_precio_x_mt_t").val());
+            precio_terraza = (terraza * precio_x_mt_t).toFixed(2);
+
+            gran_total = (parseFloat(precio) + parseFloat(precio_terraza)).toFixed(2);
+
+            $("#id_precio").val(precio);
+            $("#id_precio_terraza").val(precio_terraza);
+            $("#id_gran_total").val(gran_total);
+        }
+        function calculaMetros() {
+            frente = parseFloat($("#id_frente").val());
+            fondo = parseFloat($("#id_fondo").val());
+            total = (frente * fondo).toFixed(2);
+            $("#id_total").val(total);
+            calcula();
+        }
+        presentaProyecto();
+        function presentaProyecto() {
+            num_proyecto = {{num_proyecto}};
+            switch (num_proyecto) {
+                case 1:
+                    $("#gpo-terraza").hide();
+                    $("#estacionamientos").hide();
+                    $("#gran_total").hide();
+                    $("#altura").hide();
+                    break;
+                case 2:
+                    $("label[for='id_lote']").text("Local");
+                    $("#fase").hide();
+                    $("#manzana").hide();
+                    $("#tipo_lote").hide();
+                    $("#esquina").hide();
+                    $("#estacionamientos").hide();
+                    $("#colindancias").hide();
+                    break;
+                default:
+                    aviso('Seguridad','No tiene acceso')
+                    $("#forma").hide();
+                    break;
+            }
+        }
+    });
+</script>
+{% endblock %}
+{% endif %}
+{% endfor %}
+{% endblock %}
