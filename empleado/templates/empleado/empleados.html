@@ -23,6 +23,7 @@
                 <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
                 <th class="col-md-1" style="text-align: center;" scope="col">Asigna Solicitudes</th>
                 <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                <th class="col-md-1" style="text-align: center;" scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,11 @@
                 <td style="text-align: center;">
                     {% if perms.empleado.change_empleado %}
                     <a href="{% url 'mod_empleado' e.id %}" class="btn btn-outline-secondary">Editar</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if perms.empleado.comisiones_asesor %}
+                    <a href="{% url 'comision_por_asesor' e.id %}" class="btn btn-outline-secondary">Comisiones</a>
                     {% endif %}
                 </td>
             </tr>

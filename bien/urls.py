@@ -17,4 +17,6 @@ urlpatterns = [
     path('nvo_bien/<proyecto>/', nvo_bien.as_view(), name='nvo_bien'), 
     path('mod_bien/<pk>/<proyecto>/', mod_bien.as_view(), name='mod_bien'), 
 
+    path('proectos/', proyectos.as_view(), name='proyectos'), 
+    path('mod_proyecto/<pk>/', mod_proyecto.as_view(), name='mod_proyecto'), 
 ]

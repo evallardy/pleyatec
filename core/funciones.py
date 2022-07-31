@@ -1,4 +1,6 @@
 import datetime
+from xml.parsers.expat import model
+from bien.models import Proyecto,ComisionAgente
 from core.models import Titulo
 from empleado.models import Empleado
 from django.contrib.auth.models import  Group,User,Permission
@@ -45,3 +47,61 @@ def trae_empresa(pk):
 def administrador(id_user):
     empleado = Empleado.objects.filter(usuario=id_user)
     return empleado[0].asigna_solicitud
+
+def comision_asesor_proyecto(agente, proyecto):
+    comisiones = ComisionAgente.objects.filter(proyecto_com=proyecto, empleado_com=agente)
+    if not comisiones:
+        comision = 0
+    else:
+        comision = comisiones[0].comision
+    return comision
+
+def comision_proyecto(proyecto):
+    proyectos = Proyecto.objects.filter(id=proyecto)
+    if not proyectos:
+        comision = 0
+    else:
+        comision = proyectos[0].comision
+    return comision
+
+def comisiones_proyecto_asesores(): 
+    empleados = Empleado.objects.all()
+    datos = {}
+    datos['comisiones'] = []
+    for e in empleados:
+        comision1 = comision_asesor_proyecto(e.id, 1)
+        comision2 = comision_asesor_proyecto(e.id, 2)
+        comision3 = comision_asesor_proyecto(e.id, 3)
+        comision4 = comision_asesor_proyecto(e.id, 4)
+        comision5 = comision_asesor_proyecto(e.id, 5)
+        comision6 = comision_asesor_proyecto(e.id, 6)
+        comision7 = comision_asesor_proyecto(e.id, 7)
+        comision8 = comision_asesor_proyecto(e.id, 8)
+        comision9 = comision_asesor_proyecto(e.id, 9)
+        datos['comisiones'].append({
+            'id': e.id,
+            'nombre': e.nombre_completo,
+            'comision1': comision1,
+            'comision2': comision2,
+            'comision3': comision3,
+            'comision4': comision4,
+            'comision5': comision5,
+            'comision6': comision6,
+            'comision7': comision7,
+            'comision8': comision8,
+            'comision9': comision9,
+        })
+    return datos
+
+def comisiones_proyecto_asesor(asesor): 
+    proyectos = Proyecto.objects.all().order_by('id')
+    datos = {}
+    datos['comisiones'] = []
+    for p in proyectos:
+        comision = comision_asesor_proyecto(asesor, p.id)
+        datos['comisiones'].append({
+            'id': p.id,
+            'nombre': p.nombre,
+            'comision': comision,
+        })
+    return datos

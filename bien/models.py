@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import models
 from core.models import *
-from empleado.models import *
+from empleado.models import Empleado
 
 class Proyecto(models.Model):
     tipo_proyecto = models.IntegerField("Tipo de proyecto",choices=TIPO_PROYECTO,default=1)
@@ -38,6 +38,7 @@ class Proyecto(models.Model):
                        ('vivienda_nuvole_acceso', 'Vivienda Nuvole Acceso'),
                        ('pathe_acceso', 'Pathe Acceso'),
                        ('condom_multiple_acceso', 'Condominio Múltiple Acceso'),
+                       ('comision_proyectos', 'Comisiones por proyecto'),
                        )
 
     def __str__(self):   # para poner los nombre en los renglones
@@ -88,6 +89,7 @@ class Lote(models.Model, PermissionRequiredMixin):
     reciente = models.IntegerField('Ultimos lotes', default=0)
     created = models.DateTimeField("Creado", auto_now_add=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
+    comision_pagada = models.IntegerField("Comision pagada", choices=RESP_SI_NO, default=0)
  
     class Meta:
         verbose_name = 'Lote'
@@ -256,3 +258,45 @@ class Esquema(models.Model, PermissionRequiredMixin):
     def __str__(self):   # para poner los nombre en los renglones
         return ' Proyecto: %s Plano: %s' % (self.proyecto, self.nombre_plano)
 
+class ComisionAgente(models.Model,PermissionRequiredMixin):
+    proyecto_com = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="Proyecto_com_age")
+    empleado_com = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name="Empleado_com_age")
+    comision = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
+    created = models.DateTimeField("Creado", auto_now_add=True)
+    modified = models.DateTimeField("Actualizado", auto_now=True)
+
+    class Meta:
+        verbose_name = 'Comisión por asesor'
+        verbose_name_plural = 'Comisiones'
+        ordering = ['empleado_com','proyecto_com',]
+        unique_together= (('proyecto_com','empleado_com',),)
+        db_table = 'ComisionAgente'
+
+    def __str__(self):
+        return '%s %s, %s' % (self.empleado_com, self.proyecto_com, self.comsion)
+
+class PagoComision(models.Model,PermissionRequiredMixin):
+    empleado_pago = models.ForeignKey(Empleado, on_delete=models.CASCADE, verbose_name="Empleado_pag_com")
+    bien_pago = models.ForeignKey(Lote, on_delete=models.CASCADE, verbose_name="Bien_pag_com")
+    modo_pago = models.IntegerField("Modo de pago", choices=MODO_PAGO, default=1)
+    precio_final = models.DecimalField("Precio final", decimal_places=2, max_digits=10, default=0.00)
+    enganche = models.DecimalField("Enganche", decimal_places=2, max_digits=10, null=True, blank=True, default=0.00)
+    fecha_confirma_pago_adicional = models.DateField("Fecha confirmado", blank=True, null=True)
+    fecha_contrato = models.DateField("Fecha de contrato", blank=True, null=True)
+    comsion = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
+    importe = models.DecimalField("Importe comisión", decimal_places=2, max_digits=10, default=0)
+    estatus_pago = models.IntegerField("Pagado",choices=RESP_SI_NO,default=False)
+    fecha_pago_comision = models.DateField("Fecha pago comisión", null=True, blank=True)
+    created = models.DateTimeField("Creado", auto_now_add=True)
+    modified = models.DateTimeField("Actualizado", auto_now=True)
+    observacion = models.CharField("Observación", max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Pago comisión'
+        verbose_name_plural = 'Pago comisiones'
+        ordering = ['empleado_pago','-fecha_contrato',]
+        unique_together= (('bien_pago',),)
+        db_table = 'PagoComision'
+
+    def __str__(self):
+        return '%s %s, %s' % (self.empleado, self.bien, self.fecha_contrato)

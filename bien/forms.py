@@ -7,26 +7,16 @@ class ProyectoForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = [
-            'tipo_proyecto',
-            'nombre',
-            'ubicacion',
-            'precio_apartir',
-            'plano',
-            'estado',
-            'estatus_proyecto',
+            'comision_asesor',
+            'comision_jefe_asesor',
         ]
         labels = {
-            'tipo_proyecto': 'Tipo de proyecto',
-            'nombre': 'Nombre del proyecto',
-            'ubicacion': 'Ubicación',
-            'precio_apartir': 'Desde',
-            'plano': 'Plano',
-            'estado': 'Estado de la ubicación',
-            'estatus_proyecto': 'Estatus del proyecto',
+            'comision_asesor':'Comisión asesor',
+            'comision_jefe_asesor':'Comisión coordinador',
         }
         widgets = {
-            'nombre':forms.TextInput(attrs={'class':'form-control'}),
-            'ubicacion':forms.TextInput(attrs={'class':'form-control'}),
+            'comision_asesor':forms.NumberInput(attrs={'class':'form-control'}),
+            'comision_jefe_asesor':forms.NumberInput(attrs={'class':'form-control'}),
         }
 
 class BienForm(forms.ModelForm):

@@ -156,15 +156,15 @@
                             <input class="form-control" name="confirmacion_apartado1" id="id_confirmacion_apartado1"
                                 readonly>
                         </div>
-                        {% if app_proy_imp_pago_compromiso %}
                         <div class="form-group col-3" id="gpo_confirmacion_apartado" style="text-align: center;">
+                            {% if app_proy_imp_pago_compromiso %}
                             <label for="btn_recibo"> </label><br>
                             <button id="btn_recibo" class="btn btn-outline-dark"
                                 onclick="imprime('parcial')">Imprimir</button>
+                            {% endif %}
                             <input id="id_btsubapartado" name="btsubapartado" type="submit" value="Guarda"
                                 class="btn btn-success">
                         </div>
-                        {% endif %}
                     </div>
                     <div class="form-row" id="bloque_apartado2">
                         <div class="form-group col-3" id="gpo_forma_pago_apa">
@@ -209,15 +209,15 @@
                             <label for="id_diferencia">Por pagar</label>
                             <input class="form-control" name="diferencia" id="diferencia" readonly>
                         </div>
-                        {% if app_proy_imp_pago_compromiso %}
                         <div class="form-group col-3" style="text-align: center;">
+                            {% if app_proy_imp_pago_compromiso %}
                             <label for="btn_adicional"> </label><br>
                             <button id="btn_adicional" class="btn btn-outline-dark"
                                 onclick="imprime('total')">Imprimir</button>
+                            {% endif %}
                             <input id="id_btsubpa" name="btsubpa" type="submit" value="Guarda" 
                                 class="btn btn-success">
                         </div>
-                        {% endif %}
                     </div>
                     <div class="form-row">
                         <div class="form-group col-3" id="gpo_forma_pago_pa">
@@ -277,6 +277,16 @@
         }
         {% endif %}
         $(document).ready(function () {
+            var texto = "";
+            var guarda = false;
+            window.captureEvents(Event.SUBMIT);
+            window.onsubmit = func_guardar;
+            function func_guardar() {
+                if (guarda == false) {
+                    aviso("Error al guardar", texto);
+                } 
+                return guarda;
+            }
             var id_diferencia = 0;
             //  Alinear campos numericos
             $("#id_apartado").css("text-align", "right");
@@ -313,17 +323,17 @@
             //  Calcular diferencia
             calcula_diferencia();
             function calcula_diferencia() {
-                if ($("#id_apartado").val() == "") {
+                if ($("#id_apartado").val().trim() == "") {
                     id_apartado = 0;
                 } else {
                     id_apartado = parseFloat($("#id_apartado").val());
                 }
-                if ($("#id_pago_adicional").val() == "") {
+                if ($("#id_pago_adicional").val().trim() == "") {
                     id_pago_adicional = 0;
                 } else {
                     id_pago_adicional = parseFloat($("#id_pago_adicional").val());
                 }
-                id_pago_adicional = parseFloat($("#id_pago_adicional").val());
+//                id_pago_adicional = parseFloat($("#id_pago_adicional").val());
                 if (id_modo_pago == "1") {
                     id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
                 } else {
@@ -362,6 +372,7 @@
                 //                $("#id_confirmacion_apartado").val(0);
                 $("#id_forma_pago_apa").val(0);
                 $('#id_cuenta_apa').val('');
+                $("#id_confirmacion_apartado").val(0);
                 $('#id_numero_comprobante_apa').val('');
                 $("#id_foto_comprobante_apartado").val('');
                 $("#id_btsubapartado").hide();
@@ -373,6 +384,7 @@
                 id_pago_adicional = 0;
 //                $("#id_confirmacion_pago_adicional").val(0);
                 $("#id_forma_pago_pa").val(0);
+                $("#id_confirmacion_pago_adicional").val(0);
                 $('#id_cuenta_pa').val('');
                 $('#id_numero_comprobante_pa').val('');
                 $("#id_foto_comprobante_pago_adicional").val('');
@@ -451,10 +463,12 @@
                 apartado();
             });
             function apartado() {
-                $("#id_btsubapartado").hide();
+                $("#id_btsubapartado").show();
+                $("#id_btsubpa").hide();
                 inicia_pago_adicional();
                 calcula_diferencia();
                 guarda = true;
+                texto = "";
                 if ($("#id_forma_pago_apa").val() == 3) {
                     $("#id_cuenta_apa").val("").attr("readonly", true);
                     $("#id_numero_comprobante_apa").val("").attr("readonly", true);
@@ -463,21 +477,26 @@
                         $("#id_cuenta_apa").attr("readonly", false);
                         $("#id_numero_comprobante_apa").attr("readonly", false);
                         if ($("#id_cuenta_apa").val().trim() == "") {
+                            texto += "Falta número de cuenta, ";
                             guarda = false;
                         }
                         if ($("#id_numero_comprobante_apa").val().trim() == "") {
+                            texto += "Falta número de comprobante, ";
                             guarda = false;
                         }
                     } else {
+                        texto += "Falta forma de pago, ";
                         guarda = false;
                     }
                 }
                 if ($("#id_foto_comprobante_apartado").val().trim() == "") {
                     if ($('#foto_comprobante_apartado').val().trim() == "") {
+                        texto += "Falta imagen comprobante, ";
                         guarda = false;
                     }
                 }
                 if (id_apartado < 50000) {
+                    texto += "El importe del apartado debe ser mayor igual a 50,000.00, ";
                     guarda = false;
                 }
                 if ($("#id_confirmacion_apartado").val() == 2) {
@@ -488,8 +507,8 @@
                     $('#id_estatus_solicitud').val(1);
                 }
                 $('#id_estatus_solicitud').change();
-                if (guarda == true) {
-                    $("#id_btsubapartado").show();
+                if (guarda == false) {
+//                    aviso("Error al guardar", texto);
                 }
             }
 
@@ -525,12 +544,15 @@
                 adicional()
             });
             function adicional() {
-                $("#id_btsubpa").hide();
-                if ($("#id_confirmacion_apartado").val() == 1) {
+                $("#id_btsubapartado").hide();
+                $("#id_btsubpa").show();
+                if (!$('#id_apartado').attr('readonly')) {
+//                if ($("#id_confirmacion_apartado").val() == 1) {
                     inicia_apartado();
                 }
                 calcula_diferencia();
                 guarda = true;
+                texto = "";
                 if ($("#id_forma_pago_pa").val() == 3) {
                     $("#id_cuenta_pa").val("").attr("readonly", true);
                     $("#id_numero_comprobante_pa").val("").attr("readonly", true);
@@ -540,21 +562,26 @@
                         $("#id_numero_comprobante_pa").attr("readonly", false);
                         if ($("#id_cuenta_pa").val().trim() == "") {
                             guarda = false;
+                            texto += " Falta número de cuenta, ";
                         }
                         if ($("#id_numero_comprobante_pa").val().trim() == "") {
                             guarda = false;
+                            texto += " Falta número de comprobante, ";
                         }
                     } else {
                         guarda = false;
+                        texto += " Falta forma de pago, ";
                     }
                 }
                 if ($("#id_foto_comprobante_pago_adicional").val().trim() == "") {
                     if ($("#foto_comprobante_pago_adicional").val().trim() == "") {
                         guarda = false;
+                        texto += " Falta imagen comprobante, "
                     }
                 }
                 if (id_diferencia > 0) {
                     guarda = false;
+                    texto += " El importe del pago adicional, no coincide con el importe por pagar";
                 }
                 if ($("#id_confirmacion_pago_adicional").val() == 2) {
                     $('#id_estatus_lote').val(3);
@@ -569,8 +596,8 @@
                     }
                 }
                 $('#id_estatus_solicitud').change();
-                if (guarda == true) {
-                    $("#id_btsubpa").show();
+                if (guarda == false) {
+//                    aviso('Error al guardar', texto);
                 }
             }
         });

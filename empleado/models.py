@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import models
 from core.models import *
-from bien.models import *
 from django.contrib.auth.models import User
 
 class Empleado(models.Model,PermissionRequiredMixin):
@@ -13,7 +12,7 @@ class Empleado(models.Model,PermissionRequiredMixin):
     rfc = models.CharField("R.F.C.",max_length=20, blank=True, null=True)
     curp = models.CharField("CURP",max_length=18, null=True, blank=True)
     fecha_nac = models.DateField("Fecha de nacimiento", null=True, blank=True)
-    genero = models.CharField("Género", max_length=1, choices=GENERO_P)
+    genero = models.CharField("Género", max_length=1, choices=GENERO_P, default='M')
     estado_civil = models.IntegerField("Estado civil", choices=ESTADO_CIVIL, null=True, blank=True)
     numero_seguro_social = models.CharField("Número de seguro social", max_length=12, null=True, blank=True)
     cuenta_banco = models.CharField("Cuenta nómina", max_length=18, null=True, blank=True)
@@ -29,7 +28,8 @@ class Empleado(models.Model,PermissionRequiredMixin):
     celular = models.CharField("Celular", max_length=10, blank=True, null=True)
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
     tipo_empleado = models.CharField("Interno/Externo", max_length=1, choices=TIPO_EMPLEADO,default='E')
-    area_operativa = models.SmallIntegerField("Área operativa", choices=AREA_OPERATIVA,default=5)
+    area_operativa = models.SmallIntegerField("Área operativa", choices=AREA_OPERATIVA,default=3)
+    puesto = models.SmallIntegerField("Puesto", choices=PUESTO,default=1)
     asigna_solicitud = models.BooleanField("Asigna solicitudes",choices=RESP_SI_NO,blank=True, null=True,default=False)
     estatus_empleado = models.IntegerField("Activo",choices=STATUS_SI_NO,default=1)
     foto = models.ImageField(upload_to="personal", blank=True, null=True)
@@ -48,6 +48,10 @@ class Empleado(models.Model,PermissionRequiredMixin):
         ordering = ['paterno','materno','nombre']
         unique_together= (('rfc',),('curp',),('numero_seguro_social',))
         db_table = 'Empleado'
+        permissions = (
+                ('comisiones_asesor', 'Comisiones por asesor'),
+        )
+
 
     def _get_materno(self):
         materno = ""
@@ -183,43 +187,3 @@ class Empleado(models.Model,PermissionRequiredMixin):
             return self.subidPersdonal.nombre_completo
     subidPersdonal_val = property(_get_subidPersdonal)
 
-class ComisionAgente:
-    proyecto = models.ForeignKey('Proyecto', on_delete=models.CASCADE, verbose_name="Proyecto")
-    empleado = models.ForeignKey('Empleado', on_delete=models.CASCADE, verbose_name="Empleado")
-    comsion = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
-    created = models.DateTimeField("Creado", auto_now_add=True)
-    modified = models.DateTimeField("Actualizado", auto_now=True)
-
-    class Meta:
-        verbose_name = 'Comisión por asesor'
-        verbose_name_plural = 'Comisiones'
-        ordering = ['empleado','proyecto',]
-        unique_together= (('proyecto',),('empleado',),)
-        db_table = 'ComisionAgente'
-
-    def __str__(self):
-        return '%s %s, %s' % (self.empleado, self.proyecto, self.comsion)
-
-class PagoComision:
-    empleado = models.ForeignKey('Empleado', on_delete=models.CASCADE, verbose_name="Empleado")
-    bien = models.ForeignKey('Lote', on_delete=models.CASCADE, verbose_name="Bien")
-    modo_pago = models.IntegerField("Modo de pago", choices=MODO_PAGO, default=1)
-    precio_final = models.DecimalField("Precio final", decimal_places=2, max_digits=10, default=0.00)
-    enganche = models.DecimalField("Enganche", decimal_places=2, max_digits=10, null=True, blank=True, default=0.00)
-    fecha_confirma_pago_adicional = models.DateField("Fecha confirmado", blank=True, null=True)
-    fecha_contrato = models.DateField("Fecha de contrato", blank=True, null=True)
-    comsion = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
-    importe = models.DecimalField("Importe comisión", decimal_places=2, max_digits=10, default=0)
-    estatus_pago = models.IntegerField("Pagado",choices=RESP_SI_NO,default=False)
-    created = models.DateTimeField("Creado", auto_now_add=True)
-    modified = models.DateTimeField("Actualizado", auto_now=True)
-
-    class Meta:
-        verbose_name = 'Comisión por asesor'
-        verbose_name_plural = 'Comisiones'
-        ordering = ['empleado','proyecto',]
-        unique_together= (('proyecto',),('empleado',),)
-        db_table = 'ComisionAgente'
-
-    def __str__(self):
-        return '%s %s, %s' % (self.empleado, self.proyecto, self.comsion)

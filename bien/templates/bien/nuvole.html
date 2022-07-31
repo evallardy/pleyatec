@@ -59,13 +59,15 @@
 
         {% endif %} 
         ">
-            <title>{{e.lote}} {{e.total}} m²</title>
+            <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
         </polygon>
         <circle cx="{{e.posicion_circulo_x}}" cy="{{e.posicion_circulo_y}}" r="5" fill="white" style="cursor: pointer;">
-            <title>{{e.lote}} {{e.total}} m²</title>
+            <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
         </circle>
         <text x="{{e.posicion_x}}" y="{{e.posicion_y}}"
-            style="font-size: 4px; font-weight: bold; cursor: pointer;">{{e.lote}}</text>
+            style="font-size: 4px; font-weight: bold; cursor: pointer;">{{e.lote}}
+            <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
+        </text>
         {% endfor %}
     </svg>
 </div>

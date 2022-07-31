@@ -92,6 +92,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     estado = models.SmallIntegerField("Estado",choices=ESTADOS, blank=True, null=True, default=0)
     celular = models.CharField("Celular", max_length=10, blank=True, null=True)
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
+    comision_pagada = models.IntegerField("Comision pagada", choices=RESP_SI_NO, default=0)
 
     class Meta:
         verbose_name = 'Solicitud' 
@@ -423,7 +424,6 @@ def calcula_vencimiento(par_anio, par_mes, par_pagos_pagados):
     if meses_vencidos < 0:
         meses_vencidos = 0
     return meses_vencidos
-
 
 class Folios(models.Model,PermissionRequiredMixin):
     tipo = models.IntegerField("Tipo folio",choices=TIPO_FOLIO, default=1 )

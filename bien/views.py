@@ -1,10 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin 
+from django.views.generic.edit import ModelFormMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render
 from .models import *
 from django.views.generic import ListView, CreateView, UpdateView 
 from django.urls import reverse_lazy, reverse
-from .forms import BienForm
+from .forms import BienForm, ProyectoForm
 from django.conf import settings
 from django.http.response import HttpResponseRedirect
 
@@ -810,3 +811,29 @@ class mod_bien(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def get_success_url(self):
         num_proyecto = self.kwargs.get('proyecto',0)
         return reverse('bienes', kwargs={'proyecto': num_proyecto})
+
+class proyectos(LoginRequiredMixin, ListView):
+    model = Proyecto
+    template_name = 'bien/proyectos.html'  
+    paginate_by = settings.RENGLONES_X_PAGINA
+
+    def get_context_data(self, **kwargs):
+        context = super(proyectos, self).get_context_data(**kwargs)
+        return context
+    def get_queryset(self):
+        queryset = Proyecto.objects.all()
+        return queryset
+
+class mod_proyecto(LoginRequiredMixin, UpdateView):
+    model = Proyecto
+    form_class = ProyectoForm
+    template_name = 'bien/nvo_proyecto.html'
+    success_url = reverse_lazy('proyectos')
+
+    def get_context_data(self, **kwargs):
+        context = super(mod_proyecto, self).get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        proyecto = Proyecto.objects.filter(id=pk)
+        context['accion'] = "Modifica"
+        context['proyecto'] = proyecto
+        return context

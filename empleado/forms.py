@@ -1,9 +1,28 @@
 from django import forms
+
+from bien.models import ComisionAgente
 from .models import Empleado
 
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+class EmpleadoComisionForm(forms.ModelForm): 
+    class Meta:
+        model = ComisionAgente
+        fields = [
+            'proyecto_com',
+            'empleado_com',
+            'comision',
+        ]
+        labels = {
+            'proyecto_com': 'Proyecto',
+            'empleado_com': 'Empleado',
+            'comision': 'Comisión',
+        }
+        widgets = { 
+            'comision':forms.NumberInput(attrs={'class':'form-control'}),
+        }
+ 
 class EmpleadoForm(forms.ModelForm): 
     class Meta:
         model = Empleado
@@ -29,6 +48,7 @@ class EmpleadoForm(forms.ModelForm):
             'telefono_fijo',
             'celular',
             'correo',
+            'puesto',
             'tipo_empleado',
             'area_operativa',
             'asigna_solicitud',
@@ -60,6 +80,7 @@ class EmpleadoForm(forms.ModelForm):
             'correo': 'Correo',
             'subidPersdonal': 'Jefe',
             'tipo_empleado':'Tipo de empleado',
+            'puesto':'Puesto',
             'area_operativa':'Área operativa',
             'asigna_solicitud':'Administrador',
             'estatus_personal': 'Estatus empleado',
@@ -84,4 +105,3 @@ class EmpleadoForm(forms.ModelForm):
             'correo':forms.EmailInput(attrs={'class':'form-control'}),
             'asigna_solicitud':forms.CheckboxInput(),
         }
- 

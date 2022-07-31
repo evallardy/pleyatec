@@ -1,113 +1,45 @@
 {% extends "core/base.html" %}
 {% load static %}
-{% block blcss %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-{% endblock %}
 {% block contenido %}
-{% for py in proyecto_tb %}
-{% if app_proy_ver %}
 <div style="position: absolute; margin-left: 80px;
      height: auto; width: auto; background-color: transparent;" class="mapa">
-<div class="container">
-    <label class="encabezados">{{ py.nombre }}</label>
-    <div class="btn-group btn-group-justified">
-        {% if menu_proy_ver %}
-        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+    <label class="encabezados">Proyectos</label>
+    <div class="container col-12">
+        <br>
+        <div class="container col-12">
+            <table class="table table-info table-striped" style="width: 600px;">
+                <thead>
+                    <tr>
+                        <th style="text-align: center; width: 10%;" hidden>Id</th>
+                        <th style="text-align: center; width: 20%;">Proyecto</th>
+                        <th style="text-align: center; width: 20%;" hidden>Tipo</th>
+                        <th style="text-align: center; width: 10%;">Com. Agente</th>
+                        <th style="text-align: center; width: 10%;">Com. Coordinador</th>
+                        <th style="text-align: center; width: 10%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in object_list %}
+                    <tr>
+                        <td hidden>{{ c.id }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td hidden>{{ c.get_tipo_proyecto_display }}</td>
+                        <td style="text-align: center;">{{ c.comision_asesor }}</td>
+                        <td style="text-align: center;">{{ c.comision_jefe_asesor }}</td>
+                        <td>
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
         {% endif %}
-        {% if menu_proy_ver_solicitud %}
-        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
-        {% endif %}
-        {% if menu_proy_autoriza_visualiza %}
-        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
-        {% endif %}
-        {% if menu_proy_compromiso %}
-        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
-        {% endif %}
-        {% if menu_proy_contratar %}
-        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
-        {% endif %}
-        {% if menu_proy_listado_registro_mensual %}
-        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
-        {% endif %}
-        {% if menu_proy_consulta_archivo %}
-        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
-        {% endif %}
-        {% if menu_proy_creditos %}
-        <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
-        {% endif %}
-        {% if menu_proy_contados %}
-        <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
         {% endif %}
     </div>
 </div>
-<div class="container">
-    {% if app_proy_add %}
-    <a class="btn btn-outline-dark" href="{% url 'nvo_bien' py.id %}" role="button">Agregar</a>
-    {% endif %}
-    <table class="table table-info table-striped" style="width: 850px;">
-        <thead>
-            <tr>
-                <th style="text-align: center;" scope="col" hidden>Clave</th>
-                <th style="text-align: center;" scope="col" class="col-1">{{ py.singular }}</th>
-                <th style="text-align: center;" scope="col" class="col-1">Medidas</th>
-                <th style="text-align: center;" scope="col">Área total</th>
-                <th style="text-align: center;" scope="col">Precio m²</th>
-                <th style="text-align: center;" scope="col">Precio</th>
-                {% if py.app == 'toscana' %}
-                <th style="text-align: center;" scope="col">Terraza</th>
-                <th style="text-align: center;" scope="col">Gran total</th>
-                {% endif %}
-                {% if py.app == 'nuvole' %}
-                <th style="text-align: center;" scope="col">Esquina</th>
-                {% endif %}
-                <th style="text-align: center;" scope="col">Estatus</th>
-                <th style="text-align: center;" scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for e in object_list %}
-            <tr>
-                <td class="col-md-1" style="text-align: center;" hidden>{{ e.id }}</td>
-                <td class="col-md-1" style="text-align: center;">{{ e.identificador_bien }}</td>
-                <td>{{ e.medidas }}</td>
-                <td class="col-md-1" style="text-align: right;">{{ e.total }}</td>
-                <td class="col-md-1" style="text-align: right;">{{ e.precio_x_mt }}</td>
-                <td class="col-md-1" style="text-align: right;">{{ e.precio }}</td>
-                {% if py.app == 'toscana' %}
-                <td class="col-md-1" style="text-align: right;">{{ e.terraza }}</td>
-                <td class="col-md-1" style="text-align: right;">{{ e.gran_total }}</td>
-                {% endif %}
-                {% if py.app == 'nuvole' %}
-                <td class="col-md-1" style="text-align: center;">{{ e.get_esquina_display }}</td>
-                {% endif %}
-                <td class="col-md-1" style="text-align: center;">{{ e.get_estatus_lote_display }}</td>
-                <td class="col-md-1" >
-                {% if e.estatus_lote == 1 or e.estatus_lote == 4 %}
-                {% if app_proy_chag %}
-                <a href="{% url 'mod_bien' e.id py.id %}" class="btn btn-outline-secondary">Editar</a>
-                {% endif %}
-                {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-{% endif %}
-</div>
-</div>
-{% endif %}
-{% endfor %}
-<script>
-    $(document).ready(function () {
-        opcion = "#" + "{{ menu }}";
-        $(opcion).addClass('active');
-    });
-</script>
 {% endblock %}

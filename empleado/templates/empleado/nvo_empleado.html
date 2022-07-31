@@ -12,6 +12,12 @@
 <label class="encabezados">Empleado</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
 <hr class="mt-0 mb-4">
 <a class="btn btn-outline-dark" href="{% url 'empleados' %}">Regresar</a>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosDomicilio">
+    Datos Domicilio
+</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosPersonales">
+    Datos Personales
+</button>
 <div class="container col-12">
     <div class="wrapper fadeInDown">
         <div id="formContent" style="text-align: right;">
@@ -31,50 +37,81 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4 mb-0">
-                        {{ form.fecha_nac|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
                         {{ form.usuario|as_crispy_field }}
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3 mb-0">
-                        {{ form.rfc|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-3 mb-0">
-                        {{ form.curp|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-6 mb-0">
-                        {{ form.numero_seguro_social|as_crispy_field }}
+                    <div class="form-group col-md-4 mb-0"> 
+                        {{ form.asigna_solicitud|as_crispy_field  }}
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.genero|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.estado_civil|as_crispy_field }}
+                <div class="modal fade" id="datosPersonales" tabindex="-1" role="dialog" 
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                            <div class="modal-header">
+                                <label class="encabezados">Datos Domicilio</label>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.fecha_nac|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3 mb-0">
+                                        {{ form.rfc|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        {{ form.curp|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                        {{ form.numero_seguro_social|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.genero|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.estado_civil|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-12 mb-0">
-                        {{ form.calle_num|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.colonia|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.codpos|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.municipio|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.estado|as_crispy_field }}
+                <div class="modal fade" id="datosDomicilio" tabindex="-1" role="dialog" 
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                            <div class="modal-header">
+                                <label class="encabezados">Datos Domicilio</label>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 mb-0">
+                                        {{ form.calle_num|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.colonia|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.codpos|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.municipio|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-4 mb-0">
+                                        {{ form.estado|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -101,20 +138,21 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4 mb-0">
-                        {{ form.subidPersdonal|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
                         {{ form.area_operativa|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.puesto|as_crispy_field }}
                     </div>
                     <div class="form-group col-md-4 mb-0">
                         {{ form.tipo_empleado|as_crispy_field }}
                     </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.subidPersdonal|as_crispy_field }}
+                    </div>
                 </div>
                 <div class="form-row">
-                    
-                    <div class="form-group col-md-4 mb-0"> 
-                        {{ form.asigna_solicitud|as_crispy_field  }}
-                    </div>
                     <div class="form-group col-md-4 mb-0">
                         {{ form.estatus_empleado|as_crispy_field }}
                     </div>

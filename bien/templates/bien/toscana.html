@@ -77,15 +77,16 @@
                 
                         {% endif %} 
                         ">
-                        <title>{{e.lote}} - {{e.total}} m² {% if e.terraza > 0 %} - terraza {{ e.terraza }} m² {% endif %}
-                        </title>
+                        <title>{{e.lote}} - {{e.total}} m² {% if e.terraza > 0 %} - terraza {{ e.terraza }} m² {% endif %} - ${{e.gran_total}}</title>
                     </polygon>
                     <circle cx="{{e.posicion_circulo_x}}" cy="{{e.posicion_circulo_y}}" r="10" fill="white"
                         style="cursor: pointer;">
-                        <title>{{e.lote}} {{e.total}} m²</title>
+                        <title>{{e.lote}} - {{e.total}} m² {% if e.terraza > 0 %} - terraza {{ e.terraza }} m² {% endif %} - ${{e.gran_total}}</title>
                     </circle>
                     <text x="{{e.posicion_x}}" y="{{e.posicion_y}}"
-                        style="font-size: 10px; font-weight: bold; cursor: pointer;">{{e.lote}}</text>
+                        style="font-size: 10px; font-weight: bold; cursor: pointer;">{{e.lote}}
+                        <title>{{e.lote}} - {{e.total}} m² {% if e.terraza > 0 %} - terraza {{ e.terraza }} m² {% endif %} - ${{e.gran_total}}</title>
+                    </text>
                     <!--        <text x="{{e.posicion_texto_x}}" y="{{e.posicion_texto_y}}" style="font-size: 2.5px; ">{{e.total}}m²</text> -->
 
                     {% endfor %}

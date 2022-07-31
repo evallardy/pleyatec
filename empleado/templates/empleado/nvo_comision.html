@@ -1,0 +1,104 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+<div class="container" style="width: 450px;">
+<h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+<hr class="mt-0 mb-4">
+<a class="btn btn-outline-dark" href="{% url 'empleados' %}">Regresar</a>
+<br>
+<br>
+<div class="container col-12">
+    <div class="wrapper fadeInDown">
+        <div id="formContent" style="text-align: right;">
+            <form action="" method="POST" style="text-align: left;"
+                onkeypress="return anular(event)">
+                {% csrf_token %}
+                {% for e in empleados %}
+                <div class="form-row" hidden>
+                    <div class="form-group col-4">
+                        <label>Id</label>
+                        <input type="text" name="id" id="id" value="{{ e.id }}">
+                    </div>
+                </div>
+                <div class="form-row ">
+                    <div class=" col-12">
+                        <label>Empleado</label>
+                        <div class="form-group form-control">
+                            {{ e.nombre_completo }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0">
+                        <label for="">Proyecto</label>
+                        <select name="proyecto" id="id_proyecto" class="form-control">
+                            {% for p in proyectos %}
+                            <option value="{{ p.id }}">{{ p.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.comision|as_crispy_field }}
+                    </div>
+                </div>
+                <input type="submit" value="Guarda" class="btn btn-success">
+            </form>
+        </div>
+        <div>
+            <table class="table table-info table-striped col-12" >
+                <thead>
+                    <tr>
+                        <th style="text-align: center; width: 10%;">Id</th>
+                        <th style="text-align: center; width: 70%;">Proyecto</th>
+                        <th style="text-align: center; width: 20%;">Comisión</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in datos.comisiones %}
+                    <tr>
+                        <td style="text-align: left; vertical-align: middle;">{{ e.id }}</td>
+                        <td style="text-align: left; vertical-align: middle;">{{ e.nombre }}</td>
+                        <td style="text-align: center; vertical-align: middle;">{{ e.comision }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </divx>
+    </div>
+</div>
+</div>
+<script>
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+
+    $(document).ready(function () {
+        $("#id_comision").css("text-align", "right");
+        $("#id_comision").val("{{ comision }}");
+        cuadro($("#id_asigna_solicitud"), $("label[for='id_asigna_solicitud']"));
+        window.captureEvents(Event.SUBMIT);
+        window.onsubmit = guarda;
+        function guarda() {
+            valor = parseFloat($("#id_comision").val());
+            if ($("#id_comision").val().trim() == "" || valor  <= 0) {
+                aviso("Alerta", "Ponga una comision valida para guardar");
+                return false;
+            } else {
+                aviso("Aviso", "Guardado exitosamente");
+                return true;
+            }
+        }
+    });
+</script>
+{% endblock %}

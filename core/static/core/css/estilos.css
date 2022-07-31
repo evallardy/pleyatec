@@ -88,6 +88,10 @@ nav a {
     box-shadow: 0 0 10px #000;
     background-color: white;
 }
+.imagen-principal {
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+}
 .proyecto {
     height: 250px;
     width: 250px;

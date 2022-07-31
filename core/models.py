@@ -13,13 +13,9 @@ ANIOS = (
     (2025, '2025'),
 )
 AREA_OPERATIVA = (
-    (1, 'Dirección'),
-    (2, 'Contabilidad'),
-    (3, 'Recursos Humanos'),
-    (4, 'Finanzas'),
-    (5, 'Asesoria'),
-    (6, 'Operación'),
-    (7, 'Desarrollo Urbano'),
+    (1, 'Dirección General'),
+    (2, 'Finanzas'),
+    (3, 'Asesoria de Ventas'),
 )
 ESQUINA_SI = (
     (False, 'No'),
@@ -101,6 +97,12 @@ PARENTEZCO = (
     (11, 'Hermano'),
     (12, 'Hermana'),
     (13, 'Otro'),
+)
+PUESTO = (
+    (1, 'Asesor'),
+    (2, 'Gerente de asesores'),
+    (3, 'Director General'),
+    (4, 'Personal de finanzas'),
 )
 REGIMEN = (
     (False, 'Bienes separados'),
