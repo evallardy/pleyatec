@@ -1,4 +1,3 @@
-from tkinter.tix import Form
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import View
 from django.http.response import HttpResponseRedirect
