@@ -31,7 +31,7 @@ class Empleado(models.Model,PermissionRequiredMixin):
     area_operativa = models.SmallIntegerField("Área operativa", choices=AREA_OPERATIVA,default=3)
     puesto = models.SmallIntegerField("Puesto", choices=PUESTO,default=1)
     asigna_solicitud = models.BooleanField("Asigna solicitudes",choices=RESP_SI_NO,blank=True, null=True,default=False)
-    estatus_empleado = models.IntegerField("Activo",choices=STATUS_SI_NO,default=1)
+    estatus_empleado = models.IntegerField("Estatus",choices=STATUS_SI_NO,default=1)
     foto = models.ImageField(upload_to="personal", blank=True, null=True)
     created = models.DateTimeField("Creado", auto_now_add=True)
     usuario_ins = models.ForeignKey('self', on_delete=models.CASCADE, related_name='em_user_ins',

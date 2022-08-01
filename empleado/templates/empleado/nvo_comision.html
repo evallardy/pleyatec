@@ -90,8 +90,11 @@
         window.captureEvents(Event.SUBMIT);
         window.onsubmit = guarda;
         function guarda() {
+            if ($("#id_comision").val().trim() == "" || valor  < 0) {
+                
+            }
             valor = parseFloat($("#id_comision").val());
-            if ($("#id_comision").val().trim() == "" || valor  <= 0) {
+            if ($("#id_comision").val().trim() == "" || valor  < 0) {
                 aviso("Alerta", "Ponga una comision valida para guardar");
                 return false;
             } else {
