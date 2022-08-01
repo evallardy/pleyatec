@@ -273,7 +273,7 @@ class ComisionAgente(models.Model,PermissionRequiredMixin):
         db_table = 'ComisionAgente'
 
     def __str__(self):
-        return '%s %s, %s' % (self.empleado_com, self.proyecto_com, self.comsion)
+        return '%s %s, %s' % (self.empleado_com, self.proyecto_com, self.comision)
 
 class PagoComision(models.Model,PermissionRequiredMixin):
     empleado_pago = models.ForeignKey(Empleado, on_delete=models.CASCADE, verbose_name="Empleado_pag_com")
