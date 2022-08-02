@@ -22,6 +22,9 @@ class Proyecto(models.Model):
         verbose_name="Usuario modificó", null=True, blank=True)
     app = models.CharField("App",max_length=20, blank=True, null=True)
     nom_proy = models.CharField("Abrev Proyecto",max_length=30, blank=True, null=True, default=" ")
+    fecha_alta = models.DateField("Fecha alta proyecto", blank=True, null=True)
+    fecha_cierre = models.DateField("Fecha cierre proyecto", blank=True, null=True)
+
 
     class Meta:
         verbose_name = 'Proyecto'
@@ -283,10 +286,21 @@ class PagoComision(models.Model,PermissionRequiredMixin):
     enganche = models.DecimalField("Enganche", decimal_places=2, max_digits=10, null=True, blank=True, default=0.00)
     fecha_confirma_pago_adicional = models.DateField("Fecha confirmado", blank=True, null=True)
     fecha_contrato = models.DateField("Fecha de contrato", blank=True, null=True)
-    comsion = models.DecimalField('Comisión', max_digits=4, decimal_places=2, default=0)
-    importe = models.DecimalField("Importe comisión", decimal_places=2, max_digits=10, default=0)
-    estatus_pago = models.IntegerField("Pagado",choices=RESP_SI_NO,default=False)
-    fecha_pago_comision = models.DateField("Fecha pago comisión", null=True, blank=True)
+    comsion = models.DecimalField('Comisión asesor', max_digits=4, decimal_places=2, default=0)
+    importe = models.DecimalField("Importe comisión asesor", decimal_places=2, max_digits=10, default=0)
+    folio_comision_asesor = models.IntegerField("Folio de pago comisión asesor", default=0)
+    estatus_pago_comision = models.BooleanField("Estatus comisión aasesor",choices=RESP_SI_NO,default=False)
+    fecha_pago_comision = models.DateField("Fecha pago comisión asesor", null=True, blank=True)
+    comsion_director = models.DecimalField('Comisión director', max_digits=4, decimal_places=2, default=0)
+    importe_director = models.DecimalField("Importe comisión director", decimal_places=2, max_digits=10, default=0)
+    folio_comision_director = models.IntegerField("Folio de pago comisión director", default=0)
+    estatus_pago_director = models.BooleanField("Estatus comisión director",choices=RESP_SI_NO,default=False)
+    fecha_pago_comision_director = models.DateField("Fecha pago comisión director", null=True, blank=True)
+    comsion_publicidad = models.DecimalField('Comisión publicidad', max_digits=4, decimal_places=2, default=0)
+    importe_publicidad = models.DecimalField("Importe comisión publicidad", decimal_places=2, max_digits=10, default=0)
+    folio_comision_publicidad = models.IntegerField("Folio de pago comisión publicidad", default=0)
+    estatus_pago_publicidad = models.BooleanField("Estatus comisión publicidad",choices=RESP_SI_NO,default=False)
+    fecha_pago_comision_publicidad = models.DateField("Fecha pago comisión publicidad", null=True, blank=True)
     created = models.DateTimeField("Creado", auto_now_add=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
     observacion = models.CharField("Observación", max_length=255, null=True, blank=True)
@@ -299,4 +313,4 @@ class PagoComision(models.Model,PermissionRequiredMixin):
         db_table = 'PagoComision'
 
     def __str__(self):
-        return '%s %s, %s' % (self.empleado, self.bien, self.fecha_contrato)
+        return '%s %s, %s' % (self.empleado_pago, self.bien_pago, self.fecha_contrato)

@@ -4,6 +4,11 @@ from django.db import models
 
 default=datetime.now
 
+'''
+% de comisión de la publicidad
+'''
+COMISION_PUBLICIDAD = 1
+
 ANIOS = (
     (0, '-----'),
     (2021, '2021'),
@@ -244,7 +249,7 @@ TIPO_EMPLEADO = (
     ('E', 'Externo'),
 )
 TIPO_FOLIO = (
-    (1, 'Recibo pago terreno'),
+    (1, 'Recibo pago bienes'),
     (2, 'Contrato'),
     (3, 'Comisiones'),
     (4, 'Facturas'),

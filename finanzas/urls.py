@@ -12,5 +12,6 @@ urlpatterns = [
     path('lista_pagos_PDF/<pk>/<num_proyecto>/', lista_pagos_PDF.as_view(), name='lista_pagos_PDF'), 
     path('contrato_credito/<num_proyecto>/', contrato_credito.as_view(), name='contrato_credito'), 
     path('contrato_contado/<num_proyecto>/', contrato_contado.as_view(), name='contrato_contado'), 
+    path('pago_comisiones/<num_proyecto>/', pago_comisiones.as_view(), name='pago_comisiones'), 
 ]
  

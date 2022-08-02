@@ -184,7 +184,6 @@ def guarda_cliente(request):
         calle=calle, colonia=colonia, codpos=codpos, municipio=municipio, \
         estado=estado, celular=celular, correo=correo)
 
-
 class nva_solicitud(CreateView):
     model = Solicitud
     form_class = Nuvole_SolicitudForm
@@ -198,7 +197,7 @@ class nva_solicitud(CreateView):
             asigna_solicitud = f_asigna_solicitud(self)
             f_emp = f_empleado(self)
             if asigna_solicitud:
-                query1 = Q(tipo_empleado='E', area_operativa=5)
+                query1 = Q(tipo_empleado='E', area_operativa=3) 
                 query2 = Q(id=f_emp)
                 empleado_cmb = Empleado.objects.filter(query1 | query2)  \
                     .order_by('paterno','materno','nombre').all()
@@ -1077,44 +1076,73 @@ class datos_contrato(UpdateView):
         #  Pago final
         field_object = Solicitud._meta.get_field('precio_final')
         precio_final = field_object.value_from_object(solicitud)
+        #  Asesor
+        field_object = Solicitud._meta.get_field('asesor')
+        asesor = field_object.value_from_object(solicitud)
+        #  Lote
+        field_object = Solicitud._meta.get_field('lote')
+        lote = field_object.value_from_object(solicitud)
+        #  Fecha Confirma Pago Adicional
+        field_object = Solicitud._meta.get_field('fecha_confirma_pago_adicional')
+        fecha_confirma_pago_adicional = field_object.value_from_object(solicitud)
+        #  Fecha Contrato
+        fecha_contrato = request.POST.get('fecha_contrato')
         diferencia = precio_final - enganche
-
         form = self.form_class(request.POST, instance=solicitud)
         if form.is_valid():
-            form.save()
-            if modo_pago == 1:
-                sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
-                    .update(estatus_solicitud=9)
-            else:
-                sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
-                    .update(estatus_solicitud=10)
-                pk = self.kwargs.get('pk',0)
-                anio = int(request.POST.get('anio_inicio_pago'))
-                mes = request.POST.get('mes_inicio_pago')
-                anio_hasta = anio + 3
-                num_pago = 1
-                anios = np.arange(anio,anio_hasta,1,int) 
-                meses = np.arange(1,13,1,int) 
-                diferencia -= importe_x_pago
-                encontro = False
-                for  a in anios:
-                    for m in meses:
-                        if m == int(mes) or encontro:
-                            encontro = True
-                            if m < 10:
-                                fecha_pago = str(a) + "-0" + str(m) + "-01"     
-                            else:
-                                fecha_pago = str(a) + "-" + str(m) + "-01" 
-                            pago = Pago(convenio=solicitud, numero_pago=num_pago, importe=importe_x_pago, \
-                                fecha_pago=fecha_pago)
-                            pago.save()
-                            if num_pago == cantidad_pagos:
-                                return HttpResponseRedirect(self.get_success_url())                
-                            num_pago +=1
-                            if diferencia < importe_x_pago:
-                                importe_x_pago = diferencia
-                            else:
-                                diferencia -= importe_x_pago
+            with transaction.atomic():
+                form.save()
+#   Genera registo de pago de comisión
+                lote_actual = Lote.objects.filter(id=lote)
+                id_proyecto = lote_actual[0].proyecto.id
+                comision = comision_asesor(asesor, id_proyecto, False)
+                jefe = Empleado.objects.filter(id=asesor)
+                director = jefe[0].subidPersdonal
+                comision_director = comision_asesor(director, id_proyecto, True)
+                comision_publicidad = COMISION_PUBLICIDAD
+                importe = precio_final * comision / 100
+                importe_director = precio_final * comision_director / 100
+                importe_publicidad = precio_final * comision_publicidad / 100
+                pagoComision = PagoComision(empleado_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
+                    precio_final=precio_final, enganche=enganche, fecha_confirma_pago_adicional=fecha_confirma_pago_adicional, \
+                    fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_director=comision_director, \
+                    importe_director=importe_director, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad)
+                pagoComision.save()
+                if modo_pago == 1:
+                    sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
+                        .update(estatus_solicitud=9)
+                    a=0
+                else:
+                    sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
+                        .update(estatus_solicitud=10)
+                    pk = self.kwargs.get('pk',0)
+                    anio = int(request.POST.get('anio_inicio_pago'))
+                    mes = request.POST.get('mes_inicio_pago')
+                    anio_hasta = anio + 3
+                    num_pago = 1
+                    anios = np.arange(anio,anio_hasta,1,int) 
+                    meses = np.arange(1,13,1,int) 
+                    diferencia -= importe_x_pago
+                    encontro = False
+                    for  a in anios:
+                        for m in meses:
+                            if m == int(mes) or encontro:
+                                encontro = True
+                                if m < 10:
+                                    fecha_pago = str(a) + "-0" + str(m) + "-01"     
+                                else:
+                                    fecha_pago = str(a) + "-" + str(m) + "-01" 
+                                pago = Pago(convenio=solicitud, numero_pago=num_pago, importe=importe_x_pago, \
+                                    fecha_pago=fecha_pago)
+                                pago.save()
+                                if num_pago == cantidad_pagos:
+                                    return HttpResponseRedirect(self.get_success_url())                
+                                num_pago +=1
+                                if diferencia < importe_x_pago:
+                                    importe_x_pago = diferencia
+                                else:
+                                    diferencia -= importe_x_pago
+                
             return HttpResponseRedirect(self.get_success_url())
         else:
             return HttpResponseRedirect(self.get_success_url()) 

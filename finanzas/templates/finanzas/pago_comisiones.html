@@ -1,0 +1,115 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto_tb %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+     <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id %}">Regresar</a>
+    <form action="">
+        <label class="encabezados">Pago de Comisiones {{py.nombre}}</label>
+        <div class="container">
+            <div class="form-row">
+                <div class="form-group col-md-2 mb-0">
+                    <label for="">Periodo e pago:</label>
+                    <select name="id_periodo" id="id_periodo" class="form-control">
+                        {% for f in datos.fechas %}
+                        <option value={{f.valor}}>{{f.despliegue}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container col-12" style="width: 850px;">
+            <div class="form-row">
+                <table class="table table-info  col-12">
+                    <thead>
+                        <tr>
+                            <th class="col-2" style="text-align: center;">Bienes</th>
+                            <th class="col-2" style="text-align: center;">Comisión</th>
+                            <th class="col-3" style="text-align: right;">Total Precio Venta</th>
+                            <th class="col-3" style="text-align: right;">Importe Comisión</th>
+                            <th class="col-2" style="text-align: right;">Pagada</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pc in object_list %}
+                        <tr>
+                            <td style="text-align: left;">{{pc.bien_pago}}</td>
+                            <td style="text-align: left;">{{pc.comision}}</td>
+                            <td style="text-align: right;">{{pc.precio_final}}</td>
+                            <td style="text-align: right;">{{pc.importe}}</td>
+                            <td style="text-align: right;">{{pc.get_estatus_pago_comision_display}}</td>
+                            <td class="col-2" style="text-align: center;">
+                                <a class="btn btn-outline-dark" href="#">Detalle</a>        
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <table class="col-10">
+                <tr>
+                    <td style="background-color: darkgrey; text-align: right;" class="col-3">
+                        Total Asesor : 
+                    </td>
+                    <td style="background-color: darkgrey;" class="col-3">
+                        <input type="text" name="total_asesor" id="total_asesor" readonly 
+                            class="form-control" style="text-align: right; ">
+                    </td>
+                    <td style="background-color: darkgrey; text-align: center;" class="col-1">
+                        <a class="btn btn-outline-dark" href="#">Pagar</a>
+                    </td>
+                    <td style="background-color: darkgrey;" class="col-2">
+                        <a class="btn btn-outline-dark" href="#">Imprimir</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: darkgrey; text-align: right;" class="col-3">
+                        Total Director : 
+                    </td>
+                    <td style="background-color: darkgrey;"  class="col-3">
+                        <input type="text" name="total_director" id="total_director" readonly 
+                            class="form-control" style="text-align: right;">
+                    </td>
+                    <td style="background-color: darkgrey; text-align: center;"  class="col-1">
+                        <a class="btn btn-outline-dark" href="#">Pagar</a>
+                    </td>
+                    <td style="background-color: darkgrey;"  class="col-2">
+                        <a class="btn btn-outline-dark" href="#">Imprimir</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: darkgrey; text-align: right;"  class="col-3">
+                        Total Publicidad : 
+                    </td>
+                    <td style="background-color: darkgrey;"  class="col-3">
+                        <input type="text" name="total_publicidad" id="total_publicidad" readonly 
+                            class="form-control" style="text-align: right; ">
+                    </td>
+                    <td style="background-color: darkgrey; text-align: center;"  class="col-1">
+                        <a class="btn btn-outline-dark" href="#">Pagar</a>
+                    </td>
+                    <td style="background-color: darkgrey;"  class="col-2">
+                        <a class="btn btn-outline-dark" href="#">Imprimir</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+    </form>
+</div>
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+{% endif %}
+{% endfor %}
+{% endblock %}

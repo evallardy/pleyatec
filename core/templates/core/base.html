@@ -42,16 +42,16 @@
                             <div class="col-12">
                                 <nav id="nav">
                                     <ul>{% if valida_proyectos %}
-                                        <li><a href="{% url 'index'%}"> Inicio </a> </li>
+                                        <li><a href="{% url 'index'%}"> Proyectos </a> </li>
                                         {% endif %}
                                         {% if perms.core.view_banco %}
                                         <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
                                         {% endif %}
                                         {% if perms.bien.comision_proyectos %}
-                                        <li><a href="{% url 'proyectos'%}"> Comisiones </a> </li>
+<!--                                        <li><a href=" url 'proyectos'"> Comisiones </a> </li>  -->
                                         {% endif %}
                                         {% if perms.empleado.view_empleado %}
-                                        <li><a href="{% url 'empleados'%}"> Empleado </a> </li>
+                                        <li><a href="{% url 'empleados'%}"> Personal </a> </li>
                                         {% endif %}
                                         {% if perms.cliente.view_cliente %}
                                         <li><a href="{% url 'clientes'%}"> Clientes </a> </li>

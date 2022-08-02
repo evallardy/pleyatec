@@ -1,3 +1,4 @@
+from re import template
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import os
 import datetime
@@ -16,10 +17,11 @@ from django.db.models import Sum
 
 from django.shortcuts import render
 
-from bien.models import Proyecto, Lote
+from bien.models import PagoComision, Proyecto, Lote
 from core.models import Titulo
+from empleado.models import Empleado
 from .funciones import datos_tabla_amortizacion
-from core.funciones import fecha_hoy, trae_empresa
+from core.funciones import datos_fecha, fecha_hoy, trae_empresa
 from gestion.models import Solicitud
 from gestion.funciones import f_asigna_solicitud, f_empleado
 from finanzas.models import Pago
@@ -788,3 +790,47 @@ class contrato_credito(ListView):
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
         return context
+
+class pago_comisiones_detalle(LoginRequiredMixin, ListView):
+    template_name = 'finanzas/pago_comisiones_detalle.html'  
+    paginate_by = settings.RENGLONES_X_PAGINA
+    def get_context_data(self, **kwargs):
+        context = super(pago_comisiones_detalle, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+        empleado_cmb = Empleado.objects.all()
+        context['empleado_cmb'] = empleado_cmb
+        return context
+    def get_queryset(self):
+        queryset = PagoComision.objects.all()
+        return queryset
+
+class pago_comisiones(LoginRequiredMixin, ListView):
+    template_name = 'finanzas/pago_comisiones.html'
+    paginate_by = settings.RENGLONES_X_PAGINA
+    def get_context_data(self, **kwargs):
+        context = super(pago_comisiones, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+        empleado_cmb = Empleado.objects.all()
+        context['empleado_cmb'] = empleado_cmb
+        datos = datos_fecha(num_proyecto)
+        print(datos)
+        context['datos'] = datos
+        return context
+    def get_queryset(self):
+        queryset = PagoComision.objects.all()
+        return queryset
+'''
+
+
+
+    queryset = Recibo.objects \
+                .filter(fecha_pago__range=[fechaDesde, FechaHasta]) \
+                .values('edificio', 'depto', 'concepto', 'nom_usuario') \
+                .annotate(dcount=Count('edificio'),dimporte=Sum('importe')) \
+                .order_by('edificio', 'depto', 'concepto', 'nom_usuario') 
+
+'''

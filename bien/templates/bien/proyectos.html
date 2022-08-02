@@ -10,24 +10,26 @@
             <table class="table table-info table-striped" style="width: 600px;">
                 <thead>
                     <tr>
-                        <th style="text-align: center; width: 10%;" hidden>Id</th>
                         <th style="text-align: center; width: 20%;">Proyecto</th>
                         <th style="text-align: center; width: 20%;" hidden>Tipo</th>
                         <th style="text-align: center; width: 10%;">Com. Agente</th>
                         <th style="text-align: center; width: 10%;">Com. Coordinador</th>
+                        <th style="text-align: center; width: 10%;"></th>
                         <th style="text-align: center; width: 10%;"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for c in object_list %}
                     <tr>
-                        <td hidden>{{ c.id }}</td>
                         <td>{{ c.nombre }}</td>
                         <td hidden>{{ c.get_tipo_proyecto_display }}</td>
                         <td style="text-align: center;">{{ c.comision_asesor }}</td>
                         <td style="text-align: center;">{{ c.comision_jefe_asesor }}</td>
                         <td>
                             <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-outline-secondary">Pago</a>
                         </td>
                     </tr>
                     {% endfor %}

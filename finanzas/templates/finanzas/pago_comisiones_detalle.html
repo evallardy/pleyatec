@@ -1,0 +1,93 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto_tb %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+    <form action="">
+        <label class="encabezados">Pago de Comisiones</label>
+        <label class="encabezados">{{py.nombre}}</label>
+        <div class="container">
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                    <label for="">Pagar a:</label>
+                    <select name="pagar_a" id="pagar_a" class="form-control">
+                        <option value="1">Asesor</option>
+                        <option value="2">Director</option>
+                        <option value="3">Publicidad</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    <label for="">Periodo e pago:</label>
+                    <select name="id_periodo" id="id_periodo" class="form-control">
+                        <option value="1">Asesor</option>
+                        <option value="2">Director</option>
+                        <option value="3">Publicidad</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row" id="gpo_comision_asesor">
+                <div class="form-group col-md-6 mb-0">
+                    <label for="">Asesores</label>
+                    <select name="id_asesor" id="id_asesor" class="form-control">
+                        {% for l in empleado_cmb %}
+                        <option value="{{ l.id }}">{{ l.paterno }} {{ l.materno }} {{ l.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-2 mb-0">
+                    <label for="">Comisión</label>
+                    <input type="text" name="id_comision" id="id_comision" style="text-align: right;" readonly
+                        class="form-control">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container col-12" style="width: 850px;">
+            <div class="form-row">
+                <table class="table table-info  col-12">
+                    <thead>
+                        <tr>
+                            <th class="col-5" style="text-align: center;">Bien</th>
+                            <th class="col-3" style="text-align: right;">Precio Venta</th>
+                            <th class="col-2" style="text-align: right;">Importe comisión</th>
+                            <th class="col-2" style="text-align: right;">Pagada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pc in object_list %}
+                        <tr>
+                            <td style="text-align: left;">{{pc.bien_pago}}</td>
+                            <td style="text-align: right;">{{pc.precio_final}}</td>
+                            <td style="text-align: right;">{{pc.importe}}</td>
+                            <td style="text-align: right;">{{pc.get_estatus_pago_comision_display}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="form-row">
+                Total
+            </div>
+            <br>
+        </div>
+    </form>
+</div>
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+{% endif %}
+{% block bljs %}
+
+
+{% endblock %}
+{% endfor %}
+{% endblock %}
