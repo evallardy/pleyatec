@@ -268,7 +268,7 @@ class mod_solicitud(UpdateView):
         if 'empleado_cmb' not in context:
             asigna_solicitud = f_asigna_solicitud(self)
             if asigna_solicitud:
-                query1 = Q(tipo_empleado='E', area_operativa=5)
+                query1 = Q(tipo_empleado='E', area_operativa=3)
                 query2 = Q(id=f_empleado(self))
                 empleado_cmb = Empleado.objects.filter(query1 | query2)  \
                     .order_by('paterno','materno','nombre').all()
