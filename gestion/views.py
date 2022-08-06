@@ -22,7 +22,7 @@ from .models import *
 from .funciones import *
 from .forms import *
 from core.numero_letras import numero_a_letras
-from core.funciones import fecha_hoy, trae_empresa
+from core.funciones import *
 
 class solicitudes(ListView):
     model = Solicitud
@@ -175,7 +175,6 @@ def guarda_cliente(request):
     estado = request.POST.get('estado')
     celular = request.POST.get('celular')
     correo = request.POST.get('correo')
-    print(id_cliente)
     upd_cliente = Cliente.objects.filter(id=id_cliente) \
         .update(tipo_cliente=tipo_cliente, razon=razon,nombre=nombre, \
         paterno=paterno, materno=materno, nombre_conyuge=nombre_conyuge, \
@@ -699,7 +698,6 @@ class pagos(UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('pagos', kwargs={'num_proyecto': num_proyecto, 'pk': pk})
 
-
 class archivo(ListView):
 #    model = Solicitud
     second_model = Lote
@@ -1097,16 +1095,16 @@ class datos_contrato(UpdateView):
                 id_proyecto = lote_actual[0].proyecto.id
                 comision = comision_asesor(asesor, id_proyecto, False)
                 jefe = Empleado.objects.filter(id=asesor)
-                director = jefe[0].subidPersdonal
-                comision_director = comision_asesor(director, id_proyecto, True)
+                gerente = jefe[0].subidPersdonal
+                comision_gerente = comision_asesor(gerente, id_proyecto, True)
                 comision_publicidad = COMISION_PUBLICIDAD
                 importe = precio_final * comision / 100
-                importe_director = precio_final * comision_director / 100
+                importe_gerente = precio_final * comision_gerente / 100
                 importe_publicidad = precio_final * comision_publicidad / 100
-                pagoComision = PagoComision(empleado_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
+                pagoComision = PagoComision(proyecto_pago_id=id_proyecto, empleado_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
                     precio_final=precio_final, enganche=enganche, fecha_confirma_pago_adicional=fecha_confirma_pago_adicional, \
-                    fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_director=comision_director, \
-                    importe_director=importe_director, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad)
+                    fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_gerente=comision_gerente, \
+                    importe_gerente=importe_gerente, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad)
                 pagoComision.save()
                 if modo_pago == 1:
                     sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
@@ -1396,3 +1394,47 @@ class contratoPDF(CreateView):
 #    def get_queryset(self):
 #        queryset = Solicitud.objects.all()
 #        return queryset
+
+def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_proyecto, imp_ger, imp_pub):
+    fecha_hasta1 = str_to_fecha_amd(fecha_hasta)
+    fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta1)
+    fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta1)
+#    with transaction.atomic():
+    folio_gerente = nuevo_folio(3)
+    observacion = "Comisión gerente de fecha " + fecha_hasta_str + \
+        " del proyecto " + nom_proyecto
+    folio = Folios(
+        tipo = 3, 
+        numero = folio_gerente,
+        observacion = observacion,
+        importe = imp_ger)
+    folio.save()
+    folio_publicidad = nuevo_folio(3)
+    observacion = "Comisión publicidad de fecha " + fecha_hasta_str + \
+        " del proyecto " + nom_proyecto
+    folio = Folios(
+        tipo = 3, 
+        numero = folio_publicidad,
+        observacion = observacion,
+        importe = imp_pub)
+    folio.save()
+    empleado_ant = 0
+    pago_comision_detalle = PagoComision.objects \
+        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) 
+    for pago in pago_comision_detalle:
+        if not pago.empleado_pago == empleado_ant:
+            empleado_ant = pago.empleado_pago
+            folio_asesor = nuevo_folio(3)
+            observacion = "Comisión agente " + pago.empleado_pago.nombre_completo + \
+                " de fecha " + fecha_hasta_str + " del proyecto " + nom_proyecto
+            folio = Folios(
+                tipo = 3, 
+                numero = folio_asesor,
+                observacion = observacion,
+                importe = pago.importe)
+            folio.save()
+        actualiza = PagoComision.objects \
+            .filter(bien_pago=pago.bien_pago) \
+            .update(estatus_comision=1,fecha_periodo=fecha_hasta,folio_comision_gerente=folio_gerente, \
+                folio_comision_publicidad=folio_publicidad,folio_comision_asesor=folio_asesor)
+    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'id_periodo':fecha_hasta_str} ,))

@@ -128,6 +128,11 @@ STATUS_BIEN = (
     (3, 'Vendido'),
     (4, 'Reservado'),
 )
+STATUS_COMISION = (
+    (0, 'Pendiente'),
+    (1, 'VoBo'),
+    (2, 'Pagada'),
+)
 STATUS_COMPRA = (
     (1, 'Nueva'),
     (2, 'Cerrada'),
@@ -161,6 +166,11 @@ STATUS_GESTION = (
     (3, 'Procesado'),
     (4, 'Cancelado'),
     (5, 'Baja'),
+)
+STATUS_GESTION_COMISION = (
+    (0, 'Nueva'),
+    (1, 'Desositada'),
+    (2, 'Recibida'),
 )
 STATUS_NOMINA = (
     (1, 'Nuevo'),

@@ -1,7 +1,7 @@
-from re import template
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import os
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import datetime
+from datetime import date
 from django.conf import settings
 #from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, View
@@ -21,7 +21,7 @@ from bien.models import PagoComision, Proyecto, Lote
 from core.models import Titulo
 from empleado.models import Empleado
 from .funciones import datos_tabla_amortizacion
-from core.funciones import datos_fecha, fecha_hoy, trae_empresa
+from core.funciones import datos_fecha, fecha_hoy, fecha_hoy_d, fecha_inicio_dia_mes_pago, fecha_ultima_pago, fecha_ultimo_dia_mes, fecha_ultimo_dia_mes_pago, str_to_fecha_amd, suma_dias_fecha, trae_empresa
 from gestion.models import Solicitud
 from gestion.funciones import f_asigna_solicitud, f_empleado
 from finanzas.models import Pago
@@ -791,19 +791,46 @@ class contrato_credito(ListView):
         context[variable_html] = acceso
         return context
 
-class pago_comisiones_detalle(LoginRequiredMixin, ListView):
-    template_name = 'finanzas/pago_comisiones_detalle.html'  
+class detalle_comisiones(LoginRequiredMixin, ListView):
+    template_name = 'finanzas/detalle_comisiones.html'  
     paginate_by = settings.RENGLONES_X_PAGINA
     def get_context_data(self, **kwargs):
-        context = super(pago_comisiones_detalle, self).get_context_data(**kwargs)
+        context = super(detalle_comisiones, self).get_context_data(**kwargs)
+        pk = self.kwargs.get('pk',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
-        empleado_cmb = Empleado.objects.all()
-        context['empleado_cmb'] = empleado_cmb
+        empleado = Empleado.objects.filter(id=pk)
+        fecha_hasta_str = self.kwargs.get('fecha_hasta')
+        fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+        context['fecha_hasta'] = fecha_hasta
+        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
+        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
+        bienes = PagoComision.objects \
+            .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                proyecto_pago=num_proyecto, empleado_pago=pk) \
+            .order_by('-fecha_contrato') 
+        nombre = bienes[0].empleado_pago 
+        context['nombre'] = nombre
+        total = 0
+        cantidad = 0
+        for bien in bienes:
+            total += bien.importe
+            cantidad += 1
+        context['total'] = total
+        context['cantidad'] = cantidad
         return context
     def get_queryset(self):
-        queryset = PagoComision.objects.all()
+        pk = self.kwargs.get('pk',0)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        fecha_hasta_str = self.kwargs.get('fecha_hasta')
+        fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
+        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
+        queryset = PagoComision.objects \
+            .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                proyecto_pago=num_proyecto, empleado_pago=pk) \
+            .order_by('-fecha_contrato') 
         return queryset
 
 class pago_comisiones(LoginRequiredMixin, ListView):
@@ -817,20 +844,146 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         empleado_cmb = Empleado.objects.all()
         context['empleado_cmb'] = empleado_cmb
         datos = datos_fecha(num_proyecto)
-        print(datos)
         context['datos'] = datos
+#  -----------------
+#  Actualización de pantallas
+#  -----------------
+# Información viene del template
+        fecha_hasta_str = self.request.GET.get('id_periodo')
+        if fecha_hasta_str == None:
+# Información viene de una funcion
+            fecha_hasta_str = self.kwargs.get('id_periodo')
+            if fecha_hasta_str == None:
+                fecha_hasta = fecha_ultima_pago(num_proyecto)
+            else:
+                fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))    
+        else:
+            fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
+        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
+        pagos_pagados = PagoComision.objects.filter(fecha_periodo=fecha_hasta)
+        if pagos_pagados:
+            pago_comision = PagoComision.objects \
+                .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
+                .values('empleado_pago','estatus_pago_comision','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
+                .annotate(bienes=Count('bien_pago',distinct=True),total_asesor=Sum('importe'), \
+                total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad')) \
+                .order_by('empleado_pago') 
+            pago_comision_detalle = PagoComision.objects \
+                .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto)
+        else:
+            pago_comision = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) \
+                .values('empleado_pago','estatus_pago_comision','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
+                .annotate(bienes=Count('bien_pago',distinct=True),total_asesor=Sum('importe'), \
+                total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad')) \
+                .order_by('empleado_pago') 
+            pago_comision_detalle = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto)
+        context['pago_comision_detalle'] = pago_comision_detalle
+        importe_asesores = 0    
+        importe_gerente = 0
+        importe_publicidad = 0
+        importe_general = 0
+        context['pago_asesores'] = 0
+        context['pago_gerente'] = 0
+        context['estatus_comision'] = 0
+        context['pago_publicidad'] = 0
+        context['fecha_hasta_str'] = fecha_hasta_str
+        for pagos in pago_comision:
+            importe_asesores += pagos['total_asesor']
+            importe_gerente += pagos['total_gerente']
+            importe_publicidad += pagos['total_publicidad']
+            importe_general += importe_asesores + importe_gerente + importe_publicidad
+            if pagos['estatus_pago_comision'] > context['pago_asesores']:
+                context['pago_asesores'] = pagos['estatus_pago_comision']
+            if pagos['estatus_pago_gerente'] > context['pago_gerente']:
+                context['pago_gerente'] = pagos['estatus_pago_gerente']
+            if pagos['estatus_pago_publicidad'] > context['pago_publicidad']:
+                context['pago_publicidad'] = pagos['estatus_pago_publicidad']
+            context['estatus_comision'] = pagos['estatus_comision']
+        context['importe_asesores'] = importe_asesores
+        context['importe_gerente'] = importe_gerente
+        context['importe_publicidad'] = importe_publicidad
+        context['importe_general'] = importe_general
+        context['fecha_hasta'] = str(fecha_hasta)
+        if importe_general == 0 or fecha_hasta > fecha_hoy_d():
+            context['estatus_comision'] = 4
         return context
     def get_queryset(self):
-        queryset = PagoComision.objects.all()
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        fecha_hasta_str = self.request.GET.get('id_periodo')
+# Información viene del template
+        fecha_hasta_str = self.request.GET.get('id_periodo')
+        if fecha_hasta_str == None:
+# Información viene de una funcion
+            fecha_hasta_str = self.kwargs.get('id_periodo')
+            if fecha_hasta_str == None:
+                fecha_hasta = fecha_ultima_pago(num_proyecto)
+            else:
+                fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))    
+        else:
+            fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
+        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
+        pagos_pagados = PagoComision.objects.filter(fecha_periodo=fecha_hasta,proyecto_pago=num_proyecto)
+        if pagos_pagados:
+            queryset = Empleado.objects \
+                .filter(pagocomision__fecha_periodo=fecha_hasta, pagocomision__proyecto_pago=num_proyecto) \
+                .values('pagocomision__empleado_pago','paterno','materno','nombre', \
+                    'pagocomision__estatus_pago_comision') \
+                .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
+                total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
+                .order_by('paterno','materno','nombre') 
+        else:
+            queryset = Empleado.objects \
+                .filter(pagocomision__fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], pagocomision__proyecto_pago=num_proyecto) \
+                .values('pagocomision__empleado_pago','paterno','materno','nombre', \
+                    'pagocomision__estatus_pago_comision') \
+                .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
+                total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
+                .order_by('paterno','materno','nombre') 
         return queryset
-'''
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        return self.reverse_lazy(self.get_context_data(form=form))
 
+def deposito_comision(self, fecha, num_proyecto, empleado, opcion):
+    fecha_hasta = str_to_fecha_amd(fecha)
+    if opcion == '1':
+#  Todos los asesores        
+        pago_comision_detalle = PagoComision.objects \
+            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
+            .update(estatus_pago_comision=1)
+    elif opcion== '2':
+#  Solo un asesor        
+        pago_comision_detalle = PagoComision.objects \
+            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto, \
+                empleado_pago_id=empleado).update(estatus_pago_comision=1)
+    elif opcion== '3':
+#  Gerente ventas
+        pago_comision_detalle = PagoComision.objects \
+            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
+            .update(estatus_pago_gerente=1)
+    elif opcion== '4':
+#  Publicidad
+        pago_comision_detalle = PagoComision.objects \
+            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
+            .update(estatus_pago_publicidad=1)
+    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'id_periodo':fecha} ,))
 
+class situacion_comisiones(LoginRequiredMixin, ListView):
+    template_name = 'finanzas/situacion_comisiones.html'
+    paginate_by = settings.RENGLONES_X_PAGINA
+    def get_context_data(self, **kwargs):
+        context = super(situacion_comisiones, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+        return context
+    def get_queryset(self):
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        queryset = PagoComision.objects.filter(proyecto_pago=num_proyecto) 
+        return queryset
 
-    queryset = Recibo.objects \
-                .filter(fecha_pago__range=[fechaDesde, FechaHasta]) \
-                .values('edificio', 'depto', 'concepto', 'nom_usuario') \
-                .annotate(dcount=Count('edificio'),dimporte=Sum('importe')) \
-                .order_by('edificio', 'depto', 'concepto', 'nom_usuario') 
-
-'''
+        

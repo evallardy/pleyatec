@@ -1,101 +1,103 @@
 import datetime
+from datetime import date, time, timedelta
+import calendar
 from distutils.util import subst_vars
 from xml.parsers.expat import model
-from bien.models import Proyecto,ComisionAgente
+from bien.models import PagoComision, Proyecto,ComisionAgente
 from core.models import Titulo
 from empleado.models import Empleado
 from django.contrib.auth.models import  Group,User,Permission
 from django.contrib.auth.models import User
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse_lazy
 
 def fecha_hoy():
-    return datetime.datetime.now().strftime("%d-%m-%Y")
+    return datetime.date.today().strftime("%d-%m-%Y")
+
+def fecha_hoy_d():
+    return datetime.date.today()
+
+def str_to_fecha_amd(fecha):
+    return date(int(fecha[0:4]), int(fecha[5:7]), int(fecha[8:10])) 
+
+def str_to_fecha_dma(fecha):
+    return date(int(fecha[6:10]), int(fecha[3:5]), int(fecha[0:2])) 
+
+def ultimo_dia_febrero(fecha):
+    return calendar.monthrange(fecha.year, fecha.month)[1]
+
+def fecha_ultimo_dia_mes(fecha):
+    return date(fecha.year, fecha.month, calendar.monthrange(fecha.year, fecha.month)[1])
+
+def fecha_inicio_dia_mes_pago(fecha):
+    if fecha.day > 15:
+        return date(fecha.year, fecha.month, 11)
+    else:
+        if fecha.month == 1:
+            return date(fecha.year - 1, 12, 26)
+        else:
+            return date(fecha.year, fecha.month - 1, 26)
+
+def fecha_ultimo_dia_mes_pago(fecha):
+    if fecha.day > 15:
+        return date(fecha.year, fecha.month, 25)
+    else:
+        return date(fecha.year, fecha.month, 10)
+
+def suma_dias_fecha(fecha, dias):
+    suma_dias = timedelta(dias)
+    return fecha + suma_dias
+
+def fecha_ultima_pago(num_proyecto):
+    proyecto = Proyecto.objects.filter(id=num_proyecto)
+    fecha_hasta = fecha_hoy_d()
+    fecha_cierre = proyecto[0].fecha_cierre
+    if fecha_cierre:
+        if fecha_hasta > fecha_cierre:
+            fecha_hasta = fecha_cierre
+    if fecha_hasta.day > 15:
+        fecha_hasta = fecha_ultimo_dia_mes(fecha_hasta)
+    else:
+        dia_hasta = 15
+        fecha_hasta = date(fecha_hasta.year, fecha_hasta.month, dia_hasta)
+    return fecha_hasta
 
 def datos_fecha(num_proyecto):
     proyecto = Proyecto.objects.filter(id=num_proyecto)
     fecha_alta = proyecto[0].fecha_alta
-    fecha_cierre = proyecto[0].fecha_cierre
-    fecha_hoy = fecha_hoy()
-    fecha_hasta = str(fecha_hoy)
-    if fecha_cierre:
-        if fecha_hoy1 > fecha_cierre:
-            fecha_hasta = str(fecha_cierre)
-
     if fecha_alta:
-        fecha_desde = str(fecha_alta)
+        fecha_desde = fecha_alta
     else:
-        fecha_desde = '2022/01/15'
+        fecha_desde = date(2022,1,15)
 
-
-        if fecha_hoy1 > fecha_cierre:
-            fecha_hasta = str(fecha_cierre)
-
-
-    fecha_hoy1 = datetime.datetime.strptime(fecha_hoy(), '%d-%m-%Y')
-    if fecha_hoy1.day > 15:
-        if fecha_hoy1.mes == 2:
-            if fecha_hoy1.year % 4 == 0:
-                dia = "29"
-            else:
-                dia = "28"
-        else:
-            dia = "30"
+    if fecha_desde.day > 15:
+        fecha_desde = fecha_ultimo_dia_mes(fecha_desde)
     else:
-        dia = "15"
-    mes = fecha_hoy1.month
-    anio = str(fecha_hoy1.year)
-    if mes < 10:
-        mes_str = "0" + str(mes)
-    else:
-        mes_str = str(mes)
-    fecha_hasta = anio + "/" + mes_str + "/" + dia
-
-#    fecha_desde = "2022/01/15"
-    anio_desde = proyecto[0].fecha_alta.year
-    mes_desde = proyecto[0].fecha_alta.month
-    if proyecto[0].fecha_alta.day <= 15:
+        dia_desde = 15
+        fecha_desde = date(fecha_desde.year, fecha_desde.month, dia_desde)
+    fecha_hasta = fecha_ultima_pago(num_proyecto)
+    if fecha_desde.day == 15:
         inicio = 1
     else:
         inicio = 2
-    if proyecto[0].fecha_cierre.day <= 15:
-        inicio = 1
-    else:
-        inicio = 2
-
     datos_fecha = {}
     datos_fecha['fechas'] = []
     while fecha_hasta >= fecha_desde:
-        valor = fecha_desde
-        despliegue = invierte_fecha_amd_dma(fecha_desde)
+        despliegue = invierte_fecha_amd_dma(str(fecha_desde))
         datos_fecha['fechas'].insert(0,{
-            'valor': valor,
+            'valor': str(fecha_desde),
             'despliegue': despliegue,
         })
-        if mes_desde < 10:
-            mes_desde1 = "0" + str(mes_desde)
-        else:
-            mes_desde1 = str(mes_desde)
         if inicio == 1:
-            if mes_desde == 2:
-                if anio_desde % 4 == 0:
-                    fecha_desde = str(anio_desde) + "/" + mes_desde1 + "/" + "29"
-                else:
-                    fecha_desde = str(anio_desde) + "/" + mes_desde1 + "/" + "28"
-            else:
-                fecha_desde = str(anio_desde) + "/" + mes_desde1 + "/" + "30"
+            fecha_desde = fecha_ultimo_dia_mes(fecha_desde)
             inicio = 2
         else:
-            mes_desde += 1
-            if mes_desde > 12:
-                mes_desde = 1
-                anio_desde += 1
-            if mes_desde < 10:
-                mes_desde1 = "0" + str(mes_desde)
+            if fecha_desde.month == 12:
+                fecha_desde = date(fecha_desde.year + 1, 1, 15) 
             else:
-                mes_desde1 = mes_desde
-            fecha_desde = str(anio_desde) + "/" + mes_desde1 + "/" + "15"
+                fecha_desde = date(fecha_desde.year, fecha_desde.month + 1, 15) 
             inicio = 1
     return datos_fecha
-
 
 def invierte_fecha_dma_amd(fecha):
     dia = fecha[0:2]
@@ -205,3 +207,4 @@ def comisiones_proyecto_asesor(asesor):
             'comision': comision,
         })
     return datos
+

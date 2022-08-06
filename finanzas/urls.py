@@ -13,5 +13,9 @@ urlpatterns = [
     path('contrato_credito/<num_proyecto>/', contrato_credito.as_view(), name='contrato_credito'), 
     path('contrato_contado/<num_proyecto>/', contrato_contado.as_view(), name='contrato_contado'), 
     path('pago_comisiones/<num_proyecto>/', pago_comisiones.as_view(), name='pago_comisiones'), 
+    path('pago_comisiones/<num_proyecto>/<id_periodo>/', pago_comisiones.as_view(), name='pago_comisiones'), 
+    path('detalle_comisiones/<pk>/<num_proyecto>/<fecha_hasta>/', detalle_comisiones.as_view(), name='detalle_comisiones'), 
+    path('deposito_comision/<fecha>/<num_proyecto>/<empleado>/<opcion>/', deposito_comision, name='deposito_comision'), 
+    path('situacion_comisiones/<num_proyecto>/', situacion_comisiones.as_view(), name='situacion_comisiones'), 
 ]
  

@@ -1,0 +1,72 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto_tb %}
+<div style="position: absolute; margin-left: 80px;
+     height: auto; width: auto; background-color: transparent;" class="mapa">
+    <form action="">
+        <label class="encabezados">Pago de Comisiones detalle</label>
+        <label class="encabezados">{{py.nombre}}</label>
+        <label class="encabezados">{{nombre}}</label><br>
+        <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id fecha_hasta %}">Regresar</a><br><br>
+        <div class="container">
+            <div class="form-row">
+                <div class="form-group col-md-3 mb-0" style="text-align: center;">
+                    <label for="">Bienes</label>
+                    <input type="text" name="total_bienes" id="total_bienes" readonly class="form-control"
+                        style="text-align: center;" value="{{cantidad}}">
+                </div>
+                <div class="form-group col-md-3 mb-0" style="text-align: center;">
+                    <label for="">Total</label>
+                    <input type="text" name="total_importe" id="total_importe" readonly class="form-control"
+                        style="text-align: right;" value="{{total}}">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container col-12" style="width: 850px;">
+            <div class="form-row">
+                <table class="table table-info  col-12">
+                    <thead>
+                        <tr>
+                            <th class="col-5" style="text-align: center;">Bien</th>
+                            <th class="col-3" style="text-align: center;">Fecha contrato</th>
+                            <th class="col-2" style="text-align: right;">Importe venta</th>
+                            <th class="col-1" style="text-align: right;">comision</th>
+                            <th class="col-2" style="text-align: right;">Importe comisión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pc in object_list %}
+                        <tr>
+                            <td style="text-align: left;">{{pc.bien_pago}}</td>
+                            <td style="text-align: left;">{{pc.fecha_contrato}}</td>
+                            <td style="text-align: right;">{{pc.precio_final}}</td>
+                            <td style="text-align: right;">{{pc.comsion}}</td>
+                            <td style="text-align: right;">{{pc.importe}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+    </form>
+</div>
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+{% endif %}
+{% block bljs %}
+
+
+{% endblock %}
+{% endfor %}
+{% endblock %}

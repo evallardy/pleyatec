@@ -2,6 +2,8 @@ from errno import ESTALE
 from core.models import COMISION_PUBLICIDAD
 from empleado.models import Empleado
 from bien.models import ComisionAgente, Lote, PagoComision, Proyecto
+from .models import Folios
+from django.db.models import Max
 
 def f_asigna_solicitud(self):
     usuario = self.request.user.id
@@ -56,3 +58,11 @@ def genera_comision(asesor, lote, modo_pago, precio_final, enganche, fecha_confi
         fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_director=comision_director, \
         importe_director=importe_director, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad)
     return pagoComision
+
+def nuevo_folio(tipo):
+    folio = Folios.objects.filter(tipo=tipo).aggregate(Max('numero'))['numero__max']
+    if folio == None:
+        folio = 1
+    else:
+        folio += 1
+    return folio

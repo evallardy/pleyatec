@@ -9,98 +9,113 @@
 {% for py in proyecto_tb %}
 <div style="position: absolute; margin-left: 80px;
      height: auto; width: auto; background-color: transparent;" class="mapa">
-     <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id %}">Regresar</a>
+    <label class="encabezados">Pago de Comisiones {{py.nombre}}</label><br>
+    <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a><br><br>
     <form action="">
-        <label class="encabezados">Pago de Comisiones {{py.nombre}}</label>
         <div class="container">
             <div class="form-row">
-                <div class="form-group col-md-2 mb-0">
-                    <label for="">Periodo e pago:</label>
-                    <select name="id_periodo" id="id_periodo" class="form-control">
+                <div class="form-group col-md-3 mb-0">
+                    <label for="id_periodo">Periodo de pago:</label>
+                    <select name="id_periodo" id="id_periodo" class="form-control" onchange="form.submit()">
                         {% for f in datos.fechas %}
                         <option value={{f.valor}}>{{f.despliegue}}</option>
                         {% endfor %}
                     </select>
                 </div>
+                <div class="form-group col-md-8 mb-0" style="text-align: right;" id="btn_vobo">
+                    {% if estatus_comision == 0 %}
+                    <label for="id_periodo">   </label><br>
+                    <a class="btn btn-outline-dark" href="{% url 'vobo_comisiones' fecha_hasta_str py.id fecha_hasta py.nombre importe_gerente importe_publicidad %}">Vo.Bo. Comisiones</a>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-2 mb-0" style="text-align: center;">
+                    <label for="id_periodo">Total Asesores</label>
+                    <input type="text" name="total_asesor" id="total_asesor" readonly class="form-control"
+                        style="text-align: right;" value="{{importe_asesores}}">
+                    {% if estatus_comision == 1 and pago_asesores == 0 %}
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
+                        id="btn_deposito_asesores" 
+                        onclick="deposito('{{fecha_hasta}}', 0, 1, 'de todos los asesores')">Depósito</a>
+                    {% endif %}
+                    {% if estatus_comision == 1 and pago_asesores == 1 %}
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
+                        id="btn_recibo_asesores">Recibos</a>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-2 mb-0" style="text-align: center;">
+                    <label for="id_periodo">Total Gerente</label>
+                    <input type="text" name="total_director" id="total_director" readonly class="form-control"
+                        style="text-align: right;" value="{{importe_gerente}}">
+                    {% if estatus_comision == 1  and pago_gerente == 0 %}
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
+                        id="btn_deposito_gerente"
+                        onclick="deposito('{{fecha_hasta}}', 0, 3, 'del gerente')">Depósito</a>
+                    {% endif %}
+                    {% if estatus_comision == 1 and pago_gerente == 1 %}
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
+                        id="btn_recibo_gerente">Recibos</a>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-2 mb-0" style="text-align: center;">
+                    <label for="id_periodo">Total Publicidad</label>
+                    <input type="text" name="total_publicidad" id="total_publicidad" readonly class="form-control"
+                        style="text-align: right; " value="{{importe_publicidad}}">
+                    {% if estatus_comision == 1 and pago_publicidad == 0 %}
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
+                        id="btn_deposito_publicidad"
+                        onclick="deposito('{{fecha_hasta}}', 0, 4, 'de la publicidad')">Depósito</a>
+                    {% endif %}
+                    {% if estatus_comision == 1 and pago_publicidad == 1 %} 
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
+                        id="btn_recibo_publicidad">Recibos</a>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-2 mb-0" style="text-align: center;">
+                    <label for="id_periodo">Gran total</label>
+                    <input type="text" name="total_general" id="total_general" readonly class="form-control"
+                        style="text-align: right;" value="{{importe_general}}">
+                </div>
             </div>
         </div>
         <br>
-        <div class="container col-12" style="width: 850px;">
+        <div class="container col-12" style="width: 800px;">
             <div class="form-row">
                 <table class="table table-info  col-12">
                     <thead>
                         <tr>
-                            <th class="col-2" style="text-align: center;">Bienes</th>
-                            <th class="col-2" style="text-align: center;">Comisión</th>
-                            <th class="col-3" style="text-align: right;">Total Precio Venta</th>
-                            <th class="col-3" style="text-align: right;">Importe Comisión</th>
-                            <th class="col-2" style="text-align: right;">Pagada</th>
-                            <th></th>
+                            <th class="col-6" style="text-align: center;">Asesor</th>
+                            <th class="col-1" style="text-align: center;">Bienes</th>
+                            <th class="col-3" style="text-align: right;">Importe comisión</th>
+                            <th class="col-1"></th>
+                            <th class="col-1"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for pc in object_list %}
                         <tr>
-                            <td style="text-align: left;">{{pc.bien_pago}}</td>
-                            <td style="text-align: left;">{{pc.comision}}</td>
-                            <td style="text-align: right;">{{pc.precio_final}}</td>
-                            <td style="text-align: right;">{{pc.importe}}</td>
-                            <td style="text-align: right;">{{pc.get_estatus_pago_comision_display}}</td>
-                            <td class="col-2" style="text-align: center;">
-                                <a class="btn btn-outline-dark" href="#">Detalle</a>        
+                            <td style="text-align: left;">{{pc.paterno}} {{pc.materno}} {{pc.nombre}}</td>
+                            <td style="text-align: center;">{{pc.bienes}}</td>
+                            <td style="text-align: right;">{{pc.total_asesor}}</td>
+                            <td style="text-align: center;">
+                                <a class="btn btn-outline-dark" href="{% url 'detalle_comisiones' pc.pagocomision__empleado_pago py.id fecha_hasta %}">Detalle</a>
+                            </td>
+                            <td style="text-align: center;">
+                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_comision == 0 %}
+                                <a class="btn btn-outline-dark" href="#" id="btn_deposito_asesor"
+                                onclick="deposito('{{fecha_hasta}}', '{{pc.pagocomision__empleado_pago}}', 2, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')">Depósito</a>
+                                {% endif %}
+                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_comision == 1 %}
+                                <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor">Recibos</a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <table class="col-10">
-                <tr>
-                    <td style="background-color: darkgrey; text-align: right;" class="col-3">
-                        Total Asesor : 
-                    </td>
-                    <td style="background-color: darkgrey;" class="col-3">
-                        <input type="text" name="total_asesor" id="total_asesor" readonly 
-                            class="form-control" style="text-align: right; ">
-                    </td>
-                    <td style="background-color: darkgrey; text-align: center;" class="col-1">
-                        <a class="btn btn-outline-dark" href="#">Pagar</a>
-                    </td>
-                    <td style="background-color: darkgrey;" class="col-2">
-                        <a class="btn btn-outline-dark" href="#">Imprimir</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: darkgrey; text-align: right;" class="col-3">
-                        Total Director : 
-                    </td>
-                    <td style="background-color: darkgrey;"  class="col-3">
-                        <input type="text" name="total_director" id="total_director" readonly 
-                            class="form-control" style="text-align: right;">
-                    </td>
-                    <td style="background-color: darkgrey; text-align: center;"  class="col-1">
-                        <a class="btn btn-outline-dark" href="#">Pagar</a>
-                    </td>
-                    <td style="background-color: darkgrey;"  class="col-2">
-                        <a class="btn btn-outline-dark" href="#">Imprimir</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: darkgrey; text-align: right;"  class="col-3">
-                        Total Publicidad : 
-                    </td>
-                    <td style="background-color: darkgrey;"  class="col-3">
-                        <input type="text" name="total_publicidad" id="total_publicidad" readonly 
-                            class="form-control" style="text-align: right; ">
-                    </td>
-                    <td style="background-color: darkgrey; text-align: center;"  class="col-1">
-                        <a class="btn btn-outline-dark" href="#">Pagar</a>
-                    </td>
-                    <td style="background-color: darkgrey;"  class="col-2">
-                        <a class="btn btn-outline-dark" href="#">Imprimir</a>
-                    </td>
-                </tr>
-            </table>
         </div>
         <br>
     </form>
@@ -111,5 +126,18 @@
 {% if page_obj.has_next %}
 <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
 {% endif %}
+<script>
+    function deposito(fecha, empleado, opcion, mensaje) {
+        var url = "{% url 'deposito_comision' 123 py.id 456 789 %}";
+        url = url.replace("123", fecha);
+        url = url.replace("456", empleado);
+        url = url.replace("789", opcion);
+        confirmacion("Precaución", "Registrar el deposito " + mensaje + "? ", url, "", "Depósito registrado", "Depósito no se registro");
+    }
+
+    $(document).ready(function () {
+        $("#id_periodo").val("{{fecha_hasta}}");
+    });
+</script>
 {% endfor %}
 {% endblock %}

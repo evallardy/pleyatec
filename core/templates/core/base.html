@@ -48,7 +48,7 @@
                                         <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
                                         {% endif %}
                                         {% if perms.bien.comision_proyectos %}
-<!--                                        <li><a href=" url 'proyectos'"> Comisiones </a> </li>  -->
+                                        <li><a href="{% url 'proyectos'%}"> Comisiones </a> </li>
                                         {% endif %}
                                         {% if perms.empleado.view_empleado %}
                                         <li><a href="{% url 'empleados'%}"> Personal </a> </li>
