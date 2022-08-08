@@ -661,7 +661,7 @@ class pagos(UpdateView):
             with transaction.atomic():
                 form.save()
                 numero_lote = request.POST.get('lote')
-                num_contrato_sol = request.POST.get('num_contrto')
+                num_contrato_sol = request.POST.get('num_contrato')
                 estatus = request.POST.get('estatus_solicitud')
                 confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
                 precio_final = request.POST.get('precio_final')
@@ -673,8 +673,8 @@ class pagos(UpdateView):
 #   Asignar numero de contrato a la solicitud        
                 autorizado = 0
                 if not num_contrato_sol:
-                    num_contrato_sol = 0
-                if confirmacion_pago_adicional == '2' and num_contrato_sol == 0:
+                    num_contrato_sol = '0'
+                if confirmacion_pago_adicional == '2' and num_contrato_sol == '0':
                     num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
                     if num_contrato == None:
                         num_contrato = 1
@@ -689,7 +689,7 @@ class pagos(UpdateView):
                         observacion = observacion,
                         importe = precio_final)
                     folio.save()
-                    sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
+                    sol = Solicitud.objects.filter(id=pk) \
                         .update(num_contrato=num_contrato)
         return HttpResponseRedirect(self.get_success_url())
 #        return self.render_to_response(self.get_context_data(form=form))
