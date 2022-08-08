@@ -92,7 +92,7 @@ class Lote(models.Model, PermissionRequiredMixin):
     reciente = models.IntegerField('Ultimos lotes', default=0)
     created = models.DateTimeField("Creado", auto_now_add=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
-    comision_pagada = models.IntegerField("Comision pagada", choices=RESP_SI_NO, default=0)
+    comision_pagada = models.BooleanField("Comision pagada", choices=RESP_SI_NO, default=False)
  
     class Meta:
         verbose_name = 'Lote'

@@ -45,11 +45,14 @@
                         <div class="form-group col-md-3 mb-0">
                             {{ form.importe_pagado|as_crispy_field }}
                         </div>
-                        {% if app_proy_confirma_deposito_mensual %}
-                        <div class="form-group col-md-3 mb-0"  id="gpo_deposito">
+                        
+                        <div class="form-group col-md-3 mb-0"  id="gpo_deposito"
+                        {% if not app_proy_confirma_deposito_mensual %}
+                        hidden
+                        {% endif %}
+                        >
                             {{ form.deposito|as_crispy_field }}
                         </div>
-                        {% endif %}
                         <div class="form-group col-3" id="gpo_deposito1">
                             <label for="id_forma_pago1">Depósito</label>
                             <input type="text" name="id_deposito1" id="id_deposito1" readonly

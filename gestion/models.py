@@ -92,7 +92,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     estado = models.SmallIntegerField("Estado",choices=ESTADOS, blank=True, null=True, default=0)
     celular = models.CharField("Celular", max_length=10, blank=True, null=True)
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
-    comision_pagada = models.IntegerField("Comision pagada", choices=RESP_SI_NO, default=0)
+    comision_pagada = models.BooleanField("Comision pagada", choices=RESP_SI_NO, default=False)
 
     class Meta:
         verbose_name = 'Solicitud' 
