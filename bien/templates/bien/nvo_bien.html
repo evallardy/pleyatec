@@ -130,157 +130,154 @@
         </div>
     </div>
 </div>
+{% endif %}
+{% endfor %}
+{% endblock %}
+
 <script>
     {% block bljs %}
+
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-    $(function () {
-        window.captureEvents(Event.SUBMIT);
-        window.onsubmit = guarda;
-        function guarda() {
-            aviso("Aviso", "Guardado exitosamente");
-            return true;
+    window.captureEvents(Event.SUBMIT);
+    window.onsubmit = guarda;
+    function guarda() {
+        aviso("Aviso", "Guardado exitosamente");
+        return true;
+    }
+    function activa_campos() {
+        if ($("#id_tipo_lote_0").is(':checked')) {
+            $("#obs_irregular").hide();
+            $("#frente").show();
+            $("#fondo").show();
+        } else {
+            $("#obs_irregular").show();
+            $("#frente").hide();
+            $("#fondo").hide();
         }
-
-        function activa_campos() {
-            if ($("#id_tipo_lote_0").is(':checked')) {
-                $("#obs_irregular").hide();
-                $("#frente").show();
-                $("#fondo").show();
-            } else {
-                $("#obs_irregular").show();
-                $("#frente").hide();
-                $("#fondo").hide();
-            }
-        }
-        // inicializa campos en Alta
-        {% if accion == 'Alta' %}
-        $("#id_tipo_lote_0").prop("checked", true);
-        $("#id_esquina_0").prop("checked", true);
-        {% endif %}
-        // tipo de lote visible si trae datos
-        activa_campos();
+    }
+    $(document).ready(function () {
         //Inicializa el valor del proyecto
-        $("#id_proyecto").val({{ num_proyecto }}).change();
-    $("#estatus").val($("#id_estatus_lote").val());
-    //  Alinear campos numericos
-    $("#id_fase").css("text-align", "center");
-    $("#id_manzana").css("text-align", "center");
-    $("#id_frente").css("text-align", "right");
-    $("#id_fondo").css("text-align", "right");
-    $("#id_total").css("text-align", "right");
-    $("#id_precio_x_mt").css("text-align", "right");
-    $("#id_precio").css("text-align", "right");
-    $("#id_precio_x_mt_t").css("text-align", "right");
-    $("#id_precio_terraza").css("text-align", "right");
-    $("#id_altura").css("text-align", "right");
-    $("#id_estacionamientos").css("text-align", "right");
-    $("#id_terraza").css("text-align", "right");
-    $("#id_gran_total").css("text-align", "right");
-
-    // Campos de solo lectura
-    $("#id_precio").attr('readonly', true);
-    $("#id_gran_total").attr('readonly', true);
-    $("#id_precio_terraza").attr('readonly', true);
-
-    // Cuando cambia valor fondo
-    $("#id_fondo").on("keyup", function () {
-        calculaMetros();
-    });
-    // Cuando cambia valor frente
-    $("#id_frente").on("keyup", function () {
-        calculaMetros();
-    });
-    $("#id_total").on("keyup", function () {
-        calcula();
-    });
-    $("#id_terraza").on("keyup", function () {
-        calcula();
-    });
-    $("#precio_x_mt_t").on("keyup", function () {
-        calcula();
-    });
-    // Cuando cambia el estatus lote
-    $("#estatus").on("change", function () {
-        $("#id_estatus_lote").val($("#estatus").val());
-    });
-    // Cuando cambia valor fondo
-    $("#id_tipo_lote_0").on("change", function () {
+        num_proyecto = '{{num_proyecto}}';
+        accion = '{{accion}}';
+        $("#id_proyecto").val(num_proyecto).change();
+        if (accion == 'Alta') {
+            $("#id_tipo_lote_0").prop("checked", true);
+            $("#id_esquina_0").prop("checked", true);
+        }
         activa_campos();
-        $("#id_frente").val(0);
-        $("#id_fondo").val(0);
-        $("#id_total").val(0);
-        $("#id_precio_x_mt").val(0);
-        $("#id_precio").val(0);
-        $("#obs_irregular").val("");
-    });
-    $("#id_tipo_lote_1").on("change", function () {
-        activa_campos();
-        $("#id_frente").val(0);
-        $("#id_fondo").val(0);
-        $("#id_total").val(0);
-        $("#id_precio_x_mt").val(0);
-        $("#id_precio").val(0);
-        $("#obs_irregular").val("");
-    });
-    // Cuando cambia valor precio_x_mt
-    $("#id_precio_x_mt").on("keyup", function () {
-        calcula();
-    });
-    // Funcion para calcular el importe por cada pago
-    function calcula() {
-        total = parseFloat($("#id_total").val());
-        precio_x_mt = parseFloat($("#id_precio_x_mt").val());
-        precio = (total * precio_x_mt).toFixed(2);
+        $("#estatus").val($("#id_estatus_lote").val());
 
-        terraza = parseFloat($("#id_terraza").val());
-        precio_x_mt_t = parseFloat($("#id_precio_x_mt_t").val());
-        precio_terraza = (terraza * precio_x_mt_t).toFixed(2);
+        //  Alinear campos numericos
+        $("#id_fase").css("text-align", "center");
+        $("#id_manzana").css("text-align", "center");
+        $("#id_frente").css("text-align", "right");
+        $("#id_fondo").css("text-align", "right");
+        $("#id_total").css("text-align", "right");
+        $("#id_precio_x_mt").css("text-align", "right");
+        $("#id_precio").css("text-align", "right");
+        $("#id_precio_x_mt_t").css("text-align", "right");
+        $("#id_precio_terraza").css("text-align", "right");
+        $("#id_altura").css("text-align", "right");
+        $("#id_estacionamientos").css("text-align", "right");
+        $("#id_terraza").css("text-align", "right");
+        $("#id_gran_total").css("text-align", "right");
 
-        gran_total = (parseFloat(precio) + parseFloat(precio_terraza)).toFixed(2);
+        // Campos de solo lectura
+        $("#id_precio").attr('readonly', true);
+        $("#id_gran_total").attr('readonly', true);
+        $("#id_precio_terraza").attr('readonly', true);
 
-        $("#id_precio").val(precio);
-        $("#id_precio_terraza").val(precio_terraza);
-        $("#id_gran_total").val(gran_total);
-    }
-    function calculaMetros() {
-        frente = parseFloat($("#id_frente").val());
-        fondo = parseFloat($("#id_fondo").val());
-        total = (frente * fondo).toFixed(2);
-        $("#id_total").val(total);
-        calcula();
-    }
-    presentaProyecto();
-    function presentaProyecto() {
-        num_proyecto = {{ num_proyecto }
-    };
-    switch (num_proyecto) {
-        case 1:
-            $("#gpo-terraza").hide();
-            $("#estacionamientos").hide();
-            $("#gran_total").hide();
-            $("#altura").hide();
-            break;
-        case 2:
-            $("label[for='id_lote']").text("Local");
-            $("#fase").hide();
-            $("#manzana").hide();
-            $("#tipo_lote").hide();
-            $("#esquina").hide();
-            $("#estacionamientos").hide();
-            $("#colindancias").hide();
-            break;
-        default:
-            aviso('Seguridad', 'No tiene acceso');
-            $("#forma").hide();
-            break;
-    }
+        // Cuando cambia valor fondo
+        $("#id_fondo").on("keyup", function () {
+            calculaMetros();
+        });
+        // Cuando cambia valor frente
+        $("#id_frente").on("keyup", function () {
+            calculaMetros();
+        });
+        $("#id_total").on("keyup", function () {
+            calcula();
+        });
+        $("#id_terraza").on("keyup", function () {
+            calcula();
+        });
+        $("#precio_x_mt_t").on("keyup", function () {
+            calcula();
+        });
+        // Cuando cambia el estatus lote
+        $("#estatus").on("change", function () {
+            $("#id_estatus_lote").val($("#estatus").val());
+        });
+        // Cuando cambia valor fondo
+        $("#id_tipo_lote_0").on("change", function () {
+            activa_campos();
+            $("#id_frente").val(0);
+            $("#id_fondo").val(0);
+            $("#id_total").val(0);
+            $("#id_precio_x_mt").val(0);
+            $("#id_precio").val(0);
+            $("#obs_irregular").val("");
+        });
+        $("#id_tipo_lote_1").on("change", function () {
+            activa_campos();
+            $("#id_frente").val(0);
+            $("#id_fondo").val(0);
+            $("#id_total").val(0);
+            $("#id_precio_x_mt").val(0);
+            $("#id_precio").val(0);
+            $("#obs_irregular").val("");
+        });
+        // Cuando cambia valor precio_x_mt
+        $("#id_precio_x_mt").on("keyup", function () {
+            calcula();
+        });
+        // Funcion para calcular el importe por cada pago
+        function calcula() {
+            total = parseFloat($("#id_total").val());
+            precio_x_mt = parseFloat($("#id_precio_x_mt").val());
+            precio = (total * precio_x_mt).toFixed(2);
+
+            terraza = parseFloat($("#id_terraza").val());
+            precio_x_mt_t = parseFloat($("#id_precio_x_mt_t").val());
+            precio_terraza = (terraza * precio_x_mt_t).toFixed(2);
+
+            gran_total = (parseFloat(precio) + parseFloat(precio_terraza)).toFixed(2);
+
+            $("#id_precio").val(precio);
+            $("#id_precio_terraza").val(precio_terraza);
+            $("#id_gran_total").val(gran_total);
+        }
+        function calculaMetros() {
+            frente = parseFloat($("#id_frente").val());
+            fondo = parseFloat($("#id_fondo").val());
+            total = (frente * fondo).toFixed(2);
+            $("#id_total").val(total);
+            calcula();
+        }
+        switch (num_proyecto) {
+            case '1':
+                $("#gpo-terraza").hide();
+                $("#estacionamientos").hide();
+                $("#gran_total").hide();
+                $("#altura").hide();
+                break;
+            case '2':
+                $("label[for='id_lote']").text("Local");
+                $("#fase").hide();
+                $("#manzana").hide();
+                $("#tipo_lote").hide();
+                $("#esquina").hide();
+                $("#estacionamientos").hide();
+                $("#colindancias").hide();
+                break;
+            default:
+                aviso('Seguridad', 'No tiene acceso');
+                $("#forma").hide();
+                break;
         }
     });
+    {% endblock %}
 </script>
-{% endblock %}
-{% endif %}
-{% endfor %}
-{% endblock %}
