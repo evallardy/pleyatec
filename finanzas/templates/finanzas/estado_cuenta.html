@@ -37,7 +37,11 @@
                     <td style="text-align: left;">{{ p.fecha_pago }}</td>
                     <td style="text-align: right;">{{ p.importe }}</td>
                     <td style="text-align: left;">{{ p.get_forma_pago_display }}</td>
-                    <td style="text-align: left;">{{ p.numero_comprobante }}</td>
+                    <td style="text-align: left;">
+                        {% if p.numero_comprobante %}
+                        {{ p.numero_comprobante }}
+                        {% endif %}
+                    </td>
                     <td style="text-align: left;">{{ p.get_estatus_pago_display }}</td>
                     <td style="text-align: left;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
