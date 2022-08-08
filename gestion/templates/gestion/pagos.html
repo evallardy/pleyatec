@@ -600,6 +600,14 @@
 //                    aviso('Error al guardar', texto);
                 }
             }
+            if ($("#id_forma_pago_apa").val() == 3) {
+                    $("#id_cuenta_apa").val("").attr("readonly", true);
+                    $("#id_numero_comprobante_apa").val("").attr("readonly", true);
+            }
+            if ($("#id_forma_pago_pa").val() == 3) {
+                $("#id_cuenta_pa").val("").attr("readonly", true);
+                $("#id_numero_comprobante_pa").val("").attr("readonly", true);
+            }
         });
     </script>
     {% endfor %}
