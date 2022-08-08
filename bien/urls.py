@@ -7,9 +7,9 @@ urlpatterns = [
 
     path('torrevento/<nivel>/', torrevento.as_view(), name='torrevento'), 
     path('condominioM/<nivel>/', condominioM.as_view(), name='condominioM'), 
-    path('fraccion34/<nivel>/', fraccion34.as_view(), name='fraccion34'), 
+    path('porto_santo/<nivel>/', porto_santo.as_view(), name='porto_santo'), 
     path('viviendaNuvole/', viviendaNuvole.as_view(), name='viviendaNuvole'), 
-    path('pathe/', pathe.as_view(), name='pathe'), 
+    path('monte_cris/', monte_cris.as_view(), name='monte_cris'), 
     path('TMpuntaorienta/<nivel>/', TMpuntaorienta.as_view(), name='TMpuntaorienta'), 
     path('plazapuntaoriente/<nivel>/', plazapuntaoriente.as_view(), name='plazapuntaoriente'), 
 

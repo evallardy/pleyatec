@@ -12,8 +12,8 @@ def mis_variables(request):
         variable_proy = nom_proy + "_acceso"
         data[variable_proy] = acceso
     valida_proyectos =  data['nuvole_acceso'] or data['toscana_acceso'] or data['torre_vento_acceso'] or \
-        data['condom_multiple_acceso'] or data['fraccion34_acceso'] or data['vivienda_nuvole_acceso'] or \
-        data['pathe_acceso'] or data['consul_punta_o_acceso'] or data['local_punta_o_acceso']
+        data['condom_multiple_acceso'] or data['porto_santo_acceso'] or data['vivienda_nuvole_acceso'] or \
+        data['monte_cristalo_acceso'] or data['consul_punta_o_acceso'] or data['local_punta_o_acceso']
 # Si algun proyecto esta asignado
     data['valida_proyectos'] = valida_proyectos
 # Datos del empleado

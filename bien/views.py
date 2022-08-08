@@ -294,14 +294,14 @@ class condominioM(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         queryset = Lote.objects.filter(proyecto_id=1)
         return queryset
 
-class fraccion34(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'bien.fraccion34_acceso'
+class porto_santo(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'bien.porto_santo_acceso'
     template_name = 'bien/nuvole.html'  
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
         context['menu'] = "lote"
-        nom_proy = 'fraccion34'
+        nom_proy = 'porto_santo'
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -428,14 +428,14 @@ class viviendaNuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         queryset = Lote.objects.filter(proyecto_id=1)
         return queryset
 
-class pathe(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'bien.pathe_acceso'
+class monte_cris(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'bien.monte_cristalo_acceso'
     template_name = 'bien/nuvole.html'  
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
         context['menu'] = "lote"
-        nom_proy = 'pathe'
+        nom_proy = 'monte_cristalo'
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso

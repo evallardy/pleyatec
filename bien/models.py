@@ -37,9 +37,9 @@ class Proyecto(models.Model):
                        ('local_punta_o_acceso', 'Local Punta O Acceso'),
                        ('consul_punta_o_acceso', 'Consultorio Punta O Acceso'),
                        ('torre_vento_acceso', 'Torre Vento Acceso'),
-                       ('fraccion34_acceso', 'Fracción 34 Acceso'),
+                       ('porto_santo_acceso', 'Porto santo Acceso'),
                        ('vivienda_nuvole_acceso', 'Vivienda Nuvole Acceso'),
-                       ('pathe_acceso', 'Pathe Acceso'),
+                       ('monte_cristalo_acceso', 'Monte cristalo Acceso'),
                        ('condom_multiple_acceso', 'Condominio Múltiple Acceso'),
                        ('comision_proyectos', 'Comisiones por proyecto'),
                        )
@@ -127,20 +127,20 @@ class Lote(models.Model, PermissionRequiredMixin):
                        ('torre_vento_chag', 'Torre Vento cambiar bien'),
                        ('torre_vento_reservar', 'Torre Vento reservar bien bien'),
             #  Fracción 34
-                       ('fraccion34_ver', 'Fracción 34 ver bienes'),
-                       ('fraccion34_add', 'Fracción 34 agregar bien'),
-                       ('fraccion34_chag', 'Fracción 34 cambiar bien'),
-                       ('fraccion34_reservar', 'Fracción 34 reservar bien'),
+                       ('porto_santo_ver', 'Fracción 34 ver bienes'),
+                       ('porto_santo_add', 'Fracción 34 agregar bien'),
+                       ('porto_santo_chag', 'Fracción 34 cambiar bien'),
+                       ('porto_santo_reservar', 'Fracción 34 reservar bien'),
             #  Vivienda Nuvole
                        ('vivienda_nuvole_ver', 'Nuvole viviendas ver bienes'),
                        ('vivienda_nuvole_add', 'Nuvole viviendas agregar bien'),
                        ('vivienda_nuvole_chag', ' Nuvole viviendas cambiar bien'),
                        ('vivienda_nuvole_reservar', 'Nuvole viviendas reservar bien'),
-            #  Pathe
-                       ('pathe_ver', 'Pathe ver bienes'),
-                       ('pathe_add', 'Pathe agregar bien'),
-                       ('pathe_chag', 'Pathe cambiar bien'),
-                       ('pathe_reservar', 'Pathe reservar bien'),
+            #  Monte cristalo 
+                       ('monte_cristalo_ver', 'Monte cristalo ver bienes'),
+                       ('monte_cristalo_add', 'Monte cristalo agregar bien'),
+                       ('monte_cristalo_chag', 'Monte cristalo cambiar bien'),
+                       ('monte_cristalo_reservar', 'Monte cristalo reservar bien'),
             #  Condominio Múltiple
                        ('condom_multiple_ver', 'Condominio Múltiple ver bienes'),
                        ('condom_multiple_add', 'Condominio Múltiple agregar bien'),
