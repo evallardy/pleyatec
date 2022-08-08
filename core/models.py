@@ -169,7 +169,7 @@ STATUS_GESTION = (
 )
 STATUS_GESTION_COMISION = (
     (0, 'Nueva'),
-    (1, 'Desositada'),
+    (1, 'Depositada'),
     (2, 'Recibida'),
 )
 STATUS_NOMINA = (
