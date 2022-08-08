@@ -13,16 +13,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='pagocomision',
             name='estatus_pago_comision',
-            field=models.IntegerField(choices=[(0, 'Nueva'), (1, 'Desositada'), (2, 'Recibida')], default=0, verbose_name='Estatus comisión aasesor'),
+            field=models.IntegerField(choices=[(0, 'Nueva'), (1, 'Depositada'), (2, 'Recibida')], default=0, verbose_name='Estatus comisión aasesor'),
         ),
         migrations.AlterField(
             model_name='pagocomision',
             name='estatus_pago_gerente',
-            field=models.IntegerField(choices=[(0, 'Nueva'), (1, 'Desositada'), (2, 'Recibida')], default=0, verbose_name='Estatus comisión director'),
+            field=models.IntegerField(choices=[(0, 'Nueva'), (1, 'Depositada'), (2, 'Recibida')], default=0, verbose_name='Estatus comisión director'),
         ),
         migrations.AlterField(
             model_name='pagocomision',
             name='estatus_pago_publicidad',
-            field=models.IntegerField(choices=[(0, 'Nueva'), (1, 'Desositada'), (2, 'Recibida')], default=0, verbose_name='Estatus comisión director'),
+            field=models.IntegerField(choices=[(0, 'Nueva'), (1, 'Depositada'), (2, 'Recibida')], default=0, verbose_name='Estatus comisión director'),
         ),
     ]
