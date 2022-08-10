@@ -111,7 +111,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('torre_vento_pago_extemp_comisiones', 'Torre Vento pago extemp comisiones'),
                     ('torre_vento_consulta_comisiones', 'Torre Vento consulta comisiones'),
                     ('torre_vento_vobo_comisiones', 'Torre Vento vobo comisiones'),
-            #  Fracción 34
+            #  Porto Santo
                     ('porto_santo_listado_registro_mensual', 'Porto Santo listado registro mensualidades'),
                     ('porto_santo_estado_cuenta', 'Porto Santo Mostrar estado de cuenta'),
                     ('porto_santo_cap_dep_mensual', 'Porto Santo capturar depósito mensualidad'),

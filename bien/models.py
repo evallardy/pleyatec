@@ -126,11 +126,11 @@ class Lote(models.Model, PermissionRequiredMixin):
                        ('torre_vento_add', 'Torre Vento agregar bien'),
                        ('torre_vento_chag', 'Torre Vento cambiar bien'),
                        ('torre_vento_reservar', 'Torre Vento reservar bien bien'),
-            #  Fracción 34
-                       ('porto_santo_ver', 'Fracción 34 ver bienes'),
-                       ('porto_santo_add', 'Fracción 34 agregar bien'),
-                       ('porto_santo_chag', 'Fracción 34 cambiar bien'),
-                       ('porto_santo_reservar', 'Fracción 34 reservar bien'),
+            #  Porto Santo
+                       ('porto_santo_ver', 'Porto Santo ver bienes'),
+                       ('porto_santo_add', 'Porto Santo agregar bien'),
+                       ('porto_santo_chag', 'Porto Santo cambiar bien'),
+                       ('porto_santo_reservar', 'Porto Santo reservar bien'),
             #  Vivienda Nuvole
                        ('vivienda_nuvole_ver', 'Nuvole viviendas ver bienes'),
                        ('vivienda_nuvole_add', 'Nuvole viviendas agregar bien'),
