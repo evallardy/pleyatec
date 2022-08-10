@@ -6,10 +6,21 @@
 {% bootstrap_javascript jquery='full' %}
 {% endblock %}
 {% block contenido %}
+{% if app_proy_pago_normal_comisiones %}
 {% for py in proyecto_tb %}
 <div style="position: absolute; margin-left: 80px;
      height: auto; width: auto; background-color: transparent;" class="mapa">
-    <label class="encabezados">Pago de Comisiones {{py.nombre}}</label><br>
+     <table class="col-12">
+        <tr>
+            <td style="background-color: darkgrey;">
+                <label class="encabezados">{{py.nombre}}</label><br>
+            </td>
+            <td style="background-color: darkgrey; width: 40%;">
+                <label class="encabezados">Pago de Comisiones</label><br>
+            </td>
+        </tr>
+     </table>
+    
     <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a><br><br>
     <form action="">
         <div class="container">
@@ -23,7 +34,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-8 mb-0" style="text-align: right;" id="btn_vobo">
-                    {% if estatus_comision == 0 %}
+                    {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
                     <label for="id_periodo">   </label><br>
                     <a class="btn btn-outline-dark" href="{% url 'vobo_comisiones' fecha_hasta_str py.id fecha_hasta py.nombre importe_gerente importe_publicidad %}">Vo.Bo. Comisiones</a>
                     {% endif %}
@@ -140,4 +151,5 @@
     });
 </script>
 {% endfor %}
+{% endif %}
 {% endblock %}

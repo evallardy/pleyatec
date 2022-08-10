@@ -808,7 +808,7 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
         bienes = PagoComision.objects \
             .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                proyecto_pago=num_proyecto, empleado_pago=pk) \
+                proyecto_pago=num_proyecto, estatus_comision=0, empleado_pago=pk) \
             .order_by('-fecha_contrato') 
         nombre = bienes[0].empleado_pago 
         context['nombre'] = nombre
@@ -829,7 +829,7 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
         queryset = PagoComision.objects \
             .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                proyecto_pago=num_proyecto, empleado_pago=pk) \
+                proyecto_pago=num_proyecto, estatus_comision=0, empleado_pago=pk) \
             .order_by('-fecha_contrato') 
         return queryset
 
@@ -840,6 +840,17 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         context = super(pago_comisiones, self).get_context_data(**kwargs)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+# Si tiene permisos para comisiones
+        nom_proy = proyecto_tb[0].nom_proy
+
+        permiso_str = "finanzas." + nom_proy + '_' + 'pago_normal_comisiones'
+        acceso = self.request.user.has_perms([permiso_str])
+        context['app_proy_pago_normal_comisiones'] = acceso
+
+        permiso_str = "finanzas." + nom_proy + '_' + 'vobo_comisiones'
+        acceso = self.request.user.has_perms([permiso_str])
+        context['app_proy_vobo_comisiones'] = acceso
+
         context['proyecto_tb'] = proyecto_tb
         empleado_cmb = Empleado.objects.all()
         context['empleado_cmb'] = empleado_cmb
@@ -873,13 +884,15 @@ class pago_comisiones(LoginRequiredMixin, ListView):
                 .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto)
         else:
             pago_comision = PagoComision.objects \
-                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto, \
+                    estatus_comision=0) \
                 .values('empleado_pago','estatus_pago_comision','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
                 .annotate(bienes=Count('bien_pago',distinct=True),total_asesor=Sum('importe'), \
                 total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad')) \
                 .order_by('empleado_pago') 
             pago_comision_detalle = PagoComision.objects \
-                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto)
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto, \
+                    estatus_comision=0)
         context['pago_comision_detalle'] = pago_comision_detalle
         importe_asesores = 0    
         importe_gerente = 0
@@ -937,7 +950,8 @@ class pago_comisiones(LoginRequiredMixin, ListView):
                 .order_by('paterno','materno','nombre') 
         else:
             queryset = Empleado.objects \
-                .filter(pagocomision__fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], pagocomision__proyecto_pago=num_proyecto) \
+                .filter(pagocomision__fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                    pagocomision__proyecto_pago=num_proyecto, pagocomision__estatus_comision=0) \
                 .values('pagocomision__empleado_pago','paterno','materno','nombre', \
                     'pagocomision__estatus_pago_comision') \
                 .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
@@ -980,6 +994,12 @@ class situacion_comisiones(LoginRequiredMixin, ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
+        nom_proy = proyecto_tb[0].nom_proy
+        permiso_str = "finanzas." + nom_proy + '_consulta_comisiones'
+        acceso = self.request.user.has_perms([permiso_str])
+        context['app_proy_consulta_comisiones'] = acceso
+        nombre = proyecto_tb[0].nombre
+        context['nombre'] = nombre
         return context
     def get_queryset(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)

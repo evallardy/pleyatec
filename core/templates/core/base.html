@@ -47,7 +47,7 @@
                                         {% if perms.core.view_banco %}
                                         <li><a href="{% url 'bancos'%}"> Bancos </a> </li>
                                         {% endif %}
-                                        {% if perms.bien.comision_proyectos %}
+                                        {% if comision_proyectos %}
                                         <li><a href="{% url 'proyectos'%}"> Comisiones </a> </li>
                                         {% endif %}
                                         {% if perms.empleado.view_empleado %}

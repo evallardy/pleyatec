@@ -8,35 +8,43 @@
 {% endblock %}
 {% load crispy_forms_tags %}
 {% block contenido %}
-<div class="container col-12" >
-    <label class="encabezados">Proyecto</label>
-    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
-    <hr class="mt-0 mb-4">
+{% if app_proy_edita_comisiones_proyecto %}
+<div class="container col-12" style="width: 500px;">
+    <table>
+        <tr>
+            <td style="background-color: darkgrey">
+                <label class="encabezados">{{nombre}} comisiones</label>
+            </td>
+            <td style="background-color: darkgrey; width: 25%;">
+                <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+            </td>
+        </tr>
+    </table>
+    <hr class="mt-0 mb-4" style="background-color: transparent;">
     <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a>
     <div class="container col-12">
         <form action="" method="POST" style="text-align: left;">
             {% csrf_token %}
             {% for p in proyecto %}
-            <div class="form-row">
-                <label>Nombre</label>
-                <div class="form-group form-control col-md-12 mb-0">
-                    {{ p.nombre }}
+            <div class="form-row col-12">
+                <div class="form-group col-6">
+                    <label>Nombre</label>
+                    <input type="text" name="" id="" value="{{p.nombre}}" class="form-control col-12" readonly>
                 </div>
-            </div>
-            <div class="form-row">
-                <label>Tipo proyecto</label>
-                <div class="form-group form-control col-md-12 mb-0">
-                    {{ p.get_tipo_proyecto_display }}
+                <div class="form-group col-6">
+                    <label>Tipo proyecto</label>
+                    <input type="text" name="" id=""
+                        value="{{ p.get_tipo_proyecto_display }}" class="form-control col-12" readonly>
                 </div>
             </div>
             {% endfor %}
-            <div class="form-row">
-                <div class="form-group col-md-8 mb-0">
+            <div class="form-row col-6">
+                <div class="form-group">
                     {{ form.comision_asesor|as_crispy_field }}
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-8 mb-0">
+            <div class="form-row col-6">
+                <div class="form-group">
                     {{ form.comision_jefe_asesor|as_crispy_field }}
                 </div>
             </div>
@@ -57,4 +65,5 @@
         $("#id_comision_jefe_asesor").css("text-align", "right");
     })
 </script>
+{% endif %}
 {% endblock %}

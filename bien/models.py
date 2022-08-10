@@ -39,7 +39,7 @@ class Proyecto(models.Model):
                        ('torre_vento_acceso', 'Torre Vento Acceso'),
                        ('porto_santo_acceso', 'Porto santo Acceso'),
                        ('vivienda_nuvole_acceso', 'Vivienda Nuvole Acceso'),
-                       ('monte_cristalo_acceso', 'Monte cristalo Acceso'),
+                       ('monte_cristallo_acceso', 'Monte cristallo Acceso'),
                        ('condom_multiple_acceso', 'Condominio Múltiple Acceso'),
                        ('comision_proyectos', 'Comisiones por proyecto'),
                        )
@@ -136,11 +136,11 @@ class Lote(models.Model, PermissionRequiredMixin):
                        ('vivienda_nuvole_add', 'Nuvole viviendas agregar bien'),
                        ('vivienda_nuvole_chag', ' Nuvole viviendas cambiar bien'),
                        ('vivienda_nuvole_reservar', 'Nuvole viviendas reservar bien'),
-            #  Monte cristalo 
-                       ('monte_cristalo_ver', 'Monte cristalo ver bienes'),
-                       ('monte_cristalo_add', 'Monte cristalo agregar bien'),
-                       ('monte_cristalo_chag', 'Monte cristalo cambiar bien'),
-                       ('monte_cristalo_reservar', 'Monte cristalo reservar bien'),
+            #  Monte cristallo 
+                       ('monte_cristallo_ver', 'Monte cristallo ver bienes'),
+                       ('monte_cristallo_add', 'Monte cristallo agregar bien'),
+                       ('monte_cristallo_chag', 'Monte cristallo cambiar bien'),
+                       ('monte_cristallo_reservar', 'Monte cristallo reservar bien'),
             #  Condominio Múltiple
                        ('condom_multiple_ver', 'Condominio Múltiple ver bienes'),
                        ('condom_multiple_add', 'Condominio Múltiple agregar bien'),
@@ -150,12 +150,12 @@ class Lote(models.Model, PermissionRequiredMixin):
 
     def __str__(self):   # para poner los nombre en los renglones
         if self.proyecto.app == 'nuvole':
-            return ' Lote: %s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
+            return '%s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
         elif self.proyecto.app == 'toscana':
             if self.terraza == 0:
-                return ' Local: %s nivel: %s' % (self.lote, self.nivel)
+                return '%s nivel: %s' % (self.lote, self.nivel)
             else:
-                return ' Local: %s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, self.nivel)
+                return '%s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, self.nivel)
         else:
             return ""
 

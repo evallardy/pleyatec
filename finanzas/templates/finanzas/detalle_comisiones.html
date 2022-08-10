@@ -39,6 +39,7 @@
                             <th class="col-2" style="text-align: right;">Importe venta</th>
                             <th class="col-1" style="text-align: right;">comision</th>
                             <th class="col-2" style="text-align: right;">Importe comisión</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,11 @@
                             <td style="text-align: right;">{{pc.precio_final}}</td>
                             <td style="text-align: right;">{{pc.comsion}}</td>
                             <td style="text-align: right;">{{pc.importe}}</td>
+                            <td>
+                                {% if app_proy_vobo_comisiones %}
+                                <a class="btn btn-outline-dark" href="#">Quitar</a><br><br>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

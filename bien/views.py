@@ -429,13 +429,13 @@ class viviendaNuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return queryset
 
 class monte_cris(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = 'bien.monte_cristalo_acceso'
+    permission_required = 'bien.monte_cristallo_acceso'
     template_name = 'bien/nuvole.html'  
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
         context['menu'] = "lote"
-        nom_proy = 'monte_cristalo'
+        nom_proy = 'monte_cristallo'
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -819,6 +819,24 @@ class proyectos(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(proyectos, self).get_context_data(**kwargs)
+        permiso_str = "bien." + 'comision_proyectos'
+        acceso = self.request.user.has_perms([permiso_str])
+        context['comision_proyectos'] = acceso
+        proyecto_tb = Proyecto.objects.all()
+        for py in proyecto_tb:
+            nom_proy = py.nom_proy
+            nom_acceso = nom_proy + '_edita_comisiones_proyecto'
+            permiso_str = "bien." + nom_acceso
+            acceso = self.request.user.has_perms([permiso_str])
+            context[nom_acceso] = acceso
+            nom_acceso = nom_proy + '_pago_normal_comisiones'
+            permiso_str = "bien." + nom_acceso
+            acceso = self.request.user.has_perms([permiso_str])
+            context[nom_acceso] = acceso
+            nom_acceso = nom_proy + '_consulta_comisiones'
+            permiso_str = "bien." + nom_acceso
+            acceso = self.request.user.has_perms([permiso_str])
+            context[nom_acceso] = acceso
         return context
     def get_queryset(self):
         queryset = Proyecto.objects.all()
@@ -834,6 +852,12 @@ class mod_proyecto(LoginRequiredMixin, UpdateView):
         context = super(mod_proyecto, self).get_context_data(**kwargs)
         pk = self.kwargs.get('pk')
         proyecto = Proyecto.objects.filter(id=pk)
+        nom_proy = proyecto[0].nom_proy
+        permiso_str = 'finanzas.' + nom_proy + '_edita_comisiones_proyecto'
+        acceso = self.request.user.has_perms([permiso_str])
+        context['app_proy_edita_comisiones_proyecto'] = acceso
+        nombre = proyecto[0].nombre
+        context['nombre'] = nombre
         context['accion'] = "Modifica"
         context['proyecto'] = proyecto
         return context

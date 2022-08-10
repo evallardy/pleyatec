@@ -6,12 +6,21 @@
 {% bootstrap_javascript jquery='full' %}
 {% endblock %}
 {% block contenido %}
+{% if app_proy_consulta_comisiones %}
 {% for py in proyecto_tb %}
 <div style="position: absolute; margin-left: 80px;
      height: auto; width: auto; background-color: transparent;" class="mapa">
     <div class="container col-12">
-        <label class="encabezados">{{ py.nombre }}</label><br>
-        <label class="encabezados">Consulta de pago de comisiones</label><br>
+        <table>
+            <tr>
+                <td style="background-color: darkgrey;">
+                    <label class="encabezados">{{ py.nombre }}</label>
+                </td>
+                <td style="background-color: darkgrey; width: 48%;">
+                    <label class="encabezados">Consulta de pago de comisiones</label><br>
+                </td>
+            </tr>
+        </table>
         <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a><br><br>
     </div>
     <div class="container col-12">
@@ -19,36 +28,37 @@
         <thead>
             <tr>
                 <th></th>
-                <th colspan="6" 
+                <th colspan="3" 
                 style="text-align: center; border-left: 1px; border-left-style: solid;
                 border-right: 1px; border-right-style: solid;"
                 >Comision</th>
+                <th style="text-align: center;">Fecha</th>
                 <th></th>
                 <th style="text-align: center;">Estatus</th>
             </tr>
             <tr>
                 <th class="col-md-1" style="text-align: center;" scope="col">Bien</th>
                 <th class="col-md-2" style="text-align: right; border-left: 1px; border-left-style: solid;" scope="col">Asesor</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Estatus</th>
                 <th class="col-md-2" style="text-align: right;" scope="col">Gerente</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Estatus</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Publicidad</th>
-                <th class="col-md-2" style="text-align: right; border-right: 1px; border-right-style: solid;" scope="col">Estatus</th>
-                <th class="col-md-2" style="text-align: right; ;" scope="col">Periodo</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Pago</th>
+                <th class="col-md-2" style="text-align: right; border-right: 1px; border-right-style: solid;" scope="col">Publicidad</th>
+                <th class="col-md-2" style="text-align: center;" scope="col">contrato</th>
+                <th class="col-md-2" style="text-align: center; ;" scope="col">Periodo</th>
+                <th class="col-md-2" style="text-align: center;" scope="col">Pago</th>
             </tr>
         </thead>
         <tbody>
             {% for c in object_list %}
             <tr>
                 <td class="col-md-1" style="text-align: center;" scope="col">{{ c.bien_pago }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.get_estatus_pago_comision_display }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_gerente }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.get_estatus_pago_gerente_display }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_gerente }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.get_estatus_pago_publicidad_display }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.fecha_periodo }}</td>
+                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe }}<br>{{ c.get_estatus_pago_comision_display }}</td>
+                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_gerente }}<br>{{ c.get_estatus_pago_gerente_display }}</td>
+                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_publicidad }}<br>{{ c.get_estatus_pago_publicidad_display }}</td>
+                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.fecha_contrato }}</td>
+                <td class="col-md-1" style="text-align: center;" scope="col">
+                    {% if c.fecha_periodo %}
+                    {{ c.fecha_periodo }}
+                    {% endif %}
+                </td>
                 <td class="col-md-1" style="text-align: center;" scope="col">{{ c.get_estatus_comision_display }}</td>
             </tr>
             {% endfor %}
@@ -68,4 +78,5 @@
     {% endblock %}
 </script>
 {% endfor %}
+{% endif %}
 {% endblock %}
