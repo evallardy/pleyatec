@@ -826,15 +826,15 @@ class proyectos(LoginRequiredMixin, ListView):
         for py in proyecto_tb:
             nom_proy = py.nom_proy
             nom_acceso = nom_proy + '_edita_comisiones_proyecto'
-            permiso_str = "bien." + nom_acceso
+            permiso_str = "finanzas." + nom_acceso
             acceso = self.request.user.has_perms([permiso_str])
             context[nom_acceso] = acceso
             nom_acceso = nom_proy + '_pago_normal_comisiones'
-            permiso_str = "bien." + nom_acceso
+            permiso_str = "finanzas." + nom_acceso
             acceso = self.request.user.has_perms([permiso_str])
             context[nom_acceso] = acceso
             nom_acceso = nom_proy + '_consulta_comisiones'
-            permiso_str = "bien." + nom_acceso
+            permiso_str = "finanzas." + nom_acceso
             acceso = self.request.user.has_perms([permiso_str])
             context[nom_acceso] = acceso
         return context
