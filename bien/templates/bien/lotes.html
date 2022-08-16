@@ -8,10 +8,8 @@
 {% block contenido %}
 {% for py in proyecto_tb %}
 {% if app_proy_ver %}
-<div style="position: absolute; margin-left: 80px;
-     height: auto; width: auto; background-color: transparent;" class="mapa">
 <div class="container">
-    <label class="encabezados">{{ py.nombre }}</label>
+    <label class="encabezados">{{ py.nombre }}</label><br>
     <div class="btn-group btn-group-justified">
         {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
@@ -42,7 +40,7 @@
         {% endif %}
     </div>
 </div>
-<div class="container">
+<div class="container mapa">
     {% if app_proy_add %}
     <a class="btn btn-outline-dark" href="{% url 'nvo_bien' py.id %}" role="button">Agregar</a>
     {% endif %}
@@ -55,11 +53,11 @@
                 <th style="text-align: center;" scope="col">Área total</th>
                 <th style="text-align: center;" scope="col">Precio m²</th>
                 <th style="text-align: center;" scope="col">Precio</th>
-                {% if py.app == 'toscana' %}
+                {% if py.app == 'toscana' or app == 'plazapuntaoriente' %}
                 <th style="text-align: center;" scope="col">Terraza</th>
                 <th style="text-align: center;" scope="col">Gran total</th>
                 {% endif %}
-                {% if py.app == 'nuvole' %}
+                {% if py.app == 'nuvole' or app == 'portoSanto' %}
                 <th style="text-align: center;" scope="col">Esquina</th>
                 {% endif %}
                 <th style="text-align: center;" scope="col">Estatus</th>
@@ -75,31 +73,31 @@
                 <td class="col-md-1" style="text-align: right;">{{ e.total }}</td>
                 <td class="col-md-1" style="text-align: right;">{{ e.precio_x_mt }}</td>
                 <td class="col-md-1" style="text-align: right;">{{ e.precio }}</td>
-                {% if py.app == 'toscana' %}
+                {% if py.app == 'toscana' or app == 'plazapuntaoriente' %}
                 <td class="col-md-1" style="text-align: right;">{{ e.terraza }}</td>
                 <td class="col-md-1" style="text-align: right;">{{ e.gran_total }}</td>
                 {% endif %}
-                {% if py.app == 'nuvole' %}
+                {% if py.app == 'nuvole' or app == 'portoSanto' %}
                 <td class="col-md-1" style="text-align: center;">{{ e.get_esquina_display }}</td>
                 {% endif %}
                 <td class="col-md-1" style="text-align: center;">{{ e.get_estatus_lote_display }}</td>
-                <td class="col-md-1" >
-                {% if e.estatus_lote == 1 or e.estatus_lote == 4 %}
-                {% if app_proy_chag %}
-                <a href="{% url 'mod_bien' e.id py.id %}" class="btn btn-outline-secondary">Editar</a>
-                {% endif %}
-                {% endif %}
+                <td class="col-md-1">
+                    {% if e.estatus_lote == 1 or e.estatus_lote == 4 %}
+                    {% if app_proy_chag %}
+                    <a href="{% url 'mod_bien' e.id py.id %}" class="btn btn-outline-secondary">Editar</a>
+                    {% endif %}
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-{% endif %}
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    {% endif %}
 </div>
 </div>
 {% endif %}

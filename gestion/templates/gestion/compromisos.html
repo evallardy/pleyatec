@@ -8,41 +8,40 @@
 {% block contenido %}
 {% if app_proy_compromiso %}
 {% for py in proyecto_tb %}
-<div class="container col-12">
-    <div class="container col-12">
-        <label class="encabezados">{{ py.nombre }}</label><br>
-        <div class="btn-group btn-group-justified">
-            {% if menu_proy_ver %}
-            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
-            {% endif %}
-            {% if menu_proy_ver_solicitud %}
-            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
-            {% endif %}
-            {% if menu_proy_autoriza_visualiza %}
-            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
-            {% endif %}
-            {% if menu_proy_compromiso %}
-            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
-            {% endif %}
-            {% if menu_proy_contratar %}
-            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
-            {% endif %}
-            {% if menu_proy_listado_registro_mensual %}
-            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
-            {% endif %}
-            {% if menu_proy_consulta_archivo %}
-            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
-            {% endif %}
-            {% if menu_proy_creditos %}
-            <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
-            {% endif %}
-            {% if menu_proy_contados %}
-            <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
-            {% endif %}
-        </div>
-    </div><br>
-    <div class="container">
-    <table class="table table-info table-striped col-md-12">
+<div class="container">
+    <label class="encabezados">{{ py.nombre }}</label><br>
+    <div class="btn-group btn-group-justified container">
+        {% if menu_proy_ver %}
+        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+        {% endif %}
+        {% if menu_proy_ver_solicitud %}
+        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+        {% endif %}
+        {% if menu_proy_autoriza_visualiza %}
+        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+        {% endif %}
+        {% if menu_proy_compromiso %}
+        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+        {% endif %}
+        {% if menu_proy_contratar %}
+        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+        {% endif %}
+        {% if menu_proy_listado_registro_mensual %}
+        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
+        {% endif %}
+        {% if menu_proy_consulta_archivo %}
+        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+        {% endif %}
+        {% if menu_proy_creditos %}
+        <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
+        {% endif %}
+        {% if menu_proy_contados %}
+        <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
+        {% endif %}
+    </div>
+</div>
+<div class="container mapa">
+    <table class="table table-info table-striped">
         <thead>
             <tr>
                 <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
@@ -74,7 +73,6 @@
             {% endfor %}
         </tbody>
     </table>
-    </div>
 </div>
 {% if page_obj.has_previous %}
 <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>

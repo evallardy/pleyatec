@@ -28,7 +28,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app %}">
+            <a href="{% url p.app p.id %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -42,7 +42,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id 1 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -56,8 +56,12 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id 0 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
+            </a>
+            {% else %}
+            <a href="{% url p.app p.id 0 %}">
+                Entrar
             </a>
             {% endif %}
         </div>
@@ -70,7 +74,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id 1 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -84,7 +88,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id 1 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -98,7 +102,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id 1 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -112,7 +116,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -126,7 +130,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}
@@ -140,7 +144,7 @@
             </div>
             <hr>
             {% if p.plano %}
-            <a href="{% url p.app 1 %}">
+            <a href="{% url p.app p.id 1 %}">
                 <img src="{{p.plano.url}}" alt="imagen proyecto">
             </a>
             {% endif %}

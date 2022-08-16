@@ -7,6 +7,7 @@
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto %}
+{% if app_proy_acceso %}
 <div class="container">
     <label class="encabezados">{{ py.nombre }}</label><br>
     <div class="btn-group btn-group-justified">
@@ -39,11 +40,9 @@
         {% endif %}
     </div>
 </div>
-<hr>
-<div style="margin-left: 80px;
-     height: 400px; width: 650px; " class="mapa">
+<div style="height: 410px; width: 650px; " class="mapa">
     <img src="{% static 'core/img/plano2022.jpg' %}" alt=""
-        style="height: 400px; width: 620; position: absolute; margin-left: 20px; padding: 5px;">
+        style="height: 405px; width: 620; position: absolute; margin-left: 20px; padding: 5px;">
     <svg style="position: absolute; width: 800px; height: 600px; margin-left: 20px;">
         {% for e in object_list %}
         <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
@@ -71,11 +70,12 @@
         {% endfor %}
     </svg>
 </div>
-{% endfor %}
 <script>
     $(document).ready(function () {
         opcion = "#" + "{{ menu }}";
         $(opcion).addClass('active');
     });
 </script>
+{% endif %}
+{% endfor %}
 {% endblock %}

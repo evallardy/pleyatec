@@ -10,9 +10,9 @@
 {% block contenido %}
 {% if app_proy_autoriza_visualiza %}
 {% for py in proyecto_tb %}
-<div class="container col-12">
+<div class="container">
     <label class="encabezados">{{ py.nombre }}</label> <br>
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified container">
         {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
@@ -41,8 +41,9 @@
         <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
         {% endif %}
     </div>
-    <br><br>
-    <table class="table table-info table-striped col-md-12" style="font-size: 15px;">
+</div>
+<div class="container mapa">
+    <table class="table table-info table-striped " style="font-size: 15px;">
         <thead>
             <tr>
                 <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>

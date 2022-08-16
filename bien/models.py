@@ -92,7 +92,7 @@ class Lote(models.Model, PermissionRequiredMixin):
     reciente = models.IntegerField('Ultimos lotes', default=0)
     created = models.DateTimeField("Creado", auto_now_add=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
-    comision_pagada = models.BooleanField("Comision pagada", choices=RESP_SI_NO, default=False)
+    comision_pagada = models.BooleanField("Comision pagada", choices=RESP_SI_NO, default='0')
  
     class Meta:
         verbose_name = 'Lote'
@@ -161,9 +161,9 @@ class Lote(models.Model, PermissionRequiredMixin):
 
     def _get_identificador_bien(self):
         if self.proyecto.app == 'nuvole':
-            return ' Lote:%s Manzana:%s Fase:%s' % (self.lote, self.manzana, self.fase)
-        elif self.proyecto.app == 'toscana':
-            return ' Local:%s nivel:%s' % (self.lote, self.nivel)
+            return '%s Manzana:%s Fase:%s' % (self.lote, self.manzana, self.fase)
+        elif self.proyecto.app == 'toscana' or self.proyecto.app == 'plazapuntaoriente':
+            return '%s nivel:%s' % (self.lote, self.nivel)
         else:
             return ""
     identificador_bien = property(_get_identificador_bien)

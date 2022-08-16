@@ -262,9 +262,7 @@ input[type="checkbox"]:checked + label:after {
     border-radius: 10px;
     background-color: white;
     position: absolute;
-    margin-left: 80px;
-    height: auto;
-    width: auto;
+    margin-top: 10px;
     background-color: transparent;
 }  
 .loteVendido {

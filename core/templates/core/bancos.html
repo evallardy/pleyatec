@@ -2,20 +2,20 @@
 {% load static %}
 {% block contenido %}
 {% if perms.core.view_banco %}
-<div style="position: absolute; margin-left: 80px;
-     height: auto; width: auto; background-color: transparent;" class="mapa">
-<label class="encabezados">Bancos</label>
-<div class="container col-12">
+<div class="container" style="width: 650px;">
+    <label class="encabezados">Bancos</label><br>
+</div>
+<div class="container mapa" >
     {% if perms.core.add_banco %}
     <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_banco' %}">Agregar</a>
     {% endif %}
-    <table class="table table-info table-striped" style="width: 850px;">
+    <table class="table table-info table-striped container" >
         <thead>
             <tr>
-                <th scope="col-md-1">Abreviación</th>
-                <th scope="col-md-3">Nombre</th>
-                <th scope="col-md-1">Estatus</th>
-                <th scope="col-md-1"></th>
+                <th scope="col-1">Abreviación</th>
+                <th scope="col-3">Nombre</th>
+                <th scope="col-1">Estatus</th>
+                <th scope="col-1"></th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +40,5 @@
 {% if page_obj.has_next %}
 <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
 {% endif %}
-</div>
 {% endif %}
 {% endblock %}
