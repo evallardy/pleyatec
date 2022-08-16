@@ -120,7 +120,9 @@ class pagar(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud=10) 
         else:
             id_empleado = f_empleado(self)
@@ -560,7 +562,9 @@ class contrato_contado(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
                 .filter(modo_pago__in=[1,3])        
         else:
@@ -577,7 +581,9 @@ class contrato_contado(ListView):
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         asigna_solicitud = f_asigna_solicitud(self)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             totales = Solicitud.objects \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[2,3,6,7,9], modo_pago__in=[1,3],lote__in=Subquery(lotes.values('pk'))) \
                 .aggregate(contratos=Count('id',distinct=True) \
                     ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
@@ -680,7 +686,9 @@ class contrato_credito(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
                 .filter(modo_pago__in=[2,4])        
         else:
@@ -697,7 +705,9 @@ class contrato_credito(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
                 .aggregate(contratos=Count('id',distinct=True) \
                     ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \

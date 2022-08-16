@@ -34,7 +34,9 @@ class solicitudes(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,5,99]) \
                 .filter(aprobacion_gerente=False, aprobacion_director=False)
         else:
@@ -199,7 +201,7 @@ class nva_solicitud(CreateView):
                 query1 = Q(tipo_empleado='E', area_operativa=3) 
 #                query2 = Q(id=f_emp)
 #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                empleado_cmb = Empleado.objects.filter(query1)  \
+                empleado_cmb = Empleado.objects.filter(query1, subidPersdonal=self.request.user.id)  \
                     .order_by('paterno','materno','nombre').all()
                 context['f_emp'] = 0
             else:
@@ -271,7 +273,7 @@ class mod_solicitud(UpdateView):
                 query1 = Q(tipo_empleado='E', area_operativa=3)
 #                query2 = Q(id=f_empleado(self))
 #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                empleado_cmb = Empleado.objects.filter(query1)  \
+                empleado_cmb = Empleado.objects.filter(query1, subidPersdonal=self.request.user.id)  \
                     .order_by('paterno','materno','nombre').all()
             else:
                 empleado_cmb = Empleado.objects.filter(id=f_empleado(self)) \
@@ -364,7 +366,9 @@ class autorizaciones(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.all().filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .exclude(estatus_solicitud__in=[5,99]) \
                 .filter(Q(aprobacion_director=False) | Q(aprobacion_gerente=False))
         else:
@@ -508,7 +512,9 @@ class compromisos(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,2,3]) 
         else:
             id_empleado = f_empleado(self)
@@ -713,7 +719,9 @@ class archivo(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         if asigna_solicitud:
-            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(asesor__in=Subquery(empleados.values('pk')))
         else:
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -909,7 +917,9 @@ class contratos(ListView):
         proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=proyecto)
         if asigna_solicitud:
+            empleados = Empleado.objects.all().only("id").filter(subidPersdonal=self.request.user.id)
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
+                .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(aprobacion_gerente=True, aprobacion_director=True) \
                 .filter(estatus_solicitud__in=[3,4,6,9,10]) \
                 .filter(lote__in=Subquery(lotes.values('pk'))) \
