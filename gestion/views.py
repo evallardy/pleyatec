@@ -201,7 +201,9 @@ class nva_solicitud(CreateView):
                 query1 = Q(tipo_empleado='E', area_operativa=3) 
 #                query2 = Q(id=f_emp)
 #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                empleado_cmb = Empleado.objects.filter(query1, subidPersdonal=self.request.user.id)  \
+                gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+                empleado_cmb = Empleado.objects.filter(query1)  \
+                    .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
                     .order_by('paterno','materno','nombre').all()
                 context['f_emp'] = 0
             else:
@@ -273,7 +275,9 @@ class mod_solicitud(UpdateView):
                 query1 = Q(tipo_empleado='E', area_operativa=3)
 #                query2 = Q(id=f_empleado(self))
 #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                empleado_cmb = Empleado.objects.filter(query1, subidPersdonal=self.request.user.id)  \
+                gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+                empleado_cmb = Empleado.objects.filter(query1)  \
+                    .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
                     .order_by('paterno','materno','nombre').all()
             else:
                 empleado_cmb = Empleado.objects.filter(id=f_empleado(self)) \
