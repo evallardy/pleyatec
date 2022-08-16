@@ -2,10 +2,6 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block blcss %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-{{ form.media }}
 {% endblock %}
 {% block contenido %}
 {% if app_proy_autoriza_visualiza %}
@@ -43,65 +39,68 @@
     </div>
 </div>
 <div class="container mapa">
-    <table class="table table-info table-striped " style="font-size: 15px;">
-        <thead>
-            <tr>
-                <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Bien</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Precio venta</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Enganche</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">% descto.</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
-                <th class="col-md-1" style="text-align: center;" scope="col" colspan="2">Autoriza</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for e in object_list %}
-            <tr>
-                <td style="text-align: center;">{{ e.id }}</td>
-                <td>{{ e.cliente }}</td>
-                <td>{{ e.lote }}</td>
-                <td>{{ e.asesor }}</td>
-                <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
-                <td style="text-align: right;">{{ e.precio_final }}</td>
-                <td style="text-align: right;">{{ e.enganche }}</td>
-                <td style="text-align: right;">{{ e.porcentaje_descuento }}</td>
-                <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                <td>
-                    {% if not e.aprobacion_gerente %}
-                    {% if app_proy_autoriza_venta %}
-                    <button onclick="autventas('{{ e.id }}')" class="btn btn-outline-secondary">Ventas</button>
-                    {% else %}
-                    No autorizada
-                    {% endif %}
-                    {% else %}
-                    Autorizada
-                    {% endif %}
-                </td>
-                <td>
-                    {% if not e.aprobacion_director %}
-                    {% if app_proy_autoriza_desarrollo %}
-                    <button onclick="autdesarrollo('{{ e.id }}')" class="btn btn-outline-secondary">Desarrollo</button>
-                    {% else %}
-                    No autorizada
-                    {% endif %}
-                    {% else %}
-                    Autorizada
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <table class="table table-info table-striped container" style="font-size: 15px; ">
+            <thead>
+                <tr>
+                    <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
+                    <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
+                    <th class="col-md-2" style="text-align: center;" scope="col">Bien</th>
+                    <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
+                    <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
+                    <th class="col-md-1" style="text-align: center;" scope="col">Precio venta</th>
+                    <th class="col-md-1" style="text-align: center;" scope="col">Enganche</th>
+                    <th class="col-md-1" style="text-align: center;" scope="col">% descto.</th>
+                    <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
+                    <th class="col-md-1" style="text-align: center;" scope="col" colspan="2">Autoriza</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in object_list %}
+                <tr>
+                    <td style="text-align: center;">{{ e.id }}</td>
+                    <td>{{ e.cliente }}</td>
+                    <td>{{ e.lote }}</td>
+                    <td>{{ e.asesor }}</td>
+                    <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
+                    <td style="text-align: right;">{{ e.precio_final }}</td>
+                    <td style="text-align: right;">{{ e.enganche }}</td>
+                    <td style="text-align: right;">{{ e.porcentaje_descuento }}</td>
+                    <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
+                    <td>
+                        {% if not e.aprobacion_gerente %}
+                        {% if app_proy_autoriza_venta %}
+                        <button onclick="autventas('{{ e.id }}')" class="btn btn-outline-secondary">Ventas</button>
+                        {% else %}
+                        No autorizada
+                        {% endif %}
+                        {% else %}
+                        Autorizada
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not e.aprobacion_director %}
+                        {% if app_proy_autoriza_desarrollo %}
+                        <button onclick="autdesarrollo('{{ e.id }}')"
+                            class="btn btn-outline-secondary">Desarrollo</button>
+                        {% else %}
+                        No autorizada
+                        {% endif %}
+                        {% else %}
+                        Autorizada
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
 </div>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
 {% endif %}
 {% endfor %}
 {% endif %}
