@@ -628,7 +628,7 @@
                 } else {
                     $("#id_precio_final").val(precio_lote);
                     precio_final = precio_lote;
-                    $("#id_descuento").val(0);
+//                    $("#id_descuento").val(0);
                     if (cantidad_pagos > 0) {
                         monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
                     } else {
@@ -659,7 +659,7 @@
                             }
                         } else {
                             precio_final = precio_lote;
-                            $("#id_porcentaje_descuento").val(0)
+//                            $("#id_porcentaje_descuento").val(0)
                         }
                     }
                     $("#id_precio_final").val(precio_final);
