@@ -264,6 +264,7 @@ input[type="checkbox"]:checked + label:after {
     position: absolute;
     margin-top: 10px;
     background-color: transparent;
+    width: 1000px;
 }  
 .loteVendido {
     fill: crimson;
