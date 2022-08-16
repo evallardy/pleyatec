@@ -197,8 +197,9 @@ class nva_solicitud(CreateView):
             f_emp = f_empleado(self)
             if asigna_solicitud:
                 query1 = Q(tipo_empleado='E', area_operativa=3) 
-                query2 = Q(id=f_emp)
-                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
+#                query2 = Q(id=f_emp)
+#                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
+                empleado_cmb = Empleado.objects.filter(query1)  \
                     .order_by('paterno','materno','nombre').all()
                 context['f_emp'] = 0
             else:
@@ -268,8 +269,9 @@ class mod_solicitud(UpdateView):
             asigna_solicitud = f_asigna_solicitud(self)
             if asigna_solicitud:
                 query1 = Q(tipo_empleado='E', area_operativa=3)
-                query2 = Q(id=f_empleado(self))
-                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
+#                query2 = Q(id=f_empleado(self))
+#                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
+                empleado_cmb = Empleado.objects.filter(query1)  \
                     .order_by('paterno','materno','nombre').all()
             else:
                 empleado_cmb = Empleado.objects.filter(id=f_empleado(self)) \
