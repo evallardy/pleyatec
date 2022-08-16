@@ -2,54 +2,57 @@
 {% load static %}
 {% block contenido %}
 {% if perms.cliente.view_cliente %}
-<div style="position: absolute; margin-left: 80px;
-     height: auto; width: auto; background-color: transparent;" class="mapa">
-<label class="encabezados">Clientes</label>
-<div class="container col-12">
-<div class="container col-12">
-    {% if perms.cliente.add_cliente %}
-    <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_cliente' %}">Agregar</a>
+<div class="container" style="width: 300px;">
+    <label class="encabezados">Clientes</label>
+</div>
+<div class="container mapa">
+    <div class="container">
+        {% if perms.cliente.add_cliente %}
+        <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_cliente' %}">Agregar</a>
+        {% endif %}
+        <table class="table table-info table-striped" style="width: 850px;">
+            <thead>
+                <tr>
+                    <th style="text-align: center; width: 10%;">Tipo</th>
+                    <th style="text-align: center; width: 20%;">Cliente o Representante</th>
+                    <th style="text-align: center; width: 20%;">Razón social</th>
+                    <th style="text-align: center; width: 10%;">RFC</th>
+                    <th style="text-align: center; width: 10%;">Celular</th>
+                    <th style="text-align: center; width: 10%;">Correo</th>
+                    <th style="text-align: center; width: 10%;">Asesor</th>
+                    <th style="text-align: center; width: 10%;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in object_list %}
+                <tr>
+                    <td>{{ c.get_tipo_cliente_display }}</td>
+                    <td>{{ c.nombre_completo }}</td>
+                    <td>{{ c.razon }}</td>
+                    <td>{{ c.rfc_val }}</td>
+                    <td>{{ c.celular_val }}</td>
+                    <td>{{ c.correo_val }}</td>
+                    <td style="text-align: center;">
+                        {% if c.asesor %}
+                        {{ c.asesor }}
+                        {% endif %}
+                    </td>
+                    {% if perms.cliente.change_cliente %}
+                    <td><a href="{% url 'mod_cliente' c.id %}" class="btn btn-outline-secondary">Editar</a></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}
-    <table class="table table-info table-striped" style="width: 850px;">
-        <thead>
-            <tr>
-                <th style="text-align: center; width: 10%;">Tipo</th>
-                <th style="text-align: center; width: 20%;">Cliente o Representante</th>
-                <th style="text-align: center; width: 20%;">Razón social</th>
-                <th style="text-align: center; width: 10%;">RFC</th>
-                <th style="text-align: center; width: 10%;">Celular</th>
-                <th style="text-align: center; width: 10%;">Correo</th>
-                <th style="text-align: center; width: 10%;">Estatus</th>
-                <th style="text-align: center; width: 10%;"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for c in object_list %}
-            <tr>
-                <td>{{ c.get_tipo_cliente_display }}</td>
-                <td>{{ c.nombre_completo }}</td>
-                <td>{{ c.razon }}</td>
-                <td>{{ c.rfc_val }}</td>
-                <td>{{ c.celular_val }}</td>
-                <td>{{ c.correo_val }}</td>
-                <td style="text-align: center;">{{ c.get_estatus_cliente_display }}</td>
-                {% if perms.cliente.change_cliente %}
-                <td><a href="{% url 'mod_cliente' c.id %}" class="btn btn-outline-secondary">Editar</a></td>
-                {% else %}
-                <td></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-{% endif %}
-</div>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    {% endif %}
 </div>
 {% endif %}
 {% endblock %}
