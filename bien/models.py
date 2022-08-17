@@ -156,6 +156,12 @@ class Lote(models.Model, PermissionRequiredMixin):
                 return '%s nivel: %s' % (self.lote, self.nivel)
             else:
                 return '%s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, self.nivel)
+        elif self.proyecto.app == 'plazapuntaoriente':
+            if self.nivel == 0:
+                s_nivel = "PB"
+            else:
+                s_nivel = self.nivel
+            return '%s nivel: %s' % (self.lote, s_nivel)
         else:
             return ""
 
@@ -164,6 +170,12 @@ class Lote(models.Model, PermissionRequiredMixin):
             return '%s Manzana:%s Fase:%s' % (self.lote, self.manzana, self.fase)
         elif self.proyecto.app == 'toscana' or self.proyecto.app == 'plazapuntaoriente':
             return '%s nivel:%s' % (self.lote, self.nivel)
+        elif self.proyecto.app == 'plazapuntaoriente' or self.proyecto.app == 'plazapuntaoriente':
+            if self.nivel == 0:
+                s_nivel = "PB"
+            else:
+                s_nivel = self.nivel
+            return '%s nivel:%s' % (self.lote, s_nivel)
         else:
             return ""
     identificador_bien = property(_get_identificador_bien)
@@ -190,6 +202,12 @@ class Lote(models.Model, PermissionRequiredMixin):
                 return ' Local: %s nivel: %s' % (self.lote, self.nivel)
             else:
                 return ' Local: %s Terraza: %sm² nivel: %s' % (self.lote, self.terraza, self.nivel)
+        elif self.proyecto.app == 'plazapuntaoriente':
+            if self.nivel == 0:
+                s_nivel = "PB"
+            else:
+                s_nivel = self.nivel
+            return ' Local: %s nivel: %s' % (self.lote, s_nivel)
         else:
             return ""
     combo_bien = property(_get_combo_bien)
