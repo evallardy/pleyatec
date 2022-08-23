@@ -17,7 +17,7 @@ class Cliente(models.Model, PermissionRequiredMixin):
     curp = models.CharField("CURP",max_length=18, null=True, blank=True)
     fecha_nac = models.DateField("Fecha de nacimiento", null=True, blank=True)
     genero = models.CharField("Género", max_length=1, choices=GENERO, default='M')
-    estado_civil = models.SmallIntegerField("Estado civil", choices=ESTADO_CIVIL, null=True, blank=True)
+    estado_civil = models.SmallIntegerField("Estado civil", choices=ESTADO_CIVIL, default=1)
     regimen = models.BooleanField("Régime", choices=REGIMEN, null=True, blank=True)
     calle = models.CharField("Calle y núm.",max_length=250, blank=True, null=True)
     colonia = models.CharField("Colonia",max_length=200, blank=True, null=True)

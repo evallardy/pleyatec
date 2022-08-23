@@ -221,6 +221,12 @@ class nva_solicitud(CreateView):
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+        reglas = Regla.objects.filter(proyecto=num_proyecto)
+        context['reglas'] = reglas
+        for re in reglas:
+            if re.modo_pago == 2:
+                context['t_enganche_minimo'] = re.tipo_enganche_minimo
+                context['v_enganche_minimo'] = re.valor3
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
 # Agregar solicitud
@@ -294,6 +300,13 @@ class mod_solicitud(UpdateView):
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+        reglas = Regla.objects.filter(proyecto=num_proyecto)
+        context['reglas'] = reglas
+        for re in reglas:
+            if re.modo_pago == 2:
+                context['t_enganche_minimo'] = re.tipo_enganche_minimo
+                context['v_enganche_minimo'] = re.valor3
+
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
 # Agregar solicitud

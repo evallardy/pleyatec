@@ -230,7 +230,20 @@ STATUS_TIPO_BIEN = (
     (6, 'Locales comerciales y oficinas'),
     (7, 'Estacionamientos')
 )
-
+TIPO_APARTADO_MINIMO = (
+    (1,'Importe minimo de apartado'),
+    (2,'Porcentaje del precio de lista mínimo de apartado'),
+)
+TIPO_APLICA_DESCUENTO = (
+    (1,'Importe de descuento por m²'),
+    (2,'% de descuento por m2'),
+    (3,'Importe de descuento del precio de lista'),
+    (4,'% de descuento de precio de lista'),
+    (5,'Importe descuento por cantidad de mensualidades al precio de lista'),
+    (6,'% descuento por cantidad de mensualidades al precio de lista'),
+    (7,'Importe descuento por cantidad de mensualidades al precio de lista menos el enganche'),
+    (8,'% descuento por cantidad de mensualidades al precio de lista menos el enganche'),
+)
 TIPO_CALCULO = (
     ("C", 'Cantidad'),
     ("P", 'Porcentaje'),
@@ -257,6 +270,10 @@ TIPO_DOCUMENTO = (
 TIPO_EMPLEADO = (
     ('I', 'Interno'),
     ('E', 'Externo'),
+)
+TIPO_ENGANCHE_MINIMO = (
+    (1,'Importe mínimo de enganche'),
+    (2,'Porcentaje mínimo de enganche del precio de lista')
 )
 TIPO_FOLIO = (
     (1, 'Recibo pago bienes'),

@@ -59,8 +59,8 @@ class ClienteForm(forms.ModelForm):
         }
         widgets = {
             'tipo_cliente':forms.RadioSelect(),
-            'nombre':forms.TextInput(attrs={'class':'form-control'}),
-            'paterno':forms.TextInput(attrs={'class':'form-control'}),
+            'nombre':forms.TextInput(attrs={'class':'form-control'}),   #   requerido
+            'paterno':forms.TextInput(attrs={'class':'form-control'}),   #   requerido
             'materno':forms.TextInput(attrs={'class':'form-control'}),
             'rfc':forms.TextInput(attrs={'class':'form-control'}),
             'curp':forms.TextInput(attrs={'class':'form-control'}),
@@ -70,8 +70,8 @@ class ClienteForm(forms.ModelForm):
             'codpos':forms.NumberInput(attrs={'class':'form-control'}),
             'municipio':forms.TextInput(attrs={'class':'form-control'}),
             'telefono_fijo':forms.TextInput(attrs={'class':'form-control'}),
-            'celular':forms.TextInput(attrs={'class':'form-control'}),
-            'correo':forms.EmailInput(attrs={'class':'form-control'}),
+            'celular':forms.TextInput(attrs={'class':'form-control'}),           #   requerido
+            'correo':forms.EmailInput(attrs={'class':'form-control'}),          #   requerido
             'nombre_conyuge':forms.TextInput(attrs={'class':'form-control'}),
             'paterno_conyuge':forms.TextInput(attrs={'class':'form-control'}),
             'materno_conyuge':forms.TextInput(attrs={'class':'form-control'}),

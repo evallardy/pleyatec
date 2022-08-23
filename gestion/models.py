@@ -83,7 +83,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     materno_conyuge = models.CharField("Materno coyugue",max_length=30, null=True, blank=True)
     rfc = models.CharField("R.F.C.",max_length=20, blank=True, null=True)
     curp = models.CharField("CURP",max_length=18, null=True, blank=True)
-    estado_civil = models.SmallIntegerField("Estado civil", choices=ESTADO_CIVIL, null=True, blank=True)
+    estado_civil = models.SmallIntegerField("Estado civil", choices=ESTADO_CIVIL, default=1)
     regimen = models.BooleanField("Régime", choices=REGIMEN, null=True, blank=True)
     calle = models.CharField("Calle y núm.",max_length=250, blank=True, null=True)
     colonia = models.CharField("Colonia",max_length=200, blank=True, null=True)
@@ -447,3 +447,24 @@ class Folios(models.Model,PermissionRequiredMixin):
 
     def __str__(self):   # para poner los nombre en los renglones
         return 'Tipo: %s, Folio: %s, %s, %s' % (self.tipo, self.numero, self.fecha, self.observacion)
+
+class Regla(models.Model,PermissionRequiredMixin):
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, verbose_name="Proyecto")
+    modo_pago = models.IntegerField("Modo de pago",choices=MODO_PAGO,default=1)
+    tipo_aplica_descto = models.IntegerField("Tipo aplicación descto.",choices=TIPO_APLICA_DESCUENTO, default=0)
+    valor1 = models.DecimalField("Valor descto.", decimal_places=2, max_digits=10, default=0)
+    tipo_apartado_minimo = models.IntegerField("Tipo apartado mínimo",choices=TIPO_APARTADO_MINIMO, default=0)
+    valor2 = models.DecimalField("Valor apartado", decimal_places=2, max_digits=10, default=0)
+    tipo_enganche_minimo = models.IntegerField("Tipo enganche mínimo",choices=TIPO_ENGANCHE_MINIMO, default=0)
+    valor3 = models.DecimalField("Valor enganche", decimal_places=2, max_digits=10, default=0)
+    mensualidades_permitidas = models.IntegerField("Mensualidades permitidas", default=0)
+
+    class Meta:
+        verbose_name = 'Regla' 
+        verbose_name_plural = 'Reglas' 
+        ordering = ['proyecto','modo_pago','mensualidades_permitidas']
+        unique_together= (('proyecto','modo_pago','mensualidades_permitidas'))
+        db_table = 'Regla'
+
+    def __str__(self):
+        return 'Proyecto: %s, Modo de pago: %s, Mensualidades: %s' % (self.proyecto, self.modo_pago, self.mensualidades_permitidas)

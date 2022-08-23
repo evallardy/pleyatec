@@ -13,7 +13,7 @@ class Empleado(models.Model,PermissionRequiredMixin):
     curp = models.CharField("CURP",max_length=18, null=True, blank=True)
     fecha_nac = models.DateField("Fecha de nacimiento", null=True, blank=True)
     genero = models.CharField("Género", max_length=1, choices=GENERO_P, default='M')
-    estado_civil = models.IntegerField("Estado civil", choices=ESTADO_CIVIL, null=True, blank=True)
+    estado_civil = models.IntegerField("Estado civil", choices=ESTADO_CIVIL, default=1)
     numero_seguro_social = models.CharField("Número de seguro social", max_length=12, null=True, blank=True)
     cuenta_banco = models.CharField("Cuenta nómina", max_length=18, null=True, blank=True)
     banco = models.ForeignKey('core.Banco', on_delete=models.CASCADE, verbose_name="Banco cta. depositar", null=True, blank=True)
