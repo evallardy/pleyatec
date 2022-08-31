@@ -1,0 +1,727 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% if app_proy_add_solicitud or app_proy_cambia_solicitud %}
+{% for py in proyecto_tb %}
+<div class="container">
+    <label class="encabezados">{{ py.nombre }} - Solicitud - {{ id }}</label>
+    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+    <hr class="mt-0 mb-4">
+    <a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
+        Datos Cliente
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
+        Documentos Cliente
+    </button>
+    <div class="container" style="width: 850px;">
+        <div class="wrapper fadeInDown">
+            <div id="formContent" style="text-align: right;">
+                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
+                    onkeypress="return anular(event)">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-6 mb-0">
+                            <label for="">Cliente</label>
+                            <select name="cliente" id="cliente_id" class="form-control">
+                                <option value="0">---------</option>
+                                {% for c in cliente_cmb %}
+                                {% if administrador %}
+                                <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                                {% elif c.asesor.id == id_empleado %}
+                                <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label for="">Asesores</label>
+                            <select name="asesor" id="asesor_id" class="form-control">
+                                <option value="0">---------</option>
+                                {% for l in empleado_cmb %}
+                                <option value="{{ l.id }}">{{ l.paterno }} {{ l.materno }} {{ l.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label for="">{{ py.singular }}</label>
+                            <select name="lote" id="lote_id" class="form-control">
+                                <option value="0">---------</option>
+                                {% for l in lote_cmb %}
+                                <option value="{{ l.id }}">{{ l.combo_bien }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            <label for="">Precio x m²</label>
+                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control">
+                        </div>
+                        <div class="form-group col-md-2 mb-0">
+                            <label for="">Area mts²</label>
+                            <input type="number" name="total" id="id_total" readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.precio_lote|as_crispy_field|unlocalize }}
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.descuento|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.precio_final|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.modo_pago|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-3 mb-0" id="asigna" 
+                            {% if not app_proy_asigna_descto %} 
+                                hidden 
+                            {% endif %}>
+                            {{ form.asigna_descuento|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-3 mb-0" id="tipo_desc" 
+                            {% if not app_proy_asigna_descto %} 
+                                hidden
+                            {% endif %}>
+                            {{ form.tipo_descuento|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
+                            {{ form.porcentaje_descuento|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.enganche|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-3 mb-0" id="gpo_cantidad_pagos">
+                            <label for="">Cantidad de Pagos</label>
+                            <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
+                                <option value="0">---------</option>
+                                {% for permitidas in reglas %}
+                                {% if permitidas.modo_pago == 2 %}
+                                <option value="{{ permitidas.mensualidades_permitidas }}">
+                                    {{ permitidas.mensualidades_permitidas }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.importe_x_pago|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="modal fade" id="datosCliente" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                <div class="modal-header">
+                                    <label class="encabezados">Datos cliente</label>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5 mb-0">
+                                            {{ form.tipo_cliente|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-7 mb-0" id="gpo_razon">
+                                            {{ form.razon|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.nombre|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.paterno|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.materno|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.rfc|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.curp|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.estado_civil|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row" id="gpo_conyuge">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.regimen|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.nombre_conyuge|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.paterno_conyuge|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.materno_conyuge|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.calle|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.colonia|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.codpos|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.municipio|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.estado|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.celular|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.correo|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="documentos" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                <div class="modal-header">
+                                    <label class="encabezados">Documentos cliente</label>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_elector_frente|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_elector_reverso|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_elector_frente_cy|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_elector_reverso_cy|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_comprobante|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_matrimonio|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_alta_shcp|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.foto_acta_const|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" hidden>
+                        <div class="form-group col-md-1 mb-0">
+                            {{ form.estatus_solicitud|as_crispy_field }}
+                        </div>
+                    </div>
+                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var num_proyecto;
+    var descuento;
+    var modo_pago;
+    var enganche;
+    var cantidad_pagos;
+    var precio_lote;
+    var precio_final;
+    var precio_final_s_enganche;
+    var total;
+    var valor_enganche_minimo;
+    //  Alinear campos numericos
+    $("#id_precio_lote").css("text-align", "right");
+    $("#id_precio_final").css("text-align", "right");
+    $("#id_enganche").css("text-align", "right");
+    $("#id_importe_x_pago").css("text-align", "right");
+    $("#id_cantidad_pagos").css("text-align", "right");
+    $("#id_descuento").css("text-align", "right");
+    $("#id_porcentaje_descuento").css("text-align", "right");
+    $("#asigna").css("text-align", "center");
+    $("#id_precio_x_mt").css("text-align", "right");
+    $("#id_total").css("text-align", "right");
+    // Campos de solo lectura
+    $("#id_importe_x_pago").attr('readonly', 'true');
+    $("#id_precio_lote").attr('readonly', 'true');
+    $("#id_precio_final").attr('readonly', 'true');
+    $("#id_descuento").attr('readonly', 'true');
+// Funciones
+    function datosCliente() {
+        $("#datosCliente").modal({
+            open,
+        });
+    }
+    function documentos() {
+        $("#documentos").modal({
+            open,
+        });
+    }
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+    function activa_moral() {
+        if (($("#id_tipo_cliente").val() == "False")) {
+            $("#gpo_razon").hide();
+            $("#id_razon").val("");
+        } else {
+            $("#gpo_razon").show();
+        }
+    }
+    function activa_conyuge() {
+        if (parseInt(($("#id_estado_civil").val()) == "2")) {
+            $("#gpo_conyuge").show();
+        } else {
+            $("#gpo_conyuge").hide();
+            $("#id_regimen").val("");
+            $("#id_nombre_conyuge").val("");
+            $("#id_paterno_conyuge").val("");
+            $("#id_materno_conyuge").val("");
+        }
+    }
+    function cambia_lote() {
+        // Armado del objeto lotes de python a javascript
+        opcion = parseInt($("#lote_id").val());
+        modo_pago = parseInt($("#id_modo_pago").val());
+        $("#id_precio_lote").val(0.00);
+        $("#id_precio_x_mt").val('0.00');
+        $("#id_total").val(0.00);
+        "{% for l in lote_cmb %}"
+        id_lote = "{{ l.id }}";
+        if (parseInt(opcion) == parseInt(id_lote)) {
+            id_precio = "{{ l.precio }}";
+            precio = parseFloat(id_precio.replaceAll(",", "")).toFixed(2);
+            $("#id_precio_lote").val(precio);
+            id_precio_x_mt = "{{ l.precio_x_mt }}";
+            precio_x_mt = parseFloat(id_precio_x_mt.replaceAll(",", "")).toFixed(2);
+            $("#id_precio_x_mt").val(id_precio_x_mt);
+            id_total = "{{ l.total }}";
+            total = parseInt(id_total.replaceAll(",", "")).toFixed(2);
+            $("#id_total").val(total);
+        }
+        "{% endfor %}"
+    }
+    function borra_campos_cliente() {
+        $("#id_tipo_cliente").val("");
+        $("#id_razon").val("");
+        $("#id_nombre").val("");
+        $("#id_paterno").val("");
+        $("#id_materno").val("");
+        $("#id_nombre_conyuge").val("");
+        $("#id_paterno_conyuge").val("");
+        $("#id_materno_conyuge").val("");
+        $("#id_rfc").val("");
+        $("#id_curp").val("");
+        $("#id_estado_civil").val(0);
+        $("#id_regimen").val(0);
+        $("#id_calle").val("");
+        $("#id_colonia").val("");
+        $("#id_codpos").val("");
+        $("#id_municipio").val("");
+        $("#id_estado").val(0);
+        $("#id_celular").val("");
+        $("#id_correo").val("");
+    }
+    function accionTipoDescuento(opcion, ciclo) {
+        if (opcion == 0) {
+            $("#id_descuento").prop('readonly', true);
+            if ($("#id_asigna_descuento_0").is(':checked')) {
+                $("#id_porcentaje_descuento").prop('readonly', true);
+            } else {
+                $("#id_porcentaje_descuento").prop('readonly', false);
+            }
+            $("#porcentaje_desc").show();
+        } else {
+            $("#id_descuento").prop('readonly', false);
+            $("#id_porcentaje_descuento").prop('readonly', false);
+            $("#porcentaje_desc").hide();
+        }
+        if (ciclo == 1) {
+            $("#id_descuento").val(0);
+            $("#id_porcentaje_descuento").val(0);
+        }
+        calcula();
+    }
+    function accionAsignaDescuento(opcion, ciclo) {
+        if (opcion == 0) {
+            $("#tipo_desc").hide();
+        } else {
+            $("#tipo_desc").show();
+        }
+        if (ciclo == 1) {
+            $("#id_tipo_descuento_0").prop('checked', true);
+
+        }
+        accionTipoDescuento(0, ciclo);
+    }
+    function ocualta_campos_credito() {
+        $("#div_id_enganche").hide();
+        $("#gpo_cantidad_pagos").hide();
+        $("#div_id_importe_x_pago").hide();
+        $("#id_enganche").val(0);
+        $("#id_cantidad_pagos").val(0);
+        $("#id_importe_x_pago").val(0);
+    }
+    function cambia_modo_pago() {
+        if (parseFloat($("#id_modo_pago").val()) == 1 || parseFloat($("#id_modo_pago").val()) == 3) {
+            ocualta_campos_credito();
+        } else {
+            $("#div_id_enganche").show();
+            $("#gpo_cantidad_pagos").show();
+            $("#div_id_importe_x_pago").show();
+        }
+        calcula();
+    }
+    function valore_forma() {
+        num_proyecto = parseInt('{{ py.id }}');
+        porcentaje_descuento = $("#id_porcentaje_descuento").val(0);
+        descuento = parseFloat($("#id_descuento").val()).toFixed(2);
+        modo_pago = parseInt($("#id_modo_pago").val());
+        enganche = parseFloat($("#id_enganche").val()).toFixed(2);
+        cantidad_pagos = parseInt($("#id_cantidad_pagos").val());
+        precio_lote = parseFloat($("#id_precio_lote").val()).toFixed(2);
+        precio_final = parseFloat($("#id_precio_final").val()).toFixed(2);
+        precio_final_s_enganche = precio_final - enganche;
+        precio_x_mt = parseFloat($("#id_precio_x_mt").val()).toFixed(2);
+        total = parseFloat($("#id_total").val());
+    }
+    function calcula() {
+        if ($("#id_tipo_descuento_0").is(':checked')) {
+            tipo_descuento = 0;
+        } else {
+            tipo_descuento = 1;
+        }
+        valore_forma();
+        if ($("#id_porcentaje_descuento").val() == "") {
+            $("#id_porcentaje_descuento").val(0);
+            porcentaje_descuento = 0;
+        } else {
+            porcentaje_descuento = parseFloat((parseFloat($("#id_porcentaje_descuento").val()).toFixed(2)) / 100).toFixed(2);
+        }
+        if ($("#id_asigna_descuento_1").is(':checked')) {
+            if (precio_lote > 0 && (porcentaje_descuento > 0 || descuento > 0)) {
+                if (tipo_descuento == 0) {
+                    descuento = Math.ceil(parseFloat((precio_lote * porcentaje_descuento))).toFixed(2);
+                    $("#id_descuento").val(descuento);
+                }
+                precio_final = parseFloat(precio_lote - descuento).toFixed(2);
+                $("#id_precio_final").val(precio_final);
+                if (cantidad_pagos > 0) {
+                    monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
+                } else {
+                    monto_x_pago = 0;
+                }
+                $("#id_importe_x_pago").val(monto_x_pago);
+            } else {
+                $("#id_precio_final").val(precio_lote);
+                precio_final = precio_lote;
+                if (cantidad_pagos > 0) {
+                    monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
+                } else {
+                    monto_x_pago = 0;
+                }
+                $("#id_importe_x_pago").val(monto_x_pago);
+            }
+        } else {
+            ext_descuento();
+        }
+    }
+    function ext_descuento() {
+        valore_forma();
+        tipo_aplica_descto = 0;
+        valor3 = 0;
+        "{% for re in reglas %}";
+        if (modo_pago == parseInt("{{re.modo_pago}}")) {
+            tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
+            valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
+            mensualidades_permitidas = parseInt("{{ re.mensualidades_permitidas }}");
+            if ((cantidad_pagos == mensualidades_permitidas)
+                && (modo_pago != 1)) {
+                valor3 = parseFloat("{{ re.valor3 }}".replaceAll(",", ""));
+            }
+        }
+        "{% endfor %}";
+        porcentaje_descuento = 0;
+        descuento = 0;
+        if (tipo_aplica_descto == 1) {
+            descuento = total * valor1;
+        } else if (tipo_aplica_descto == 2) {
+            descuento = valor1;
+        } else if (tipo_aplica_descto == 3) {
+            descuento = precio_lote * valor1 / 100;
+            porcentaje_descuento = valor1;
+        } else if (tipo_aplica_descto == 4) {
+            descuento = valor1;
+        } else if (tipo_aplica_descto == 5) {
+            descuento = precio_lote * valor1 / 100;
+            porcentaje_descuento = valor1;
+        } else {
+            descuento = 0.00;
+        }
+        precio_final = precio_lote - descuento;
+        $("#id_descuento").val(descuento);
+        $("#id_precio_final").val(precio_final);
+        $("#id_porcentaje_descuento").val(porcentaje_descuento);
+        mensualidad = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
+        $("#id_importe_x_pago").val(mensualidad);
+    }
+    function enganche_minimo() {
+        valore_forma();
+        valor3 = 0;
+        "{% for re in reglas %}";
+        if ((parseInt("{{re.modo_pago}}") == 2) && (parseInt("{{ re.mensualidades_permitidas }}")) == cantidad_pagos) {
+            valor3 = parseFloat("{{ re.valor3 }}");
+            if (parseInt("{{ re.tipo_enganche_minimo }}") == 1) {
+                valor_enganche_minimo = valor3;
+            } else{
+                valor_enganche_minimo = precio_lote * valor3 / 100;
+            }
+        }
+        "{% endfor %}";
+    }
+    function guarda() {
+        texto = "";
+        if ($("#cliente_id").val() == '0') {
+            texto += "Seleccione un cliente, ";
+        }
+        if ($("#lote_id").val() == '0') {
+            texto += "Seleccione un lote, ";
+        }
+        if ($("#asesor_id").val() == '0') {
+            texto += "Seleccione un Asesor, ";
+        }
+        if (parseInt($("#id_modo_pago").val()) != 1) {
+            if ((parseFloat($("#id_enganche").val()) <= 0) || ($("#id_enganche").val() == "")) {
+                texto += "ingrese el enganche, ";
+            }
+            if (parseInt($("#id_cantidad_pagos").val()) <= 0) {
+                texto += "Ingrese la cantidad de pagos, ";
+            }
+            enganche_minimo();
+            if (parseFloat($("#id_enganche").val()) < valor_enganche_minimo) {
+                texto += "El enganche mínimo es " +valor_enganche_minimo;
+            }
+        }
+        if (texto == "") {
+            aviso("Aviso", "Guardado exitosamente");
+        } else {
+            aviso("Error", texto);
+            return false;
+        }
+    }
+// Acciones
+    $("#lote_id").on("change", function () {
+        cambia_lote();
+        calcula();
+    });
+    $("#id_modo_pago").on("change", function () {
+        cambia_modo_pago();
+    })
+    $("#id_tipo_cliente").on("change", function () {
+        activa_moral();
+    });
+    $("#id_estado_civil").on("change", function () {
+        activa_conyuge();
+    });
+    $("#cliente_id").on("change", function () {
+        seleccion_cliente = $("#cliente_id").val();
+        "{% for c in cliente_cmb %}"
+        id_cliente_tb = "{{ c.id }}";
+        if (id_cliente_tb == seleccion_cliente) {
+            borra_campos_cliente();
+            $("#id_tipo_cliente").val("{{ c.tipo_cliente }}");
+            "{% if c.razon %}"
+            $("#id_razon").val("{{ c.razon }}");
+            "{% endif %}"
+            "{% if c.nombre %}"
+            $("#id_nombre").val("{{ c.nombre }}");
+            "{% endif %}"
+            "{% if c.paterno %}"
+            $("#id_paterno").val("{{ c.paterno }}");
+            "{% endif %}"
+            "{% if c.materno %}"
+            $("#id_materno").val("{{ c.materno }}");
+            "{% endif %}"
+            "{% if c.nombre_conyuge %}"
+            $("#id_nombre_conyuge").val("{{ c.nombre_conyuge }}");
+            "{% endif %}"
+            "{% if c.paterno_conyuge %}"
+            $("#id_paterno_conyuge").val("{{ c.paterno_conyuge }}");
+            "{% endif %}"
+            "{% if c.materno_conyuge %}"
+            $("#id_materno_conyuge").val("{{ c.materno_conyuge }}");
+            "{% endif %}"
+            "{% if c.rfc %}"
+            $("#id_rfc").val("{{ c.rfc }}");
+            "{% endif %}"
+            "{% if c.curp %}"
+            $("#id_curp").val("{{ c.curp }}");
+            "{% endif %}"
+            "{% if c.estado_civil %}"
+            $("#id_estado_civil").val("{{ c.estado_civil }}");
+            "{% endif %}"
+            "{% if c.regimen %}"
+            $("#id_regimen").val("{{ c.regimen }}");
+            "{% endif %}"
+            "{% if c.calle %}"
+            $("#id_calle").val("{{ c.calle }}");
+            "{% endif %}"
+            "{% if c.colonia %}"
+            $("#id_colonia").val("{{ c.colonia }}");
+            "{% endif %}"
+            "{% if c.codpos %}"
+            $("#id_codpos").val("{{ c.codpos }}");
+            "{% endif %}"
+            "{% if c.municipio %}"
+            $("#id_municipio").val("{{ c.municipio }}");
+            "{% endif %}"
+            "{% if c.estado %}"
+            $("#id_estado").val("{{ c.estado }}");
+            "{% endif %}"
+            "{% if c.celular %}"
+            $("#id_celular").val("{{ c.celular }}");
+            "{% endif %}"
+            "{% if c.correo %}"
+            $("#id_correo").val("{{ c.correo }}");
+            "{% endif %}"
+        }
+        "{% endfor %}"
+    });
+    $("#id_tipo_descuento_0").on("change", function () {
+        accionTipoDescuento(0, 1);
+        calcula();
+    });
+    $("#id_tipo_descuento_1").on("change", function () {
+        accionTipoDescuento(1, 1);
+        calcula();
+    });
+    $("#id_descuento").on("keyup", function () {
+        calcula();
+    });
+    $("#id_porcentaje_descuento").on("keyup", function () {
+        calcula();
+    });
+    $("#id_asigna_descuento_0").on("change", function () {
+        accionAsignaDescuento(0, 1);
+    });
+    $("#id_asigna_descuento_1").on("change", function () {
+        accionAsignaDescuento(1, 1);
+    });
+    $("#id_enganche").on("keyup", function () {
+        calcula();
+    });
+    $("#id_enganche").on("change", function () {
+        calcula();
+    });
+    $("#id_cantidad_pagos").on("change", function () {
+        calcula();
+    });
+
+    $(document).ready(function () {
+        window.captureEvents(Event.SUBMIT);
+        window.onsubmit = guarda;
+        "{% if sol %}"
+            "{% for s in sol %}"
+                id_lote = "{{ s.lote.id }}";
+                asesor_id = "{{ s.asesor.id }}";
+                id_cliente = "{{ s.cliente.id }}";
+                id_descuento = "{{ s.descuento }}".replace(",", "").replace(",", "");
+                id_porcentaje_descuento = "{{ s.porcentaje_descuento }}";
+                id_cantidad_pagos = "{{ s.cantidad_pagos }}";
+                id_importe_x_pago = "{{ s.importe_x_pago }}".replace(",", "").replace(",", "");
+                id_modo_pago = "{{ s.modo_pago }}";
+                id_precio_final = "{{ s.precio_final }}".replace(",", "").replace(",", "");
+                if (asesor_id == 0) {
+                    f_emp = "{{ f_emp }}";
+                } else {
+                    f_emp = asesor_id;
+                }
+                $("#lote_id").val(f_emp).change();
+                asigna_descuento = "{{ s.asigna_descuento }}";
+                if (asigna_descuento == true) {
+                    alert("111");
+                } else {
+                    accionAsignaDescuento(0, 1);
+                }
+            "{% endfor %}"
+        "{% else %}"
+            accionAsignaDescuento(0, 1);
+            ocualta_campos_credito();
+            asesor_id = 0;
+            id_cliente = 0;
+            id_lote = 0;
+            id_descuento = 0.00;
+            id_porcentaje_descuento = 0.00;
+            id_importe_x_pago = 0.00;
+            id_precio_final = 0.00;
+        "{% endif %}"
+        $("#asesor_id").val(f_emp).change();
+        $("#cliente_id").val(id_cliente);
+        estatus_sol = parseInt($("#id_estatus_solicitud").val());
+        if (estatus_sol > 1) {
+            $("#btub").hide();
+        } else {
+            if (estatus_sol == 0) {
+                $("#id_estatus_lote").val();
+            }
+        }
+        $("#lote_id").val(id_lote);
+        $("#id_descuento").val(id_descuento);
+        $("#id_porcentaje_descuento").val(id_porcentaje_descuento);
+        $("#id_cantidad_pagos").val(id_cantidad_pagos);
+        $("#id_importe_x_pago").val(id_importe_x_pago);
+        $("#id_precio_final").val(id_precio_final);
+        cambia_lote();
+        activa_moral();
+        activa_conyuge();
+        if (id_modo_pago == 1) {
+            ocualta_campos_credito();
+        }
+    });
+</script>
+{% endfor %}
+{% endif %}
+{% endblock %}

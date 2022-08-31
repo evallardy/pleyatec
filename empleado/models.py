@@ -6,39 +6,35 @@ from django.contrib.auth.models import User
 class Empleado(models.Model,PermissionRequiredMixin):
     nombre = models.CharField("Nombre",max_length=30)
     paterno = models.CharField("Paterno",max_length=30)
-    materno = models.CharField("Materno",max_length=30, null=True, blank=True)
+    materno = models.CharField("Materno",max_length=30, default=" ")
     # Relacion recursiva, poniendo el nombre del Proveedor en la relacion
     subidPersdonal = models.ForeignKey('self',null=True, on_delete=models.SET_NULL, blank=True, related_name='Personal',verbose_name="Asignado a") 
-    rfc = models.CharField("R.F.C.",max_length=20, blank=True, null=True)
-    curp = models.CharField("CURP",max_length=18, null=True, blank=True)
+    rfc = models.CharField("R.F.C.",max_length=20, default=" ")
+    curp = models.CharField("CURP",max_length=18, default=" ")
     fecha_nac = models.DateField("Fecha de nacimiento", null=True, blank=True)
     genero = models.CharField("Género", max_length=1, choices=GENERO_P, default='M')
     estado_civil = models.IntegerField("Estado civil", choices=ESTADO_CIVIL, default=1)
-    numero_seguro_social = models.CharField("Número de seguro social", max_length=12, null=True, blank=True)
-    cuenta_banco = models.CharField("Cuenta nómina", max_length=18, null=True, blank=True)
+    numero_seguro_social = models.CharField("Número de seguro social", max_length=12, default=" ")
+    cuenta_banco = models.CharField("Cuenta nómina", max_length=18, default=" ")
     banco = models.ForeignKey('core.Banco', on_delete=models.CASCADE, verbose_name="Banco cta. depositar", null=True, blank=True)
     tipo_pago = models.CharField("Pago",max_length=1,choices=PAGO,default='Q')
 #    id_tabulador = models.ForeignKey("Tabulador", on_delete=models.SET_NULL, blank=True, null=True,verbose_name="Tabulador")
-    calle_num = models.CharField("Dirección",max_length=250, blank=True, null=True)
-    colonia = models.CharField("Colonia",max_length=200, blank=True, null=True)
-    municipio = models.CharField("Municipio",max_length=150, blank=True, null=True)
-    estado = models.IntegerField("Estado",choices=ESTADOS, blank=True, null=True, default=0)
-    codpos = models.CharField("Código Postal",max_length=5, blank=True, null=True)
-    telefono_fijo = models.CharField("Telefono fijo", max_length=50, blank=True, null=True)
-    celular = models.CharField("Celular", max_length=10, blank=True, null=True)
+    calle_num = models.CharField("Dirección",max_length=250, default=" ")
+    colonia = models.CharField("Colonia",max_length=200, default=" ")
+    municipio = models.CharField("Municipio",max_length=150, default=" ")
+    estado = models.IntegerField("Estado",choices=ESTADOS, default=0)
+    codpos = models.CharField("Código Postal",max_length=5, default=" ")
+    telefono_fijo = models.CharField("Telefono fijo", max_length=50, default=" ")
+    celular = models.CharField("Celular", max_length=10, default=" ")
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
     tipo_empleado = models.CharField("Interno/Externo", max_length=1, choices=TIPO_EMPLEADO,default='E')
     area_operativa = models.SmallIntegerField("Área operativa", choices=AREA_OPERATIVA,default=3)
     puesto = models.SmallIntegerField("Puesto", choices=PUESTO,default=1)
-    asigna_solicitud = models.BooleanField("Asigna solicitudes",choices=RESP_SI_NO,blank=True, null=True,default=False)
+    asigna_solicitud = models.SmallIntegerField("Asigna solicitudes",choices=RESP_SI_NO, default=0)
     estatus_empleado = models.IntegerField("Estatus",choices=STATUS_SI_NO,default=1)
     foto = models.ImageField(upload_to="personal", blank=True, null=True)
     created = models.DateTimeField("Creado", auto_now_add=True)
-    usuario_ins = models.ForeignKey('self', on_delete=models.CASCADE, related_name='em_user_ins',
-        verbose_name="Usuario insertó", null=True, blank=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
-    usuario_mod = models.ForeignKey('self', on_delete=models.CASCADE, related_name='em_user_mod',
-        verbose_name="Usuario modificó", null=True, blank=True)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='em_auth_user',
         verbose_name="Usuario", null=True, blank=True)
 
@@ -46,7 +42,6 @@ class Empleado(models.Model,PermissionRequiredMixin):
         verbose_name = 'Empleado'
         verbose_name_plural = 'Personal'
         ordering = ['paterno','materno','nombre']
-        unique_together= (('rfc',),('curp',),('numero_seguro_social',))
         db_table = 'Empleado'
         permissions = (
                 ('comisiones_asesor', 'Comisiones por asesor'),

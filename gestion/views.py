@@ -250,21 +250,377 @@ class nva_solicitud(CreateView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
+        cliente = self.request.POST.get('cliente')
+        if not cliente:
+            asesor = 0
+            lote = 0
+            cliente = 0
+
+            modo_pago = 1
+            tipo_descuento = 0
+            asigna_descuento = 0
+            cantidad_pagos = 0
+
+            precio_lote = 0
+            precio_final = 0
+            porcentaje_descuento = 0
+            descuento = 0
+            enganche = 0
+            importe_x_pago = 0
+
+            foto_elector_frente = " "
+            foto_elector_reverso = ""
+            foto_comprobante = " "
+            foto_matrimonio = " "
+            estatus_solicitud = 1
+            foto_elector_frente_cy = " "
+            foto_elector_reverso_cy = " "
+            foto_alta_shcp = " "
+            foto_acta_const = ""
+
+            tipo_cliente = 0
+            razon = " "
+            nombre = " "
+            paterno = " "
+            materno = " "
+            nombre_conyuge = " "
+            paterno_conyuge = " "
+            materno_conyuge = " "
+            rfc = " "
+            curp = " "
+            estado_civil = 1
+            regimen = 0
+            calle = " "
+            colonia = " "
+            codpos = " "
+            codpos = " "
+            municipio = " "
+            estado = 0
+            celular = " "
+            correo = ""
+        else:
+            asesor = self.request.POST.get('asesor_id')
+            lote = self.request.POST.get('lote_id')
+            cliente = self.request.POST.get('cliente_id')
+
+            modo_pago = self.request.POST.get('modo_pago')
+            tipo_descuento = self.request.POST.get('tipo_descuento')
+            asigna_descuento = self.request.POST.get('asigna_descuento')
+            cantidad_pagos = self.request.POST.get('cantidad_pagos')
+
+            precio_lote = self.request.POST.get('precio_lote')
+            precio_final = self.request.POST.get('precio_final')
+            porcentaje_descuento = self.request.POST.get('porcentaje_descuento')
+            descuento = self.request.POST.get('descuento')
+            enganche = self.request.POST.get('enganche')
+            importe_x_pago = self.request.POST.get('importe_x_pago')
+
+            foto_elector_frente = self.request.POST.get('foto_elector_frente')
+            foto_elector_reverso = self.request.POST.get('foto_elector_reverso')
+            foto_comprobante = self.request.POST.get('foto_comprobante')
+            foto_matrimonio = self.request.POST.get('foto_matrimonio')
+            estatus_solicitud = self.request.POST.get('estatus_solicitud')
+            foto_elector_frente_cy = self.request.POST.get('foto_elector_frente_cy')
+            foto_elector_reverso_cy = self.request.POST.get('foto_elector_reverso_cy')
+            foto_alta_shcp = self.request.POST.get('foto_alta_shcp')
+            foto_acta_const = self.request.POST.get('foto_acta_const')
+            tipo_cliente = self.request.POST.get('tipo_cliente')
+
+            razon = self.request.POST.get('razon')
+            nombre = self.request.POST.get('nombre')
+            paterno = self.request.POST.get('paterno')
+            materno = self.request.POST.get('materno')
+            nombre_conyuge = self.request.POST.get('nombre_conyuge')
+            paterno_conyuge = self.request.POST.get('paterno_conyuge')
+            materno_conyuge = self.request.POST.get('materno_conyuge')
+            rfc = self.request.POST.get('rfc')
+            curp = self.request.POST.get('curp')
+            
+            estado_civil = self.request.POST.get('estado_civil')
+            regimen = self.request.POST.get('regimen')
+            calle = self.request.POST.get('calle')
+            colonia = self.request.POST.get('colonia')
+            codpos = self.request.POST.get('codpos')
+            municipio = self.request.POST.get('municipio')
+            estado = self.request.POST.get('estado')
+            celular = self.request.POST.get('celular')
+            correo = self.request.POST.get('correo')
+        context["asesor"] = asesor
+        context["lote"] = lote
+        context["cliente"] = cliente
+
+        context["modo_pago"] = modo_pago
+        context["tipo_descuento"] = tipo_descuento
+        context["asigna_descuento"] = asigna_descuento
+        context["cantidad_pagos"] = cantidad_pagos
+
+        context["precio_lote"] = precio_lote
+        context["precio_final"] = precio_final
+        context["porcentaje_descuento"] = porcentaje_descuento
+        context["descuento"] = descuento
+        context["enganche"] = enganche
+        context["importe_x_pago"] = importe_x_pago
+
+        context["foto_elector_frente"] = foto_elector_frente
+        context["foto_elector_reverso"] = foto_elector_reverso
+        context["foto_comprobante"] = foto_comprobante
+        context["foto_matrimonio"] = foto_matrimonio
+        context["estatus_solicitud"] = estatus_solicitud
+        context["foto_elector_frente_cy"] = foto_elector_frente_cy
+        context["foto_elector_reverso_cy"] = foto_elector_reverso_cy
+        context["foto_alta_shcp"] = foto_alta_shcp
+        context["foto_acta_const"] = foto_acta_const
+        context["tipo_cliente"] = tipo_cliente
+
+        context["razon"] = razon
+        context["nombre"] = nombre
+        context["paterno"] = paterno
+        context["materno"] = materno
+        context["nombre_conyuge"] = nombre_conyuge
+        context["paterno_conyuge"] = paterno_conyuge
+        context["materno_conyuge"] = materno_conyuge
+        context["rfc"] = rfc
+        context["curp"] = curp
+
+        context["estado_civil"] = estado_civil
+        context["regimen"] = regimen
+        context["calle"] = calle
+        context["colonia"] = colonia
+        context["codpos"] = codpos
+        context["municipio"] = municipio
+        context["estado"] = estado
+        context["celular"] = celular
+        context["correo"] = correo
         return context
+#    def get_success_url(self):
+#        num_proyecto = self.kwargs.get('num_proyecto',0)
+#        return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            solicitud1 = form.save()
-            guarda_cliente(self.request)
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            form = self.form_class(request.POST, request.FILES)
-            return render(request, self.template_name, {'form': form})
-#        return self.render_to_response(self.get_context_data(form=form))
-    def get_success_url(self):
+        
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
+        cliente = request.POST.get('cliente')
+        asesor = request.POST.get('asesor')
+        lote = request.POST.get('lote')
+
+        modo_pago = int(request.POST.get('modo_pago').replace(',',''))
+        tipo_descuento = int(request.POST.get('tipo_descuento').replace(',',''))
+        asigna_descuento = request.POST.get('asigna_descuento')
+        cantidad_pagos = request.POST.get('cantidad_pagos')
+
+        precio_lote = request.POST.get('precio_lote').replace(',','')
+        precio_final = request.POST.get('precio_final').replace(',','')
+        porcentaje_descuento = request.POST.get('porcentaje_descuento').replace(',','')
+        descuento = request.POST.get('descuento').replace(',','')
+        enganche = request.POST.get('enganche').replace(',','')
+        importe_x_pago = request.POST.get('importe_x_pago').replace(',','')
+        total = request.POST.get('total').replace(',','')
+        precio_x_mt = request.POST.get('precio_x_mt').replace(',','')
+
+        foto_elector_frente = request.POST.get('foto_elector_frente')
+        foto_elector_reverso = request.POST.get('foto_elector_reverso')
+        foto_comprobante = request.POST.get('foto_comprobante')
+        foto_matrimonio = request.POST.get('foto_matrimonio')
+        estatus_solicitud = request.POST.get('estatus_solicitud')
+        foto_elector_frente_cy = request.POST.get('foto_elector_frente_cy')
+        foto_elector_reverso_cy = request.POST.get('foto_elector_reverso_cy')
+        foto_alta_shcp = request.POST.get('foto_alta_shcp')
+        foto_acta_const = request.POST.get('foto_acta_const')
+        tipo_cliente = request.POST.get('tipo_cliente')
+
+        razon = request.POST.get('razon')
+        nombre = request.POST.get('nombre')
+        paterno = request.POST.get('paterno')
+        materno = request.POST.get('materno')
+        nombre_conyuge = request.POST.get('nombre_conyuge')
+        paterno_conyuge = request.POST.get('paterno_conyuge')
+        materno_conyuge = request.POST.get('materno_conyuge')
+        
+        rfc = request.POST.get('rfc')
+        curp = request.POST.get('curp')
+        estado_civil = request.POST.get('estado_civil')
+        regimen = request.POST.get('regimen')
+        calle = request.POST.get('calle')
+        colonia = request.POST.get('colonia')
+        codpos = request.POST.get('codpos')
+        municipio = request.POST.get('municipio')
+        estado = request.POST.get('estado')
+        celular = request.POST.get('celular')
+        correo = request.POST.get('correo')
+
+        data = {
+            'cliente':cliente,
+            'asesor':asesor,
+            'lote':lote,
+            'precio_lote':precio_lote,
+            'precio_final':precio_final,
+            'tipo_descuento':tipo_descuento,
+            'asigna_descuento':asigna_descuento,
+            'porcentaje_descuento':porcentaje_descuento,
+            'descuento':descuento,
+            'modo_pago':modo_pago,
+            'enganche':enganche,
+            'cantidad_pagos':cantidad_pagos,
+            'importe_x_pago':importe_x_pago,
+            'foto_elector_frente':foto_elector_frente,
+            'foto_elector_reverso':foto_elector_reverso,
+            'foto_comprobante':foto_comprobante,
+            'foto_matrimonio':foto_matrimonio,
+            'estatus_solicitud':estatus_solicitud,
+            'foto_elector_frente_cy':foto_elector_frente_cy,
+            'foto_elector_reverso_cy':foto_elector_reverso_cy,
+            'foto_alta_shcp':foto_alta_shcp,
+            'foto_acta_const':foto_acta_const,
+            'tipo_cliente':tipo_cliente,
+            'razon':razon,
+            'nombre':nombre,
+            'paterno':paterno,
+            'materno':materno,
+            'nombre_conyuge':nombre_conyuge,
+            'paterno_conyuge':paterno_conyuge,
+            'materno_conyuge':materno_conyuge,
+            'rfc':rfc,
+            'curp':curp,
+            'estado_civil':estado_civil,
+            'regimen':regimen,
+            'calle':calle,
+            'colonia':colonia,
+            'codpos':codpos,
+            'municipio':municipio,
+            'estado':estado,
+            'celular':celular,
+            'correo':correo,
+        }
+        solicitud_valida = Nuvole_SolicitudForm(data)
+
+        if solicitud_valida.is_valid():
+            solicitud_valida.save()
+            guarda_cliente(self.request)
+#            return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
+            return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto},))
+        else:
+            context = {}
+            context['num_proyecto'] = num_proyecto
+            context['form'] = form
+            context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
+            if 'empleado_cmb' not in context:
+                asigna_solicitud = f_asigna_solicitud(self)
+                f_emp = f_empleado(self)
+                if asigna_solicitud:
+                    query1 = Q(tipo_empleado='E', area_operativa=3) 
+    #                query2 = Q(id=f_emp)
+    #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
+                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+                    empleado_cmb = Empleado.objects.filter(query1)  \
+                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+                        .order_by('paterno','materno','nombre').all()
+                    context['f_emp'] = 0
+                else:
+                    empleado_cmb = Empleado.objects.filter(id=f_emp) \
+                        .order_by('paterno','materno','nombre')
+                    context['f_emp'] = f_emp
+                context['empleado_cmb'] = empleado_cmb
+    #        context['form'] = self.form_class(self.request.GET)
+            cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+            context['cliente_cmb'] = cliente_cmb
+            context['menu'] = "solicitud"
+            context['accion'] = "Alta"
+            context['sol'] = Solicitud.objects.filter(id = 0)
+            proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+            context['proyecto_tb'] = proyecto_tb
+            context['num_proyecto'] = num_proyecto
+            reglas = Regla.objects.filter(proyecto=num_proyecto)
+            context['reglas'] = reglas
+            for re in reglas:
+                if re.modo_pago == 2:
+                    context['t_enganche_minimo'] = re.tipo_enganche_minimo
+                    context['v_enganche_minimo'] = re.valor3
+    #  Proyecto
+            nom_proy = proyecto_tb[0].nom_proy
+    # Agregar solicitud
+            des_permiso = '_add_solicitud'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Cambiar solicitud
+            des_permiso = '_cambia_solicitud'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Asigna descuento solicitud
+            des_permiso = '_asigna_descto'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+
+            asesor = self.request.POST.get('asesor')
+            lote = self.request.POST.get('lote')
+
+            context["asesor"] = asesor
+            context["lote"] = lote
+            context["cliente"] = cliente
+
+            context["modo_pago"] = modo_pago
+            context["tipo_descuento"] = tipo_descuento
+            context["asigna_descuento"] = asigna_descuento
+            context["cantidad_pagos"] = cantidad_pagos
+
+            context["precio_lote"] = precio_lote
+            context["precio_final"] = precio_final
+            context["porcentaje_descuento"] = porcentaje_descuento
+            context["descuento"] = descuento
+            context["enganche"] = enganche
+            context["importe_x_pago"] = importe_x_pago
+            context["total"] = total
+            context["precio_x_mt"] = precio_x_mt
+
+            context["foto_elector_frente"] = foto_elector_frente
+            context["foto_elector_reverso"] = foto_elector_reverso
+            context["foto_comprobante"] = foto_comprobante
+            context["foto_matrimonio"] = foto_matrimonio
+            context["estatus_solicitud"] = estatus_solicitud
+            context["foto_elector_frente_cy"] = foto_elector_frente_cy
+            context["foto_elector_reverso_cy"] = foto_elector_reverso_cy
+            context["foto_alta_shcp"] = foto_alta_shcp
+            context["foto_acta_const"] = foto_acta_const
+            context["tipo_cliente"] = tipo_cliente
+
+            context["razon"] = razon
+            context["nombre"] = nombre
+            context["paterno"] = paterno
+            context["materno"] = materno
+            context["nombre_conyuge"] = nombre_conyuge
+            context["paterno_conyuge"] = paterno_conyuge
+            context["materno_conyuge"] = materno_conyuge
+            context["rfc"] = rfc
+            context["curp"] = curp
+            context["estado_civil"] = estado_civil
+            context["regimen"] = regimen
+            context["calle"] = calle
+            context["colonia"] = colonia
+            context["codpos"] = codpos
+            context["municipio"] = municipio
+            context["estado"] = estado
+            context["celular"] = celular
+            context["correo"] = correo
+            return render(self.request, self.template_name, context)
+        
+#        if form.is_valid():
+#            solicitud1 = form.save()
+#            guarda_cliente(self.request)
+#            return HttpResponseRedirect(self.get_success_url())
+#        else:
+#            form = self.form_class(request.POST, request.FILES)
+#            return render(request, self.template_name, {'form': form})
+
+
     
 class mod_solicitud(UpdateView): 
     model = Solicitud
@@ -330,20 +686,329 @@ class mod_solicitud(UpdateView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
+
+#       Datos Solicitud
+        solicitud = Solicitud.objects.filter(id=pk)
+
+        context["asesor"] = solicitud[0].asesor.id
+        context["lote"] = solicitud[0].lote.id
+        context["cliente"] = solicitud[0].cliente.id
+
+        context["modo_pago"] = solicitud[0].modo_pago
+        context["tipo_descuento"] = solicitud[0].tipo_descuento
+        context["asigna_descuento"] = solicitud[0].asigna_descuento
+        context["cantidad_pagos"] = solicitud[0].cantidad_pagos
+
+        context["precio_lote"] = solicitud[0].precio_lote
+        context["precio_final"] = solicitud[0].precio_final
+        context["porcentaje_descuento"] = solicitud[0].porcentaje_descuento
+        context["descuento"] = solicitud[0].descuento
+        context["enganche"] = solicitud[0].enganche
+        context["importe_x_pago"] = solicitud[0].importe_x_pago
+        context["total"] = solicitud[0].total
+        context["precio_x_mt"] = solicitud[0].precio_x_mt
+
+        context["foto_elector_frente"] = solicitud[0].foto_elector_frente
+        context["foto_elector_reverso"] = solicitud[0].foto_elector_reverso
+        context["foto_comprobante"] = solicitud[0].foto_comprobante
+        context["foto_matrimonio"] = solicitud[0].foto_matrimonio
+        context["estatus_solicitud"] = solicitud[0].estatus_solicitud
+        context["foto_elector_frente_cy"] = solicitud[0].foto_elector_frente_cy
+        context["foto_elector_reverso_cy"] = solicitud[0].foto_elector_reverso_cy
+        context["foto_alta_shcp"] = solicitud[0].foto_alta_shcp
+        context["foto_acta_const"] = solicitud[0].foto_acta_const
+        context["tipo_cliente"] = solicitud[0].tipo_cliente
+
+        context["razon"] = solicitud[0].razon
+        context["nombre"] = solicitud[0].nombre
+        context["paterno"] = solicitud[0].paterno
+        context["materno"] = solicitud[0].materno
+        context["nombre_conyuge"] = solicitud[0].nombre_conyuge
+        context["paterno_conyuge"] = solicitud[0].paterno_conyuge
+        context["materno_conyuge"] = solicitud[0].materno_conyuge
+        context["rfc"] = solicitud[0].rfc
+        context["curp"] = solicitud[0].curp
+        context["estado_civil"] = solicitud[0].estado_civil
+        context["regimen"] = solicitud[0].regimen
+        context["calle"] = solicitud[0].calle
+        context["colonia"] = solicitud[0].colonia
+        context["codpos"] = solicitud[0].codpos
+        context["municipio"] = solicitud[0].municipio
+        context["estado"] = solicitud[0].estado
+        context["celular"] = solicitud[0].celular
+        context["correo"] = solicitud[0].correo
         return context
+#    def post(self, request, *args, **kwargs):
+#        self.object = self.get_object
+#        id_solicitud = kwargs['pk']
+#        solicitud = self.model.objects.get(id=id_solicitud)
+#        form = self.form_class(request.POST, request.FILES, instance=solicitud)
+#        if form.is_valid():
+#            form.save()
+#            guarda_cliente(self.request)
+ #           return HttpResponseRedirect(self.get_success_url())
+#        return self.render_to_response(self.get_context_data(form=form))
+#    def get_success_url(self):
+#        num_proyecto = self.kwargs.get('num_proyecto',0)
+#        return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
-        id_solicitud = kwargs['pk']
-        solicitud = self.model.objects.get(id=id_solicitud)
-        form = self.form_class(request.POST, request.FILES, instance=solicitud)
-        if form.is_valid():
-            form.save()
-            guarda_cliente(self.request)
-            return HttpResponseRedirect(self.get_success_url())
-        return self.render_to_response(self.get_context_data(form=form))
-    def get_success_url(self):
+        form = self.form_class(request.POST, request.FILES)
+        
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
+        pk = self.kwargs.get('pk',0)
+        cliente = request.POST.get('cliente')
+        asesor = request.POST.get('asesor')
+        lote = request.POST.get('lote')
+
+        modo_pago = int(request.POST.get('modo_pago').replace(',',''))
+        tipo_descuento = int(request.POST.get('tipo_descuento').replace(',',''))
+        asigna_descuento = request.POST.get('asigna_descuento')
+        cantidad_pagos = request.POST.get('cantidad_pagos')
+
+        precio_lote = request.POST.get('precio_lote').replace(',','')
+        precio_final = request.POST.get('precio_final').replace(',','')
+        porcentaje_descuento = request.POST.get('porcentaje_descuento').replace(',','')
+        descuento = request.POST.get('descuento').replace(',','')
+        enganche = request.POST.get('enganche').replace(',','')
+        importe_x_pago = request.POST.get('importe_x_pago').replace(',','')
+        total = request.POST.get('total').replace(',','')
+        precio_x_mt = request.POST.get('precio_x_mt').replace(',','')
+
+        foto_elector_frente = request.POST.get('foto_elector_frente')
+        foto_elector_reverso = request.POST.get('foto_elector_reverso')
+        foto_comprobante = request.POST.get('foto_comprobante')
+        foto_matrimonio = request.POST.get('foto_matrimonio')
+        estatus_solicitud = request.POST.get('estatus_solicitud')
+        foto_elector_frente_cy = request.POST.get('foto_elector_frente_cy')
+        foto_elector_reverso_cy = request.POST.get('foto_elector_reverso_cy')
+        foto_alta_shcp = request.POST.get('foto_alta_shcp')
+        foto_acta_const = request.POST.get('foto_acta_const')
+        tipo_cliente = request.POST.get('tipo_cliente')
+
+        razon = request.POST.get('razon')
+        nombre = request.POST.get('nombre')
+        paterno = request.POST.get('paterno')
+        materno = request.POST.get('materno')
+        nombre_conyuge = request.POST.get('nombre_conyuge')
+        paterno_conyuge = request.POST.get('paterno_conyuge')
+        materno_conyuge = request.POST.get('materno_conyuge')
+        
+        rfc = request.POST.get('rfc')
+        curp = request.POST.get('curp')
+        estado_civil = request.POST.get('estado_civil')
+        regimen = request.POST.get('regimen')
+        calle = request.POST.get('calle')
+        colonia = request.POST.get('colonia')
+        codpos = request.POST.get('codpos')
+        municipio = request.POST.get('municipio')
+        estado = request.POST.get('estado')
+        celular = request.POST.get('celular')
+        correo = request.POST.get('correo')
+
+        data = {
+            'cliente':cliente,
+            'asesor':asesor,
+            'lote':lote,
+            'precio_lote':precio_lote,
+            'precio_final':precio_final,
+            'tipo_descuento':tipo_descuento,
+            'asigna_descuento':asigna_descuento,
+            'porcentaje_descuento':porcentaje_descuento,
+            'descuento':descuento,
+            'modo_pago':modo_pago,
+            'enganche':enganche,
+            'cantidad_pagos':cantidad_pagos,
+            'importe_x_pago':importe_x_pago,
+            'foto_elector_frente':foto_elector_frente,
+            'foto_elector_reverso':foto_elector_reverso,
+            'foto_comprobante':foto_comprobante,
+            'foto_matrimonio':foto_matrimonio,
+            'estatus_solicitud':estatus_solicitud,
+            'foto_elector_frente_cy':foto_elector_frente_cy,
+            'foto_elector_reverso_cy':foto_elector_reverso_cy,
+            'foto_alta_shcp':foto_alta_shcp,
+            'foto_acta_const':foto_acta_const,
+            'tipo_cliente':tipo_cliente,
+            'razon':razon,
+            'nombre':nombre,
+            'paterno':paterno,
+            'materno':materno,
+            'nombre_conyuge':nombre_conyuge,
+            'paterno_conyuge':paterno_conyuge,
+            'materno_conyuge':materno_conyuge,
+            'rfc':rfc,
+            'curp':curp,
+            'estado_civil':estado_civil,
+            'regimen':regimen,
+            'calle':calle,
+            'colonia':colonia,
+            'codpos':codpos,
+            'municipio':municipio,
+            'estado':estado,
+            'celular':celular,
+            'correo':correo,
+        }
+        solicitud_valida = Nuvole_SolicitudForm(data)
+
+        if solicitud_valida.is_valid():
+            solicitud_upd = Solicitud.objects.get(id=pk)
+            solicitud_upd.cliente.id = cliente
+            solicitud_upd.asesor.id = asesor
+            solicitud_upd.lote.id = lote
+            solicitud_upd.precio_lote = precio_lote
+            solicitud_upd.precio_final = precio_final
+            solicitud_upd.tipo_descuento = tipo_descuento
+            solicitud_upd.asigna_descuento = asigna_descuento
+            solicitud_upd.porcentaje_descuento = porcentaje_descuento
+            solicitud_upd.descuento = descuento
+            solicitud_upd.modo_pago = modo_pago
+            solicitud_upd.enganche = enganche
+            solicitud_upd.cantidad_pagos = cantidad_pagos
+            solicitud_upd.importe_x_pago = importe_x_pago
+            solicitud_upd.foto_elector_frente = foto_elector_frente
+            solicitud_upd.foto_elector_reverso = foto_elector_reverso
+            solicitud_upd.foto_comprobante = foto_comprobante
+            solicitud_upd.foto_matrimonio = foto_matrimonio
+            solicitud_upd.estatus_solicitud = estatus_solicitud
+            solicitud_upd.foto_elector_frente_cy = foto_elector_frente_cy
+            solicitud_upd.foto_elector_reverso_cy = foto_elector_reverso_cy
+            solicitud_upd.foto_alta_shcp = foto_alta_shcp
+            solicitud_upd.foto_acta_const = foto_acta_const
+            solicitud_upd.tipo_cliente = tipo_cliente
+            solicitud_upd.razon = razon
+            solicitud_upd.nombre = nombre
+            solicitud_upd.paterno = paterno
+            solicitud_upd.materno = materno
+            solicitud_upd.nombre_conyuge = nombre_conyuge
+            solicitud_upd.paterno_conyuge = paterno_conyuge
+            solicitud_upd.materno_conyuge = materno_conyuge
+            solicitud_upd.rfc = rfc
+            solicitud_upd.curp = curp
+            solicitud_upd.estado_civil = estado_civil
+            solicitud_upd.regimen = regimen
+            solicitud_upd.calle = calle
+            solicitud_upd.colonia = colonia
+            solicitud_upd.codpos = codpos
+            solicitud_upd.municipio = municipio
+            solicitud_upd.estado = estado
+            solicitud_upd.celular = celular
+            solicitud_upd.correo = correo
+            solicitud_upd.save()
+            guarda_cliente(self.request)
+#            return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
+            return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto},))
+        else:
+            context = {}
+            context['num_proyecto'] = num_proyecto
+            context['form'] = form
+            context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
+            if 'empleado_cmb' not in context:
+                asigna_solicitud = f_asigna_solicitud(self)
+                f_emp = f_empleado(self)
+                if asigna_solicitud:
+                    query1 = Q(tipo_empleado='E', area_operativa=3) 
+    #                query2 = Q(id=f_emp)
+    #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
+                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+                    empleado_cmb = Empleado.objects.filter(query1)  \
+                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+                        .order_by('paterno','materno','nombre').all()
+                    context['f_emp'] = 0
+                else:
+                    empleado_cmb = Empleado.objects.filter(id=f_emp) \
+                        .order_by('paterno','materno','nombre')
+                    context['f_emp'] = f_emp
+                context['empleado_cmb'] = empleado_cmb
+    #        context['form'] = self.form_class(self.request.GET)
+            cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+            context['cliente_cmb'] = cliente_cmb
+            context['menu'] = "solicitud"
+            context['accion'] = "Alta"
+            context['sol'] = Solicitud.objects.filter(id = 0)
+            proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+            context['proyecto_tb'] = proyecto_tb
+            context['num_proyecto'] = num_proyecto
+            reglas = Regla.objects.filter(proyecto=num_proyecto)
+            context['reglas'] = reglas
+            for re in reglas:
+                if re.modo_pago == 2:
+                    context['t_enganche_minimo'] = re.tipo_enganche_minimo
+                    context['v_enganche_minimo'] = re.valor3
+    #  Proyecto
+            nom_proy = proyecto_tb[0].nom_proy
+    # Agregar solicitud
+            des_permiso = '_add_solicitud'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Cambiar solicitud
+            des_permiso = '_cambia_solicitud'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Asigna descuento solicitud
+            des_permiso = '_asigna_descto'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+            asesor = self.request.POST.get('asesor')
+            lote = self.request.POST.get('lote')
+
+            context["asesor"] = asesor
+            context["lote"] = lote
+            context["cliente"] = cliente
+
+            context["modo_pago"] = modo_pago
+            context["tipo_descuento"] = tipo_descuento
+            context["asigna_descuento"] = asigna_descuento
+            context["cantidad_pagos"] = cantidad_pagos
+
+            context["precio_lote"] = precio_lote
+            context["precio_final"] = precio_final
+            context["porcentaje_descuento"] = porcentaje_descuento
+            context["descuento"] = descuento
+            context["enganche"] = enganche
+            context["importe_x_pago"] = importe_x_pago
+            context["total"] = total
+            context["precio_x_mt"] = precio_x_mt
+
+            context["foto_elector_frente"] = foto_elector_frente
+            context["foto_elector_reverso"] = foto_elector_reverso
+            context["foto_comprobante"] = foto_comprobante
+            context["foto_matrimonio"] = foto_matrimonio
+            context["estatus_solicitud"] = estatus_solicitud
+            context["foto_elector_frente_cy"] = foto_elector_frente_cy
+            context["foto_elector_reverso_cy"] = foto_elector_reverso_cy
+            context["foto_alta_shcp"] = foto_alta_shcp
+            context["foto_acta_const"] = foto_acta_const
+            context["tipo_cliente"] = tipo_cliente
+
+            context["razon"] = razon
+            context["nombre"] = nombre
+            context["paterno"] = paterno
+            context["materno"] = materno
+            context["nombre_conyuge"] = nombre_conyuge
+            context["paterno_conyuge"] = paterno_conyuge
+            context["materno_conyuge"] = materno_conyuge
+            context["rfc"] = rfc
+            context["curp"] = curp
+            context["estado_civil"] = estado_civil
+            context["regimen"] = regimen
+            context["calle"] = calle
+            context["colonia"] = colonia
+            context["codpos"] = codpos
+            context["municipio"] = municipio
+            context["estado"] = estado
+            context["celular"] = celular
+            context["correo"] = correo
+            return render(self.request, self.template_name, context)
 
 def can_sol(request, llave, num_proyecto):
     proyecto_tb = Proyecto.objects.filter(id=num_proyecto)

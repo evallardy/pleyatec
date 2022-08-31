@@ -175,13 +175,8 @@
     }
     
     $(document).ready(function () {
-        cuadro($("#id_asigna_solicitud"),$("label[for='id_asigna_solicitud']"));
-        window.captureEvents(Event.SUBMIT);
-        window.onsubmit = guarda;
-        function guarda() {
-            aviso("Aviso","Guardado exitosamente");
-            return true;
-        }
+
+
     });
 </script>
 {% endif %}

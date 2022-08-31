@@ -109,7 +109,7 @@
         return (tecla != 13);
     }
     function tipoCliente() {
-        if ($("#id_tipo_cliente_0").is(':checked')) {
+        if ($("#id_tipo_cliente").val() == "0") {
             $("#gpo_razon").hide();
             $("#lbl_representante").hide();
             $("label[for='id_rfc']").text("RFC");
@@ -120,8 +120,8 @@
         }
     }
     $(function () {
-        window.captureEvents(Event.SUBMIT);
-        window.onsubmit = guarda;
+//        window.captureEvents(Event.SUBMIT);
+//        window.onsubmit = guarda;
         tipoCliente();
         {% if accion == "Alta" %}
             $("#id_asesor").val("{{id_empleado}}")
@@ -132,16 +132,13 @@
             $("#bloque_asesor").hide()
         {% endif %}
         // Cuando cambia tipo de cliente 0
-        $("#id_tipo_cliente_0").on("change", function () {
+        $("#id_tipo_cliente").on("change", function () {
             tipoCliente()
         });
-        $("#id_tipo_cliente_1").on("change", function () {
-            tipoCliente()
-        });
-        function guarda() {
-            aviso("Aviso","Guardado exitosamente");
-            return true;
-        }
+//        function guarda() {
+//            aviso("Aviso","Guardado exitosamente");
+//            return true;
+//        }
     });
 </script>
 {% endif %}

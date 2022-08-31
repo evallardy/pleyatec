@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+import re
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -8,7 +9,6 @@ class Nuvole_SolicitudForm(forms.ModelForm):
     class Meta:
         model = Solicitud
         fields = [
-            'id',
             'cliente',
             'asesor',
             'lote',
@@ -52,14 +52,13 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'correo',
         ]
         labels = {
-            'id': 'Clave',
             'cliente': 'Cliente',
             'asesor': 'Asesor',
             'lote': 'Lote',
             'precio_lote': 'Precio lote',
             'precio_final': 'Precio final',
-            'tipo_descuento':'Tipo de descuento',
-            'asigna_descuento':'Asigna descuento',
+            'tipo_descuento':'Tipo descto',
+            'asigna_descuento':'Asigna descto',
             'porcentaje_descuento':'% de descuento',
             'descuento': 'Descuento',
             'modo_pago': 'Modo de pago',
@@ -98,19 +97,74 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'correo':'Correo', 
         }
         widgets = {
-            'precio_lote':forms.NumberInput(),
+            'precio_lote':forms.TextInput(),
             'precio_final':forms.NumberInput(),
-            'tipo_descuento':forms.RadioSelect(),
             'porcentaje_descuento':forms.NumberInput(),
             'descuento':forms.NumberInput(),
             'enganche':forms.NumberInput(),
             'cantidad_pagos':forms.NumberInput(),
             'importe_x_pago':forms.NumberInput(),
-            'aprobacion_gerente':forms.CheckboxInput(),
-            'aprobacion_director':forms.CheckboxInput(),
-            'asigna_descuento':forms.RadioSelect(),
             'correo':forms.EmailInput(),
         }
+    def __init__(self, *args, **kwargs):
+        super(Nuvole_SolicitudForm, self).__init__(*args, **kwargs)
+        self.fields['precio_lote'].required = False
+        self.fields['descuento'].required = False
+        self.fields['asigna_descuento'].required = False
+        self.fields['porcentaje_descuento'].required = False
+        self.fields['nombre'].required = False
+        self.fields['paterno'].required = False
+        self.fields['materno'].required = False
+        self.fields['nombre_conyuge'].required = False
+        self.fields['paterno_conyuge'].required = False
+        self.fields['materno_conyuge'].required = False
+        self.fields['razon'].required = False
+        self.fields['rfc'].required = False
+        self.fields['curp'].required = False
+        self.fields['calle'].required = False
+        self.fields['colonia'].required = False
+        self.fields['codpos'].required = False
+        self.fields['municipio'].required = False
+        self.fields['foto_elector_frente'].required = False
+        self.fields['foto_elector_reverso'].required = False
+        self.fields['foto_elector_frente_cy'].required = False
+        self.fields['foto_elector_reverso_cy'].required = False
+        self.fields['foto_matrimonio'].required = False
+        self.fields['foto_comprobante'].required = False
+        self.fields['foto_alta_shcp'].required = False
+        self.fields['foto_acta_const'].required = False
+        self.fields['celular'].required = False
+        self.fields['correo'].required = False
+        self.fields['regimen'].required = False
+
+    def clean_razon(self):
+        tipo_cliente = self.cleaned_data.get('tipo_cliente')
+        razon = self.cleaned_data.get('razon')
+        if tipo_cliente == 1:
+            raise forms.ValidationError('Teclee razón social')
+        return razon
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get('nombre')
+        if len(nombre)==0:
+            raise forms.ValidationError('Teclee nombre cliente')
+        return nombre
+    def clean_paterno(self):
+        paterno = self.cleaned_data.get('paterno')
+        if len(paterno)==0:
+            raise forms.ValidationError('Teclee paterno cliente')
+        return paterno
+    def clean_celular(self):
+        celular = self.cleaned_data.get('celular')
+        if len(celular)==0:
+            raise forms.ValidationError('Teclee celular cliente')
+        return celular
+    def clean_descuento(self):
+        precio = float(self.cleaned_data.get('precio_lote'))
+        descuento = float(self.cleaned_data.get('descuento'))
+        descuento_maximmo = precio * 0.30
+        if descuento > descuento_maximmo:
+            raise forms.ValidationError('El descuento es mayor al permitido')
+        return descuento
 
 class Nuvole_CompromisoForm(forms.ModelForm):
     class Meta:
@@ -159,7 +213,6 @@ class Nuvole_CompromisoForm(forms.ModelForm):
             'cuenta_pa':forms.NumberInput(),
             'cuenta_apa':forms.NumberInput(),
         }
-
 
 class Num_LoteForm(forms.ModelForm):
     class Meta:

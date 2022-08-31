@@ -1,6 +1,6 @@
 {% extends "core/base.html" %}
 {% load static %}
-{% load my_custom_tags %}
+{% load l10n %}
 {% load crispy_forms_tags %}
 {% block blcss %}
 {% load bootstrap4 %}
@@ -15,24 +15,46 @@
     <label class="encabezados">{{ py.nombre }} - Solicitud - {{ id }}</label>
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4">
-    <a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
-        Datos Cliente
-    </button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
-        Documentos Cliente
-    </button>
+    <div class="form-row">
+        <div class="form-group col-3 mb-0">
+            <a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
+        </div>
+        <div class="form-group col-3 mb-0" id="gpo_btn_cliente">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
+                Datos Cliente
+            </button>
+            {% for error in form.nombre.errors %}
+            <br><small class="mensaje-error">{{ error }}</small>
+            {% endfor %}
+            {% for error in form.paterno.errors %}
+            <br><small class="mensaje-error">{{ error }}</small>
+            {% endfor %}
+            {% for error in form.razon.errors %}
+            <br><small class="mensaje-error">{{ error }}</small>
+            {% endfor %}
+            {% for error in form.celular.errors %}
+            <br><small class="mensaje-error">{{ error }}</small>
+            {% endfor %}
+            {% for error in form.correo.errors %}
+            <br><small class="mensaje-error">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <div class="form-group col-3 mb-0" id="gpo_btn_documentos">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
+                Documentos Cliente
+            </button>
+        </div>
+    </div>
     <div class="container" style="width: 850px;">
         <div class="wrapper fadeInDown">
             <div id="formContent" style="text-align: right;">
-                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
-                    onkeypress="return anular(event)">
+                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-row">
                         <div class="form-group col-6 mb-0">
-                            <label for="">Cliente</label>
+                            <label>Cliente</label>
                             <select name="cliente" id="cliente_id" class="form-control">
-                                <option value="0">---------</option>
+                                <option value=0>---------</option>
                                 {% for c in cliente_cmb %}
                                 {% if administrador %}
                                 <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
@@ -41,75 +63,135 @@
                                 {% endif %}
                                 {% endfor %}
                             </select>
+                            {% for error in form.cliente.errors %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-0">
-                            <label for="">Asesores</label>
+                            <label>Asesores</label>
                             <select name="asesor" id="asesor_id" class="form-control">
-                                <option value="0">---------</option>
+                                <option value=0>---------</option>
                                 {% for l in empleado_cmb %}
                                 <option value="{{ l.id }}">{{ l.paterno }} {{ l.materno }} {{ l.nombre }}</option>
                                 {% endfor %}
                             </select>
+                            {% for error in form.asesor.errors %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-0">
-                            <label for="">{{ py.singular }}</label>
+                            <label>{{ py.singular }}</label>
                             <select name="lote" id="lote_id" class="form-control">
-                                <option value="0">---------</option>
+                                <option value=0>---------</option>
                                 {% for l in lote_cmb %}
                                 <option value="{{ l.id }}">{{ l.combo_bien }}</option>
                                 {% endfor %}
                             </select>
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            <label for="">Precio x m²</label>
-                            <input type="number" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control">
+                            {% for error in form.lote.errors %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endfor %}
                         </div>
                         <div class="form-group col-md-2 mb-0">
-                            <label for="">Area mts²</label>
-                            <input type="number" name="total" id="id_total" readonly class="form-control">
+                            <label>Area mts²</label>
+                            <input type="text" name="total" id="id_total" readonly class="form-control"
+                                onfocusout="reformatear('id_total')" onkeypress="return valideKey(event);">
+                            {% for error in form.total.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
+                            <!--                            <input type="number" name="total" id="id_total" readonly class="form-control">  -->
+                        </div>
+                        <div class="form-group col-md-2 mb-0">
+                            <label>Precio x m²</label>
+                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control"
+                                onfocusout="reformatear('id_precio_x_mt')" onkeypress="return valideKey(event);">
+                            {% for error in form.precio_x_mt.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
+                            <!--                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control">  -->
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.precio_lote|as_crispy_field }}
+                        <div class="form-group col-md-2 mb-0">
+                            <label>Precio x m²</label>
+                            <input type="text" name="precio_lote" id="id_precio_lote" class="form-control"
+                                onfocusout="reformatear('id_precio_lote')" onkeypress="return valideKey(event);">
+                            {% for error in form.precio_lote.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
+
                         </div>
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.descuento|as_crispy_field }}
+                        <div class="form-group col-md-2 mb-0">
+                            <label>Descuento</label>
+                            <input type="text" name="descuento" id="id_descuento" class="form-control"
+                                onfocusout="reformatear('id_descuento')" onkeypress="return valideKey(event);">
+                            {% for error in form.descuento.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
                         </div>
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.precio_final|as_crispy_field }}
+                        <div class="form-group col-md-2 mb-0">
+                            <label>Precio final</label>
+                            <input type="text" name="precio_final" id="id_precio_final" class="form-control"
+                                onfocusout="reformatear('id_precio_final')" onkeypress="return valideKey(event);">
+                            {% for error in form.precio_final.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
+                            <!--                             form.precio_final|as_crispy_field   -->
+                        </div>
+                        <div class="form-group col-md-2 mb-0" id="gpo_credito">
+                            <label>Crédito</label>
+                            <input type="text" name="credito" id="id_credito" class="form-control"
+                                onfocusout="reformatear('id_credito')" onkeypress="return valideKey(event);">
+                            <!--                             form.precio_final|as_crispy_field   -->
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md-2 mb-0">
                             {{ form.modo_pago|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-3 mb-0" id="asigna" 
-                            {% if not app_proy_asigna_descto %} 
-                                hidden 
-                            {% endif %}>
+                        <div class="form-group col-md-2 mb-0" id="asigna" 
+                        {% if not app_proy_asigna_descto %} hidden {% endif %}>
                             {{ form.asigna_descuento|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-3 mb-0" id="tipo_desc" 
-                            {% if not app_proy_asigna_descto %} 
-                                hidden
-                            {% endif %}>
+                        <div class="form-group col-md-2 mb-0" id="tipo_desc" 
+                            {% if not app_proy_asigna_descto %} hidden {% endif %}>
                             {{ form.tipo_descuento|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
-                            {{ form.porcentaje_descuento|as_crispy_field }}
+                        <div class="form-group col-md-2 mb-0" id="porcentaje_desc">
+                            <label>% descuento</label>
+                            <input type="text" name="porcentaje_descuento" id="id_porcentaje_descuento"
+                                class="form-control" onfocusout="reformatear('id_porcentaje_descuento')"
+                                onkeypress="return valideKey(event);">
+                            <!--                             form.porcentaje_descuento|as_crispy_field   -->
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.enganche|as_crispy_field }}
+                        <div class="form-group col-md-2 mb-0" id="gpo_enganche">
+                            <label>Enganche</label>
+                            <input type="text" name="enganche" id="id_enganche" class="form-control"
+                                onfocusout="reformatear('id_enganche')" onkeypress="return valideKey(event);">
+                            {% for error in form.enganche.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
+                            <!--                             form.enganche|as_crispy_field   -->
                         </div>
-                        <div class="form-group col-3 mb-0" id="gpo_cantidad_pagos">
-                            <label for="">Cantidad de Pagos</label>
+                        <div class="form-group col-2 mb-0" id="gpo_cantidad_pagos">
+                            <label>Mensualidades</label>
                             <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
                                 <option value="0">---------</option>
                                 {% for permitidas in reglas %}
@@ -120,8 +202,16 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.importe_x_pago|as_crispy_field }}
+                        <div class="form-group col-md-2 mb-0" id="gpo_importe_x_pago">
+                            <label>Pago mensual</label>
+                            <input type="text" name="importe_x_pago" id="id_importe_x_pago" class="form-control"
+                                onfocusout="reformatear('id_importe_x_pago')" onkeypress="return valideKey(event);">
+                            {% for error in form.importe_x_pago.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
+                            <!--                             form.importe_x_pago|as_crispy_field   -->
                         </div>
                     </div>
                     <div class="modal fade" id="datosCliente" tabindex="-1" role="dialog"
@@ -254,226 +344,222 @@
                             {{ form.estatus_solicitud|as_crispy_field }}
                         </div>
                     </div>
-                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                    <br><input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
                 </form>
                 <br>
             </div>
         </div>
     </div>
 </div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+
+
 <script>
-    var num_proyecto;
-    var descuento;
-    var modo_pago;
-    var enganche;
-    var cantidad_pagos;
-    var precio_lote;
-    var precio_final;
-    var precio_final_s_enganche;
-    var total;
-    var valor_enganche_minimo;
-    //  Alinear campos numericos
-    $("#id_precio_lote").css("text-align", "right");
-    $("#id_precio_final").css("text-align", "right");
-    $("#id_enganche").css("text-align", "right");
-    $("#id_importe_x_pago").css("text-align", "right");
-    $("#id_cantidad_pagos").css("text-align", "right");
-    $("#id_descuento").css("text-align", "right");
-    $("#id_porcentaje_descuento").css("text-align", "right");
-    $("#asigna").css("text-align", "center");
-    $("#id_precio_x_mt").css("text-align", "right");
-    $("#id_total").css("text-align", "right");
-    // Campos de solo lectura
-    $("#id_importe_x_pago").attr('readonly', 'true');
-    $("#id_precio_lote").attr('readonly', 'true');
-    $("#id_precio_final").attr('readonly', 'true');
-    $("#id_descuento").attr('readonly', 'true');
-// Funciones
-    function datosCliente() {
-        $("#datosCliente").modal({
-            open,
-        });
+{% block bljs %}
+    function presentacion() {
+        //  Alinear campos numericos0
+        $("#id_precio_lote").css("text-align", "right");
+        $("#id_precio_final").css("text-align", "right");
+        $("#id_enganche").css("text-align", "right");
+        $("#id_importe_x_pago").css("text-align", "right");
+        $("#id_cantidad_pagos").css("text-align", "right");
+        $("#id_descuento").css("text-align", "right");
+        $("#id_porcentaje_descuento").css("text-align", "right");
+        $("#asigna").css("text-align", "center");
+        $("#id_precio_x_mt").css("text-align", "right");
+        $("#id_total").css("text-align", "right");
+        $("#id_credito").css("text-align", "right").attr('readonly', 'true');
+        //  Campos de solo lectura
+        $("#id_importe_x_pago").attr('readonly', 'true');
+        $("#id_precio_lote").attr('readonly', 'true');
+        $("#id_precio_final").attr('readonly', 'true');
+        $("#id_descuento").attr('readonly', 'true');
     }
-    function documentos() {
-        $("#documentos").modal({
-            open,
-        });
-    }
+    // Funciones
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
     function activa_moral() {
-        if (($("#id_tipo_cliente").val() == "False")) {
+        opcion = convierteNumero("id_tipo_cliente");
+        if (opcion == 0) {
             $("#gpo_razon").hide();
-            $("#id_razon").val("");
+            $("#id_razon").val(" ");
         } else {
             $("#gpo_razon").show();
         }
     }
     function activa_conyuge() {
-        if (parseInt(($("#id_estado_civil").val()) == "2")) {
+        opcion = convierteNumero("id_estado_civil");
+        if (opcion == 2) {
             $("#gpo_conyuge").show();
         } else {
             $("#gpo_conyuge").hide();
-            $("#id_regimen").val("");
-            $("#id_nombre_conyuge").val("");
-            $("#id_paterno_conyuge").val("");
-            $("#id_materno_conyuge").val("");
+            $("#id_regimen").val(0);
+            $("#id_nombre_conyuge").val(" ");
+            $("#id_paterno_conyuge").val(" ");
+            $("#id_materno_conyuge").val(" ");
         }
     }
     function cambia_lote() {
         // Armado del objeto lotes de python a javascript
-        opcion = parseInt($("#lote_id").val());
-        modo_pago = parseInt($("#id_modo_pago").val());
+        opcion = convierteNumero("lote_id");
+        modo_pago = convierteNumero("id_modo_pago");
         $("#id_precio_lote").val(0.00);
         $("#id_precio_x_mt").val(0.00);
         $("#id_total").val(0.00);
-        "{% for l in lote_cmb %}"
+        {% for l in lote_cmb %}
         id_lote = "{{ l.id }}";
-        if (parseInt(opcion) == parseInt(id_lote)) {
-            id_precio = "{{ l.precio }}";
-            precio = parseFloat(id_precio.replaceAll(",", ""));
-            $("#id_precio_lote").val(precio);
-            id_precio_x_mt = "{{ l.precio_x_mt }}";
-            precio_x_mt = parseFloat(id_precio_x_mt.replaceAll(",", ""));
-            $("#id_precio_x_mt").val(precio_x_mt);
-            id_total = "{{ l.total }}";
-            total = parseInt(id_total.replaceAll(",", ""));
-            $("#id_total").val(total);
+        if (opcion == id_lote) {
+            $("#id_precio_lote").val("{{ l.precio }}").focus();
+            $("#id_precio_x_mt").val("{{ l.precio_x_mt }}").focus();
+            $("#id_total").val("{{ l.total }}").focus();
+            $("#lote_id").focus();
         }
-        "{% endfor %}"
+        {% endfor %}
     }
     function borra_campos_cliente() {
-        $("#id_tipo_cliente").val("");
-        $("#id_razon").val("");
-        $("#id_nombre").val("");
-        $("#id_paterno").val("");
-        $("#id_materno").val("");
-        $("#id_nombre_conyuge").val("");
-        $("#id_paterno_conyuge").val("");
-        $("#id_materno_conyuge").val("");
-        $("#id_rfc").val("");
-        $("#id_curp").val("");
+        $("#id_tipo_cliente").val(0);
+        activa_moral();
+        $("#id_razon").val(" ");
+        $("#id_nombre").val(" ");
+        $("#id_paterno").val(" ");
+        $("#id_materno").val(" ");
+        $("#id_nombre_conyuge").val(" ");
+        $("#id_paterno_conyuge").val(" ");
+        $("#id_materno_conyuge").val(" ");
+        $("#id_rfc").val(" ");
+        $("#id_curp").val(" ");
         $("#id_estado_civil").val(0);
         $("#id_regimen").val(0);
-        $("#id_calle").val("");
-        $("#id_colonia").val("");
-        $("#id_codpos").val("");
-        $("#id_municipio").val("");
-        $("#id_estado").val(0);
-        $("#id_celular").val("");
-        $("#id_correo").val("");
+        $("#id_calle").val(" ");
+        $("#id_colonia").val(" ");
+        $("#id_codpos").val(" ");
+        $("#id_municipio").val(" ");
+        $("#id_estado").val(0).change();
+        $("#id_celular").val(" ");
+        $("#id_correo").val(" ");
     }
-    function accionTipoDescuento(opcion, ciclo) {
-        if (opcion == 0) {
-            $("#id_descuento").prop('readonly', true);
-            if ($("#id_asigna_descuento_0").is(':checked')) {
-                $("#id_porcentaje_descuento").prop('readonly', true);
-            } else {
-                $("#id_porcentaje_descuento").prop('readonly', false);
-            }
-            $("#porcentaje_desc").show();
-        } else {
-            $("#id_descuento").prop('readonly', false);
-            $("#id_porcentaje_descuento").prop('readonly', false);
-            $("#porcentaje_desc").hide();
-        }
-        if (ciclo == 1) {
-            $("#id_descuento").val(0);
-            $("#id_porcentaje_descuento").val(0);
-        }
-        calcula();
-    }
-    function accionAsignaDescuento(opcion, ciclo) {
+    function accionAsignaDescuento() {
+        opcion = convierteNumero("id_asigna_descuento");
         if (opcion == 0) {
             $("#tipo_desc").hide();
+            accionTipoDescuento();
+            $("#id_descuento").prop('readonly', true);
+            $("#id_porcentaje_descuento").prop('readonly', true);
         } else {
             $("#tipo_desc").show();
+            accionTipoDescuento();
         }
-        if (ciclo == 1) {
-            $("#id_tipo_descuento_0").prop('checked', true);
-
-        }
-        accionTipoDescuento(0, ciclo);
     }
-    function ocualta_campos_credito() {
-        $("#div_id_enganche").hide();
-        $("#gpo_cantidad_pagos").hide();
-        $("#div_id_importe_x_pago").hide();
-        $("#id_enganche").val(0);
-        $("#id_cantidad_pagos").val(0);
-        $("#id_importe_x_pago").val(0);
-    }
-    function cambia_modo_pago() {
-        if (parseFloat($("#id_modo_pago").val()) == 1 || parseFloat($("#id_modo_pago").val()) == 3) {
-            ocualta_campos_credito();
+    function accionTipoDescuento() {
+        opcion = convierteNumero("id_tipo_descuento");
+        if (opcion == 1) {
+            $("#id_descuento").prop('readonly', true).val(0);
+            $("#id_porcentaje_descuento").prop('readonly', false).val(0);
         } else {
-            $("#div_id_enganche").show();
-            $("#gpo_cantidad_pagos").show();
-            $("#div_id_importe_x_pago").show();
+            $("#id_descuento").prop('readonly', false).val(0);
+            $("#id_porcentaje_descuento").prop('readonly', true).val(0);
         }
         calcula();
     }
-    function valore_forma() {
-        num_proyecto = parseInt('{{ py.id }}');
-        porcentaje_descuento = $("#id_porcentaje_descuento").val(0);
-        descuento = parseFloat($("#id_descuento").val()).toFixed(2);
-        modo_pago = parseInt($("#id_modo_pago").val());
-        enganche = parseFloat($("#id_enganche").val()).toFixed(2);
-        cantidad_pagos = parseInt($("#id_cantidad_pagos").val());
-        precio_lote = parseFloat($("#id_precio_lote").val()).toFixed(2);
-        precio_final = parseFloat($("#id_precio_final").val()).toFixed(2);
-        precio_final_s_enganche = precio_final - enganche;
-        precio_x_mt = parseFloat($("#id_precio_x_mt").val());
-        total = parseFloat($("#id_total").val());
+    function cambia_modo_pago() {
+        opcion = convierteNumero("id_modo_pago");
+        if (opcion != 1) {
+            $("#gpo_credito").show();
+            $("#gpo_enganche").show();
+            $("#gpo_cantidad_pagos").show();
+            $("#gpo_importe_x_pago").show();
+            $("#id_credito").val(0);
+            $("#id_enganche").val(0);
+            $("#id_cantidad_pagos").val(0);
+            $("#id_importe_x_pago").val(0);
+        } else {
+            $("#gpo_credito").hide();
+            $("#gpo_enganche").hide();
+            $("#gpo_cantidad_pagos").hide();
+            $("#gpo_importe_x_pago").hide();
+        }
+        calcula();
     }
+    /*    function valore_forma() {
+            num_proyecto = parseInt(' py.id ');
+            porcentaje_descuento = convierteDecimal($("#id_porcentaje_descuento").val());
+            descuento = convierteEntero($("#id_descuento").val());
+            modo_pago = convierteEntero($("#id_modo_pago").val());
+            enganche = convierteDecimal($("#id_enganche").val());
+            cantidad_pagos = convierteEntero($("#id_cantidad_pagos").val());
+            precio_lote = convierteDecimal($("#id_precio_lote").val());
+            precio_final = convierteDecimal($("#id_precio_final").val());
+            precio_final_s_enganche = precio_final - enganche;
+            precio_x_mt = convierteDecimal($("#id_precio_x_mt").val());
+            total = convierteDecimal($("#id_total").val());
+            tipo_descuento = convierteEntero($("#id_tipo_descuento").val());
+            dec_porcentaje_descuento = (porcentaje_descuento / 100);
+            asigna_descuento = convierteEntero($("#id_asigna_descuento").val());
+        } */
     function calcula() {
-        if ($("#id_tipo_descuento_0").is(':checked')) {
-            tipo_descuento = 0;
-        } else {
-            tipo_descuento = 1;
-        }
-        valore_forma();
-        if ($("#id_porcentaje_descuento").val() == "") {
-            $("#id_porcentaje_descuento").val(0);
-            porcentaje_descuento = 0;
-        } else {
-            porcentaje_descuento = parseFloat((parseFloat($("#id_porcentaje_descuento").val()).toFixed(2)) / 100).toFixed(2);
-        }
-        if ($("#id_asigna_descuento_1").is(':checked')) {
+        porcentaje_descuento = convierteNumero("id_porcentaje_descuento");
+        descuento = convierteNumero("id_descuento");
+        modo_pago = convierteNumero("id_modo_pago");
+        enganche = convierteNumero("id_enganche");
+        cantidad_pagos = convierteNumero("id_cantidad_pagos");
+        precio_lote = convierteNumero("id_precio_lote");
+        precio_final = convierteNumero("id_precio_final");
+        precio_final_s_enganche = precio_final - enganche;
+        precio_x_mt = convierteNumero("id_precio_x_mt");
+        total = convierteNumero("id_total");
+        tipo_descuento = convierteNumero("id_tipo_descuento");
+        dec_porcentaje_descuento = (porcentaje_descuento / 100);
+        asigna_descuento = convierteNumero("id_asigna_descuento");
+
+        if (asigna_descuento == 1) {
             if (precio_lote > 0 && (porcentaje_descuento > 0 || descuento > 0)) {
-                if (tipo_descuento == 0) {
-                    descuento = Math.ceil(parseFloat((precio_lote * porcentaje_descuento))).toFixed(2);
+                if (tipo_descuento == 1) {
+                    descuento = Math.ceil(parseFloat(precio_lote * dec_porcentaje_descuento));
                     $("#id_descuento").val(descuento);
+                    reformatear('id_descuento');
                 }
-                precio_final = parseFloat(precio_lote - descuento).toFixed(2);
+                precio_final = parseFloat(precio_lote - descuento);
                 $("#id_precio_final").val(precio_final);
-                if (cantidad_pagos > 0) {
-                    monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
-                } else {
-                    monto_x_pago = 0;
-                }
-                $("#id_importe_x_pago").val(monto_x_pago);
+                reformatear('id_precio_final');
             } else {
                 $("#id_precio_final").val(precio_lote);
-                precio_final = precio_lote;
-                if (cantidad_pagos > 0) {
-                    monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
-                } else {
-                    monto_x_pago = 0;
-                }
-                $("#id_importe_x_pago").val(monto_x_pago);
+                reformatear('id_precio_final');
             }
         } else {
             ext_descuento();
         }
+        if ((cantidad_pagos > 0) && (enganche > 0) && (modo_pago != 1)) {
+            monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
+        } else {
+            monto_x_pago = 0;
+        }
+        $("#id_importe_x_pago").val(monto_x_pago);
+        reformatear('id_importe_x_pago');
+        if ((enganche > 0) && (modo_pago != 1)) {
+            credito = precio_final - enganche;
+        } else {
+            credito = 0;
+        }
+        $("#id_credito").val(credito);
+        reformatear('id_credito');
+
+        $("#id_importe_x_pago").val(monto_x_pago);
+        reformatear('id_importe_x_pago');
     }
     function ext_descuento() {
-        valore_forma();
+        cantidad_pagos = convierteNumero("id_cantidad_pagos");
+        enganche = convierteNumero("id_enganche");
+        precio_lote = convierteNumero("id_precio_lote");
+        total = convierteNumero("id_total");
+        modo_pago = convierteNumero("id_modo_pago");
+
         tipo_aplica_descto = 0;
         valor3 = 0;
-        "{% for re in reglas %}";
+        {% for re in reglas %}
         if (modo_pago == parseInt("{{re.modo_pago}}")) {
             tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
             valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
@@ -483,7 +569,7 @@
                 valor3 = parseFloat("{{ re.valor3 }}".replaceAll(",", ""));
             }
         }
-        "{% endfor %}";
+        {% endfor %}
         porcentaje_descuento = 0;
         descuento = 0;
         if (tipo_aplica_descto == 1) {
@@ -491,68 +577,74 @@
         } else if (tipo_aplica_descto == 2) {
             descuento = valor1;
         } else if (tipo_aplica_descto == 3) {
-            descuento = precio_lote * valor1 / 100;
+            descuento = ((precio_lote * valor1) / 100);
             porcentaje_descuento = valor1;
         } else if (tipo_aplica_descto == 4) {
             descuento = valor1;
         } else if (tipo_aplica_descto == 5) {
-            descuento = precio_lote * valor1 / 100;
+            descuento = ((precio_lote * valor1) / 100);
             porcentaje_descuento = valor1;
         } else {
             descuento = 0.00;
         }
         precio_final = precio_lote - descuento;
         $("#id_descuento").val(descuento);
+        reformatear('id_descuento');
         $("#id_precio_final").val(precio_final);
+        reformatear('id_precio_final');
         $("#id_porcentaje_descuento").val(porcentaje_descuento);
+        reformatear('id_porcentaje_descuento');
         mensualidad = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
         $("#id_importe_x_pago").val(mensualidad);
+        reformatear('id_importe_x_pago');
     }
     function enganche_minimo() {
-        valore_forma();
+        cantidad_pagos = convierteNumero("id_cantidad_pagos");
         valor3 = 0;
-        "{% for re in reglas %}";
+        {% for re in reglas %}
         if ((parseInt("{{re.modo_pago}}") == 2) && (parseInt("{{ re.mensualidades_permitidas }}")) == cantidad_pagos) {
             valor3 = parseFloat("{{ re.valor3 }}");
             if (parseInt("{{ re.tipo_enganche_minimo }}") == 1) {
                 valor_enganche_minimo = valor3;
-            } else{
+            } else {
                 valor_enganche_minimo = precio_lote * valor3 / 100;
             }
         }
-        "{% endfor %}";
+        {% endfor %}
     }
-    function guarda() {
-        texto = "";
-        if ($("#cliente_id").val() == '0') {
-            texto += "Seleccione un cliente, ";
-        }
-        if ($("#lote_id").val() == '0') {
-            texto += "Seleccione un lote, ";
-        }
-        if ($("#asesor_id").val() == '0') {
-            texto += "Seleccione un Asesor, ";
-        }
-        if (parseInt($("#id_modo_pago").val()) != 1) {
-            if ((parseFloat($("#id_enganche").val()) <= 0) || ($("#id_enganche").val() == "")) {
-                texto += "ingrese el enganche, ";
-            }
-            if (parseInt($("#id_cantidad_pagos").val()) <= 0) {
-                texto += "Ingrese la cantidad de pagos, ";
-            }
-            enganche_minimo();
-            if (parseFloat($("#id_enganche").val()) < valor_enganche_minimo) {
-                texto += "El enganche mínimo es " +valor_enganche_minimo;
-            }
-        }
-        if (texto == "") {
-            aviso("Aviso", "Guardado exitosamente");
+    function ver_btn_cliente() {
+        opcion = convierteNumero("cliente_id");
+        if (opcion == 0) {
+            $("#gpo_btn_cliente").hide();
+            $("#gpo_btn_documentos").hide();
         } else {
-            aviso("Error", texto);
-            return false;
+            $("#gpo_btn_cliente").show();
+            $("#gpo_btn_documentos").show();
         }
     }
-// Acciones
+    /*    function guarda() {
+            alert("GUARDA");
+            texto = "";
+            if (parseInt($("#id_modo_pago").val()) != 1) {
+                if ((parseFloat($("#id_enganche").val()) <= 0) || ($("#id_enganche").val() == "")) {
+                    texto += "ingrese el enganche, ";
+                }
+                if (parseInt($("#id_cantidad_pagos").val()) <= 0) {
+                    texto += "Ingrese la cantidad de pagos, ";
+                }
+                enganche_minimo();
+                if (parseFloat($("#id_enganche").val()) < valor_enganche_minimo) {
+                    texto += "El enganche mínimo es " + valor_enganche_minimo;
+                }
+            }
+            if (texto == "") {
+                aviso("Aviso", "Guardado exitosamente");
+            } else {
+                aviso("Error", texto);
+                return false;
+            }  
+        }  */
+    // Acciones
     $("#lote_id").on("change", function () {
         cambia_lote();
         calcula();
@@ -567,75 +659,76 @@
         activa_conyuge();
     });
     $("#cliente_id").on("change", function () {
+        borra_campos_cliente();
         seleccion_cliente = $("#cliente_id").val();
-        "{% for c in cliente_cmb %}"
+        {% for c in cliente_cmb %}
         id_cliente_tb = "{{ c.id }}";
         if (id_cliente_tb == seleccion_cliente) {
             borra_campos_cliente();
+            {% if c.tipo_cliente != "" %}
             $("#id_tipo_cliente").val("{{ c.tipo_cliente }}");
-            "{% if c.razon %}"
+            {% endif %}
+            activa_moral();
+            {% if c.razon.strip != "" %}
             $("#id_razon").val("{{ c.razon }}");
-            "{% endif %}"
-            "{% if c.nombre %}"
+            {% endif %}
+            {% if c.nombre.strip != ""  %}
             $("#id_nombre").val("{{ c.nombre }}");
-            "{% endif %}"
-            "{% if c.paterno %}"
+            {% endif %}
+            {% if c.paterno.strip != ""  %}
             $("#id_paterno").val("{{ c.paterno }}");
-            "{% endif %}"
-            "{% if c.materno %}"
+            {% endif %}
+            {% if c.materno.strip != ""  %}
             $("#id_materno").val("{{ c.materno }}");
-            "{% endif %}"
-            "{% if c.nombre_conyuge %}"
+            {% endif %}
+            {% if c.nombre_conyuge.strip != ""  %}
             $("#id_nombre_conyuge").val("{{ c.nombre_conyuge }}");
-            "{% endif %}"
-            "{% if c.paterno_conyuge %}"
+            {% endif %}
+            {% if c.paterno_conyuge.strip != ""  %}
             $("#id_paterno_conyuge").val("{{ c.paterno_conyuge }}");
-            "{% endif %}"
-            "{% if c.materno_conyuge %}"
+            {% endif %}
+            {% if c.materno_conyuge.strip != ""  %}
             $("#id_materno_conyuge").val("{{ c.materno_conyuge }}");
-            "{% endif %}"
-            "{% if c.rfc %}"
+            {% endif %}
+            {% if c.rfc.strip != ""  %}
             $("#id_rfc").val("{{ c.rfc }}");
-            "{% endif %}"
-            "{% if c.curp %}"
+            {% endif %}
+            {% if c.curp.strip != ""  %}
             $("#id_curp").val("{{ c.curp }}");
-            "{% endif %}"
-            "{% if c.estado_civil %}"
+            {% endif %}
+            {% if c.estado_civil.strip != ""  %}
             $("#id_estado_civil").val("{{ c.estado_civil }}");
-            "{% endif %}"
-            "{% if c.regimen %}"
+            {% endif %}
+            {% if c.regimen.strip != ""  %}
             $("#id_regimen").val("{{ c.regimen }}");
-            "{% endif %}"
-            "{% if c.calle %}"
+            {% endif %}
+            {% if c.calle.strip != ""  %}
             $("#id_calle").val("{{ c.calle }}");
-            "{% endif %}"
-            "{% if c.colonia %}"
+            {% endif %}
+            {% if c.colonia.strip != ""  %}
             $("#id_colonia").val("{{ c.colonia }}");
-            "{% endif %}"
-            "{% if c.codpos %}"
+            {% endif %}
+            {% if c.codpos.strip != ""  %}
             $("#id_codpos").val("{{ c.codpos }}");
-            "{% endif %}"
-            "{% if c.municipio %}"
+            {% endif %}
+            {% if c.municipio.strip != ""  %}
             $("#id_municipio").val("{{ c.municipio }}");
-            "{% endif %}"
-            "{% if c.estado %}"
+            {% endif %}
+            {% if c.estado.strip != ""  %}
             $("#id_estado").val("{{ c.estado }}");
-            "{% endif %}"
-            "{% if c.celular %}"
+            {% endif %}
+            {% if c.celular.strip != ""  %}
             $("#id_celular").val("{{ c.celular }}");
-            "{% endif %}"
-            "{% if c.correo %}"
+            {% endif %}
+            {% if c.correo.strip != ""  %}
             $("#id_correo").val("{{ c.correo }}");
-            "{% endif %}"
+            {% endif %}
         }
-        "{% endfor %}"
+        {% endfor %}
+        ver_btn_cliente();
     });
-    $("#id_tipo_descuento_0").on("change", function () {
-        accionTipoDescuento(0, 1);
-        calcula();
-    });
-    $("#id_tipo_descuento_1").on("change", function () {
-        accionTipoDescuento(1, 1);
+    $("#id_tipo_descuento").on("change", function () {
+        accionTipoDescuento();
         calcula();
     });
     $("#id_descuento").on("keyup", function () {
@@ -644,11 +737,8 @@
     $("#id_porcentaje_descuento").on("keyup", function () {
         calcula();
     });
-    $("#id_asigna_descuento_0").on("change", function () {
-        accionAsignaDescuento(0, 1);
-    });
-    $("#id_asigna_descuento_1").on("change", function () {
-        accionAsignaDescuento(1, 1);
+    $("#id_asigna_descuento").on("change", function () {
+        accionAsignaDescuento();
     });
     $("#id_enganche").on("keyup", function () {
         calcula();
@@ -659,64 +749,68 @@
     $("#id_cantidad_pagos").on("change", function () {
         calcula();
     });
-
-    $(document).ready(function () {
-        window.captureEvents(Event.SUBMIT);
-        window.onsubmit = guarda;
-        "{% if sol %}"
-            "{% for s in sol %}"
-                id_lote = "{{ s.lote.id }}";
-                asesor_id = "{{ s.asesor.id }}";
-                id_cliente = "{{ s.cliente.id }}";
-                id_descuento = "{{ s.descuento }}".replace(",", "").replace(",", "");
-                id_porcentaje_descuento = "{{ s.porcentaje_descuento }}";
-                id_cantidad_pagos = "{{ s.cantidad_pagos }}";
-                id_importe_x_pago = "{{ s.importe_x_pago }}".replace(",", "").replace(",", "");
-                id_modo_pago = "{{ s.modo_pago }}";
-                id_precio_final = "{{ s.precio_final }}".replace(",", "").replace(",", "");
-                if (asesor_id == 0) {
-                    f_emp = "{{ f_emp }}";
-                } else {
-                    f_emp = asesor_id;
-                }
-                $("#lote_id").val(f_emp).change();
-                asigna_descuento = "{{ s.asigna_descuento }}";
-                if (asigna_descuento == true) {
-                    alert("111");
-                } else {
-                    accionAsignaDescuento(0, 1);
-                }
-            "{% endfor %}"
-        "{% else %}"
-            asesor_id = 0;
-            id_cliente = 0;
-            accionAsignaDescuento(0, 1);
-            ocualta_campos_credito();
-        "{% endif %}"
-        $("#asesor_id").val(f_emp).change();
-        $("#cliente_id").val(id_cliente);
-        estatus_sol = parseInt($("#id_estatus_solicitud").val());
-        if (estatus_sol > 1) {
-            $("#btub").hide();
-        } else {
-            if (estatus_sol == 0) {
-                $("#id_estatus_lote").val();
-            }
-        }
-        $("#lote_id").val(id_lote);
-        $("#id_descuento").val(id_descuento);
-        $("#id_porcentaje_descuento").val(id_porcentaje_descuento);
-        $("#id_cantidad_pagos").val(id_cantidad_pagos);
-        $("#id_importe_x_pago").val(id_importe_x_pago);
-        $("#id_precio_final").val(id_precio_final);
-        cambia_lote();
-        activa_moral();
-        activa_conyuge();
-        if (id_modo_pago == 1) {
-            ocualta_campos_credito();
-        }
-    });
-</script>
-{% endfor %}
-{% endif %}
 {% endblock %}
+</script>
+
+<script>
+{% block inicio %}    
+$(document).ready(function () {
+    presentacion();
+    $("#lote_id").val("{{ lote }}");
+    $("#cliente_id").val("{{ cliente }}");
+    $("#asesor_id").val("{{ asesor }}");
+    $("#id_asigna_descuento").val("{{ asigna_descuento }}");
+    $("#id_porcentaje_descuento").val("{{ porcentaje_descuento }}").focus();
+    $("#id_enganche").val("{{ enganche }}").focus();
+    $("#id_importe_x_pago").val("{{ importe_x_pago }}").focus();
+    $("#id_cantidad_pagos").val("{{ cantidad_pagos }}").focus();
+    $("#id_precio_lote").val("{{ precio_lote }}").focus();
+    $("#id_precio_final").val("{{ precio_final }}").focus();
+    $("#id_precio_x_mt").val("{{ precio_x_mt }}").focus();
+    $("#id_total").val("{{ total }}").focus();
+    $("#cliente_id").val("{{ cliente }}");
+    $("#id_tipo_cliente").val("{{ tipo_cliente }}");
+    activa_moral();
+    $("#id_modo_pago").val("{{ modo_pago }}");
+    $("#id_descuento").val("{{ descuento }}").focus();
+
+    $("#id_razon").val("{{ razon }}").focus();
+    $("#id_nombre").val("{{ nombre }}");
+    $("#id_paterno").val("{{ paterno }}");
+    $("#id_materno").val("{{ materno }}");
+
+    $("#id_rfc").val("{{ rfc }}");
+    $("#id_curp").val("{{ curp }}");
+
+    $("#id_nombre_conyuge").val("{{ nombre_conyuge }}");
+    $("#id_paterno_conyuge").val("{{ paterno_conyuge }}");
+    $("#id_materno_conyuge").val("{{ materno_conyuge }}");
+
+    $("#id_estado_civil").val("{{ estado_civil }}");
+    $("#id_regimen").val("{{ regimen }}");
+    $("#id_calle").val("{{ calle }}");
+    $("#id_colonia").val("{{ colonia }}");
+    $("#id_codpos").val("{{ codpos }}");
+    $("#id_municipio").val("{{ municipio }}");
+    $("#id_estado").val("{{ estado }}");
+    $("#id_celular").val("{{ celular }}");
+    $("#id_correo").val("{{ id_estatus_solicitud }}");
+    $("#lote_id").val("{{ lote }}").focus();
+    
+    estatus_sol = convierteNumero("id_estatus_solicitud");
+    if (estatus_sol > 1) {
+        $("#btub").hide();
+    } 
+    
+    activa_moral();
+    activa_conyuge();
+    cambia_modo_pago();
+    accionTipoDescuento();
+    ver_btn_cliente();
+    accionAsignaDescuento();
+    $("#id_descuento").val("{{ descuento }}").focus();
+    $("#id_porcentaje_descuento").val("{{ porcentaje_descuento }}").focus();
+    $("#id_correo").val("{{ correo }}");
+});
+{% endblock %}
+</script>

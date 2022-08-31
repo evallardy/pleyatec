@@ -17,15 +17,11 @@ class Pago(models.Model, PermissionRequiredMixin):
     forma_pago = models.IntegerField("Estatus",choices=STATUS_FORMA_PAGO,default=0)
     banco = models.ForeignKey(Banco,verbose_name="Banco",on_delete=models.CASCADE, null=True, blank=True)
     cuenta = models.CharField("Número de cuenta",max_length=4, null=True, blank=True, default=" ")
-    numero_comprobante = models.CharField("Número de comprobante",max_length=40, null=True, blank=True, default=" ")
+    numero_comprobante = models.CharField("Número de comprobante",max_length=40, default=" ")
     estatus_pago = models.IntegerField("Estatus de pago",choices=STATUS_PAGO,default=1)
     file_comprobante = models.FileField(upload_to="comprobante", blank=True, null=True,default=" ")
     created = models.DateTimeField("Creado", auto_now_add=True, null=True, blank=True)
-    usuario_ins = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pg_user_ins',
-        verbose_name="Usuario insertó", null=True, blank=True)
     modified = models.DateTimeField("Actualizado", auto_now=True, null=True, blank=True)
-    usuario_mod = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pg_user_mod',
-        verbose_name="Usuario modificó", null=True, blank=True)
     deposito = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=1)
     pagado_vencido = models.IntegerField("Pagado vencido", choices=STATUS_PAGADO_VENCIDO, default=0)
     

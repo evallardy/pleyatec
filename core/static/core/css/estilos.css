@@ -16,6 +16,10 @@ body {
 label.error {
     color: darkred;
 }
+.mensaje-error {
+    color: red;
+    font-size: 11px;
+}
 div[id^="div_id_foto_"], div[id*="div_id_foto_"] label[id^="div_id_foto_"] {
     font-style: italic;
 }

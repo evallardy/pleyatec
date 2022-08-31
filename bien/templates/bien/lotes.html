@@ -52,7 +52,7 @@
                 <th style="text-align: center;" scope="col">Precio</th>
                 {% if py.app == 'toscana' or app == 'plazapuntaoriente' %}
                 <th style="text-align: center;" scope="col">Terraza</th>
-                <th style="text-align: center;" scope="col">Gran total</th>
+                <th style="text-align: center;" scope="col">Precio total</th>
                 {% endif %}
                 {% if py.app == 'nuvole' or app == 'portoSanto' %}
                 <th style="text-align: center;" scope="col">Esquina</th>
@@ -72,7 +72,7 @@
                 <td class="col-md-1" style="text-align: right;">{{ e.precio }}</td>
                 {% if py.app == 'toscana' or app == 'plazapuntaoriente' %}
                 <td class="col-md-1" style="text-align: right;">{{ e.terraza }}</td>
-                <td class="col-md-1" style="text-align: right;">{{ e.gran_total }}</td>
+                <td class="col-md-1" style="text-align: right;">{{ e.precio_total }}</td>
                 {% endif %}
                 {% if py.app == 'nuvole' or app == 'portoSanto' %}
                 <td class="col-md-1" style="text-align: center;">{{ e.get_esquina_display }}</td>

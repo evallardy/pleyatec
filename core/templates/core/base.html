@@ -111,20 +111,65 @@
     </script>
 
     <script>
+        const numberFormat2 = new Intl.NumberFormat('en-MX',{ style:'decimal', 'fraction':'00' });
+        function reformatear(obj) {
+            objeto = "#"+obj;
+            valor= $(objeto).val().replaceAll(",", "").replaceAll(",", "");
+            $(objeto).val(numberFormat2.format(valor));
+        }
+        function valideKey(evt){
+			var code = (evt.which) ? evt.which : evt.keyCode;
+			if (code == 46) {
+			  return true;
+			} else {
+                if(code>=48 && code<=57) {
+                    return true;
+                } else{
+                    return false;
+                }
+            }
+		}
+        function convierteNumero(campo) {
+            deCampo = "#" + campo;
+            a = parseFloat($(deCampo).val().replace(",","").replace(",",""));
+            resultado = 0;
+            if ((isNaN(a)) ||  (a == null)) {
+                resultado = 0;
+            } else {
+                resultado = a;
+            }
+            return resultado;
+        }
+        function verDato(campo) {
+            deCampo = "#id_" + campo;
+            alert(campo + " : " + $(deCampo).val());
+        }
+        function validaNumero(campo) {
+            if (isNaN(campo) || campo=="" || campo==0) {
+                return false;
+            }
+            return true;
+        }
+        function validaCadena(campo) {
+            if (isNaN(campo) || campo.trim()=="") {
+                return false;
+            }
+            return true;
+        }
+        {% block bljs %}
+
+        {% endblock %}
         $(document).ready(function () {
             $('.slider').bxSlider({
                 mode: 'fade',//horizontal, vertical, fade
                 auto: true,
                 pause: 3000
             });
-            {% block inicio %}
-
-            {% endblock %}
         });
-        {% block bljs %}
+        {% block inicio %}
 
         {% endblock %}
-    </script>
+</script>
 
 </body>
 

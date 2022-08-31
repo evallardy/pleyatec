@@ -58,7 +58,6 @@ class ClienteForm(forms.ModelForm):
             'materno_conyuge': 'Materno del Conyuge',
         }
         widgets = {
-            'tipo_cliente':forms.RadioSelect(),
             'nombre':forms.TextInput(attrs={'class':'form-control'}),   #   requerido
             'paterno':forms.TextInput(attrs={'class':'form-control'}),   #   requerido
             'materno':forms.TextInput(attrs={'class':'form-control'}),
@@ -76,3 +75,16 @@ class ClienteForm(forms.ModelForm):
             'paterno_conyuge':forms.TextInput(attrs={'class':'form-control'}),
             'materno_conyuge':forms.TextInput(attrs={'class':'form-control'}),
         }
+    def __init__(self, *args, **kwargs):
+        super(ClienteForm, self).__init__(*args, **kwargs)
+        self.fields['materno'].required = False
+        self.fields['rfc'].required = False
+        self.fields['curp'].required = False
+        self.fields['fecha_nac'].required = False
+        self.fields['calle'].required = False
+        self.fields['colonia'].required = False
+        self.fields['codpos'].required = False
+        self.fields['municipio'].required = False
+        self.fields['nombre_conyuge'].required = False
+        self.fields['paterno_conyuge'].required = False
+        self.fields['materno_conyuge'].required = False

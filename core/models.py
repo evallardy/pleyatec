@@ -23,8 +23,8 @@ AREA_OPERATIVA = (
     (3, 'Asesoria de Ventas'),
 )
 ESQUINA_SI = (
-    (False, 'No'),
-    (True, 'Si'),
+    (0, 'No'),
+    (1, 'Si'),
 )
 ESTADO_CIVIL = (
     (1, 'Soltero'),
@@ -44,9 +44,10 @@ ESTADOS = (
     (32, 'Zacatecas'),
 )
 FASE = (
-    (1, 'Uno'),
-    (2, 'Dos'),
-    (3, 'Tres'),
+    (0, ''),
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
 )
 GENERO = (
     ('M', 'Masculino'),
@@ -110,12 +111,12 @@ PUESTO = (
     (4, 'Personal de finanzas'),
 )
 REGIMEN = (
-    (False, 'Bienes separados'),
-    (True, 'Bienes mancomunados'),
+    (0, 'Bienes separados'),
+    (1, 'Bienes mancomunados'),
 )
 RESP_SI_NO = (
-    (False, 'No'),
-    (True, 'Si'),
+    (0, 'No'),
+    (1, 'Si'),
 )
 STATUS_APARTADO = (
     (1, 'Socio 1'),
@@ -249,8 +250,8 @@ TIPO_CALCULO = (
     ("P", 'Porcentaje'),
 )
 TIPO_CLIENTE = (
-    (False, 'Persona física'),
-    (True, 'Persona moral'),
+    (0, 'Persona física'),
+    (1, 'Persona moral'),
 )
 TIPO_CORREO = (
     (1, 'Empresarial'),
@@ -284,8 +285,8 @@ TIPO_FOLIO = (
     (6, 'Mensualidades'),
 )
 TIPO_LOTE = (
-    (True, "Regular"),
-    (False, "Irregular"),
+    (1, "Regular"),
+    (0, "Irregular"),
 )
 TIPO_PLANO = (
     (1, 'Arquitectónico'),
@@ -313,11 +314,7 @@ class Banco(models.Model, PermissionRequiredMixin):
     abreviacion = models.CharField("Abreviación del banco",max_length=30)
     estatus_banco = models.IntegerField("Activo",choices=STATUS_SI_NO, default=1)
     created = models.DateTimeField("Creado", auto_now_add=True)
-    usuario_ins = models.ForeignKey('empleado.Empleado', on_delete=models.CASCADE, related_name='bn_user_ins',
-        verbose_name="Usuario insertó", null=True, blank=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)
-    usuario_mod = models.ForeignKey('empleado.Empleado', on_delete=models.CASCADE, related_name='bn_user_mod',
-        verbose_name="Usuario modificó", null=True, blank=True)
 
     class Meta:
         verbose_name = 'Banco'
@@ -333,9 +330,9 @@ class Titulo(models.Model, PermissionRequiredMixin):
     nombre = models.CharField("Razón Social",max_length=80)
     rfc = models.CharField("R.F.C.",max_length=20)
     domicilio1 = models.CharField("Domicilio renglon 1",max_length=80)
-    domicilio2 = models.CharField("Domicilio renglon 2",max_length=80, null=True, blank=True)
-    domicilio3 = models.CharField("Domicilio renglon 3",max_length=80, null=True, blank=True)
-    telefono = models.CharField("Teléfono",max_length=100, null=True, blank=True)
+    domicilio2 = models.CharField("Domicilio renglon 2",max_length=80, default=" ")
+    domicilio3 = models.CharField("Domicilio renglon 3",max_length=80, default=" ")
+    telefono = models.CharField("Teléfono",max_length=100, default=" ")
     correo = models.CharField("Correo",max_length=100, null=True, blank=True)
     created = models.DateTimeField("Creado", auto_now_add=True)
     modified = models.DateTimeField("Actualizado", auto_now=True)

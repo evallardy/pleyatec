@@ -103,5 +103,17 @@ class EmpleadoForm(forms.ModelForm):
             'telefono_fijo':forms.TextInput(attrs={'class':'form-control'}),
             'celular':forms.TextInput(attrs={'class':'form-control'}),
             'correo':forms.EmailInput(attrs={'class':'form-control'}),
-            'asigna_solicitud':forms.CheckboxInput(),
         }
+    def __init__(self, *args, **kwargs):
+        super(EmpleadoForm, self).__init__(*args, **kwargs)
+        self.fields['materno'].required = False
+        self.fields['rfc'].required = False
+        self.fields['curp'].required = False
+        self.fields['fecha_nac'].required = False
+        self.fields['numero_seguro_social'].required = False
+        self.fields['cuenta_banco'].required = False
+        self.fields['calle_num'].required = False
+        self.fields['colonia'].required = False
+        self.fields['municipio'].required = False
+        self.fields['codpos'].required = False
+        self.fields['telefono_fijo'].required = False

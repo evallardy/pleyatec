@@ -19,7 +19,7 @@
                 <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
                     onkeypress="return anular(event)">
                     {% csrf_token %}
-                    <div class="form-row" hidden>
+                    <div class="form-row" >
                         <div class="form-group col-md-4 mb-0">
                             {{ form.proyecto|as_crispy_field }}
                         </div>
@@ -33,6 +33,17 @@
                         </div>
                         <div class="form-group col-md-3 mb-0" id="lote">
                             {{ form.lote|as_crispy_field }}
+                            {% for error in form.non_field_errors %}
+                            {% if error == 'Lote con este Proyecto,Fase,Manzana y Lote ya existe.' %}
+                            {% if py.id == 1 %}
+                            <p><small class="mensaje-error">El número de lote con la fase y manzana, ya existe</small></p>
+                            {% else %}
+                            <p><small class="mensaje-error">El número de bien ya existe</small></p>
+                            {% endif %}
+                            {% else %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         {% if app_proy_reservar %}
                         <div class="form-group col-md-3 mb-0">
@@ -69,34 +80,73 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3 mb-0" id="total">
-                            {{ form.total|as_crispy_field }}
+                            <label for="">Area</label>
+                            <input type="text" name="total" id="id_total" class="form-control"
+                                onfocusout="reformatear('id_total')"
+                                onkeypress="return valideKey(event);">
+                            {% for error in form.total.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         <div class="form-group col-md-3 mb-0" id="precio_x_mt">
-                            {{ form.precio_x_mt|as_crispy_field }}
-                        </div>
+                            <label for="">Precio x m²</label>
+                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" 
+                                class="form-control" onfocusout="reformatear('id_precio_x_mt')"
+                                onkeypress="return valideKey(event);">
+                                {% for error in form.precio_x_mt.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
                         <div class="form-group col-md-3 mb-0" id="precio">
-                            {{ form.precio|as_crispy_field }}
+                            <label for="">Precio</label>
+                            <input type="text" name="precio" id="id_precio" class="form-control">
                         </div>
                     </div>
                     <div class="form-row" id="gpo-terraza">
                         <div class="form-group col-md-3 mb-0" id="terraza">
-                            {{ form.terraza|as_crispy_field }}
+                            <label for="">Terraza m²</label>
+                            <input type="text" name="terraza" id="id_terraza" class="form-control"
+                            onfocusout="reformatear('id_terraza')"
+                            onkeypress="return valideKey(event);">
+                            {% for error in form.precio_x_mt_t.errors %}
+                            {% if error == 'Teclear área terraza' %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         <div class="form-group col-md-3 mb-0" id="precio_x_mt_t">
-                            {{ form.precio_x_mt_t|as_crispy_field }}
+                            <label for="">Precio terraza m²</label>
+                            <input type="text" name="precio_x_mt_t" id="id_precio_x_mt_t" class="form-control"
+                            onfocusout="reformatear('id_precio_x_mt_t')"
+                            onkeypress="return valideKey(event);">
+                            {% for error in form.precio_x_mt_t.errors %}
+                            {% if error == 'Teclear precio m² terraza' %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         <div class="form-group col-md-3 mb-0" id="precio_terraza">
-                            {{ form.precio_terraza|as_crispy_field }}
+                            <label for="">Precio terraza</label>
+                            <input type="text" name="precio_terraza" id="id_precio_terraza" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3" id="gran_total">
+                            <label for="">Total m²</label>
+                            <input type="text" name="gran_total" id="id_gran_total" class="form-control">
+                        </div>
+                        <div class="form-group col-md-3 offset-md-3" id="precio_total">
+                            <label for="">Precio total</label>
+                            <input type="text" name="precio_total" id="id_precio_total" class="form-control">
                         </div>
                     </div>
                     <div class="form-row" id="estacionamientos">
                         <div class="form-group col-md-3 mb-0">
                             {{ form.estacionamientos|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4 mb-0" id="gran_total">
-                            {{ form.gran_total|as_crispy_field }}
                         </div>
                     </div>
                     <div id="colindancias">
@@ -136,19 +186,67 @@
 
 <script>
     {% block bljs %}
-
+//    window.captureEvents(Event.SUBMIT);
+//    window.onsubmit = guarda;
+//    function guarda() {
+//        return true;
+//    }
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-    window.captureEvents(Event.SUBMIT);
-    window.onsubmit = guarda;
-    function guarda() {
-        aviso("Aviso", "Guardado exitosamente");
-        return true;
+    function valorCero(valor) {
+        v = valor;
+        if (valor.isNaN || valor.trim() ==  "") {
+            v = 0;
+        }
+        return v;
+    }
+    function calcula() {
+        total = parseFloat(valorCero($("#id_total").val().replaceAll(",", "")));
+        precio_x_mt = parseFloat(valorCero($("#id_precio_x_mt").val().replaceAll(",", "")));
+        precio = (total * precio_x_mt);
+        terraza = parseFloat(valorCero($("#id_terraza").val().replaceAll(",", "")));
+        precio_x_mt_t = parseFloat(valorCero($("#id_precio_x_mt_t").val().replaceAll(",", "")));
+        precio_terraza = terraza * precio_x_mt_t;
+        gran_total = total + terraza;
+        precio_total = precio + precio_terraza;
+        if (Number.isNaN(precio)) {
+            precio = 0;
+        }
+        if (Number.isNaN(precio_terraza)) {
+            precio_terraza = 0;
+        }
+        if (Number.isNaN(precio_x_mt)) {
+            precio_x_mt = 0;
+        }
+        if (Number.isNaN(precio_x_mt_t)) {
+            precio_x_mt_t = 0;
+        }
+        if (Number.isNaN(gran_total)) {
+            gran_total = 0;
+        }
+        if (Number.isNaN(precio_total)) {
+            precio_total = 0;
+        }
+        $("#id_total").val(numberFormat2.format(total));
+        $("#id_precio_x_mt").val(numberFormat2.format(precio_x_mt));
+        $("#id_precio").val(numberFormat2.format(precio));
+        $("#id_precio_terraza").val(numberFormat2.format(precio_terraza));
+        $("#id_terraza").val(numberFormat2.format(terraza));
+        $("#id_precio_x_mt_t").val(numberFormat2.format(precio_x_mt_t));
+        $("#id_gran_total").val(numberFormat2.format(gran_total));
+        $("#id_precio_total").val(numberFormat2.format(precio_total));
+    }
+    function calculaMetros() {
+        frente = parseFloat($("#id_frente").val()).toFixed(2);
+        fondo = parseFloat($("#id_fondo").val()).toFixed(2);
+        total = (frente * fondo).toFixed(2);
+        $("#id_total").val(total);
+        calcula();
     }
     function activa_campos() {
-        if ($("#id_tipo_lote_0").is(':checked')) {
+        if (parseInt($("#id_tipo_lote").val()) == 1) {
             $("#obs_irregular").hide();
             $("#frente").show();
             $("#fondo").show();
@@ -158,19 +256,7 @@
             $("#fondo").hide();
         }
     }
-    $(document).ready(function () {
-        //Inicializa el valor del proyecto
-        num_proyecto = '{{num_proyecto}}';
-        accion = '{{accion}}';
-        $("#id_proyecto").val(num_proyecto).change();
-        if (accion == 'Alta') {
-            $("#id_tipo_lote_0").prop("checked", true);
-            $("#id_esquina_0").prop("checked", true);
-        }
-        activa_campos();
-        $("#estatus").val($("#id_estatus_lote").val());
-
-        //  Alinear campos numericos
+    function alineacion() {
         $("#id_fase").css("text-align", "center");
         $("#id_manzana").css("text-align", "center");
         $("#id_frente").css("text-align", "right");
@@ -184,84 +270,78 @@
         $("#id_estacionamientos").css("text-align", "right");
         $("#id_terraza").css("text-align", "right");
         $("#id_gran_total").css("text-align", "right");
-
-        // Campos de solo lectura
+        $("#id_precio_total").css("text-align", "right");
+    }
+    function readOnly() {
         $("#id_precio").attr('readonly', true);
         $("#id_gran_total").attr('readonly', true);
+        $("#id_precio_total").attr('readonly', true);
         $("#id_precio_terraza").attr('readonly', true);
-
-        // Cuando cambia valor fondo
-        $("#id_fondo").on("keyup", function () {
-            calculaMetros();
-        });
-        // Cuando cambia valor frente
-        $("#id_frente").on("keyup", function () {
-            calculaMetros();
-        });
-        $("#id_total").on("keyup", function () {
-            calcula();
-        });
-        $("#id_terraza").on("keyup", function () {
-            calcula();
-        });
-        $("#precio_x_mt_t").on("keyup", function () {
-            calcula();
-        });
-        // Cuando cambia el estatus lote
-        $("#estatus").on("change", function () {
-            $("#id_estatus_lote").val($("#estatus").val());
-        });
-        // Cuando cambia valor fondo
-        $("#id_tipo_lote_0").on("change", function () {
-            activa_campos();
-            $("#id_frente").val(0);
-            $("#id_fondo").val(0);
-            $("#id_total").val(0);
-            $("#id_precio_x_mt").val(0);
-            $("#id_precio").val(0);
-            $("#obs_irregular").val("");
-        });
-        $("#id_tipo_lote_1").on("change", function () {
-            activa_campos();
-            $("#id_frente").val(0);
-            $("#id_fondo").val(0);
-            $("#id_total").val(0);
-            $("#id_precio_x_mt").val(0);
-            $("#id_precio").val(0);
-            $("#obs_irregular").val("");
-        });
-        // Cuando cambia valor precio_x_mt
-        $("#id_precio_x_mt").on("keyup", function () {
-            calcula();
-        });
-        // Funcion para calcular el importe por cada pago
-        function calcula() {
-            total = parseFloat($("#id_total").val());
-            precio_x_mt = parseFloat($("#id_precio_x_mt").val());
-            precio = (total * precio_x_mt).toFixed(2);
-
-            terraza = parseFloat($("#id_terraza").val());
-            precio_x_mt_t = parseFloat($("#id_precio_x_mt_t").val());
-            precio_terraza = (terraza * precio_x_mt_t).toFixed(2);
-
-            gran_total = (parseFloat(precio) + parseFloat(precio_terraza)).toFixed(2);
-
-            $("#id_precio").val(precio);
-            $("#id_precio_terraza").val(precio_terraza);
-            $("#id_gran_total").val(gran_total);
+    }
+    function actualizaPantalla() {
+        "{% for l in inf_lote %}"
+            $("#id_tipo_lote").val("{{ l.tipo_lote }}").change();
+            $("#id_obs_irregular").val("{{ l.obs_irregular }}");
+            $("#id_frente").val("{{ l.frente }}");
+            $("#id_fondo").val("{{ l.fondo }}");
+            $("#id_total").val("{{ l.total }}");
+            $("#id_precio_x_mt").val("{{ l.precio_x_mt }}");
+            $("#id_precio").val("{{ l.precio }}");
+            $("#id_terraza").val("{{ l.terraza }}");
+            $("#id_precio_x_mt_t").val("{{ l.precio_x_mt_t }}");
+            $("#id_precio_terraza").val("{{ l.precio_terraza }}");
+            $("#id_gran_total").val("{{ l.gran_total }}");
+            $("#id_precio_total").val("{{ l.precio_total }}");
+        "{% endfor %}"
+    }
+    $("#id_fondo").on("keyup", function () {
+//        calculaMetros();
+    });
+    $("#id_frente").on("keyup", function () {
+//        calculaMetros();
+    });
+    $("#id_total").on("keyup", function (e) {
+        calcula();
+    });
+    $("#id_precio_x_mt").on("keyup", function (e) {
+        if (e.keyCode >= 48 && e.keyCode <= 57) {
+            
+        } else {
+            e.preventDefault()
         }
-        function calculaMetros() {
-            frente = parseFloat($("#id_frente").val());
-            fondo = parseFloat($("#id_fondo").val());
-            total = (frente * fondo).toFixed(2);
-            $("#id_total").val(total);
-            calcula();
-        }
+        calcula();
+    });
+    $("#id_terraza").on("keyup", function (e) {
+        calcula();
+    });
+    $("#id_precio_x_mt_t").on("keyup", function (e) {
+        calcula();
+    });
+    $("#estatus").on("change", function () {
+        $("#id_estatus_lote").val($("#estatus").val());
+    });
+    $("#id_tipo_lote").on("change", function () {
+        activa_campos();
+        $("#id_frente").val(0);
+        $("#id_fondo").val(0);
+        $("#id_total").val(0);
+        $("#id_precio_x_mt").val(0);
+        $("#id_precio").val(0);
+        $("#obs_irregular").val("");
+    });
+    alineacion();
+    readOnly();
+    $(document).ready(function () {
+        num_proyecto = '{{num_proyecto}}';
+        accion = '{{accion}}';
+        $("#id_proyecto").val(num_proyecto).change();
+        $("#estatus").val($("#id_estatus_lote").val());
         switch (num_proyecto) {
             case '1':
                 $("#gpo-terraza").hide();
                 $("#estacionamientos").hide();
                 $("#gran_total").hide();
+                $("#precio_total").hide();
                 $("#altura").hide();
                 break;
             case '2':
@@ -279,6 +359,20 @@
                 $("#forma").hide();
                 break;
         }
+        if (accion == 'Alta') {
+            $("#id_tipo_lote").val("{{ tipo_lote }}").change();
+            $("#id_frente").val("{{ frente }}");
+            $("#id_fondo").val("{{ fondo }}");
+            $("#id_total").val("{{ total }}");
+            $("#id_precio_x_mt").val("{{ precio_x_mt }}");
+            $("#id_terraza").val("{{ terraza }}");
+            $("#id_precio_x_mt_t").val("{{ precio_x_mt_t }}");
+            $("#id_esquina").val(0).change();            
+        } else {
+            actualizaPantalla();
+        }
+        activa_campos();
+        calcula();
     });
     {% endblock %}
 </script>
