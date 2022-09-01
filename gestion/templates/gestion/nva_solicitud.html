@@ -175,7 +175,12 @@
                             <input type="text" name="porcentaje_descuento" id="id_porcentaje_descuento"
                                 class="form-control" onfocusout="reformatear('id_porcentaje_descuento')"
                                 onkeypress="return valideKey(event);">
-                            <!--                             form.porcentaje_descuento|as_crispy_field   -->
+                                {% for error in form.porcentaje_descuento.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                                <!--                             form.porcentaje_descuento|as_crispy_field   -->
                         </div>
                     </div>
                     <div class="form-row">
@@ -201,16 +206,16 @@
                                 {% endif %}
                                 {% endfor %}
                             </select>
+                            {% for error in form.cantidad_pagos.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p><small class="mensaje-error">{{ error }}</small></p>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         <div class="form-group col-md-2 mb-0" id="gpo_importe_x_pago">
                             <label>Pago mensual</label>
                             <input type="text" name="importe_x_pago" id="id_importe_x_pago" class="form-control"
                                 onfocusout="reformatear('id_importe_x_pago')" onkeypress="return valideKey(event);">
-                            {% for error in form.importe_x_pago.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
                             <!--                             form.importe_x_pago|as_crispy_field   -->
                         </div>
                     </div>
@@ -765,12 +770,11 @@ $(document).ready(function () {
     $("#id_importe_x_pago").val("{{ importe_x_pago }}").focus();
     $("#id_cantidad_pagos").val("{{ cantidad_pagos }}").focus();
     $("#id_precio_lote").val("{{ precio_lote }}").focus();
-    $("#id_precio_final").val("{{ precio_final }}").focus();
     $("#id_precio_x_mt").val("{{ precio_x_mt }}").focus();
+    $("#id_credito").val("{{ credito }}").focus();
     $("#id_total").val("{{ total }}").focus();
     $("#cliente_id").val("{{ cliente }}");
     $("#id_tipo_cliente").val("{{ tipo_cliente }}");
-    activa_moral();
     $("#id_modo_pago").val("{{ modo_pago }}");
     $("#id_descuento").val("{{ descuento }}").focus();
 
@@ -805,12 +809,22 @@ $(document).ready(function () {
     activa_moral();
     activa_conyuge();
     cambia_modo_pago();
+
+    $("#id_credito").val("{{ credito }}").focus();
+    $("#id_enganche").val("{{ enganche }}").focus();
+    $("#id_cantidad_pagos").val("{{ cantidad_pagos }}").focus();
+    $("#id_importe_x_pago").val("{{ importe_x_pago }}").focus();
+
     accionTipoDescuento();
+    $("#id_descuento").val("{{ descuento }}").focus();
+    $("#id_porcentaje_descuento").val("{{ porcentaje_descuento }}").focus();
+
     ver_btn_cliente();
     accionAsignaDescuento();
     $("#id_descuento").val("{{ descuento }}").focus();
     $("#id_porcentaje_descuento").val("{{ porcentaje_descuento }}").focus();
     $("#id_correo").val("{{ correo }}");
+    $("#id_precio_final").val("{{ precio_final }}").focus();
 });
 {% endblock %}
 </script>

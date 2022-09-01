@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django import forms
 from .models import *
 import re
@@ -50,6 +51,8 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'estado',
             'celular',
             'correo',
+            'total',
+            'precio_x_mt',
         ]
         labels = {
             'cliente': 'Cliente',
@@ -97,13 +100,6 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'correo':'Correo', 
         }
         widgets = {
-            'precio_lote':forms.TextInput(),
-            'precio_final':forms.NumberInput(),
-            'porcentaje_descuento':forms.NumberInput(),
-            'descuento':forms.NumberInput(),
-            'enganche':forms.NumberInput(),
-            'cantidad_pagos':forms.NumberInput(),
-            'importe_x_pago':forms.NumberInput(),
             'correo':forms.EmailInput(),
         }
     def __init__(self, *args, **kwargs):
@@ -137,6 +133,29 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         self.fields['correo'].required = False
         self.fields['regimen'].required = False
 
+    def clean_enganche(self):
+        modo_pago = self.cleaned_data.get("modo_pago")
+        enganche = self.cleaned_data.get("enganche")
+        precio_lote = self.cleaned_data.get("precio_lote")
+        lote = self.cleaned_data.get("lote")
+        datos_memoria = self.cleaned_data
+        tabla_lote = Lote.objects.filter(id=lote.id)
+        proyecto = tabla_lote[0].proyecto.id
+        reglas = Regla.objects.filter(proyecto=proyecto)
+        if modo_pago != 1:
+            if enganche == 0:
+                raise forms.ValidationError('Teclea engache')
+            for regla in reglas:
+                if regla.modo_pago == modo_pago:
+                    if regla.tipo_enganche_minimo == 1:
+                        monto = regla.valor3
+                    else:
+                        porcentaje = regla.valor3
+                        monto = (precio_lote * porcentaje) / 100
+                    if enganche < monto:
+                        mensaje = "Mínimo " + "{:,}".format(monto)
+                        raise forms.ValidationError(mensaje)
+        return enganche
     def clean_razon(self):
         tipo_cliente = self.cleaned_data.get('tipo_cliente')
         razon = self.cleaned_data.get('razon')
@@ -158,13 +177,42 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         if len(celular)==0:
             raise forms.ValidationError('Teclee celular cliente')
         return celular
+    def clean_cantidad_pagos(self):
+        modo_pago = self.cleaned_data.get('modo_pago')
+        cantidad_pagos = self.cleaned_data.get('cantidad_pagos')
+        if modo_pago != 1:
+            if cantidad_pagos == 0:
+                raise forms.ValidationError('Seleccione mensualidades')
+        return cantidad_pagos
     def clean_descuento(self):
-        precio = float(self.cleaned_data.get('precio_lote'))
-        descuento = float(self.cleaned_data.get('descuento'))
-        descuento_maximmo = precio * 0.30
+        asigna_descuento = self.cleaned_data.get('asigna_descuento')
+        tipo_descuento = self.cleaned_data.get('tipo_descuento')
+        descuento = self.cleaned_data.get('descuento')
+        if asigna_descuento == 1 and tipo_descuento == 2:
+            if descuento <= 0:
+                raise forms.ValidationError('Teclea descuento')
+        precio_lote = self.cleaned_data.get('precio_lote')
+        porcentaje_maximo = Decimal('0.20')
+        descuento_maximmo = precio_lote * porcentaje_maximo
         if descuento > descuento_maximmo:
             raise forms.ValidationError('El descuento es mayor al permitido')
         return descuento
+    def clean_porcentaje_descuento(self):
+        asigna_descuento = self.cleaned_data.get('asigna_descuento')
+        tipo_descuento = self.cleaned_data.get('tipo_descuento')
+        porcentaje_descuento = self.cleaned_data.get('porcentaje_descuento')
+        if asigna_descuento == 1 and tipo_descuento == 1:
+            if porcentaje_descuento <= 0:
+                raise forms.ValidationError('Teclea % descuento')
+        return porcentaje_descuento
+    def clean_porcentaje_descuento(self):
+        asigna_descuento = self.cleaned_data.get('asigna_descuento')
+        tipo_descuento = self.cleaned_data.get('tipo_descuento')
+        porcentaje_descuento = self.cleaned_data.get('porcentaje_descuento')
+        if asigna_descuento == 1 and tipo_descuento == 1:
+            if porcentaje_descuento <= 0:
+                raise forms.ValidationError('Teclea % descuento')
+        return porcentaje_descuento
 
 class Nuvole_CompromisoForm(forms.ModelForm):
     class Meta:

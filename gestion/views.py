@@ -267,6 +267,8 @@ class nva_solicitud(CreateView):
             descuento = 0
             enganche = 0
             importe_x_pago = 0
+            total = 0
+            precio_x_mt = 0
 
             foto_elector_frente = " "
             foto_elector_reverso = ""
@@ -314,6 +316,8 @@ class nva_solicitud(CreateView):
             descuento = self.request.POST.get('descuento')
             enganche = self.request.POST.get('enganche')
             importe_x_pago = self.request.POST.get('importe_x_pago')
+            total = self.request.POST.get('total')
+            precio_x_mt = self.request.POST.get('precio_x_mt')
 
             foto_elector_frente = self.request.POST.get('foto_elector_frente')
             foto_elector_reverso = self.request.POST.get('foto_elector_reverso')
@@ -491,6 +495,8 @@ class nva_solicitud(CreateView):
             'estado':estado,
             'celular':celular,
             'correo':correo,
+            'precio_x_mt':precio_x_mt,
+            'total':total,
         }
         solicitud_valida = Nuvole_SolicitudForm(data)
 
@@ -502,7 +508,6 @@ class nva_solicitud(CreateView):
         else:
             context = {}
             context['num_proyecto'] = num_proyecto
-            context['form'] = form
             context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
             if 'empleado_cmb' not in context:
                 asigna_solicitud = f_asigna_solicitud(self)
@@ -610,6 +615,8 @@ class nva_solicitud(CreateView):
             context["estado"] = estado
             context["celular"] = celular
             context["correo"] = correo
+            form = solicitud_valida
+            context['form'] = form
             return render(self.request, self.template_name, context)
         
 #        if form.is_valid():
@@ -620,8 +627,6 @@ class nva_solicitud(CreateView):
 #            form = self.form_class(request.POST, request.FILES)
 #            return render(request, self.template_name, {'form': form})
 
-
-    
 class mod_solicitud(UpdateView): 
     model = Solicitud
     form_class = Nuvole_SolicitudForm
@@ -848,6 +853,8 @@ class mod_solicitud(UpdateView):
             'estado':estado,
             'celular':celular,
             'correo':correo,
+            'total':total,
+            'precio_x_mt':precio_x_mt,
         }
         solicitud_valida = Nuvole_SolicitudForm(data)
 
@@ -894,6 +901,8 @@ class mod_solicitud(UpdateView):
             solicitud_upd.estado = estado
             solicitud_upd.celular = celular
             solicitud_upd.correo = correo
+            solicitud_upd.total  = total
+            solicitud_upd.precio_x_mt = precio_x_mt
             solicitud_upd.save()
             guarda_cliente(self.request)
 #            return reverse_lazy('solicitudes', kwargs={'num_proyecto': num_proyecto})
@@ -901,7 +910,6 @@ class mod_solicitud(UpdateView):
         else:
             context = {}
             context['num_proyecto'] = num_proyecto
-            context['form'] = form
             context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
             if 'empleado_cmb' not in context:
                 asigna_solicitud = f_asigna_solicitud(self)
@@ -1008,6 +1016,9 @@ class mod_solicitud(UpdateView):
             context["estado"] = estado
             context["celular"] = celular
             context["correo"] = correo
+            form = solicitud_valida
+            context['form'] = form
+
             return render(self.request, self.template_name, context)
 
 def can_sol(request, llave, num_proyecto):
