@@ -1,5 +1,7 @@
 from decimal import Decimal
 from django import forms
+
+from core.funciones import valida_correo
 from .models import *
 import re
 
@@ -130,8 +132,8 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         self.fields['foto_alta_shcp'].required = False
         self.fields['foto_acta_const'].required = False
         self.fields['celular'].required = False
-        self.fields['correo'].required = False
         self.fields['regimen'].required = False
+        self.fields['correo'].required = False
 
     def clean_enganche(self):
         modo_pago = self.cleaned_data.get("modo_pago")
@@ -160,23 +162,32 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         tipo_cliente = self.cleaned_data.get('tipo_cliente')
         razon = self.cleaned_data.get('razon')
         if tipo_cliente == 1:
-            raise forms.ValidationError('Teclee razón social')
+            if len(razon) == 0:
+                raise forms.ValidationError('Teclee razón social')
         return razon
     def clean_nombre(self):
         nombre = self.cleaned_data.get('nombre')
-        if len(nombre)==0:
+        if len(nombre) == 0:
             raise forms.ValidationError('Teclee nombre cliente')
         return nombre
     def clean_paterno(self):
         paterno = self.cleaned_data.get('paterno')
-        if len(paterno)==0:
+        if len(paterno) == 0:
             raise forms.ValidationError('Teclee paterno cliente')
         return paterno
     def clean_celular(self):
         celular = self.cleaned_data.get('celular')
-        if len(celular)==0:
+        if len(celular) == 0:
             raise forms.ValidationError('Teclee celular cliente')
         return celular
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo')
+        if len(correo) == 0:
+            raise forms.ValidationError('Teclee correo cliente')
+        else:
+            if not valida_correo(correo):
+                raise forms.ValidationError('Correo cliente inválido')
+        return correo
     def clean_cantidad_pagos(self):
         modo_pago = self.cleaned_data.get('modo_pago')
         cantidad_pagos = self.cleaned_data.get('cantidad_pagos')

@@ -93,7 +93,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     municipio = models.CharField("Municipio",max_length=150, default=" ")
     estado = models.SmallIntegerField("Estado",choices=ESTADOS, default=0)
     celular = models.CharField("Celular", max_length=10, default=" ")
-    correo = models.EmailField("Correo", max_length=180, default=" ")
+    correo = models.CharField("Correo", max_length=180, default=" ")
     comision_pagada = models.SmallIntegerField("Comision pagada", choices=RESP_SI_NO, default=0)
 
     class Meta:
