@@ -326,12 +326,12 @@ class Nuvole_CompromisoForm(forms.ModelForm):
 
     def clean_confirmacion_apartado(self):
         confirmacion_apartado = self.cleaned_data.get("confirmacion_apartado")
-        apartado_tp = self.cleaned_data.get("apartado")
-        apartado_bd = self.instance.apartado
-        if apartado_bd != apartado_tp and apartado_bd == 0:
-            #  Validamos campos apartado
-            if confirmacion_apartado == 0:
-                raise forms.ValidationError("Seleccione una opción")
+#        apartado_tp = self.cleaned_data.get("apartado")
+#        apartado_bd = self.instance.apartado
+#        if apartado_bd != apartado_tp and apartado_bd == 0:
+#            #  Validamos campos apartado
+#            if confirmacion_apartado == 0:
+#                raise forms.ValidationError("Seleccione una opción")
         return confirmacion_apartado
 
     def clean_forma_pago_apa(self):
@@ -391,13 +391,13 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         return float(pago_adicional)
 
     def clean_confirmacion_pago_adicional(self):
-        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
-        pago_adicional_bd = self.instance.pago_adicional
+#        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
+#        pago_adicional_bd = self.instance.pago_adicional
         confirmacion_pago_adicional = self.cleaned_data.get("confirmacion_pago_adicional")
-        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
-            #  Validamos campos confirmmacion pago aicional
-            if confirmacion_pago_adicional == 0:
-                raise forms.ValidationError("Seleccione una opción")
+#        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
+#            #  Validamos campos confirmmacion pago aicional
+#            if confirmacion_pago_adicional == 0:
+#                raise forms.ValidationError("Seleccione una opción")
         return confirmacion_pago_adicional
 
     def clean_forma_pago_pa(self):
