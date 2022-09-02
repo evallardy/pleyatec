@@ -1,3 +1,4 @@
+from multiprocessing import context
 import os
 import datetime
 from django.db.models import Max, Q, Subquery
@@ -1307,7 +1308,7 @@ class compromisos(ListView):
         return context
 
 class pagos(UpdateView): 
-    model = Solicitud
+    model = Solicitud  
     form_class = Nuvole_CompromisoForm
     template_name = 'gestion/pagos.html'
     def get_context_data(self, **kwargs):
@@ -1395,10 +1396,57 @@ class pagos(UpdateView):
                     folio.save()
                     sol = Solicitud.objects.filter(id=pk) \
                         .update(num_contrato=num_contrato)
-        return HttpResponseRedirect(self.get_success_url())
-#        return self.render_to_response(self.get_context_data(form=form))
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            context = {}
+            context["form"] = form
+            num_proyecto = self.kwargs.get('num_proyecto',0)
+            pk = self.kwargs.get('pk',0)
+            context['num_proyecto'] = num_proyecto
+            context['pk'] = pk
+            pk = self.kwargs.get('pk',0)
+            context['sol'] = Solicitud.objects.filter(id=pk)
+            proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+            context['proyecto_tb'] = proyecto_tb
+    #  Proyecto
+            nom_proy = proyecto_tb[0].nom_proy
+    # Realizar listado pagos compromiso
+            des_permiso = '_compromiso'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Realizar pago compromiso
+            des_permiso = '_pago_compromiso'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Confirma depósito pago
+            des_permiso = '_confirma_deposito_pago'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "finanzas." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Impresion recibos pagos
+            des_permiso = '_imp_pago_compromiso'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "gestion." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+
+            apartado = request.POST.get('apartado')
+            context["apartado"] = apartado
+            pago_adicional = request.POST.get('pago_adicional')
+            context["pago_adicional"] = pago_adicional
+
+            return render(self.request, self.template_name, context)
+#            return self.render_to_response(self.get_context_data(context=context))
     def get_success_url(self):
-        pk = self.kwargs.get('pk',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('pagos', kwargs={'num_proyecto': num_proyecto, 'pk': pk})
 

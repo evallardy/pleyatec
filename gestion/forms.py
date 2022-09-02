@@ -134,13 +134,11 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         self.fields['celular'].required = False
         self.fields['regimen'].required = False
         self.fields['correo'].required = False
-
     def clean_enganche(self):
         modo_pago = self.cleaned_data.get("modo_pago")
         enganche = self.cleaned_data.get("enganche")
         precio_lote = self.cleaned_data.get("precio_lote")
         lote = self.cleaned_data.get("lote")
-        datos_memoria = self.cleaned_data
         tabla_lote = Lote.objects.filter(id=lote.id)
         proyecto = tabla_lote[0].proyecto.id
         reglas = Regla.objects.filter(proyecto=proyecto)
@@ -231,21 +229,26 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         fields = [
             'id',
             'lote',
-            'apartado',
+            'cantidad_pagos',
+            'modo_pago',
+            'precio_lote',
+
+            'apartado', 
             'confirmacion_apartado',
-            'pago_adicional',
-            'confirmacion_pago_adicional',
-            'estatus_solicitud',
-            'foto_comprobante_pago_adicional',
-            'foto_comprobante_apartado',
             'forma_pago_apa',
             'cuenta_apa',
             'numero_comprobante_apa',
+            'foto_comprobante_apartado',
+
+            'pago_adicional',
+            'confirmacion_pago_adicional',
             'forma_pago_pa',
             'cuenta_pa',
             'numero_comprobante_pa',
+            'foto_comprobante_pago_adicional',
+
+            'estatus_solicitud',
             'num_contrato',
-            'precio_final',
         ]
         labels = {
             'id': 'Clave',
@@ -267,11 +270,179 @@ class Nuvole_CompromisoForm(forms.ModelForm):
             'precio_final':'Precio final',
         }
         widgets = {
-            'apartado':forms.NumberInput(),
-            'pago_adicional':forms.NumberInput(),
             'cuenta_pa':forms.NumberInput(),
             'cuenta_apa':forms.NumberInput(),
         }
+    def __init__(self, *args, **kwargs):
+        super(Nuvole_CompromisoForm, self).__init__(*args, **kwargs)
+        self.fields['apartado'].required = False
+        self.fields['confirmacion_apartado'].required = False
+        self.fields['forma_pago_apa'].required = False
+        self.fields['cuenta_apa'].required = False
+        self.fields['numero_comprobante_apa'].required = False
+        self.fields['pago_adicional'].required = False
+        self.fields['confirmacion_pago_adicional'].required = False
+        self.fields['forma_pago_pa'].required = False
+        self.fields['cuenta_pa'].required = False
+        self.fields['numero_comprobante_pa'].required = False
+        self.fields['lote'].required = False
+        self.fields['precio_lote'].required = False
+        self.fields['num_contrato'].required = False
+
+    def clean_apartado(self):
+        pk = self.instance.id
+        apartado_tp = self.cleaned_data.get("apartado")
+        apartado = self.cleaned_data.get("apartado")
+        apartado_bd = self.instance.apartado
+        if apartado_bd != apartado_tp and apartado_bd == 0:
+            modo_pago = self.instance.modo_pago
+            precio_lote = self.instance.precio_lote
+            if modo_pago == 1:
+                mensualidades = 0
+            else:
+                mensualidades = self.instance.cantidad_pagos
+            lote = self.instance.lote
+            proyecto = lote.proyecto.id
+            regla = Regla.objects.filter(proyecto=proyecto,modo_pago=modo_pago, mensualidades_permitidas=mensualidades)
+            if regla:
+                tipo_apartado_minimo = regla[0].tipo_apartado_minimo
+                valor2 = regla[0].tipo_apartado_minimo
+                if tipo_apartado_minimo == 1:
+                    monto = regla[0].valor2
+                else:
+                    porcentaje = valor2
+                    monto = (precio_lote * porcentaje) / 100
+                if apartado_tp < monto:
+                    mensaje = "Mínimo " + "{:,}".format(monto)
+                    raise forms.ValidationError(mensaje)
+        else:
+            if apartado_tp < 0:
+                raise forms.ValidationError("Debe ser positivo")
+        return apartado
+
+    def clean_confirmacion_apartado(self):
+        confirmacion_apartado = self.cleaned_data.get("confirmacion_apartado")
+        id = self.instance.id
+        apartado_tp = self.cleaned_data.get("apartado")
+        solicitud = Solicitud.objects.filter(id=id)
+        apartado_bd = solicitud[0].apartado
+        if apartado_bd != apartado_tp and apartado_bd == 0:
+            #  Validamos campos apartado
+            if confirmacion_apartado == 0:
+                raise forms.ValidationError("Seleccione una opción")
+        return confirmacion_apartado
+
+    def clean_forma_pago_apa(self):
+        forma_pago_apa = self.cleaned_data.get("forma_pago_apa")
+        pk = self.instance.id
+        apartado_tp = self.cleaned_data.get("apartado")
+        solicitud = Solicitud.objects.filter(id=pk)
+        apartado_bd = solicitud[0].apartado
+        if apartado_bd != apartado_tp and apartado_bd == 0:
+            #  Validamos campos forma pago apartado
+            if forma_pago_apa == 0:
+                raise forms.ValidationError("Seleccione una opción")
+        return forma_pago_apa
+
+    def clean_cuenta_apa(self):
+        cuenta_apa = self.cleaned_data.get("cuenta_apa")
+        forma_pago_apa = self.cleaned_data.get("forma_pago_apa")
+        pk = self.instance.id
+        apartado_tp = self.cleaned_data.get("apartado")
+        solicitud = Solicitud.objects.filter(id=pk)
+        apartado_bd = solicitud[0].apartado
+        if apartado_bd != apartado_tp and apartado_bd == 0:
+            #  Validamos campos cuenta apartado
+            if cuenta_apa == "" and forma_pago_apa != 3:
+                raise forms.ValidationError("Tecleé cuenta")
+        return cuenta_apa
+
+    def clean_numero_comprobante_apa(self):
+        numero_comprobante_apa = self.cleaned_data.get("numero_comprobante_apa")
+        forma_pago_apa = self.cleaned_data.get("forma_pago_apa")
+        pk = self.instance.id
+        apartado_tp = self.cleaned_data.get("apartado")
+        solicitud = Solicitud.objects.filter(id=pk)
+        apartado_bd = solicitud[0].apartado
+        if apartado_bd != apartado_tp and apartado_bd == 0:
+            #  Validamos campos comprobante apartado
+            if numero_comprobante_apa == "" and forma_pago_apa != 3:
+                raise forms.ValidationError("Tecleé núm. comprobante")
+        return numero_comprobante_apa
+
+    def clean_pago_adicional(self):
+        pk = self.instance.id
+        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
+        pago_adicional = self.cleaned_data.get("pago_adicional")
+        pago_adicional_bd = self.instance.pago_adicional
+        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
+            apartado = self.cleaned_data.get("apartado")
+            modo_pago = self.instance.modo_pago
+            enganche = self.instance.enganche
+            precio_final = self.instance.precio_final
+            if modo_pago == 1:
+                diferencia = precio_final - apartado - pago_adicional
+                if diferencia > 0:
+                    diferencia = precio_final - apartado
+                    mensaje = "Debe ser " + "{:,}".format(diferencia)
+                    raise forms.ValidationError(mensaje)        
+            else:
+                diferencia = enganche - apartado - pago_adicional
+                if diferencia > 0:
+                    diferencia = enganche - apartado
+                    mensaje = "Debe ser " + "{:,}".format(diferencia)
+                    raise forms.ValidationError(mensaje)        
+        return pago_adicional
+
+    def clean_confirmacion_pago_adicional(self):
+        pk = self.instance.id
+        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
+        solicitud = Solicitud.objects.filter(id=pk)
+        pago_adicional_bd = solicitud[0].pago_adicional
+        confirmacion_pago_adicional = self.cleaned_data.get("confirmacion_pago_adicional")
+        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
+            #  Validamos campos confirmmacion pago aicional
+            if confirmacion_pago_adicional == 0:
+                raise forms.ValidationError("Seleccione una opción")
+        return confirmacion_pago_adicional
+
+    def clean_forma_pago_pa(self):
+        pk = self.instance.id
+        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
+        solicitud = Solicitud.objects.filter(id=pk)
+        pago_adicional_bd = solicitud[0].pago_adicional
+        forma_pago_pa = self.cleaned_data.get("forma_pago_pa")
+        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
+            #  Validamos campos forma pago, pago adicional
+            if forma_pago_pa == 0:
+                raise forms.ValidationError("Seleccione una opción")
+        return forma_pago_pa
+
+    def clean_cuenta_pa(self):
+        pk = self.instance.id
+        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
+        solicitud = Solicitud.objects.filter(id=pk)
+        pago_adicional_bd = solicitud[0].pago_adicional
+        cuenta_pa = self.cleaned_data.get("cuenta_pa")
+        forma_pago_pa = self.cleaned_data.get("forma_pago_pa")
+        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
+            #  Validamos campos cuaenta pago adicional
+            if cuenta_pa == "" and forma_pago_pa != 3:
+                raise forms.ValidationError("Tecleé cuenta")
+        return cuenta_pa
+
+    def clean_numero_comprobante_pa(self):
+        pk = self.instance.id
+        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
+        solicitud = Solicitud.objects.filter(id=pk)
+        pago_adicional_bd = solicitud[0].pago_adicional
+        numero_comprobante_pa = self.cleaned_data.get("numero_comprobante_pa")
+        forma_pago_pa = self.cleaned_data.get("forma_pago_pa")
+        if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
+            #  Validamos campos comprobante pago adicional
+            if numero_comprobante_pa == "" and forma_pago_pa != 3:
+                raise forms.ValidationError("Tecleé comprobante")
+        return numero_comprobante_pa
 
 class Num_LoteForm(forms.ModelForm):
     class Meta:

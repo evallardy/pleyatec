@@ -211,10 +211,6 @@ def comisiones_proyecto_asesor(asesor):
 
 from collections import Counter
 
-my_str = "Mary had a little lamb"
-counter = Counter(my_str)
-print(counter['a'])
-
 def valida_correo(correo):
     counter = Counter(correo)
     arrobas = counter['@']
