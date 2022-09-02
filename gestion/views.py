@@ -1362,14 +1362,36 @@ class pagos(UpdateView):
         pk = self.kwargs.get('pk',0)
         solicitud = self.model.objects.get(id=pk)
         form = self.form_class(request.POST, request.FILES, instance=solicitud)
-        if form.is_valid():
+        valida = True
+        if form.errors:
+            for field in form:
+                for error in field.errors:
+                    if error != "Introduzca un número.":
+                        valida = False
+        if valida:
             with transaction.atomic():
-                form.save()
+                solicitud_upd = Solicitud.objects.get(id=pk)
+                solicitud_upd.apartado = request.POST.get('apartado').replace(",","").replace(",","")
+                solicitud_upd.confirmacion_apartado = request.POST.get('confirmacion_apartado')
+                solicitud_upd.foto_comprobante_apartado = request.POST.get('foto_comprobante_apartado')
+                solicitud_upd.forma_pago_apa = request.POST.get('forma_pago_apa')
+                solicitud_upd.cuenta_apa = request.POST.get('cuenta_apa')
+                solicitud_upd.numero_comprobante_apa = request.POST.get('numero_comprobante_apa')
+                solicitud_upd.pago_adicional = request.POST.get('pago_adicional').replace(",","").replace(",","")
+                solicitud_upd.confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
+                solicitud_upd.foto_comprobante_pago_adicional = request.POST.get('foto_comprobante_pago_adicional')
+                solicitud_upd.forma_pago_pa = request.POST.get('forma_pago_pa')
+                solicitud_upd.cuenta_pa = request.POST.get('cuenta_pa')
+                solicitud_upd.numero_comprobante_pa = request.POST.get('numero_comprobante_pa')
+                solicitud_upd.fecha_confirma_pago_adicional = request.POST.get('fecha_confirma_pago_adicional')
+                solicitud_upd.estatus_solicitud = request.POST.get('estatus_solicitud')
+                solicitud_upd.save()
+#                form.save()
                 numero_lote = request.POST.get('lote')
                 num_contrato_sol = request.POST.get('num_contrato')
                 estatus = request.POST.get('estatus_solicitud')
                 confirmacion_pago_adicional = request.POST.get('confirmacion_pago_adicional')
-                precio_final = request.POST.get('precio_final')
+                precio_final = request.POST.get('precio_final').replace(",","").replace(",","")
                 solis = Solicitud.objects.filter(id=pk)
                 lote = Lote.objects.filter(id=numero_lote).update(estatus_lote=estatus)
                 solicitud_bus = Solicitud.objects.filter(estatus_solicitud=1,lote=numero_lote) \
@@ -1448,6 +1470,7 @@ class pagos(UpdateView):
 #            return self.render_to_response(self.get_context_data(context=context))
     def get_success_url(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
+        pk = self.kwargs.get('pk',0)
         return reverse_lazy('pagos', kwargs={'num_proyecto': num_proyecto, 'pk': pk})
 
 class archivo(ListView):

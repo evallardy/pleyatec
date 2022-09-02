@@ -232,6 +232,7 @@ class Nuvole_CompromisoForm(forms.ModelForm):
             'cantidad_pagos',
             'modo_pago',
             'precio_lote',
+            'precio_final',
 
             'apartado', 
             'confirmacion_apartado',
@@ -288,6 +289,9 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         self.fields['lote'].required = False
         self.fields['precio_lote'].required = False
         self.fields['num_contrato'].required = False
+        self.fields['foto_comprobante_apartado'].required = False
+        self.fields['foto_comprobante_pago_adicional'].required = False
+        self.fields['modo_pago'].required = False
 
     def clean_apartado(self):
         pk = self.instance.id
@@ -322,10 +326,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
 
     def clean_confirmacion_apartado(self):
         confirmacion_apartado = self.cleaned_data.get("confirmacion_apartado")
-        id = self.instance.id
         apartado_tp = self.cleaned_data.get("apartado")
-        solicitud = Solicitud.objects.filter(id=id)
-        apartado_bd = solicitud[0].apartado
+        apartado_bd = self.instance.apartado
         if apartado_bd != apartado_tp and apartado_bd == 0:
             #  Validamos campos apartado
             if confirmacion_apartado == 0:
@@ -334,10 +336,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
 
     def clean_forma_pago_apa(self):
         forma_pago_apa = self.cleaned_data.get("forma_pago_apa")
-        pk = self.instance.id
         apartado_tp = self.cleaned_data.get("apartado")
-        solicitud = Solicitud.objects.filter(id=pk)
-        apartado_bd = solicitud[0].apartado
+        apartado_bd = self.instance.apartado
         if apartado_bd != apartado_tp and apartado_bd == 0:
             #  Validamos campos forma pago apartado
             if forma_pago_apa == 0:
@@ -347,10 +347,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
     def clean_cuenta_apa(self):
         cuenta_apa = self.cleaned_data.get("cuenta_apa")
         forma_pago_apa = self.cleaned_data.get("forma_pago_apa")
-        pk = self.instance.id
         apartado_tp = self.cleaned_data.get("apartado")
-        solicitud = Solicitud.objects.filter(id=pk)
-        apartado_bd = solicitud[0].apartado
+        apartado_bd = self.instance.apartado
         if apartado_bd != apartado_tp and apartado_bd == 0:
             #  Validamos campos cuenta apartado
             if cuenta_apa == "" and forma_pago_apa != 3:
@@ -360,10 +358,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
     def clean_numero_comprobante_apa(self):
         numero_comprobante_apa = self.cleaned_data.get("numero_comprobante_apa")
         forma_pago_apa = self.cleaned_data.get("forma_pago_apa")
-        pk = self.instance.id
         apartado_tp = self.cleaned_data.get("apartado")
-        solicitud = Solicitud.objects.filter(id=pk)
-        apartado_bd = solicitud[0].apartado
+        apartado_bd = self.instance.apartado
         if apartado_bd != apartado_tp and apartado_bd == 0:
             #  Validamos campos comprobante apartado
             if numero_comprobante_apa == "" and forma_pago_apa != 3:
@@ -392,13 +388,11 @@ class Nuvole_CompromisoForm(forms.ModelForm):
                     diferencia = enganche - apartado
                     mensaje = "Debe ser " + "{:,}".format(diferencia)
                     raise forms.ValidationError(mensaje)        
-        return pago_adicional
+        return float(pago_adicional)
 
     def clean_confirmacion_pago_adicional(self):
-        pk = self.instance.id
         pago_adicional_tp = self.cleaned_data.get("pago_adicional")
-        solicitud = Solicitud.objects.filter(id=pk)
-        pago_adicional_bd = solicitud[0].pago_adicional
+        pago_adicional_bd = self.instance.pago_adicional
         confirmacion_pago_adicional = self.cleaned_data.get("confirmacion_pago_adicional")
         if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
             #  Validamos campos confirmmacion pago aicional
@@ -407,10 +401,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         return confirmacion_pago_adicional
 
     def clean_forma_pago_pa(self):
-        pk = self.instance.id
         pago_adicional_tp = self.cleaned_data.get("pago_adicional")
-        solicitud = Solicitud.objects.filter(id=pk)
-        pago_adicional_bd = solicitud[0].pago_adicional
+        pago_adicional_bd = self.instance.pago_adicional
         forma_pago_pa = self.cleaned_data.get("forma_pago_pa")
         if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
             #  Validamos campos forma pago, pago adicional
@@ -419,10 +411,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         return forma_pago_pa
 
     def clean_cuenta_pa(self):
-        pk = self.instance.id
         pago_adicional_tp = self.cleaned_data.get("pago_adicional")
-        solicitud = Solicitud.objects.filter(id=pk)
-        pago_adicional_bd = solicitud[0].pago_adicional
+        pago_adicional_bd = self.instance.pago_adicional
         cuenta_pa = self.cleaned_data.get("cuenta_pa")
         forma_pago_pa = self.cleaned_data.get("forma_pago_pa")
         if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
@@ -432,10 +422,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         return cuenta_pa
 
     def clean_numero_comprobante_pa(self):
-        pk = self.instance.id
         pago_adicional_tp = self.cleaned_data.get("pago_adicional")
-        solicitud = Solicitud.objects.filter(id=pk)
-        pago_adicional_bd = solicitud[0].pago_adicional
+        pago_adicional_bd = self.instance.pago_adicional
         numero_comprobante_pa = self.cleaned_data.get("numero_comprobante_pa")
         forma_pago_pa = self.cleaned_data.get("forma_pago_pa")
         if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
