@@ -286,25 +286,6 @@
     <script>
         {% block bljs %}
 
-        var id_diferencia;
-        var id_modo_pago;
-        var id_estatus_lote;
-        var id_estatus_solicitud;
-        var id_precio_final;
-        var id_enganche;
-        var id_apartado;
-        var id_pago_adicional;
-        var texto = "";
-
-//        window.captureEvents(Event.SUBMIT);
-//        window.onsubmit = func_guardar;
-//        function func_guardar() {
-//            if (guarda == false) {
-//                aviso("Error al guardar", texto);
-//            }
-//            return guarda;
-//        }
-
         function anular(e) {
             tecla = (document.all) ? e.keyCode : e.which;
             return (tecla != 13);
@@ -340,6 +321,9 @@
         function calcula_diferencia() {
             id_apartado = convierteNumero("id_apartado");
             id_pago_adicional = convierteNumero("id_pago_adicional");
+            id_modo_pago = convierteNumero("id_modo_pago");
+            id_precio_final = convierteNumero("id_precio_final");
+            id_enganche = convierteNumero("id_enganche");
             if (id_modo_pago == "1") {
                 id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
             } else {
@@ -366,19 +350,17 @@
         function valoresIniciales () {
             {% for s in sol %}
 
-            $("#id_apartado").val("{{ s.apartado }}");
-            $("#id_confirmacion_apartado").val("{{ s.confirmacion_apartado }}");
-//            $("#id_foto_comprobante_apartado").val(" s.foto_comprobante_apartado ");
-            $("#id_forma_pago_apa").val("{{ s.forma_pago_apa }}");
-            $("#id_cuenta_apa").val("{{ s.cuenta_apa }}");
-            $("#id_numero_comprobante_apa").val("{{ s.numero_comprobante_apa }}");
+            if (parseFloat("{{ apartado}}") > 0) {
+                $("#id_apartado").val("{{ apartado }}");
+            } else {
+                $("#id_apartado").val("{{ s.apartado }}");
+            }
 
-            $("#id_pago_adicional").val("{{ s.pago_adicional }}");
-            $("#id_confirmacion_pago_adicional").val("{{ s.confirmacion_pago_adicional }}");
-//            $("#id_foto_comprobante_pago_adicional").val(" s.foto_comprobante_pago_adicional ");
-            $("#id_forma_pago_pa").val("{{ s.forma_pago_pa }}");
-            $("#id_cuenta_pa").val("{{ s.cuenta_pa }}");
-            $("#id_numero_comprobante_pa").val("{{ s.numero_comprobante_pa }}");
+            if (parseFloat("{{ pago_adicional }}") > 0) {
+                $("#id_pago_adicional").val("{{ pago_adicional }}");
+            } else {
+                $("#id_pago_adicional").val("{{ s.pago_adicional }}");
+            }
 
             {% endfor %}
             if (convierteNumero("id_confirmacion_apartado") == 2) {
@@ -386,7 +368,7 @@
                 proteje_apartado();
             } else {
                 $("#btn_recibo").hide();
-                if (id_apartado > 0) {
+                if (convierteNumero("id_apartado") > 0) {
                     inicia_pago_adicional();
                     proteje_adicional();
                 }
@@ -397,7 +379,7 @@
                 proteje_adicional();
             } else {
                 $("#btn_adicional").hide();
-                if (id_pago_adicional > 0) {
+                if (convierteNumero("id_pago_adicional") > 0) {
                     proteje_apartado();
                 }
             }
@@ -439,7 +421,7 @@
                     texto += "Falta imagen comprobante, ";
                 }
             }
-            if (id_apartado < 50000) {
+            if (convierteNumero("id_apartado") < 50000) {
                 texto += "El importe del apartado debe ser mayor igual a 50,000.00, ";
             }
             if ($("#id_confirmacion_apartado").val() == 2) {
@@ -453,8 +435,6 @@
         }
         function inicia_apartado() {
             $("#id_apartado").val(0.00);
-            id_apartado = 0;
-            //                $("#id_confirmacion_apartado").val(0);
             $("#id_forma_pago_apa").val(0);
             $('#id_cuenta_apa').val('');
             $("#id_confirmacion_apartado").val(0);
@@ -535,7 +515,6 @@
         }
         function inicia_pago_adicional() {
             $("#id_pago_adicional").val(0.00);
-            id_pago_adicional = 0;
             $("#id_forma_pago_pa").val(0);
             $("#id_confirmacion_pago_adicional").val(0);
             $('#id_cuenta_pa').val('');

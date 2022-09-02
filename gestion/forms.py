@@ -371,8 +371,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         pago_adicional_tp = self.cleaned_data.get("pago_adicional")
         pago_adicional = self.cleaned_data.get("pago_adicional")
         pago_adicional_bd = self.instance.pago_adicional
+        apartado = self.instance.apartado
         if pago_adicional_bd != pago_adicional_tp and pago_adicional_bd == 0:
-            apartado = self.cleaned_data.get("apartado")
             modo_pago = self.instance.modo_pago
             enganche = self.instance.enganche
             precio_final = self.instance.precio_final

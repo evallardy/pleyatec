@@ -1318,9 +1318,12 @@ class pagos(UpdateView):
         context['num_proyecto'] = num_proyecto
         context['pk'] = pk
         pk = self.kwargs.get('pk',0)
-        context['sol'] = Solicitud.objects.filter(id=pk)
+        sol = Solicitud.objects.filter(id=pk)
+        context['sol'] = sol
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
+        context['apartado'] = sol[0].apartado
+        context['pago_adicional'] = sol[0].pago_adicional
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
 # Realizar listado pagos compromiso
