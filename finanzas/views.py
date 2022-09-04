@@ -23,7 +23,7 @@ from empleado.models import Empleado
 from .funciones import datos_tabla_amortizacion
 from core.funciones import datos_fecha, fecha_hoy, fecha_hoy_d, fecha_inicio_dia_mes_pago, fecha_ultima_pago, fecha_ultimo_dia_mes, fecha_ultimo_dia_mes_pago, str_to_fecha_amd, suma_dias_fecha, trae_empresa
 from gestion.models import Solicitud
-from gestion.funciones import f_asigna_solicitud, f_empleado
+from gestion.funciones import f_area_puesto, f_asigna_solicitud, f_empleado
 from finanzas.models import Pago
 from .forms import PagoForm
 
@@ -119,17 +119,44 @@ class pagar(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud == 1:
+        datos = f_area_puesto(self)
+        if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+            # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud=10) 
-        else:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
+            # DIRECTOR
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud=10) 
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+            # DIRECTOR GENERAL
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud=10) 
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
+            # ASESOR
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor_id=id_empleado) \
                 .filter(estatus_solicitud=10) 
+        else:
+            # SIN ACCESO
+            queryset = Solicitud.objects.filter(asesor_id=0)
+
+
+#        if asigna_solicitud == 1:
+#            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+#                .filter(asesor__in=Subquery(empleados.values('pk'))) \
+#                .filter(estatus_solicitud=10) 
+#        else:
+#            id_empleado = f_empleado(self)
+#            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+#                .filter(asesor_id=id_empleado) \
+#                .filter(estatus_solicitud=10) 
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -562,19 +589,51 @@ class contrato_contado(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud == 1:
+        datos = f_area_puesto(self)
+        if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+            # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
                 .filter(modo_pago__in=[1,3])        
-        else:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
+            # DIRECTOR
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
+                .filter(modo_pago__in=[1,3])        
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+            # DIRECTOR GENERAL
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
+                .filter(modo_pago__in=[1,3])        
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
+            # ASESOR
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor_id=id_empleado) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
                 .filter(modo_pago__in=[1,3])
+        else:
+            # SIN ACCESO
+            queryset = Solicitud.objects.filter(asesor_id=0)
+
+
+
+#        if asigna_solicitud == 1:
+#            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+#                .filter(asesor__in=Subquery(empleados.values('pk'))) \
+#                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
+#                .filter(modo_pago__in=[1,3])        
+#        else:
+#            id_empleado = f_empleado(self)
+#            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+#                .filter(asesor_id=id_empleado) \
+#                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
+#                .filter(modo_pago__in=[1,3])
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -688,19 +747,49 @@ class contrato_credito(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud == 1:
+        datos = f_area_puesto(self)
+        if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+            # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
                 .filter(modo_pago__in=[2,4])        
-        else:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
+            # DIRECTOR
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+                .filter(modo_pago__in=[2,4])        
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+            # DIRECTOR GENERAL
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+                .filter(modo_pago__in=[2,4])        
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
+            # ASESOR
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor_id=id_empleado) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
                 .filter(modo_pago__in=[2,4])        
+        else:
+            # SIN ACCESO
+            queryset = Solicitud.objects.filter(asesor_id=0)
+
+#        if asigna_solicitud == 1:
+#            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+#                .filter(asesor__in=Subquery(empleados.values('pk'))) \
+#                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+#                .filter(modo_pago__in=[2,4])        
+#        else:
+#            id_empleado = f_empleado(self)
+#            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+#                .filter(asesor_id=id_empleado) \
+#                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+#                .filter(modo_pago__in=[2,4])        
         return queryset
 
     def get_context_data(self, **kwargs):
