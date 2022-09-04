@@ -43,12 +43,17 @@ class solicitudes(ListView):
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,5,99]) \
                 .filter(aprobacion_gerente=False, aprobacion_director=False)
-        elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
             # DIRECTOR
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,5,99]) \
                 .filter(aprobacion_gerente=False, aprobacion_director=False)
-        elif datos.area_operativa == 3 and datos.puesto == 1:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+            # DIRECTOR GENERAL
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud__in=[1,5,99]) \
+                .filter(aprobacion_gerente=False, aprobacion_director=False)
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(asesor_id=id_empleado) \
@@ -217,11 +222,15 @@ class nva_solicitud(CreateView):
                 .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                 .filter(estatus_cliente=1)
-        elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
             # DIRECTOR
             cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                 .order_by('paterno','materno','nombre').all()
-        elif datos.area_operativa == 3 and datos.puesto == 1:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+            # DIRECTOR GENERAL
+            cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                .order_by('paterno','materno','nombre').all()
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
                 .order_by('paterno','materno','nombre')
@@ -536,11 +545,15 @@ class nva_solicitud(CreateView):
                     .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
                 cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                     .filter(estatus_cliente=1)
-            elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+            elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
                 # DIRECTOR
                 cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                     .order_by('paterno','materno','nombre').all()
-            elif datos.area_operativa == 3 and datos.puesto == 1:
+            elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+                # DIRECTOR GENERAL
+                cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre').all()
+            elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
                 # ASESOR
                 cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
                     .order_by('paterno','materno','nombre')
@@ -687,12 +700,16 @@ class mod_solicitud(UpdateView):
                 .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                 .filter(estatus_cliente=1)
-        elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
             cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                 .order_by('paterno','materno','nombre').all()
-        elif datos.area_operativa == 3 and datos.puesto == 1:
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
                 .order_by('paterno','materno','nombre')
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+            # DIRECTOR GENERAL
+            cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                .order_by('paterno','materno','nombre').all()
         else:
             cliente_cmb = Empleado.objects.filter(id=0)
         context['cliente_cmb'] = cliente_cmb
@@ -981,10 +998,14 @@ class mod_solicitud(UpdateView):
                     .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
                 cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                     .filter(estatus_cliente=1)
-            elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+            elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
                 cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                     .order_by('paterno','materno','nombre').all()
-            elif datos.area_operativa == 3 and datos.puesto == 1:
+            elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
+                # DIRECTOR GENERAL
+                cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre').all()
+            elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
                 cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
                     .order_by('paterno','materno','nombre')
             else:
