@@ -1,5 +1,7 @@
 from django import forms
 from django.forms import DateField, ModelForm, widgets
+
+from core.funciones import valida_correo
 from .models import Cliente
 from bootstrap_datepicker_plus  import  DatePickerInput ,  TimePickerInput 
 
@@ -58,22 +60,9 @@ class ClienteForm(forms.ModelForm):
             'materno_conyuge': 'Materno del Conyuge',
         }
         widgets = {
-            'nombre':forms.TextInput(attrs={'class':'form-control'}),   #   requerido
-            'paterno':forms.TextInput(attrs={'class':'form-control'}),   #   requerido
-            'materno':forms.TextInput(attrs={'class':'form-control'}),
-            'rfc':forms.TextInput(attrs={'class':'form-control'}),
-            'curp':forms.TextInput(attrs={'class':'form-control'}),
             'fecha_nac':DateInput(format='%Y-%m-%d'),
-            'calle':forms.TextInput(attrs={'class':'form-control'}),
-            'colonia':forms.TextInput(attrs={'class':'form-control'}),
             'codpos':forms.NumberInput(attrs={'class':'form-control'}),
-            'municipio':forms.TextInput(attrs={'class':'form-control'}),
-            'telefono_fijo':forms.TextInput(attrs={'class':'form-control'}),
-            'celular':forms.TextInput(attrs={'class':'form-control'}),           #   requerido
             'correo':forms.EmailInput(attrs={'class':'form-control'}),          #   requerido
-            'nombre_conyuge':forms.TextInput(attrs={'class':'form-control'}),
-            'paterno_conyuge':forms.TextInput(attrs={'class':'form-control'}),
-            'materno_conyuge':forms.TextInput(attrs={'class':'form-control'}),
         }
     def __init__(self, *args, **kwargs):
         super(ClienteForm, self).__init__(*args, **kwargs)
@@ -88,3 +77,9 @@ class ClienteForm(forms.ModelForm):
         self.fields['nombre_conyuge'].required = False
         self.fields['paterno_conyuge'].required = False
         self.fields['materno_conyuge'].required = False
+
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo')
+        if valida_correo(correo):
+            raise forms.ValidationError('Correo inválido')
+        return correo

@@ -325,7 +325,7 @@ class nva_solicitud(CreateView):
             municipio = " "
             estado = 0
             celular = " "
-            correo = ""
+            correo = " "
         else:
             asesor = self.request.POST.get('asesor_id')
             lote = self.request.POST.get('lote_id')

@@ -1,3 +1,5 @@
+from http.client import HTTPResponse
+from sqlite3 import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.conf import settings
 
@@ -39,6 +41,11 @@ class nvo_cliente(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         context['accion'] = "Alta"
 #        context["administrador"] = administrador(self.request.user.id)
         return context
+    def form_valid(self, form):
+        try:
+            return super(nvo_cliente, self).form_valid(form)
+        except IntegrityError:
+            return HTTPResponse("ERROR: Kumquat already exists!")
 
 class mod_cliente(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'cliente.change_cliente'
