@@ -117,3 +117,4 @@ class EmpleadoForm(forms.ModelForm):
         self.fields['municipio'].required = False
         self.fields['codpos'].required = False
         self.fields['telefono_fijo'].required = False
+        self.fields['correo'].required = True
