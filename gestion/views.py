@@ -526,26 +526,50 @@ class nva_solicitud(CreateView):
             context = {}
             context['num_proyecto'] = num_proyecto
             context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
-            if 'empleado_cmb' not in context:
-                asigna_solicitud = f_asigna_solicitud(self)
-                f_emp = f_empleado(self)
-                if asigna_solicitud == 1:
-                    query1 = Q(tipo_empleado='E', area_operativa=3) 
-    #                query2 = Q(id=f_emp)
-    #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-                    empleado_cmb = Empleado.objects.filter(query1)  \
-                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
-                        .order_by('paterno','materno','nombre').all()
-                    context['f_emp'] = 0
-                else:
-                    empleado_cmb = Empleado.objects.filter(id=f_emp) \
-                        .order_by('paterno','materno','nombre')
-                    context['f_emp'] = f_emp
-                context['empleado_cmb'] = empleado_cmb
-    #        context['form'] = self.form_class(self.request.GET)
-            cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+            asigna_solicitud = f_asigna_solicitud(self)
+            f_emp = f_empleado(self)
+            datos = f_area_puesto(self)
+            if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+                #  GERENTE
+                gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+                empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
+                    .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+                cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
+                    .filter(estatus_cliente=1)
+            elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+                # DIRECTOR
+                cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre').all()
+            elif datos.area_operativa == 3 and datos.puesto == 1:
+                # ASESOR
+                cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre')
+            else:
+                # SIN ACCESO
+                cliente_cmb = Empleado.objects.filter(id=0)
             context['cliente_cmb'] = cliente_cmb
+
+            empleado_cmb = Empleado.objects.filter(estatus_empleado=1)
+            context['empleado_cmb'] = empleado_cmb
+
+#            if 'empleado_cmb' not in context:
+#                asigna_solicitud = f_asigna_solicitud(self)
+#                f_emp = f_empleado(self)
+#                if asigna_solicitud == 1:
+#                    query1 = Q(tipo_empleado='E', area_operativa=3) 
+#                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+#                    empleado_cmb = Empleado.objects.filter(query1)  \
+#                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+#                        .order_by('paterno','materno','nombre').all()
+#                    context['f_emp'] = 0
+#                else:
+#                    empleado_cmb = Empleado.objects.filter(id=f_emp) \
+#                        .order_by('paterno','materno','nombre')
+#                    context['f_emp'] = f_emp
+#                context['empleado_cmb'] = empleado_cmb
+#            cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+#            context['cliente_cmb'] = cliente_cmb
+
             context['menu'] = "solicitud"
             context['accion'] = "Alta"
             context['sol'] = Solicitud.objects.filter(id = 0)
@@ -654,6 +678,8 @@ class mod_solicitud(UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         solicitud = self.model.objects.get(id=pk)
         context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
+        asigna_solicitud = f_asigna_solicitud(self)
+        f_emp = f_empleado(self)
         datos = f_area_puesto(self)
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
@@ -945,26 +971,47 @@ class mod_solicitud(UpdateView):
             context = {}
             context['num_proyecto'] = num_proyecto
             context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
-            if 'empleado_cmb' not in context:
-                asigna_solicitud = f_asigna_solicitud(self)
-                f_emp = f_empleado(self)
-                if asigna_solicitud == 1:
-                    query1 = Q(tipo_empleado='E', area_operativa=3) 
-    #                query2 = Q(id=f_emp)
-    #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-                    empleado_cmb = Empleado.objects.filter(query1)  \
-                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
-                        .order_by('paterno','materno','nombre').all()
-                    context['f_emp'] = 0
-                else:
-                    empleado_cmb = Empleado.objects.filter(id=f_emp) \
-                        .order_by('paterno','materno','nombre')
-                    context['f_emp'] = f_emp
-                context['empleado_cmb'] = empleado_cmb
-    #        context['form'] = self.form_class(self.request.GET)
-            cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+
+            asigna_solicitud = f_asigna_solicitud(self)
+            f_emp = f_empleado(self)
+            datos = f_area_puesto(self)
+            if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+                gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+                empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
+                    .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+                cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
+                    .filter(estatus_cliente=1)
+            elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+                cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre').all()
+            elif datos.area_operativa == 3 and datos.puesto == 1:
+                cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre')
+            else:
+                cliente_cmb = Empleado.objects.filter(id=0)
             context['cliente_cmb'] = cliente_cmb
+
+            empleado_cmb = Empleado.objects.filter(estatus_empleado=1)
+            context['empleado_cmb'] = empleado_cmb
+
+#            if 'empleado_cmb' not in context:
+#                asigna_solicitud = f_asigna_solicitud(self)
+#                f_emp = f_empleado(self)
+#                if asigna_solicitud == 1:
+#                    query1 = Q(tipo_empleado='E', area_operativa=3) 
+#                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+#                    empleado_cmb = Empleado.objects.filter(query1)  \
+#                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+#                        .order_by('paterno','materno','nombre').all()
+#                    context['f_emp'] = 0
+#                else:
+#                    empleado_cmb = Empleado.objects.filter(id=f_emp) \
+#                        .order_by('paterno','materno','nombre')
+#                    context['f_emp'] = f_emp
+#                context['empleado_cmb'] = empleado_cmb
+#            cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+#            context['cliente_cmb'] = cliente_cmb
+
             context['menu'] = "solicitud"
             context['accion'] = "Alta"
             context['sol'] = Solicitud.objects.filter(id = 0)
