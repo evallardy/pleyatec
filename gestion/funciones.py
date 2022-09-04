@@ -1,5 +1,5 @@
 from errno import ESTALE
-from core.models import COMISION_PUBLICIDAD
+from core.models import AREA_OPERATIVA, COMISION_PUBLICIDAD, PUESTO
 from empleado.models import Empleado
 from bien.models import ComisionAgente, Lote, PagoComision, Proyecto
 from .models import Folios, Regla
@@ -7,23 +7,38 @@ from django.db.models import Max
 
 def f_asigna_solicitud(self):
     usuario = self.request.user.id
-    empleado = Empleado.objects.filter(usuario=usuario).first()
-    if empleado == None:
-        asigna_solicitud = False
+    empleado = Empleado.objects.filter(usuario=usuario)
+    if not empleado:
+        asigna_solicitud = 0
     else:
-        field_object = Empleado._meta.get_field('asigna_solicitud')
-        asigna_solicitud = field_object.value_from_object(empleado)
+        asigna_solicitud = empleado[0].asigna_solicitud
     return asigna_solicitud
 
-def f_empleado(self):
+def  f_empleado(self):
     usuario = self.request.user.id
-    empleado = Empleado.objects.filter(usuario=usuario).first()
-    if empleado == None:
+    empleado = Empleado.objects.filter(usuario=usuario)
+    if not empleado:
         id_empleado = 0
     else:
-        field_object = Empleado._meta.get_field('id')
-        id_empleado = field_object.value_from_object(empleado)
+        id_empleado = empleado[0].id
     return id_empleado
+
+def  f_area_puesto(self):
+    num_area = AREA_OPERATIVA
+    num_puesto = PUESTO
+    usuario = self.request.user.id
+    empleado = Empleado.objects.filter(usuario=usuario)
+    if not empleado:
+        area_operativa = 0
+        puesto = 0
+    else:
+        area_operativa = empleado[0].area_operativa
+        puesto = empleado[0].puesto
+    datos = {
+        'puesto':puesto,
+        'area_operativa':area_operativa,
+    }
+    return datos
 
 def comision_asesor(asesor, proyecto, director):
     reg_comision = ComisionAgente.objects.filter(proyecto_com=proyecto,empleado_com=asesor)
@@ -58,7 +73,7 @@ def genera_comision(asesor, lote, modo_pago, precio_final, enganche, fecha_confi
 
 def nuevo_folio(tipo):
     folio = Folios.objects.filter(tipo=tipo).aggregate(Max('numero'))['numero__max']
-    if folio == None:
+    if not folio:
         folio = 1
     else:
         folio += 1

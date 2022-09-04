@@ -71,15 +71,13 @@
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-0">
                             <label>Asesores</label>
+                            <input type="text" name="nom_asesor" id="id_nom_asesor" class="form-control" readonly> 
                             <select name="asesor" id="asesor_id" class="form-control">
                                 <option value=0>---------</option>
                                 {% for l in empleado_cmb %}
                                 <option value="{{ l.id }}">{{ l.paterno }} {{ l.materno }} {{ l.nombre }}</option>
                                 {% endfor %}
                             </select>
-                            {% for error in form.asesor.errors %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endfor %}
                         </div>
                     </div>
                     <div class="form-row">
@@ -381,6 +379,7 @@
         $("#id_precio_lote").attr('readonly', 'true');
         $("#id_precio_final").attr('readonly', 'true');
         $("#id_descuento").attr('readonly', 'true');
+        $("#asesor_id").hide();
     }
     // Funciones
     function anular(e) {
@@ -663,6 +662,9 @@
     $("#id_estado_civil").on("change", function () {
         activa_conyuge();
     });
+    $("#asesor_id").change(function() {
+        $("#id_nom_asesor").val($('#asesor_id option:selected').html());
+    });
     $("#cliente_id").on("change", function () {
         borra_campos_cliente();
         seleccion_cliente = $("#cliente_id").val();
@@ -728,6 +730,7 @@
             {% if c.correo.strip != ""  %}
             $("#id_correo").val("{{ c.correo }}");
             {% endif %}
+            $("#asesor_id").val("{{ c.asesor.id }}").change();
         }
         {% endfor %}
         ver_btn_cliente();
@@ -763,7 +766,7 @@ $(document).ready(function () {
     presentacion();
     $("#lote_id").val("{{ lote }}");
     $("#cliente_id").val("{{ cliente }}");
-    $("#asesor_id").val("{{ asesor }}");
+    $("#asesor_id").val("{{ asesor }}").change();
     $("#id_asigna_descuento").val("{{ asigna_descuento }}");
     $("#id_porcentaje_descuento").val("{{ porcentaje_descuento }}").focus();
     $("#id_enganche").val("{{ enganche }}").focus();

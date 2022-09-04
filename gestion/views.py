@@ -34,7 +34,7 @@ class solicitudes(ListView):
         num_proyecto = self.kwargs.get('num_proyecto')
         asigna_solicitud = f_asigna_solicitud(self)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -196,26 +196,33 @@ class nva_solicitud(CreateView):
         context = super(nva_solicitud, self).get_context_data(**kwargs)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
-        if 'empleado_cmb' not in context:
-            asigna_solicitud = f_asigna_solicitud(self)
-            f_emp = f_empleado(self)
-            if asigna_solicitud:
-                query1 = Q(tipo_empleado='E', area_operativa=3) 
+        asigna_solicitud = f_asigna_solicitud(self)
+        f_emp = f_empleado(self)
+        datos = f_area_puesto(self)
+        if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+#            query1 = Q(tipo_empleado='E', area_operativa=3) 
 #                query2 = Q(id=f_emp)
 #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
-                gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-                empleado_cmb = Empleado.objects.filter(query1)  \
-                    .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
-                    .order_by('paterno','materno','nombre').all()
-                context['f_emp'] = 0
-            else:
-                empleado_cmb = Empleado.objects.filter(id=f_emp) \
-                    .order_by('paterno','materno','nombre')
-                context['f_emp'] = f_emp
-            context['empleado_cmb'] = empleado_cmb
-#        context['form'] = self.form_class(self.request.GET)
-        cliente_cmb = Cliente.objects.filter(estatus_cliente=1)
+            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
+            empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
+                .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleado_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3)  \
+#                .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+#                .order_by('paterno','materno','nombre').all()
+            cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
+                .filter(estatus_cliente=1)
+        elif asigna_solicitud == 1 and datos.area_operativa == 3 and datos.puesto == 5:
+            cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                .order_by('paterno','materno','nombre').all()
+        elif datos.area_operativa == 3 and datos.puesto == 1:
+            cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
+                .order_by('paterno','materno','nombre')
+        else:
+            cliente_cmb = Empleado.objects.filter(id=0)
         context['cliente_cmb'] = cliente_cmb
+
+        empleado_cmb = Empleado.objects.filter(estatus_empleado=1)
+        context['empleado_cmb'] = empleado_cmb
         context['menu'] = "solicitud"
         context['accion'] = "Alta"
         context['sol'] = Solicitud.objects.filter(id = 0)
@@ -513,7 +520,7 @@ class nva_solicitud(CreateView):
             if 'empleado_cmb' not in context:
                 asigna_solicitud = f_asigna_solicitud(self)
                 f_emp = f_empleado(self)
-                if asigna_solicitud:
+                if asigna_solicitud == 1:
                     query1 = Q(tipo_empleado='E', area_operativa=3) 
     #                query2 = Q(id=f_emp)
     #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
@@ -640,7 +647,7 @@ class mod_solicitud(UpdateView):
         context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
         if 'empleado_cmb' not in context:
             asigna_solicitud = f_asigna_solicitud(self)
-            if asigna_solicitud:
+            if asigna_solicitud == 1:
                 query1 = Q(tipo_empleado='E', area_operativa=3)
 #                query2 = Q(id=f_empleado(self))
 #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
@@ -915,7 +922,7 @@ class mod_solicitud(UpdateView):
             if 'empleado_cmb' not in context:
                 asigna_solicitud = f_asigna_solicitud(self)
                 f_emp = f_empleado(self)
-                if asigna_solicitud:
+                if asigna_solicitud == 1:
                     query1 = Q(tipo_empleado='E', area_operativa=3) 
     #                query2 = Q(id=f_emp)
     #                empleado_cmb = Empleado.objects.filter(query1 | query2)  \
@@ -1060,7 +1067,7 @@ class autorizaciones(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.all().filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -1207,7 +1214,7 @@ class compromisos(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -1488,7 +1495,7 @@ class archivo(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -1625,7 +1632,7 @@ class reciboPDF(View):
             importe = field_object.value_from_object(solicitud)
         if num_recibo == 0:
             num_recibo = Folios.objects.filter(tipo=1).aggregate(Max('numero'))['numero__max']
-            if num_recibo == None:
+            if not num_recibo:
                 num_recibo = 1
             else:
                 num_recibo += 1
@@ -1687,7 +1694,7 @@ class contratos(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
@@ -2083,7 +2090,7 @@ class contratoPDF(CreateView):
 #            else: 
 #  Asiganr numero de contrato a la solcititud                
 #                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
-#                if num_contrato == None:
+#                if not num_contrato:
 #                    num_contrato = 1
 #                else:
 #                    num_contrato += 1

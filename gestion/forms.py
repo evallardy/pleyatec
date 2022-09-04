@@ -139,23 +139,36 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         enganche = self.cleaned_data.get("enganche")
         precio_lote = self.cleaned_data.get("precio_lote")
         lote = self.cleaned_data.get("lote")
-        tabla_lote = Lote.objects.filter(id=lote.id)
-        proyecto = tabla_lote[0].proyecto.id
-        reglas = Regla.objects.filter(proyecto=proyecto)
-        if modo_pago != 1:
-            if enganche == 0:
-                raise forms.ValidationError('Teclea engache')
-            for regla in reglas:
-                if regla.modo_pago == modo_pago:
-                    if regla.tipo_enganche_minimo == 1:
-                        monto = regla.valor3
-                    else:
-                        porcentaje = regla.valor3
-                        monto = (precio_lote * porcentaje) / 100
-                    if enganche < monto:
-                        mensaje = "Mínimo " + "{:,}".format(monto)
-                        raise forms.ValidationError(mensaje)
+        if lote:
+            tabla_lote = Lote.objects.filter(id=lote.id)
+            proyecto = tabla_lote[0].proyecto.id
+            reglas = Regla.objects.filter(proyecto=proyecto)
+            if modo_pago != 1:
+                if enganche == 0:
+                    raise forms.ValidationError('Teclea engache')
+                for regla in reglas:
+                    if regla.modo_pago == modo_pago:
+                        if regla.tipo_enganche_minimo == 1:
+                            monto = regla.valor3
+                        else:
+                            porcentaje = regla.valor3
+                            monto = (precio_lote * porcentaje) / 100
+                        if enganche < monto:
+                            mensaje = "Mínimo " + "{:,}".format(monto)
+                            raise forms.ValidationError(mensaje)
         return enganche
+    def clean_lote(self):
+        lote = self.cleaned_data.get('lote')
+        print(lote)
+        if lote == None:
+            raise forms.ValidationError('Seleccione un bien')
+        return lote
+    def clean_cliente(self):
+        cliente = self.cleaned_data.get('cliente')
+        print(cliente)
+        if not cliente:
+            raise forms.ValidationError('Seleccione un cliente')
+        return cliente
     def clean_razon(self):
         tipo_cliente = self.cleaned_data.get('tipo_cliente')
         razon = self.cleaned_data.get('razon')

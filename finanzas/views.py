@@ -119,7 +119,7 @@ class pagar(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -562,7 +562,7 @@ class contrato_contado(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -582,7 +582,7 @@ class contrato_contado(ListView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
         asigna_solicitud = f_asigna_solicitud(self)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             totales = Solicitud.objects \
@@ -688,7 +688,7 @@ class contrato_credito(ListView):
         asigna_solicitud = f_asigna_solicitud(self)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
@@ -708,7 +708,7 @@ class contrato_credito(ListView):
         context = super(contrato_credito, self).get_context_data(**kwargs)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         lotes = Lote.objects.all().only("proyecto","id").filter(proyecto=num_proyecto)
-        if asigna_solicitud:
+        if asigna_solicitud == 1:
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \

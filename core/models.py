@@ -20,7 +20,7 @@ ANIOS = (
 AREA_OPERATIVA = (
     (1, 'Dirección General'),
     (2, 'Finanzas'),
-    (3, 'Asesoria de Ventas'),
+    (3, 'Ventas'),
 )
 ESQUINA_SI = (
     (0, 'No'),
@@ -106,9 +106,10 @@ PARENTEZCO = (
 )
 PUESTO = (
     (1, 'Asesor'),
-    (2, 'Gerente de asesores'),
+    (2, 'Gerente de ventas'),
     (3, 'Director General'),
     (4, 'Personal de finanzas'),
+    (5, 'Director comercial'),
 )
 REGIMEN = (
     (0, 'Bienes separados'),
