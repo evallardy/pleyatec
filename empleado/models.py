@@ -25,7 +25,7 @@ class Empleado(models.Model,PermissionRequiredMixin):
     estado = models.IntegerField("Estado",choices=ESTADOS, default=0)
     codpos = models.CharField("Código Postal",max_length=5, default=" ")
     telefono_fijo = models.CharField("Telefono fijo", max_length=50, default=" ")
-    celular = models.CharField("Celular", max_length=10, default=" ")
+    celular = models.CharField("Celular", max_length=20, default=" ")
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
     tipo_empleado = models.CharField("Interno/Externo", max_length=1, choices=TIPO_EMPLEADO,default='E')
     area_operativa = models.SmallIntegerField("Área operativa", choices=AREA_OPERATIVA,default=3)

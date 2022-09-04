@@ -24,7 +24,7 @@ class Cliente(models.Model, PermissionRequiredMixin):
     codpos = models.CharField("Código Postal",max_length=5, default=" ")
     municipio = models.CharField("Municipio",max_length=150, default=" ")
     estado = models.SmallIntegerField("Estado",choices=ESTADOS, default=0)
-    celular = models.CharField("Celular", max_length=10, default=" ")
+    celular = models.CharField("Celular", max_length=20, default=" ")
     correo = models.EmailField("Correo", max_length=180, blank=True, null=True)
     estatus_cliente = models.SmallIntegerField("Activo",choices=STATUS_SI_NO,default=1)
     created = models.DateTimeField("Creado", auto_now_add=True)
