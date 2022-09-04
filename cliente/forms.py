@@ -77,9 +77,13 @@ class ClienteForm(forms.ModelForm):
         self.fields['nombre_conyuge'].required = False
         self.fields['paterno_conyuge'].required = False
         self.fields['materno_conyuge'].required = False
+        self.fields['correo'].required = True
 
     def clean_correo(self):
         correo = self.cleaned_data.get('correo')
-        if valida_correo(correo):
-            raise forms.ValidationError('Correo inválido')
+        if len(correo) != 0:
+            if valida_correo(correo):
+                raise forms.ValidationError('Correo inválido')
+        else:
+            raise forms.ValidationError('Tecleé correo cliente')
         return correo
