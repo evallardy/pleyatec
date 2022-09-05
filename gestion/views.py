@@ -695,22 +695,26 @@ class mod_solicitud(UpdateView):
         f_emp = f_empleado(self)
         datos = f_area_puesto(self)
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
+            # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
                 .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
             cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                 .filter(estatus_cliente=1)
         elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
+            # DIRECTOR
             cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                 .order_by('paterno','materno','nombre').all()
-        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
-            cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
-                .order_by('paterno','materno','nombre')
         elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
             # DIRECTOR GENERAL
             cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                 .order_by('paterno','materno','nombre').all()
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
+            # ASESOR
+            cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
+                .order_by('paterno','materno','nombre')
         else:
+            # SIN ACCESO
             cliente_cmb = Empleado.objects.filter(id=0)
         context['cliente_cmb'] = cliente_cmb
 
@@ -998,14 +1002,16 @@ class mod_solicitud(UpdateView):
                     .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
                 cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                     .filter(estatus_cliente=1)
-            elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
-                cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
-                    .order_by('paterno','materno','nombre').all()
             elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
                 # DIRECTOR GENERAL
                 cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
                     .order_by('paterno','materno','nombre').all()
+            elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
+                # DIRECTOR 
+                cliente_cmb = Cliente.objects.filter(estatus_cliente=1) \
+                    .order_by('paterno','materno','nombre').all()
             elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
+                # ASESOR
                 cliente_cmb = Cliente.objects.filter(asesor=f_emp, estatus_cliente=1) \
                     .order_by('paterno','materno','nombre')
             else:
