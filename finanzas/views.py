@@ -676,7 +676,7 @@ class contrato_contado(ListView):
                     ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
         else:
             # SIN ACCESO
-            queryset = Solicitud.objects.filter(asesor_id=0)
+            totales = Solicitud.objects.filter(asesor_id=0)
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
@@ -869,7 +869,7 @@ class contrato_credito(ListView):
                     ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
         else:
             # SIN ACCESO
-            queryset = Solicitud.objects.filter(asesor_id=0)
+            totales = Solicitud.objects.filter(asesor_id=0)
 
 
 #        if asigna_solicitud == 1:

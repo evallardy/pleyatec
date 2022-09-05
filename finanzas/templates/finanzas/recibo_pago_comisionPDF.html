@@ -117,23 +117,9 @@
             </tr>
             <tr class="renglon-normal" style="font-size: 14px;">
                 <td class="texto">Por concepto de:</td>
-                {% if comp.pago == 'total' %}
-                {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
                 <td>
-                    Pago total del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                    Pago de comisión de {{  }} {{  }} del proyecto {{  }} del periodo {{  }}
                 </td>
-                {% else %}
-                <td style="width: 600px; height: 45px;">
-                    <textarea rows="2" >
-                    Pago total del enganche del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
-                    </textarea>
-                </td>
-                {% endif %}
-                {% else %}
-                <td>
-                    Apartado del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
-                </td>
-                {% endif %}
             </tr>
             <tr class="renglon-normal">
                 <td style="text-align: center;"></td>
@@ -149,18 +135,21 @@
                 <td style="text-align: center;">________________________________</td>
             </tr>
             <tr class="renglon-normal" style="width: 100%;">
-                <td style="text-align: center;">Arturo Domíngez Ruíz</td>
+                <td style="text-align: center;">{{   }}</td>
             </tr>
             <tr style="border-bottom-color: black; border-bottom-style: solid;
                        border-left-color: black; border-left-style: solid; 
                        border-right-color: black; border-right-style: solid;
                        height: 20px; ">
-                <td style="text-align: center;">Director de desarrollo</td>
+                <td style="text-align: center;">{{  }}</td>
             </tr>
         </table>
     </div>
     {% if x == 0 %}
+    Empresa
     <br>
+    {% else %}
+    Asesor
     {% endif %}
     {% endfor %}
 </body>
