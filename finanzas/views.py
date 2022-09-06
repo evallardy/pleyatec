@@ -22,8 +22,8 @@ from core.models import Titulo
 from empleado.models import Empleado
 from .funciones import datos_tabla_amortizacion
 from core.funciones import datos_fecha, fecha_hoy, fecha_hoy_d, fecha_inicio_dia_mes_pago, fecha_ultima_pago, fecha_ultimo_dia_mes, fecha_ultimo_dia_mes_pago, str_to_fecha_amd, suma_dias_fecha, trae_empresa
-from gestion.models import Solicitud
-from gestion.funciones import f_area_puesto, f_asigna_solicitud, f_empleado
+from gestion.models import Folios, Solicitud
+from gestion.funciones import f_area_puesto, f_asigna_solicitud, f_empleado, nuevo_folio
 from finanzas.models import Pago
 from .forms import PagoForm
 
@@ -123,7 +123,7 @@ class pagar(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud=10) 
@@ -148,7 +148,7 @@ class pagar(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .filter(estatus_solicitud=10) 
@@ -593,7 +593,7 @@ class contrato_contado(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
@@ -623,7 +623,7 @@ class contrato_contado(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,6,7,9])  \
@@ -645,7 +645,7 @@ class contrato_contado(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             totales = Solicitud.objects \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[2,3,6,7,9], modo_pago__in=[1,3],lote__in=Subquery(lotes.values('pk'))) \
@@ -680,7 +680,7 @@ class contrato_contado(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            totales = Solicitud.objects \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .filter(estatus_solicitud__in=[2,3,6,7,9], modo_pago__in=[1,3],lote__in=Subquery(lotes.values('pk'))) \
@@ -788,7 +788,7 @@ class contrato_credito(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
@@ -816,7 +816,7 @@ class contrato_credito(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .order_by('num_contrato').filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
@@ -838,7 +838,7 @@ class contrato_credito(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
@@ -874,7 +874,7 @@ class contrato_credito(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
@@ -988,9 +988,9 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
         bienes = PagoComision.objects \
             .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                proyecto_pago=num_proyecto, estatus_comision=0, empleado_pago=pk) \
+                proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
             .order_by('-fecha_contrato') 
-        nombre = bienes[0].empleado_pago 
+        nombre = bienes[0].asesor_pago 
         context['nombre'] = nombre
         total = 0
         cantidad = 0
@@ -1009,7 +1009,7 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
         queryset = PagoComision.objects \
             .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                proyecto_pago=num_proyecto, estatus_comision=0, empleado_pago=pk) \
+                proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
             .order_by('-fecha_contrato') 
         return queryset
 
@@ -1056,23 +1056,38 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         if pagos_pagados:
             pago_comision = PagoComision.objects \
                 .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
-                .values('empleado_pago','estatus_pago_comision','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
+                .values('asesor_pago','estatus_pago_asesor','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
                 .annotate(bienes=Count('bien_pago',distinct=True),total_asesor=Sum('importe'), \
                 total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad')) \
-                .order_by('empleado_pago') 
+                .order_by('asesor_pago') 
             pago_comision_detalle = PagoComision.objects \
                 .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto)
+            resultado_gerentes = Empleado.objects \
+                .filter(pagocomision__fecha_periodo=fecha_hasta, pagocomision__proyecto_pago=num_proyecto) \
+                .values('pagocomision__asesor_pago','subidPersonal','paterno','materno','nombre', \
+                    'pagocomision__estatus_pago_asesor') \
+                .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
+                total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
+                .order_by('subidPersonal','paterno','materno','nombre') 
         else:
             pago_comision = PagoComision.objects \
                 .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto, \
                     estatus_comision=0) \
-                .values('empleado_pago','estatus_pago_comision','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
+                .values('asesor_pago','estatus_pago_asesor','estatus_pago_gerente','estatus_pago_publicidad','estatus_comision') \
                 .annotate(bienes=Count('bien_pago',distinct=True),total_asesor=Sum('importe'), \
                 total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad')) \
-                .order_by('empleado_pago') 
+                .order_by('asesor_pago') 
             pago_comision_detalle = PagoComision.objects \
                 .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto, \
                     estatus_comision=0)
+            resultado_gerentes = Empleado.objects \
+                .filter(pagocomision__fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                    pagocomision__proyecto_pago=num_proyecto, pagocomision__estatus_comision=0) \
+                .values('pagocomision__asesor_pago','subidPersonal','paterno','materno','nombre', \
+                    'pagocomision__estatus_pago_asesor') \
+                .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
+                total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
+                .order_by('subidPersonal','paterno','materno','nombre') 
         context['pago_comision_detalle'] = pago_comision_detalle
         importe_asesores = 0    
         importe_gerente = 0
@@ -1088,8 +1103,8 @@ class pago_comisiones(LoginRequiredMixin, ListView):
             importe_gerente += pagos['total_gerente']
             importe_publicidad += pagos['total_publicidad']
             importe_general += importe_asesores + importe_gerente + importe_publicidad
-            if pagos['estatus_pago_comision'] > context['pago_asesores']:
-                context['pago_asesores'] = pagos['estatus_pago_comision']
+            if pagos['estatus_pago_asesor'] > context['pago_asesores']:
+                context['pago_asesores'] = pagos['estatus_pago_asesor']
             if pagos['estatus_pago_gerente'] > context['pago_gerente']:
                 context['pago_gerente'] = pagos['estatus_pago_gerente']
             if pagos['estatus_pago_publicidad'] > context['pago_publicidad']:
@@ -1102,6 +1117,52 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         context['fecha_hasta'] = str(fecha_hasta)
         if importe_general == 0 or fecha_hasta > fecha_hoy_d():
             context['estatus_comision'] = 4
+        # Lista de gerentes
+        pagos_gerentes = []
+        id_gerente_anterior = 0
+        print(1)
+        for gerente in resultado_gerentes:
+            id_gerente = gerente['subidPersonal']
+            print("gerente " + str(id_gerente))
+            if id_gerente != id_gerente_anterior:
+                print(2)
+                if id_gerente_anterior == 0:
+                    print(3)
+                    id_gerente_anterior = id_gerente
+                    total_bienes_gerente = gerente['bienes']
+                    total_pago_gerente = gerente['total_asesor']
+                else:
+                    print(4)
+                    datos_gerente = Empleado.objects.filter(id=id_gerente_anterior)
+                    nombre_gerente = datos_gerente[0].nombre + " " + datos_gerente[0].paterno \
+                        + " " + datos_gerente[0].materno
+                    pagos_gerentes.append({
+                        'id':id_gerente_anterior,
+                        'nombre_gerente': nombre_gerente,
+                        'total_bienes_gerente': total_bienes_gerente,
+                        'total_pago_gerente': total_pago_gerente,})            
+                    id_gerente_anterior = id_gerente
+                    total_pago_gerente = 0
+                    total_bienes_gerente = 0
+                print(5)
+            else:
+                print(6)
+                total_bienes_gerente += gerente['bienes']
+                total_pago_gerente += gerente['total_asesor']
+        print(7)
+        if id_gerente_anterior != 0:
+            print(8)
+            datos_gerente = Empleado.objects.filter(id=id_gerente_anterior)
+            nombre_gerente = datos_gerente[0].nombre + " " + datos_gerente[0].paterno \
+                + " " + datos_gerente[0].materno
+            pagos_gerentes.append({
+                'id':id_gerente_anterior,
+                'nombre_gerente': nombre_gerente,
+                'total_bienes_gerente': total_bienes_gerente,
+                'total_pago_gerente': total_pago_gerente,})            
+        context['pagos_gerentes'] = pagos_gerentes
+        print(9)
+        print(pagos_gerentes)
         return context
     def get_queryset(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
@@ -1123,20 +1184,20 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         if pagos_pagados:
             queryset = Empleado.objects \
                 .filter(pagocomision__fecha_periodo=fecha_hasta, pagocomision__proyecto_pago=num_proyecto) \
-                .values('pagocomision__empleado_pago','paterno','materno','nombre', \
-                    'pagocomision__estatus_pago_comision') \
+                .values('pagocomision__asesor_pago','paterno','materno','nombre', \
+                    'pagocomision__estatus_pago_asesor') \
                 .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
                 total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
-                .order_by('paterno','materno','nombre') 
+                .order_by('subidPersonal','paterno','materno','nombre') 
         else:
             queryset = Empleado.objects \
                 .filter(pagocomision__fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
                     pagocomision__proyecto_pago=num_proyecto, pagocomision__estatus_comision=0) \
-                .values('pagocomision__empleado_pago','paterno','materno','nombre', \
-                    'pagocomision__estatus_pago_comision') \
+                .values('pagocomision__asesor_pago','paterno','materno','nombre', \
+                    'pagocomision__estatus_pago_asesor') \
                 .annotate(bienes=Count('pagocomision__bien_pago',distinct=True),total_asesor=Sum('pagocomision__importe'), \
                 total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
-                .order_by('paterno','materno','nombre') 
+                .order_by('subidPersonal','paterno','materno','nombre') 
         return queryset
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -1148,12 +1209,12 @@ def deposito_comision(self, fecha, num_proyecto, empleado, opcion):
 #  Todos los asesores        
         pago_comision_detalle = PagoComision.objects \
             .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
-            .update(estatus_pago_comision=1)
+            .update(estatus_pago_asesor=1)
     elif opcion== '2':
 #  Solo un asesor        
         pago_comision_detalle = PagoComision.objects \
             .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto, \
-                empleado_pago_id=empleado).update(estatus_pago_comision=1)
+                asesor_pago_id=empleado).update(estatus_pago_asesor=1)
     elif opcion== '3':
 #  Gerente ventas
         pago_comision_detalle = PagoComision.objects \
@@ -1186,4 +1247,72 @@ class situacion_comisiones(LoginRequiredMixin, ListView):
         queryset = PagoComision.objects.filter(proyecto_pago=num_proyecto) 
         return queryset
 
-        
+def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_proyecto, imp_ger, imp_pub):
+    fecha_hasta1 = str_to_fecha_amd(fecha_hasta)
+    fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta1)
+    fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta1)
+#   Vobo a todos los registros asesor con gerente y director publicidad y folio publicidad
+    pago_comision_detalle = PagoComision.objects \
+        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+            proyecto_pago=num_proyecto) \
+        .update(estatus_comision=1,
+            estatus_pago_asesor=1,
+            estatus_pago_gerente=1,
+            estatus_pago_publicidad=1, \
+            fecha_periodo=fecha_hasta)
+#   Folio de publicidad
+    folio_publicidad = nuevo_folio(3)
+    observacion = "Comisión publicidad de fecha " + fecha_hasta_str + \
+        " del proyecto " + nom_proyecto
+    folio = Folios(
+        tipo = 3, 
+        numero = folio_publicidad,
+        observacion = observacion,
+        importe = imp_pub)
+    folio.save()
+#   Actualiza folio publicidad    
+    act_folio_publicidad = PagoComision.objects \
+        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+            proyecto_pago=num_proyecto,estatus_pago_publicidad=1) \
+        .update(folio_comision_publicidad=folio_publicidad,)
+    gerente_ant = 0
+    for pago in pago_comision_detalle:
+        if not pago.asesor_pago == gerente_ant:
+            gerente_ant = pago.empleado_pago
+            folio_gerente = nuevo_folio(3)
+            observacion = "Comisión gerente de fecha " + fecha_hasta_str + \
+                " del proyecto " + nom_proyecto
+            folio = Folios(
+                tipo = 3, 
+                numero = folio_gerente,
+                observacion = observacion,
+                importe = imp_ger)
+            folio.save()
+        actualiza = PagoComision.objects \
+            .filter(bien_pago=pago.bien_pago) \
+            .update(
+                folio_comision_gerente=folio_gerente, 
+                folio_comision_asesor=folio_asesor)
+
+
+    empleado_ant = 0
+    pago_comision_detalle = PagoComision.objects \
+        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) 
+    for pago in pago_comision_detalle:
+        if not pago.empleado_pago == empleado_ant:
+            empleado_ant = pago.empleado_pago
+            folio_asesor = nuevo_folio(3)
+            observacion = "Comisión agente " + pago.empleado_pago.nombre_completo + \
+                " de fecha " + fecha_hasta_str + " del proyecto " + nom_proyecto
+            folio = Folios(
+                tipo = 3, 
+                numero = folio_asesor,
+                observacion = observacion,
+                importe = pago.importe)
+            folio.save()
+        actualiza = PagoComision.objects \
+            .filter(bien_pago=pago.bien_pago) \
+            .update(
+                folio_comision_gerente=folio_gerente, 
+                folio_comision_asesor=folio_asesor)
+    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'id_periodo':fecha_hasta_str} ,))

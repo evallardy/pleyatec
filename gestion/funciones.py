@@ -40,7 +40,7 @@ def  f_area_puesto(self):
     }
     return datos
 
-def comision_asesor(asesor, proyecto, director):
+def obtener_comision(asesor, proyecto, gerente):
     reg_comision = ComisionAgente.objects.filter(proyecto_com=proyecto,empleado_com=asesor)
     comision = 0
     if reg_comision:
@@ -48,7 +48,7 @@ def comision_asesor(asesor, proyecto, director):
     if comision == 0:
         reg_comision_proyecto = Proyecto.objects.filter(id=proyecto)
         if reg_comision_proyecto:
-            if director:
+            if gerente:
                 comision = reg_comision_proyecto[0].comision_jefe_asesor
             else:
                 comision = reg_comision_proyecto[0].comision_asesor
@@ -57,18 +57,19 @@ def comision_asesor(asesor, proyecto, director):
 def genera_comision(asesor, lote, modo_pago, precio_final, enganche, fecha_confirma_pago_adicional, fecha_contrato):
     lote = Lote.objects.filter(id=lote)
     id_proyecto = lote[0].proyecto.id
-    comision = comision_asesor(asesor, id_proyecto, False)
+    comision = obtener_comision(asesor, id_proyecto, False)
     jefe = Empleado.objects.filter(id=asesor)
-    director = jefe[0].subidPersdonal
-    comision_director = comision_asesor(director, id_proyecto, True)
+    gerente = jefe[0].subidPersonal
+    comision_gerente = obtener_comision(gerente, id_proyecto, True)
     comision_publicidad = COMISION_PUBLICIDAD
     importe = precio_final * comision / 100
-    importe_director = precio_final * comision_director / 100
+    importe_gerente = precio_final * comision_gerente / 100
     importe_publicidad = precio_final * comision_publicidad / 100
-    pagoComision = PagoComision(empleado_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
+    pagoComision = PagoComision(asesor_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
         precio_final=precio_final, enganche=enganche, fecha_confirma_pago_adicional=fecha_confirma_pago_adicional, \
-        fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_director=comision_director, \
-        importe_director=importe_director, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad)
+        fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_gerente=comision_gerente, \
+        importe_gerente=importe_gerente, comsion_publicidad=comision_publicidad, \
+        importe_publicidad=importe_publicidad,gerente_pago=gerente)
     return pagoComision
 
 def nuevo_folio(tipo):

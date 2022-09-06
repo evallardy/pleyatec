@@ -42,4 +42,9 @@ class PagoForm(forms.ModelForm):
             'importe_pagado':forms.NumberInput(),
             'cuenta':forms.NumberInput(),
         }
+    def __init__(self, *args, **kwargs):
+        super(PagoForm, self).__init__(*args, **kwargs)
+        self.fields['numero_comprobante'].required = False
+        self.fields['file_comprobante'].required = False
+        self.fields['cuenta'].required = False
 

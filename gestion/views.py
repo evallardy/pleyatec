@@ -38,7 +38,7 @@ class solicitudes(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,5,99]) \
@@ -219,7 +219,7 @@ class nva_solicitud(CreateView):
             #  GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
-                .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+                .filter(subidPersonal__in=Subquery(gerente.values('pk')))
             cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                 .filter(estatus_cliente=1)
         elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
@@ -542,7 +542,7 @@ class nva_solicitud(CreateView):
                 #  GERENTE
                 gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
                 empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
-                    .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+                    .filter(subidPersonal__in=Subquery(gerente.values('pk')))
                 cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                     .filter(estatus_cliente=1)
             elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
@@ -572,7 +572,7 @@ class nva_solicitud(CreateView):
 #                    query1 = Q(tipo_empleado='E', area_operativa=3) 
 #                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
 #                    empleado_cmb = Empleado.objects.filter(query1)  \
-#                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+#                        .filter(subidPersonal__in=Subquery(gerente.values('pk'))) \
 #                        .order_by('paterno','materno','nombre').all()
 #                    context['f_emp'] = 0
 #                else:
@@ -698,7 +698,7 @@ class mod_solicitud(UpdateView):
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
-                .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+                .filter(subidPersonal__in=Subquery(gerente.values('pk')))
             cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                 .filter(estatus_cliente=1)
         elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
@@ -727,7 +727,7 @@ class mod_solicitud(UpdateView):
 #                query1 = Q(tipo_empleado='E', area_operativa=3)
 #                gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
 #                empleado_cmb = Empleado.objects.filter(query1)  \
-#                    .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+#                    .filter(subidPersonal__in=Subquery(gerente.values('pk'))) \
 #                    .order_by('paterno','materno','nombre').all()
 #            else:
 #                empleado_cmb = Empleado.objects.filter(id=f_empleado(self)) \
@@ -999,7 +999,7 @@ class mod_solicitud(UpdateView):
             if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
                 gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
                 empleados_gerente = Empleado.objects.filter(tipo_empleado='E', area_operativa=3, estatus_empleado=1)  \
-                    .filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+                    .filter(subidPersonal__in=Subquery(gerente.values('pk')))
                 cliente_cmb = Cliente.objects.filter(asesor__in=Subquery(empleados_gerente.values('pk'))) \
                     .filter(estatus_cliente=1)
             elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
@@ -1028,7 +1028,7 @@ class mod_solicitud(UpdateView):
 #                    query1 = Q(tipo_empleado='E', area_operativa=3) 
 #                    gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
 #                    empleado_cmb = Empleado.objects.filter(query1)  \
-#                        .filter(subidPersdonal__in=Subquery(gerente.values('pk'))) \
+#                        .filter(subidPersonal__in=Subquery(gerente.values('pk'))) \
 #                        .order_by('paterno','materno','nombre').all()
 #                    context['f_emp'] = 0
 #                else:
@@ -1171,7 +1171,7 @@ class autorizaciones(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.all().filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .exclude(estatus_solicitud__in=[5,99]) \
@@ -1199,7 +1199,7 @@ class autorizaciones(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.all().filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .exclude(estatus_solicitud__in=[5,99]) \
@@ -1348,7 +1348,7 @@ class compromisos(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,2,3]) 
@@ -1373,7 +1373,7 @@ class compromisos(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .filter(estatus_solicitud__in=[1,2,3]) 
@@ -1656,7 +1656,7 @@ class archivo(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk')))
         elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
@@ -1676,7 +1676,7 @@ class archivo(ListView):
         
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
 #                .filter(asesor__in=Subquery(empleados.values('pk')))
 #        else:
@@ -1877,7 +1877,7 @@ class contratos(ListView):
         if asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 2:
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(aprobacion_gerente=True, aprobacion_director=True) \
@@ -1912,7 +1912,7 @@ class contratos(ListView):
 
 #        if asigna_solicitud == 1:
 #            gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
-#            empleados = Empleado.objects.all().only("id").filter(subidPersdonal__in=Subquery(gerente.values('pk')))
+#            empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
 #            queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
 #                .filter(asesor__in=Subquery(empleados.values('pk'))) \
 #                .filter(aprobacion_gerente=True, aprobacion_director=True) \
@@ -2100,18 +2100,19 @@ class datos_contrato(UpdateView):
 #   Genera registo de pago de comisión
                 lote_actual = Lote.objects.filter(id=lote)
                 id_proyecto = lote_actual[0].proyecto.id
-                comision = comision_asesor(asesor, id_proyecto, False)
+                comision = obtener_comision(asesor, id_proyecto, False)
                 jefe = Empleado.objects.filter(id=asesor)
-                gerente = jefe[0].subidPersdonal
-                comision_gerente = comision_asesor(gerente, id_proyecto, True)
+                gerente = jefe[0].subidPersonal
+                comision_gerente = obtener_comision(gerente, id_proyecto, True)
                 comision_publicidad = COMISION_PUBLICIDAD
                 importe = precio_final * comision / 100
                 importe_gerente = precio_final * comision_gerente / 100
                 importe_publicidad = precio_final * comision_publicidad / 100
-                pagoComision = PagoComision(proyecto_pago_id=id_proyecto, empleado_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
+                pagoComision = PagoComision(proyecto_pago_id=id_proyecto, asesor_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
                     precio_final=precio_final, enganche=enganche, fecha_confirma_pago_adicional=fecha_confirma_pago_adicional, \
                     fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_gerente=comision_gerente, \
-                    importe_gerente=importe_gerente, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad)
+                    importe_gerente=importe_gerente, comsion_publicidad=comision_publicidad, importe_publicidad=importe_publicidad, \
+                    gerente_pago=gerente)
                 pagoComision.save()
                 if modo_pago == 1:
                     sol = Solicitud.objects.filter(id=self.kwargs['pk']) \
@@ -2402,46 +2403,3 @@ class contratoPDF(CreateView):
 #        queryset = Solicitud.objects.all()
 #        return queryset
 
-def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_proyecto, imp_ger, imp_pub):
-    fecha_hasta1 = str_to_fecha_amd(fecha_hasta)
-    fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta1)
-    fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta1)
-#    with transaction.atomic():
-    folio_gerente = nuevo_folio(3)
-    observacion = "Comisión gerente de fecha " + fecha_hasta_str + \
-        " del proyecto " + nom_proyecto
-    folio = Folios(
-        tipo = 3, 
-        numero = folio_gerente,
-        observacion = observacion,
-        importe = imp_ger)
-    folio.save()
-    folio_publicidad = nuevo_folio(3)
-    observacion = "Comisión publicidad de fecha " + fecha_hasta_str + \
-        " del proyecto " + nom_proyecto
-    folio = Folios(
-        tipo = 3, 
-        numero = folio_publicidad,
-        observacion = observacion,
-        importe = imp_pub)
-    folio.save()
-    empleado_ant = 0
-    pago_comision_detalle = PagoComision.objects \
-        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) 
-    for pago in pago_comision_detalle:
-        if not pago.empleado_pago == empleado_ant:
-            empleado_ant = pago.empleado_pago
-            folio_asesor = nuevo_folio(3)
-            observacion = "Comisión agente " + pago.empleado_pago.nombre_completo + \
-                " de fecha " + fecha_hasta_str + " del proyecto " + nom_proyecto
-            folio = Folios(
-                tipo = 3, 
-                numero = folio_asesor,
-                observacion = observacion,
-                importe = pago.importe)
-            folio.save()
-        actualiza = PagoComision.objects \
-            .filter(bien_pago=pago.bien_pago) \
-            .update(estatus_comision=1,fecha_periodo=fecha_hasta,folio_comision_gerente=folio_gerente, \
-                folio_comision_publicidad=folio_publicidad,folio_comision_asesor=folio_asesor)
-    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'id_periodo':fecha_hasta_str} ,))

@@ -51,7 +51,7 @@
             {% for c in object_list %}
             <tr>
                 <td class="col-md-1" style="text-align: center;" scope="col">{{ c.bien_pago }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe }}<br>{{ c.get_estatus_pago_comision_display }}</td>
+                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe }}<br>{{ c.get_estatus_pago_asesor_display }}</td>
                 <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_gerente }}<br>{{ c.get_estatus_pago_gerente_display }}</td>
                 <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_publicidad }}<br>{{ c.get_estatus_pago_publicidad_display }}</td>
                 <td class="col-md-1" style="text-align: center;" scope="col">{{ c.fecha_contrato }}</td>

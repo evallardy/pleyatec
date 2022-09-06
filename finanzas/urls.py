@@ -17,5 +17,6 @@ urlpatterns = [
     path('detalle_comisiones/<pk>/<num_proyecto>/<fecha_hasta>/', detalle_comisiones.as_view(), name='detalle_comisiones'), 
     path('deposito_comision/<fecha>/<num_proyecto>/<empleado>/<opcion>/', deposito_comision, name='deposito_comision'), 
     path('situacion_comisiones/<num_proyecto>/', situacion_comisiones.as_view(), name='situacion_comisiones'), 
+    path('vobo_comisiones/<fecha_hasta_str>/<num_proyecto>/<fecha_hasta>/<nom_proyecto>/<imp_ger>/<imp_pub>', vobo_comisiones, name='vobo_comisiones'), 
 ]
  

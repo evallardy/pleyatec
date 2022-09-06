@@ -111,14 +111,45 @@
                             <td style="text-align: right;">{{pc.total_asesor}}</td>
                             <td style="text-align: center;">
                                 <a class="btn btn-outline-dark"
-                                    href="{% url 'detalle_comisiones' pc.pagocomision__empleado_pago py.id fecha_hasta %}">Detalle</a>
+                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_hasta %}">Detalle</a>
                             </td>
                             <td style="text-align: center;">
-                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_comision == 0 %}
+                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
                                 <a class="btn btn-outline-dark" href="#" id="btn_deposito_asesor"
-                                    onclick="deposito('{{fecha_hasta}}', '{{pc.pagocomision__empleado_pago}}', 2, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')">Depósito</a>
+                                    onclick="deposito('{{fecha_hasta}}', '{{pc.pagocomision__asesor_pago}}', 2, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')">Depósito</a>
                                 {% endif %}
-                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_comision == 1 %}
+                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 1 %}
+                                <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor">Recibos</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container col-12" style="width: 800px;">
+            <div class="form-row">
+                <table class="table table-info  col-12">
+                    <thead>
+                        <tr>
+                            <th class="col-6" style="text-align: center;">Gerente</th>
+                            <th class="col-1" style="text-align: center;">Bienes</th>
+                            <th class="col-3" style="text-align: right;">Importe comisión</th>
+                            <th class="col-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pc in pagos_gerentes %}
+                        <tr>
+                            <td style="text-align: left;">{{ pc.nombre_gerente }}</td>
+                            <td style="text-align: center;">{{ pc.total_bienes_gerente }}</td>
+                            <td style="text-align: right;">{{ pc.total_pago_gerente }}</td>
+                            <td style="text-align: center;">
+                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
+                                <a class="btn btn-outline-dark" href="#" id="btn_deposito_gerente">Depósito</a>
+                                {% endif %}
+                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 1 %}
                                 <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor">Recibos</a>
                                 {% endif %}
                             </td>

@@ -297,7 +297,7 @@ class ComisionAgente(models.Model,PermissionRequiredMixin):
 class PagoComision(models.Model,PermissionRequiredMixin):
 # detalles del bien
     proyecto_pago = models.ForeignKey(Proyecto, on_delete=models.CASCADE, verbose_name="Proyecto_pag_com")
-    empleado_pago = models.ForeignKey(Empleado, on_delete=models.CASCADE, verbose_name="Empleado_pag_com")
+    asesor_pago = models.ForeignKey(Empleado, on_delete=models.CASCADE, verbose_name="Empleado_pag_com", null=True, blank=True)
     bien_pago = models.ForeignKey(Lote, on_delete=models.CASCADE, verbose_name="Bien_pag_com")
     modo_pago = models.IntegerField("Modo de pago", choices=MODO_PAGO, default=1)
     precio_final = models.DecimalField("Precio final", decimal_places=2, max_digits=10, default=0.00)
@@ -308,11 +308,12 @@ class PagoComision(models.Model,PermissionRequiredMixin):
     comsion = models.DecimalField('Comisión asesor', max_digits=4, decimal_places=2, default=0)
     importe = models.DecimalField("Importe comisión asesor", decimal_places=2, max_digits=10, default=0)
     folio_comision_asesor = models.IntegerField("Folio de pago comisión asesor", default=0)
-    estatus_pago_comision = models.IntegerField("Estatus comisión aasesor",choices=STATUS_GESTION_COMISION,default=0)
+    estatus_pago_asesor = models.IntegerField("Estatus comisión aasesor",choices=STATUS_GESTION_COMISION,default=0)
     fecha_deposito_comision = models.DateField("Fecha pago comisión asesor", null=True, blank=True)
     recibo_asesor_firmado = models.ImageField(upload_to="comAsesor", blank=True, null=True)
     comprobante_asesor_deposito = models.ImageField(upload_to="comAsesor", blank=True, null=True)
 # comision gerente
+    gerente_pago = models.ForeignKey(Empleado, on_delete=models.CASCADE, verbose_name="Gerente_pag_com",related_name="Gerente_pag_com", null=True, blank=True)
     comsion_gerente = models.DecimalField('Comisión director', max_digits=4, decimal_places=2, default=0)
     importe_gerente = models.DecimalField("Importe comisión director", decimal_places=2, max_digits=10, default=0)
     folio_comision_gerente = models.IntegerField("Folio de pago comisión director", default=0)
@@ -338,9 +339,9 @@ class PagoComision(models.Model,PermissionRequiredMixin):
     class Meta:
         verbose_name = 'Pago comisión'
         verbose_name_plural = 'Pago comisiones'
-        ordering = ['empleado_pago','-fecha_contrato',]
+        ordering = ['asesor_pago','-fecha_contrato',]
         unique_together= (('bien_pago',),)
         db_table = 'PagoComision'
 
     def __str__(self):
-        return '%s %s, %s' % (self.empleado_pago, self.bien_pago, self.fecha_contrato)
+        return '%s %s, %s' % (self.asesor_pago, self.bien_pago, self.fecha_contrato)

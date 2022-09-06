@@ -8,7 +8,7 @@ class Empleado(models.Model,PermissionRequiredMixin):
     paterno = models.CharField("Paterno",max_length=30)
     materno = models.CharField("Materno",max_length=30, default=" ")
     # Relacion recursiva, poniendo el nombre del Proveedor en la relacion
-    subidPersdonal = models.ForeignKey('self',null=True, on_delete=models.SET_NULL, blank=True, related_name='Personal',verbose_name="Asignado a") 
+    subidPersonal = models.ForeignKey('self',null=True, on_delete=models.SET_NULL, blank=True, related_name='Personal',verbose_name="Asignado a") 
     rfc = models.CharField("R.F.C.",max_length=20, default=" ")
     curp = models.CharField("CURP",max_length=18, default=" ")
     fecha_nac = models.DateField("Fecha de nacimiento", null=True, blank=True)
@@ -174,11 +174,11 @@ class Empleado(models.Model,PermissionRequiredMixin):
         return '%s' % (correo)
     correo_val = property(_get_correo)
 
-    def _get_subidPersdonal(self):
-        subidPersdonal = ""
-        if self.subidPersdonal_id == None:
-            return '%s' % (subidPersdonal)
+    def _get_subidPersonal(self):
+        subidPersonal = ""
+        if self.subidPersonal_id == None:
+            return '%s' % (subidPersonal)
         else:
-            return self.subidPersdonal.nombre_completo
-    subidPersdonal_val = property(_get_subidPersdonal)
+            return self.subidPersonal.nombre_completo
+    subidPersonal_val = property(_get_subidPersonal)
 
