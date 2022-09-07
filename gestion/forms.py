@@ -159,13 +159,11 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         return enganche
     def clean_lote(self):
         lote = self.cleaned_data.get('lote')
-        print(lote)
         if lote == None:
             raise forms.ValidationError('Seleccione un bien')
         return lote
     def clean_cliente(self):
         cliente = self.cleaned_data.get('cliente')
-        print(cliente)
         if not cliente:
             raise forms.ValidationError('Seleccione un cliente')
         return cliente

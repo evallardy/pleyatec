@@ -977,6 +977,7 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(detalle_comisiones, self).get_context_data(**kwargs)
         pk = self.kwargs.get('pk',0)
+        grupo = self.kwargs.get('grupo',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
@@ -986,31 +987,52 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
         context['fecha_hasta'] = fecha_hasta
         fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
-        bienes = PagoComision.objects \
-            .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
-            .order_by('-fecha_contrato') 
-        nombre = bienes[0].asesor_pago 
-        context['nombre'] = nombre
+        if grupo == "1":
+            bienes = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                    proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
+                .order_by('-fecha_contrato') 
+            nombre = bienes[0].asesor_pago 
+            context['nombre'] = nombre
+        else:
+            bienes = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                    proyecto_pago=num_proyecto, estatus_comision=0) \
+                .order_by('-fecha_contrato') 
+            nombre = ""
+            context['nombre'] = nombre
         total = 0
         cantidad = 0
         for bien in bienes:
-            total += bien.importe
+            if grupo == "1":
+                total += bien.importe
+            elif grupo == "2":
+                total += bien.importe_gerente
+            else:
+                total += bien.importe_publicidad
             cantidad += 1
         context['total'] = total
+        context['grupo'] = grupo
         context['cantidad'] = cantidad
         return context
     def get_queryset(self):
         pk = self.kwargs.get('pk',0)
+        grupo = self.kwargs.get('grupo',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         fecha_hasta_str = self.kwargs.get('fecha_hasta')
         fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
         fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
-        queryset = PagoComision.objects \
-            .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
-            .order_by('-fecha_contrato') 
+        if grupo == "1":
+            queryset = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                    proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
+                .order_by('-fecha_contrato') 
+        else:
+            queryset = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+                    proyecto_pago=num_proyecto, estatus_comision=0) \
+                .order_by('gerente_pago','-fecha_contrato') 
         return queryset
 
 class pago_comisiones(LoginRequiredMixin, ListView):
@@ -1120,19 +1142,12 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         # Lista de gerentes
         pagos_gerentes = []
         id_gerente_anterior = 0
-        print(1)
         for gerente in resultado_gerentes:
             id_gerente = gerente['subidPersonal']
-            print("gerente " + str(id_gerente))
+            total_bienes = gerente['bienes']
+            total_importe = gerente['total_gerente']
             if id_gerente != id_gerente_anterior:
-                print(2)
-                if id_gerente_anterior == 0:
-                    print(3)
-                    id_gerente_anterior = id_gerente
-                    total_bienes_gerente = gerente['bienes']
-                    total_pago_gerente = gerente['total_asesor']
-                else:
-                    print(4)
+                if id_gerente_anterior != 0:
                     datos_gerente = Empleado.objects.filter(id=id_gerente_anterior)
                     nombre_gerente = datos_gerente[0].nombre + " " + datos_gerente[0].paterno \
                         + " " + datos_gerente[0].materno
@@ -1141,17 +1156,13 @@ class pago_comisiones(LoginRequiredMixin, ListView):
                         'nombre_gerente': nombre_gerente,
                         'total_bienes_gerente': total_bienes_gerente,
                         'total_pago_gerente': total_pago_gerente,})            
-                    id_gerente_anterior = id_gerente
-                    total_pago_gerente = 0
-                    total_bienes_gerente = 0
-                print(5)
+                total_bienes_gerente = total_bienes
+                total_pago_gerente = total_importe
+                id_gerente_anterior = id_gerente
             else:
-                print(6)
-                total_bienes_gerente += gerente['bienes']
-                total_pago_gerente += gerente['total_asesor']
-        print(7)
+                total_bienes_gerente += total_bienes
+                total_pago_gerente += total_importe
         if id_gerente_anterior != 0:
-            print(8)
             datos_gerente = Empleado.objects.filter(id=id_gerente_anterior)
             nombre_gerente = datos_gerente[0].nombre + " " + datos_gerente[0].paterno \
                 + " " + datos_gerente[0].materno
@@ -1161,8 +1172,6 @@ class pago_comisiones(LoginRequiredMixin, ListView):
                 'total_bienes_gerente': total_bienes_gerente,
                 'total_pago_gerente': total_pago_gerente,})            
         context['pagos_gerentes'] = pagos_gerentes
-        print(9)
-        print(pagos_gerentes)
         return context
     def get_queryset(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
@@ -1255,9 +1264,9 @@ def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_pro
     pago_comision_detalle = PagoComision.objects \
         .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
             proyecto_pago=num_proyecto) \
-        .update(estatus_comision=1,
-            estatus_pago_asesor=1,
-            estatus_pago_gerente=1,
+        .update(estatus_comision=1, \
+            estatus_pago_asesor=1, \
+            estatus_pago_gerente=1, \
             estatus_pago_publicidad=1, \
             fecha_periodo=fecha_hasta)
 #   Folio de publicidad
@@ -1275,9 +1284,19 @@ def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_pro
         .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
             proyecto_pago=num_proyecto,estatus_pago_publicidad=1) \
         .update(folio_comision_publicidad=folio_publicidad,)
+    pago_comision_gerente_detalle = PagoComision.objects \
+        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+            proyecto_pago=num_proyecto, \
+            estatus_comision=1, \
+            estatus_pago_asesor=1, \
+            estatus_pago_gerente=1, \
+            estatus_pago_publicidad=1, \
+            fecha_periodo=fecha_hasta) \
+        .order_by('gerente_pago')
     gerente_ant = 0
-    for pago in pago_comision_detalle:
-        if not pago.asesor_pago == gerente_ant:
+    for pago in pago_comision_gerente_detalle:
+        num_gerente = pago.gerente_pago
+        if num_gerente != gerente_ant:
             gerente_ant = pago.empleado_pago
             folio_gerente = nuevo_folio(3)
             observacion = "Comisión gerente de fecha " + fecha_hasta_str + \

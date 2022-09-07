@@ -33,12 +33,26 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group col-md-8 mb-0" style="text-align: right;" id="btn_vobo">
+                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
                     {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
-                    <label for="id_periodo">   </label><br>
-                    <a class="btn btn-outline-dark"
+                    <label>   </label><br>
+                    <a class="btn btn btn-success"
                         href="{% url 'vobo_comisiones' fecha_hasta_str py.id fecha_hasta py.nombre importe_gerente importe_publicidad %}">Vo.Bo.
                         Comisiones</a>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
+                    {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
+                    <label>   </label><br>
+                    <a class="btn btn-outline-dark"
+                    href="{% url 'detalle_comisiones' 0 py.id fecha_hasta 2 %}">Detalle Gerentes</a>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
+                    {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
+                    <label>   </label><br>
+                    <a class="btn btn-outline-dark"
+                    href="{% url 'detalle_comisiones' 0 py.id fecha_hasta 3 %}">Detalle Publicidad</a>
                     {% endif %}
                 </div>
             </div>
@@ -111,7 +125,7 @@
                             <td style="text-align: right;">{{pc.total_asesor}}</td>
                             <td style="text-align: center;">
                                 <a class="btn btn-outline-dark"
-                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_hasta %}">Detalle</a>
+                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_hasta 1 %}">Detalle</a>
                             </td>
                             <td style="text-align: center;">
                                 {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
