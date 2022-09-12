@@ -43,12 +43,12 @@ class Proyecto(models.Model):
     def __str__(self):   # para poner los nombre en los renglones
         return '%s' % (self.nombre)
 
-    def _get_nombre_completo(self):
-        materno = ""
-        if not self.materno == None:
-            materno = self.materno
-        return '%s %s %s' % (self.nombre, self.paterno, materno) 
-    nombre_completo = property(_get_nombre_completo)
+    def _get_nom_proyecto(self):
+        nom_proyecto = ""
+        if not self.nombre == None:
+            nom_proyecto = self.nombre
+        return '%s' % (nom_proyecto) 
+    nom_proyecto = property(_get_nom_proyecto)
     
 class Lote(models.Model, PermissionRequiredMixin):
     proyecto = models.ForeignKey("Proyecto", on_delete=models.CASCADE, verbose_name="Proyecto")  
@@ -227,6 +227,13 @@ class Lote(models.Model, PermissionRequiredMixin):
         colindancia_oeste = ""
         if not self.colindancia_oeste == None:
             colindancia_oeste = self.colindancia_oeste
+        return '%s' % (self.colindancia_oeste) 
+    colindancia_oeste_val = property(_get_colindancia_oeste)
+
+    def _get_nom_proyecto(self):
+        nom_proyecto = ""
+        if not self.lote.proyecto == None:
+            nom_proyecto = self.colindancia_oeste
         return '%s' % (self.colindancia_oeste) 
     colindancia_oeste_val = property(_get_colindancia_oeste)
 

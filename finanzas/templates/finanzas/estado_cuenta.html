@@ -20,13 +20,14 @@
         <table class="table table-info table-striped col-md-12">
             <thead>
                 <tr>
-                    <th style="text-align: center;">Número de pago</th>
+                    <th style="text-align: center;">Pago</th>
                     <th style="text-align: center;">Compromiso</th>
                     <th style="text-align: center;">importe</th>
                     <th style="text-align: center;">Pago en</th>
                     <th style="text-align: center;">Comprobante</th>
                     <th style="text-align: center;">Estatus</th>
                     <th style="text-align: center;">Depósito</th>
+                    <th style="text-align: center;"></th>
                     <th style="text-align: center;"></th>
                 </tr>
             </thead>
@@ -47,6 +48,11 @@
                     <td style="text-align: center;">
                         {% if app_proy_cap_dep_mensual %}
                         <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Actuliza</a>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center;">
+                        {% if app_proy_imprime_comprob_mensual and p.folio_recibo != 0 %}
+                        <a class="btn btn-outline-dark" href="{% url 'imprime_comprob_mensual_PDF' p.id py.id %}" target = "_blank">Imprimir</a>
                         {% endif %}
                     </td>
                 </tr>

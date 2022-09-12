@@ -34,7 +34,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
-                    {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
+                    {% if estatus_comision == 0 and app_proy_vobo_comisiones and object_list %}
                     <label>   </label><br>
                     <a class="btn btn btn-success"
                         href="{% url 'vobo_comisiones' fecha_hasta_str py.id fecha_hasta py.nombre importe_gerente importe_publicidad %}">Vo.Bo.
@@ -42,17 +42,17 @@
                     {% endif %}
                 </div>
                 <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
-                    {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
+                    {% if object_list %}
                     <label>   </label><br>
                     <a class="btn btn-outline-dark"
-                    href="{% url 'detalle_comisiones' 0 py.id fecha_hasta 2 %}">Detalle Gerentes</a>
+                    href="{% url 'detalle_comisiones' 0 py.id fecha_desde fecha_hasta 2 estatus_comision %}">Detalle Gerentes</a>
                     {% endif %}
                 </div>
                 <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
-                    {% if estatus_comision == 0 and app_proy_vobo_comisiones %}
+                    {% if object_list %}
                     <label>   </label><br>
                     <a class="btn btn-outline-dark"
-                    href="{% url 'detalle_comisiones' 0 py.id fecha_hasta 3 %}">Detalle Publicidad</a>
+                    href="{% url 'detalle_comisiones' 0 py.id fecha_desde fecha_hasta 3 estatus_comision %}">Detalle Publicidad</a>
                     {% endif %}
                 </div>
             </div>
@@ -124,8 +124,10 @@
                             <td style="text-align: center;">{{pc.bienes}}</td>
                             <td style="text-align: right;">{{pc.total_asesor}}</td>
                             <td style="text-align: center;">
+                                [{{pc.pagocomision__asesor_pago}}]
+                                [{{py.id}}] [{{fecha_desde}}] [{{fecha_hasta}}] [1] [{{estatus_comision}}]
                                 <a class="btn btn-outline-dark"
-                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_hasta 1 %}">Detalle</a>
+                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_desde fecha_hasta 1 estatus_comision %}">Detalle</a>
                             </td>
                             <td style="text-align: center;">
                                 {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
@@ -151,14 +153,20 @@
                             <th class="col-1" style="text-align: center;">Bienes</th>
                             <th class="col-3" style="text-align: right;">Importe comisión</th>
                             <th class="col-1"></th>
+                            <th class="col-1"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for pc in pagos_gerentes %}
                         <tr>
-                            <td style="text-align: left;">{{ pc.nombre_gerente }}</td>
-                            <td style="text-align: center;">{{ pc.total_bienes_gerente }}</td>
-                            <td style="text-align: right;">{{ pc.total_pago_gerente }}</td>
+                            <td style="text-align: left;">{{ pc.gerente_pago__paterno }} {{ pc.gerente_pago__materno }} 
+                                {{ pc.gerente_pago__nombre }}</td>
+                            <td style="text-align: center;">{{ pc.bienes }}</td>
+                            <td style="text-align: right;">{{ pc.total_asesor }}</td>
+                            <td style="text-align: center;">
+                                <a class="btn btn-outline-dark"
+                                    href="{% url 'detalle_comisiones' pc.gerente_pago py.id fecha_desde fecha_hasta 2 estatus_comision %}">Detalle</a>
+                            </td>
                             <td style="text-align: center;">
                                 {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
                                 <a class="btn btn-outline-dark" href="#" id="btn_deposito_gerente">Depósito</a>

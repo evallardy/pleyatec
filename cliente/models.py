@@ -40,15 +40,15 @@ class Cliente(models.Model, PermissionRequiredMixin):
         db_table = 'Cliente'
 
     def __str__(self):   # para poner los nombre en los renglones
-        if self.materno == None:
-            materno = ""
-        else:
-            materno = self.materno
-        if self.paterno == None:
-            paterno = ""
-        else:
-            paterno = self.paterno
         if self.tipo_cliente == 0:
+            if self.materno == None:
+                materno = ""
+            else:
+                materno = self.materno
+            if self.paterno == None:
+                paterno = ""
+            else:
+                paterno = self.paterno
             razon = self.nombre + " " + paterno + " " + materno
         else:
             razon = self.razon
@@ -69,6 +69,22 @@ class Cliente(models.Model, PermissionRequiredMixin):
 #            razon = self.razon
         return '%s' % (razon) 
     nombre_completo = property(_get_nombre_completo)
+
+    def _get_cliente_nombre(self):
+        if self.tipo_cliente == 0:
+            if self.materno == None:
+                materno = ""
+            else:
+                materno = self.materno
+            if self.paterno == None:
+                paterno = ""
+            else:
+                paterno = self.paterno
+            razon = self.nombre + " " + paterno + " " + materno
+        else:
+            razon = self.razon
+        return '%s' % (razon) 
+    cliente_nombre = property(_get_cliente_nombre)
 
     def _get_rfc(self):
         rfc = ""
