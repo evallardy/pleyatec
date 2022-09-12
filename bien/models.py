@@ -149,10 +149,14 @@ class Lote(models.Model, PermissionRequiredMixin):
         if self.proyecto.app == 'nuvole':
             return '%s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
         elif self.proyecto.app == 'toscana':
-            if self.terraza == 0:
-                return '%s nivel: %s' % (self.lote, self.nivel)
+            if self.nivel == 0:
+                s_nivel = "PB"
             else:
-                return '%s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, self.nivel)
+                s_nivel = self.nivel
+            if self.terraza == 0:
+                return '%s nivel: %s' % (self.lote, s_nivel)
+            else:
+                return '%s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, s_nivel)
         elif self.proyecto.app == 'plazapuntaoriente':
             if self.nivel == 0:
                 s_nivel = "PB"
@@ -165,9 +169,13 @@ class Lote(models.Model, PermissionRequiredMixin):
     def _get_identificador_bien(self):
         if self.proyecto.app == 'nuvole':
             return '%s Manzana:%s Fase:%s' % (self.lote, self.manzana, self.fase)
-        elif self.proyecto.app == 'toscana' or self.proyecto.app == 'plazapuntaoriente':
-            return '%s nivel:%s' % (self.lote, self.nivel)
-        elif self.proyecto.app == 'plazapuntaoriente' or self.proyecto.app == 'plazapuntaoriente':
+        elif self.proyecto.app == 'toscana':
+            if self.nivel == 0:
+                s_nivel = "PB"
+            else:
+                s_nivel = self.nivel
+            return '%s nivel:%s' % (self.lote, s_nivel)
+        elif self.proyecto.app == 'plazapuntaoriente':
             if self.nivel == 0:
                 s_nivel = "PB"
             else:
@@ -195,10 +203,14 @@ class Lote(models.Model, PermissionRequiredMixin):
         if self.proyecto.app == 'nuvole':
             return ' Lote: %s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
         elif self.proyecto.app == 'toscana':
-            if self.terraza == 0:
-                return ' Local: %s nivel: %s' % (self.lote, self.nivel)
+            if self.nivel == 0:
+                s_nivel = "PB"
             else:
-                return ' Local: %s Terraza: %sm² nivel: %s' % (self.lote, self.terraza, self.nivel)
+                s_nivel = self.nivel
+            if self.terraza == 0:
+                return ' Local: %s nivel: %s' % (self.lote, s_nivel)
+            else:
+                return ' Local: %s Terraza: %sm² nivel: %s' % (self.lote, self.terraza, s_nivel)
         elif self.proyecto.app == 'plazapuntaoriente':
             if self.nivel == 0:
                 s_nivel = "PB"
