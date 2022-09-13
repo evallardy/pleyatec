@@ -388,6 +388,11 @@ class mod_pago(UpdateView):
         context['sol'] = sol
         context['pk'] = pk
         context['fecha1'] = fecha1
+        context['importe'] = tabla1[0].importe
+        context['importe_pagado'] = tabla1[0].importe_pagado
+        context['cuenta'] = tabla1[0].cuenta
+        context['numero_comprobante'] = tabla1[0].numero_comprobante
+        context['pagado_vencido'] = tabla1[0].pagado_vencido
         context['num_proyecto'] = num_proyecto
 # Captura comprobante mensual
         des_permiso = '_cap_dep_mensual'
@@ -413,9 +418,57 @@ class mod_pago(UpdateView):
         pk = self.kwargs.get('pk',0)
         pago1 = self.model.objects.get(id=pk)
         form = self.form_class(request.POST, request.FILES, instance=pago1)
-        if form.is_valid():
+        fecha_pago = request.POST.get('fecha_pago')
+        importe_pagado = request.POST.get('importe_pagado').replace(',','')
+        importe = request.POST.get('importe').replace(',','')
+        deposito = request.POST.get('deposito')
+        forma_pago = request.POST.get('forma_pago')
+        cuenta = request.POST.get('cuenta')
+        numero_comprobante = request.POST.get('numero_comprobante')
+        estatus_pago = request.POST.get('estatus_pago')
+        file_comprobante = request.POST.get('file_comprobante')
+        fecha_voucher = request.POST.get('fecha_voucher')
+        pagado_vencido = request.POST.get('pagado_vencido')
+
+
+        data = {
+            'fecha_pago': fecha_pago,
+            'importe': importe,
+            'importe_pagado': importe_pagado,
+            'deposito': deposito,
+            'forma_pago': forma_pago,
+            'cuenta': cuenta,
+            'numero_comprobante': numero_comprobante,
+            'estatus_pago': estatus_pago,
+            'file_comprobante': file_comprobante,
+            'fecha_voucher': fecha_voucher,
+            'pagado_vencido': pagado_vencido,
+        }
+#        valida = True
+#        if form.errors:
+#            for field in form:
+#                for error in field.errors:
+#                    if error != "Introduzca un número.":
+#                        valida = False
+#        if form.is_valid():
+        mensualidad_valida = self.form_class(data)
+        print(mensualidad_valida.errors)
+        if mensualidad_valida.is_valid():
             with transaction.atomic():
-                pago_guardado = form.save()
+#                pago_guardado = form.save()
+                if deposito == '2':
+                    estatus_pago = 2 
+                mensualidad_upd = Pago.objects.get(id=pk)
+                mensualidad_upd.importe_pagado = importe_pagado
+                mensualidad_upd.deposito = deposito
+                mensualidad_upd.forma_pago = forma_pago
+                mensualidad_upd.cuenta = cuenta
+                mensualidad_upd.numero_comprobante = numero_comprobante
+                mensualidad_upd.estatus_pago = estatus_pago
+                mensualidad_upd.file_comprobante = file_comprobante
+                mensualidad_upd.fecha_voucher = fecha_voucher
+                mensualidad_upd.pagado_vencido = pagado_vencido
+                mensualidad_upd.save()
                 sol = self.kwargs.get('sol',0)
     #            pag_act = Pago.objects.filter(id=pk).update(estatus_pago=2)
                 total_pagado = Pago.objects.filter(convenio=sol,estatus_pago=2).values('convenio'). \
@@ -448,8 +501,51 @@ class mod_pago(UpdateView):
                         folio.save()
                         pago_nuevo_folio = Pago.objects.filter(id=pk). \
                             update(folio_recibo=folio_recibo)
+            return HttpResponseRedirect(self.get_success_url())
+        else:
 #        return reverse_lazy(self.get_context_data(form=form))
-        return HttpResponseRedirect(self.get_success_url())
+            context = {}
+            num_proyecto = self.kwargs.get('num_proyecto',0)
+            proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+    #  Proyecto
+            nom_proy = proyecto_tb[0].nom_proy
+            permiso_str = 'nom_proy' + '_' + 'acceso'
+            acceso = self.request.user.has_perms([permiso_str])
+            context["proyecto_tb"] = proyecto_tb
+            pk = self.kwargs.get('pk',0)
+            tabla1 = Pago.objects.filter(id=pk)
+            context['tabla1'] = tabla1
+            sol = self.kwargs.get('sol',0)
+            context['fecha_pago'] = fecha_pago
+            context['deposito'] = deposito
+            context['forma_pago'] = forma_pago
+            context['estatus_pago'] = estatus_pago
+            context['file_comprobante'] = file_comprobante
+            context['sol'] = sol
+            context['pk'] = pk
+            context['importe'] = importe
+            context['importe_pagado'] = importe_pagado
+            context['cuenta'] = cuenta
+            context['numero_comprobante'] = numero_comprobante
+            context['fecha1'] = fecha_voucher
+            context['num_proyecto'] = num_proyecto
+            context['pagado_vencido'] = pagado_vencido
+    # Captura comprobante mensual
+            des_permiso = '_cap_dep_mensual'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "finanzas." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+    # Confirmar comprobante mensual
+            des_permiso = '_confirma_deposito_mensual'
+            variable_proy = nom_proy + des_permiso
+            variable_html = "app_proy" + des_permiso
+            permiso_str = "finanzas." + variable_proy
+            acceso = self.request.user.has_perms([permiso_str])
+            context[variable_html] = acceso
+            context["form"] = mensualidad_valida
+            return render(self.request, self.template_name, context)
 
 class estado_cuenta_PDF(View):
     def link_callback(self, uri, rel):
@@ -1102,7 +1198,6 @@ class pago_comisiones(LoginRequiredMixin, ListView):
             pagos_gerentes = datos_comision_detalle_concentrado(2,num_proyecto, fecha_desde_p, fecha_hasta_p, estatus_comision)
             acumulados = datos_comisiones_concentrado(num_proyecto, fecha_hasta, fecha_hasta_p, estatus_comision)
         context['pago_comision_detalle'] = pago_comision_detalle
-        print(acumulados)
         if acumulados:
             importe_asesores = acumulados[0]['total_asesor']
             importe_gerente = acumulados[0]['total_gerente']

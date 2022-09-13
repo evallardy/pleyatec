@@ -27,14 +27,18 @@
                             {{ form.fecha_pago|as_crispy_field }}
                         </div>
                         <div class="form-group col-md-3 mb-0">
-                            {{ form.importe|as_crispy_field }}
+                            <label>importe</label>
+                            <input type="text" name="importe" id="id_importe" class="form-control"
+                                onfocusout="reformatear('id_importe')" onkeypress="return valideKey(event);">
+                            
+                    <!--         form.importe|as_crispy_field }}   -->
                         </div>
                         <div class="form-group col-md-3 mb-0" hidden>
                             {{ form.pagado_vencido|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_pagado_vencido">
                             <label for="id_forma_pago_pa1">Pagado</label>
-                            <input type="text" name="id_pagado_vencido1" id="id_pagado_vencido1" readonly
+                            <input type="text" name="pagado_vencido1" id="id_pagado_vencido1" readonly
                                 class="form-control">
                         </div>
                     </div>
@@ -43,7 +47,20 @@
                             {{ form.fecha_voucher|as_crispy_field }}
                         </div>
                         <div class="form-group col-md-3 mb-0">
-                            {{ form.importe_pagado|as_crispy_field }}
+                            <label>Importe pagado</label>
+                            <input type="text" name="importe_pagado" id="id_importe_pagado" class="form-control"
+                                onfocusout="reformatear('id_importe_pagado')" onkeypress="return valideKey(event);">
+                            {% for error in form.importe_pagado.errors %}
+                            {% if error != "Introduzca un número." %}
+                            <p class="mensaje-error">
+                                <strong>
+                                    {{ error }}
+                                </strong>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+
+                    <!--      form.importe_pagado|as_crispy_field }}  -->
                         </div>
                         
                         <div class="form-group col-md-3 mb-0"  id="gpo_deposito"
@@ -54,8 +71,8 @@
                             {{ form.deposito|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_deposito1">
-                            <label for="id_forma_pago1">Depósito</label>
-                            <input type="text" name="id_deposito1" id="id_deposito1" readonly
+                            <label for="id_deposito1">Depósito</label>
+                            <input type="text" name="deposito1" id="id_deposito1" readonly
                                 class="form-control">
                         </div>
                     </div>
@@ -65,7 +82,7 @@
                         </div>
                         <div class="form-group col-3" id="gpo_forma_pago1">
                             <label for="id_forma_pago1">Forma de pago</label>
-                            <input type="text" name="id_forma_pago1" id="id_forma_pago1" readonly
+                            <input type="text" name="forma_pago1" id="id_forma_pago1" readonly
                                 class="form-control">
                         </div>
                         <div class="form-group col-md-3 mb-0">
@@ -81,7 +98,7 @@
                         </div>
                         <div class="form-group col-3" id="gpo_estatus_pago">
                             <label for="id_estatus_pago1">Pagado</label>
-                            <input type="text" name="id_estatus_pago1" id="id_estatus_pago1" readonly
+                            <input type="text" name="estatus_pago1" id="id_estatus_pago1" readonly
                                 class="form-control">
                         </div>
                     </div>
@@ -92,7 +109,7 @@
                         <div class="form-group col-3" id="gpo_file_comprobante" hidden>
                             <label for="id_file_comprobante1">Imagen</label>
                             {% for a in tabla1 %}
-                            <input type="text" name="id_file_comprobante1" id="id_file_comprobante1" readonly
+                            <input type="text" name="file_comprobante1" id="id_file_comprobante1" readonly
                                 class="form-control" value="{{a.file_comprobante}}">
                             {% endfor %}
                         </div>
@@ -107,140 +124,116 @@
 {% endfor %}
 {% endif %}
 <script >
-    $(document).ready(function () {
-        $("#id_fecha_voucher").val("{{ fecha1 }}");
+    {% block inicio %}
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+    function Alineacion() {
         $("#id_fecha_pago").css("text-align", "center");
-        $("#id_fecha_pago").attr("readonly", true);
         $("#id_importe").css("text-align", "right");
-        $("#id_importe").attr("readonly", true);
         $("#id_fecha_voucher").css("text-align", "center");
         $("#id_importe_pagado").css("text-align", "right");
+    }
+    function protejerCampos () {
+        $("#id_fecha_pago").attr("readonly", true);
+        $("#id_importe").attr("readonly", true);
         $("#id_estatus_pago").attr("readonly", true);
         $("#id_pagado_vencido").attr("readonly", true);
-
+    }
+    function modoPago() {
+        $("#id_forma_pago1").val(
+                $('select[name="forma_pago"] option:selected').text());
+        if ($("#id_forma_pago").val() == 3) {
+            $("#id_cuenta").attr("readonly", true).val("");
+            $("#id_numero_comprobante").attr("readonly", true).val("");
+        } else {
+            $("#id_cuenta").attr("readonly", false);
+            $("#id_numero_comprobante").attr("readonly", false);
+        }
+    }
+    function protejePago() {
+        $("#id_fecha_voucher").attr("readonly", true);
+        $("#id_importe_pagado").attr("readonly", true);
+        $("#id_deposito").attr("readonly", true);
+        $("#id_cuenta").attr("readonly", true);
+        $("#id_numero_comprobante").attr("readonly", true);
+        $("#gpo_deposito").hide();
+        $("#gpo_deposito1").show();
+        $("#gpo_forma_pago").hide();
+        $("#gpo_forma_pago1").show();
+        $("#btsub").hide()
+        document.getElementById("id_file_comprobante").disabled = true;
+    }
+    $("#id_forma_pago").on('change', function () {
+        modoPago();
+    });
+    $("#id_estatus_pago").on('change', function () {
+        $("#id_estatus_pago1").val(
+                $('select[name="estatus_pago"] option:selected').text());
+    });
+    $("#id_fecha_voucher").on('change', function (e) {
+        dia = parseInt($("#id_fecha_pago").val().substr(0, 2));
+        mes = parseInt($("#id_fecha_pago").val().substr(3, 2)) - 1;
+        anio = parseInt($("#id_fecha_pago").val().substr(6, 4));
+        var debe_pagar = new Date(anio, mes, dia);
+        dia = parseInt($("#id_fecha_voucher").val().substr(8, 2));
+        mes = parseInt($("#id_fecha_voucher").val().substr(5, 2)) - 1;
+        anio = parseInt($("#id_fecha_voucher").val().substr(0, 4));
+        var pago = new Date(anio, mes, dia);
+        diff = pago - debe_pagar;
+        d = Math.round(diff / (1000 * 60 * 60 * 24));
+        if (d > 6) {
+            aviso("Aviso","Se pagó vencido");
+            $("#id_pagado_vencido").val(2);
+        } else {
+            $("#id_pagado_vencido").val(1);
+        }
+        $("#id_pagado_vencido1").val(
+            $('select[name="pagado_vencido"] option:selected').text());
+    });
+    $("#id_cuenta").on('keyup', function (e) {
+        if ($(this).val().length > 4) {
+            $(this).val($(this).val().substr(0,4));
+        }
+    });
+    $("#id_pagado_vencido").on('change', function () {
+        cambiaPagoVencido();
+    });
+    function llenaForma() {
+        $("#id_importe").val("{{ importe }}");
+        $("#id_importe_pagado").val("{{ importe_pagado }}");
+        $("#id_fecha_voucher").val("{{ fecha1 }}");
+        $("#id_cuenta").val("{{ cuenta }}");
+        $("#id_numero_comprobante").val("{{ numero_comprobante }}");
+        $("#id_pagado_vencido").val("{{ pagado_vencido }}");
+        cambiaPagoVencido();
+    }
+    function cambiaPagoVencido() {
+        $("#id_pagado_vencido1").val($('select[name="pagado_vencido"] option:selected').text());
+    }
+    $(document).ready(function () {
+        llenaForma();
+        Alineacion();
+        protejerCampos();
         if ($("#id_deposito").val() == 2) {
-            $("#id_fecha_voucher").attr("readonly", true);
-            $("#id_importe_pagado").attr("readonly", true);
-            $("#id_deposito").attr("readonly", true);
-            $("#id_cuenta").attr("readonly", true);
-            $("#id_numero_comprobante").attr("readonly", true);
-            $("#gpo_deposito").hide();
-            $("#gpo_deposito1").show();
-            $("#gpo_forma_pago").hide();
-            $("#gpo_forma_pago1").show();
-            $("#btsub").hide()
-            document.getElementById("id_file_comprobante").disabled = true;
+            protejePago();
         } else {
             $("#gpo_deposito").show();
             $("#gpo_deposito1").hide();
             $("#gpo_forma_pago").show();
             $("#gpo_forma_pago1").hide();
         }
-
-        $("#id_deposito1").val(
-            $('select[name="deposito"] option:selected').text());
-        $("#id_pagado_vencido1").val(
-            $('select[name="pagado_vencido"] option:selected').text());
-        $("#id_forma_pago1").val(
-            $('select[name="forma_pago"] option:selected').text());
-        $("#id_estatus_pago1").val(
-            $('select[name="estatus_pago"] option:selected').text());
-            
-        $("#id_pagado_vencido").on('change', function () {
-            $("#id_pagado_vencido1").val(
-                    $('select[name="pagado_vencido"] option:selected').text());
-        });
-        $("#id_forma_pago").on('change', function () {
-            $("#id_forma_pago1").val(
-                    $('select[name="forma_pago"] option:selected').text());
-            if ($("#id_forma_pago").val() == 3) {
-                $("#id_cuenta").attr("readonly", true);
-                $("#id_numero_comprobante").attr("readonly", true);
-            } else {
-                $("#id_cuenta").attr("readonly", false);
-                $("#id_numero_comprobante").attr("readonly", false);
-            }
-        });
-        $("#id_estatus_pago").on('change', function () {
-            $("#id_estatus_pago1").val(
-                    $('select[name="estatus_pago"] option:selected').text());
-        });
-
-        $("#id_fecha_voucher").on('change', function (e) {
-            dia = parseInt($("#id_fecha_pago").val().substr(0, 2));
-            mes = parseInt($("#id_fecha_pago").val().substr(3, 2)) - 1;
-            anio = parseInt($("#id_fecha_pago").val().substr(6, 4));
-            var debe_pagar = new Date(anio, mes, dia);
-            dia = parseInt($("#id_fecha_voucher").val().substr(8, 2));
-            mes = parseInt($("#id_fecha_voucher").val().substr(5, 2)) - 1;
-            anio = parseInt($("#id_fecha_voucher").val().substr(0, 4));
-            var pago = new Date(anio, mes, dia);
-            diff = pago - debe_pagar;
-            d = Math.round(diff / (1000 * 60 * 60 * 24));
-            if (d > 6) {
-                aviso("Aviso","Se pagó vencido");
-                $("#id_pagado_vencido").val(2);
-            } else {
-                $("#id_pagado_vencido").val(1);
-            }
-            $("#id_pagado_vencido1").val(
-                $('select[name="pagado_vencido"] option:selected').text());
-        });
-        function guarda() {
-            op_guardar = true;
-            texto = "";
-            if (parseFloat($("#id_importe").val()) > parseFloat($("#id_importe_pagado").val())) {
-                texto += "Importe menor al que se debe de pagar, ";
-                op_guardar = false;
-            }
-            if ($("#id_forma_pago").val()==3) {
-            
-            } else {
-                if ($("#id_forma_pago").val()>0) {
-                    if ($("#id_cuenta").val().trim()=="") {
-                        texto += "Faltan los 4 digitos de la cuenta, ";
-                        op_guardar = false;
-                    } 
-                    if ($("#id_numero_comprobante").val().trim()=="") {
-                        texto += "Falta número de comprobante, ";
-                        op_guardar = false;
-                    } 
-                } else {
-                    texto += "Falta forma de pago, ";
-                    op_guardar = false;
-                }
-            }
-
-            if ($("#id_fecha_voucher").val()=="") {
-                texto += "Falta la fecha del comprobante, ";
-                op_guardar = false;
-            } 
-            if (($("#id_file_comprobante").val().trim()=="") && ($("#id_file_comprobante1").val().trim()=="")) {
-                texto += "Falta archivo de comprobante";
-                op_guardar = false;
-            } 
-            if (op_guardar == true) {
-                if ($("#id_deposito").val()==2) {
-                    $('#id_estatus_pago').val(2);
-                }
-                aviso("Aviso","Se guardó correctamente");
-                return true;
-            } else {
-                aviso("Error",texto);
-                return false;
-            }
+        $("#id_deposito1").val($('select[name="deposito"] option:selected').text());
+        $("#id_pagado_vencido1").val($('select[name="pagado_vencido"] option:selected').text());
+        $("#id_forma_pago1").val($('select[name="forma_pago"] option:selected').text());
+        $("#id_estatus_pago1").val($('select[name="estatus_pago"] option:selected').text());
+        modoPago();
+        if ($("#id_deposito").val() == 2) {
+            $("#id_cuenta").attr("readonly", true);
+            $("#id_numero_comprobante").attr("readonly", true);
         }
-        function anular(e) {
-            tecla = (document.all) ? e.keyCode : e.which;
-            return (tecla != 13);
-        }
-        $("#id_cuenta").on('keyup', function (e) {
-            if ($(this).val().length > 4) {
-                $(this).val($(this).val().substr(0,4));
-            }
-        });
-        window.captureEvents(Event.SUBMIT);
-        window.onsubmit = guarda;
     });
+    {% endblock %}
 </script>
 {% endblock %}

@@ -17,8 +17,10 @@ label.error {
     color: darkred;
 }
 .mensaje-error {
+    margin-top: 5px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: red;
-    font-size: 11px;
+    font-size: 13px;
 }
 div[id^="div_id_foto_"], div[id*="div_id_foto_"] label[id^="div_id_foto_"] {
     font-style: italic;
