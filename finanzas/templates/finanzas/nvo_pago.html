@@ -201,9 +201,9 @@
         cambiaPagoVencido();
     });
     function llenaForma() {
-        $("#id_importe").val("{{ importe }}");
-        $("#id_importe_pagado").val("{{ importe_pagado }}");
-        $("#id_fecha_voucher").val("{{ fecha1 }}");
+        $("#id_importe").val("{{ importe }}").focus();
+        $("#id_importe_pagado").val("{{ importe_pagado }}").focus();
+        $("#id_fecha_voucher").val("{{ fecha1 }}").focus();
         $("#id_cuenta").val("{{ cuenta }}");
         $("#id_numero_comprobante").val("{{ numero_comprobante }}");
         $("#id_pagado_vencido").val("{{ pagado_vencido }}");

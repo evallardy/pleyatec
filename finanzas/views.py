@@ -452,7 +452,6 @@ class mod_pago(UpdateView):
 #                        valida = False
 #        if form.is_valid():
         mensualidad_valida = self.form_class(data)
-        print(mensualidad_valida.errors)
         if mensualidad_valida.is_valid():
             with transaction.atomic():
 #                pago_guardado = form.save()
