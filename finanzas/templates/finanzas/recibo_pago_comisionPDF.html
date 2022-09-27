@@ -92,12 +92,12 @@
             <tr class="renglon-normal">
                 <td style="width: 71%;"></td>
                 <td style="width: 10%; text-align: right;">Fecha:</td>
-                <td style="width: 30%; margin-left: 15px;">{{ comp.hoy }}</td>
+                <td style="width: 30%; margin-left: 15px;">{{ hoy }}</td>
             </tr>
             <tr class="renglon-normal">
                 <td></td>
                 <td style="text-align: right;">Folio:</td>
-                <td style="margin-left: 15px;">{{ comp.numero_recibo }}</td>
+                <td style="margin-left: 15px;">{{ folio }}</td>
             </tr>
             <tr class="renglon-normal">
                 <td style="text-align: center;"></td>
@@ -112,13 +112,13 @@
             <tr class="renglon-normal">
                 <td class="texto" style="vertical-align: top;">La cantidad de:</td>
                 <td style="height: 45px; vertical-align: top; width: 600px;">
-                    {{ comp.importe }} ({{ comp.importe_letras }} 00/100 M.N.)
+                    {{ importe }} ({{ importe_letras }} 00/100 M.N.)
                 </td>
             </tr>
             <tr class="renglon-normal" style="font-size: 14px;">
-                <td class="texto">Por concepto de:</td>
+                <td class="texto">Por concepto:</td>
                 <td>
-                    Pago de comisión de {{  }} {{  }} del proyecto {{  }} del periodo {{  }}
+                    Pago de comisión de {{ bienes }} bien(es) del proyecto {{ nom_proyecto }} del periodo {{ fecha }}
                 </td>
             </tr>
             <tr class="renglon-normal">
@@ -135,13 +135,13 @@
                 <td style="text-align: center;">________________________________</td>
             </tr>
             <tr class="renglon-normal" style="width: 100%;">
-                <td style="text-align: center;">{{   }}</td>
+                <td style="text-align: center;">{{ empleado }}</td>
             </tr>
             <tr style="border-bottom-color: black; border-bottom-style: solid;
                        border-left-color: black; border-left-style: solid; 
                        border-right-color: black; border-right-style: solid;
                        height: 20px; ">
-                <td style="text-align: center;">{{  }}</td>
+                <td style="text-align: center;"></td>
             </tr>
         </table>
     </div>
@@ -149,7 +149,7 @@
     Empresa
     <br>
     {% else %}
-    Asesor
+    Copia
     {% endif %}
     {% endfor %}
 </body>

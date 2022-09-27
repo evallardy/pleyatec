@@ -15,8 +15,46 @@ from django.db.models.functions import Substr
 def fecha_hoy():
     return datetime.date.today().strftime("%d-%m-%Y")
 
+def fecha_hoy_amd():
+    return datetime.date.today().strftime("%Y-%m-%d")
+
 def fecha_hoy_d():
     return datetime.date.today()
+
+def str_to_str_cambiar(fecha):
+    if fecha[2:3] == '-':
+        fecha_res = fecha[6:] + '-' + fecha[3:5] + '-' + fecha[0:2]
+    else:
+        fecha_res = fecha[8:] + '-' + fecha[5:7] + '-' + fecha[0:4]
+    return fecha_res
+
+def fecha_to_str_amd(fecha):
+    dia = fecha.day
+    mes = fecha.month
+    anio = fecha.year
+    if dia < 10:
+        dia_str = '0' + str(dia)
+    else:
+        dia_str = str(dia)
+    if mes < 10:
+        mes_str = '0' + str(mes)
+    else:
+        mes_str = str(mes)
+    return str(anio) + '-' + mes_str + '-' + dia_str
+
+def fecha_to_str_dma(fecha):
+    dia = fecha.day
+    mes = fecha.month
+    anio = fecha.year
+    if dia < 10:
+        dia_str = '0' + str(dia)
+    else:
+        dia_str = str(dia)
+    if mes < 10:
+        mes_str = '0' + str(mes)
+    else:
+        mes_str = str(mes)
+    return dia_str + '-' + mes_str + '-' + str(anio)
 
 def str_to_fecha_amd(fecha):
     return date(int(fecha[0:4]), int(fecha[5:7]), int(fecha[8:10])) 

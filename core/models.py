@@ -131,9 +131,10 @@ STATUS_BIEN = (
     (4, 'Reservado'),
 )
 STATUS_COMISION = (
-    (0, 'Pendiente'),
-    (1, 'VoBo'),
-    (2, 'Pagada'),
+    (0, 'Nueva'),
+    (1, 'Depósito pendiente'),
+    (2, 'Recibos pendientes'),
+    (3, 'Terminada'),
 )
 STATUS_COMPRA = (
     (1, 'Nueva'),

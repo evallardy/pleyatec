@@ -361,6 +361,17 @@ class PagoComision(models.Model,PermissionRequiredMixin):
         ordering = ['asesor_pago','-fecha_contrato',]
         unique_together= (('bien_pago',),)
         db_table = 'PagoComision'
+        permissions = (
+                       ('nuvole_imprime_comprob_comision', 'Nuvole imprime comprobante comisión'),
+                       ('toscana_imprime_comprob_comision', 'Toscana imprime comprobante comisión'),
+                       ('local_punta_o_imprime_comprob_comision', 'Local Punta O imprime comprobante comisión'),
+                       ('consul_punta_o_imprime_comprob_comision', 'Consultorio Punta O imprime comprobante comisión'),
+                       ('torre_vento_imprime_comprob_comision', 'Torre Vento imprime comprobante comisión'),
+                       ('porto_santo_imprime_comprob_comision', 'Porto santo imprime comprobante comisión'),
+                       ('vivienda_nuvole_imprime_comprob_comision', 'Vivienda Nuvole imprime comprobante comisión'),
+                       ('monte_cristallo_imprime_comprob_comision', 'Monte cristallo imprime comprobante comisión'),
+                       ('condom_multiple_imprime_comprob_comision', 'Condominio Múltiple imprime comprobante comisión'),
+                       )
 
     def __str__(self):
         return '%s %s, %s' % (self.asesor_pago, self.bien_pago, self.fecha_contrato)

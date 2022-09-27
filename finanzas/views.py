@@ -18,11 +18,11 @@ from django.db.models import Sum
 from django.shortcuts import render
 
 from bien.models import PagoComision, Proyecto, Lote
-from core.models import Titulo
+from core.models import STATUS_COMISION, Titulo
 from core.numero_letras import numero_a_letras
 from empleado.models import Empleado
-from .funciones import datos_comision_detalle, datos_comision_detalle_concentrado, datos_comisiones_concentrado, datos_tabla_amortizacion
-from core.funciones import datos_fecha, fecha_hoy, fecha_hoy_d, fecha_inicio_dia_mes_pago, fecha_ultima_pago, fecha_ultimo_dia_mes, fecha_ultimo_dia_mes_pago, str_to_fecha_amd, suma_dias_fecha, trae_empresa
+from .funciones import datos_comision_detalle, datos_comision_detalle_concentrado, datos_comisiones_concentrado, datos_tabla_amortizacion, fecha_periodo
+from core.funciones import datos_fecha, fecha_hoy, fecha_hoy_amd, fecha_hoy_d, fecha_inicio_dia_mes_pago, fecha_to_str_amd, fecha_ultima_pago, fecha_ultimo_dia_mes, fecha_ultimo_dia_mes_pago, str_to_fecha_amd, str_to_fecha_dma, str_to_str_cambiar, suma_dias_fecha, trae_empresa
 from gestion.models import Folios, Solicitud
 from gestion.funciones import f_area_puesto, f_asigna_solicitud, f_empleado, nuevo_folio
 from finanzas.models import Pago
@@ -1101,42 +1101,68 @@ class detalle_comisiones(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(detalle_comisiones, self).get_context_data(**kwargs)
         pk = self.kwargs.get('pk',0)
-        grupo = self.kwargs.get('grupo',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        estatus_comision = self.kwargs.get('estatus_comision',0)
-        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
-        context['proyecto_tb'] = proyecto_tb
-        empleado = Empleado.objects.filter(id=pk)
         fecha_desde_str = self.kwargs.get('fecha_desde')
         fecha_hasta_str = self.kwargs.get('fecha_hasta')
+        grupo = self.kwargs.get('grupo',0)
+        estatus_comision = self.kwargs.get('estatus_comision',0)
+        periodo = self.kwargs.get('periodo',0)
+        context['periodo'] = periodo
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+        grupo = self.kwargs.get('grupo',0)
+        context['grupo'] = grupo
         fecha_desde = date(int(fecha_desde_str[0:4]), int(fecha_desde_str[5:7]), int(fecha_desde_str[8:10]))
         fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
         context['fecha_desde'] = fecha_desde
         context['fecha_hasta'] = fecha_hasta
-        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
-        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
-        bienes = datos_comision_detalle(grupo, num_proyecto, fecha_desde, fecha_hasta, estatus_comision, empleado)
-        context['nombre'] = bienes[0].nombre
-        context['bienes'] = bienes
+        datos = datos_comision_detalle(grupo, num_proyecto, fecha_desde, fecha_hasta, estatus_comision, pk, periodo)
+        if grupo == '1':
+            nombre = datos[0].asesor_pago.nombre_completo
+        elif grupo == '2':
+            nombre = datos[0].gerente_pago.nombre_completo
+        else:
+            nombre = 'Publicidad'
+        context['nombre'] = nombre
+        cantidad = 0
+        importe = 0
+        if datos:
+            for d in datos:
+                cantidad += 1
+                if grupo == '1':
+                    importe += d.importe
+                elif grupo == '2':
+                    importe += d.importe_gerente
+                else:
+                    importe += d.importe_publicidad
+        context['importe'] = importe
+        context['cantidad'] = cantidad
+
+
         return context
     def get_queryset(self):
         pk = self.kwargs.get('pk',0)
-        grupo = self.kwargs.get('grupo',0)
         num_proyecto = self.kwargs.get('num_proyecto',0)
         fecha_hasta_str = self.kwargs.get('fecha_hasta')
         fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
-        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
-        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
-        if grupo == "1":
-            queryset = PagoComision.objects \
-                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                    proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
-                .order_by('-fecha_contrato') 
-        else:
-            queryset = PagoComision.objects \
-                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-                    proyecto_pago=num_proyecto, estatus_comision=0) \
-                .order_by('gerente_pago','-fecha_contrato') 
+        fecha_desde_str = self.kwargs.get('fecha_desde')
+        fecha_hasta_str = self.kwargs.get('fecha_hasta')
+        fecha_desde = date(int(fecha_desde_str[0:4]), int(fecha_desde_str[5:7]), int(fecha_desde_str[8:10]))
+        fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+        grupo = self.kwargs.get('grupo',0)
+        periodo = self.kwargs.get('periodo',0)
+        estatus_comision = self.kwargs.get('estatus_comision',0)
+        queryset = datos_comision_detalle(grupo, num_proyecto, fecha_desde, fecha_hasta, estatus_comision, pk, periodo)
+#        if grupo == "1":
+#            queryset = PagoComision.objects \
+#                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+#                    proyecto_pago=num_proyecto, estatus_comision=0, asesor_pago=pk) \
+#                .order_by('-fecha_contrato') 
+#        else:
+#            queryset = PagoComision.objects \
+#                .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
+#                    proyecto_pago=num_proyecto, estatus_comision=0) \
+#                .order_by('gerente_pago','-fecha_contrato') 
         return queryset
 
 class pago_comisiones(LoginRequiredMixin, ListView):
@@ -1157,80 +1183,74 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         acceso = self.request.user.has_perms([permiso_str])
         context['app_proy_vobo_comisiones'] = acceso
 
+        permiso_str = "bien." + nom_proy + '_' + 'imprime_comprob_comision'
+        acceso = self.request.user.has_perms([permiso_str])
+        context['app_proy_imprime_comprob_comision'] = acceso
+
         context['proyecto_tb'] = proyecto_tb
-        empleado_cmb = Empleado.objects.all()
-        context['empleado_cmb'] = empleado_cmb
         datos = datos_fecha(num_proyecto)
         context['datos'] = datos
 #  -----------------
 #  Actualización de pantallas
 #  -----------------
 # Información viene del template
-        fecha_hasta_str = self.request.GET.get('id_periodo')
-        if fecha_hasta_str == None:
-# Información viene de una funcion
-            fecha_hasta_str = self.kwargs.get('id_periodo')
-            if fecha_hasta_str == None:
-                fecha_hasta = fecha_ultima_pago(num_proyecto)
-            else:
-                fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))    
-        else:
-            fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
-        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
-        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
+        fecha_hasta_cmb = fecha_periodo(self)
+# FIN FECHA SELECCIONADA
+        periodo = fecha_to_str_amd(fecha_hasta_cmb)
+        fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta_cmb)
+        fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta_cmb)
 
-        context['fecha_hasta_str'] = fecha_hasta_str
         context['fecha_desde'] = fecha_desde_p
         context['fecha_hasta'] = fecha_hasta_p
-
-        pagos_pagados = PagoComision.objects.filter(fecha_periodo=fecha_hasta)
+        context['periodo'] = periodo
+    
+        pagos_pagados = PagoComision.objects.filter(fecha_periodo=periodo, proyecto_pago=num_proyecto)
         if pagos_pagados:
             estatus_comision = pagos_pagados[0].estatus_comision
 #            pago_comision = datos_comision_detalle_concentrado(1, num_proyecto, fecha_desde_p, fecha_hasta, estatus_comision)
-            pago_comision_detalle = datos_comisiones_concentrado(num_proyecto, fecha_hasta, fecha_hasta, estatus_comision)
-            pagos_gerentes = datos_comision_detalle_concentrado(2, num_proyecto, fecha_hasta, fecha_hasta, estatus_comision)
-            acumulados = datos_comisiones_concentrado(num_proyecto, fecha_hasta, fecha_hasta_p, estatus_comision)
+            pago_comision_detalle = datos_comisiones_concentrado(num_proyecto, periodo, periodo, estatus_comision)
+            pagos_gerentes = datos_comision_detalle_concentrado(2, num_proyecto, periodo, periodo, estatus_comision)
+            acumulados = datos_comisiones_concentrado(num_proyecto, periodo, periodo, estatus_comision)
         else:
             estatus_comision = 0
 #            pago_comision = datos_comision_detalle_concentrado(1, num_proyecto, fecha_desde_p, fecha_hasta_p, estatus_comision)
             pago_comision_detalle = datos_comisiones_concentrado(num_proyecto, fecha_desde_p, fecha_hasta_p, estatus_comision)
             pagos_gerentes = datos_comision_detalle_concentrado(2,num_proyecto, fecha_desde_p, fecha_hasta_p, estatus_comision)
-            acumulados = datos_comisiones_concentrado(num_proyecto, fecha_hasta, fecha_hasta_p, estatus_comision)
+            acumulados = datos_comisiones_concentrado(num_proyecto, fecha_desde_p, fecha_hasta_p, estatus_comision)
         context['pago_comision_detalle'] = pago_comision_detalle
         if acumulados:
             importe_asesores = acumulados[0]['total_asesor']
             importe_gerente = acumulados[0]['total_gerente']
             importe_publicidad = acumulados[0]['total_publicidad']
+            estatus_pago_publicidad = acumulados[0]['estatus_pago_publicidad']
             importe_general = importe_asesores + importe_gerente + importe_publicidad
+            bienes_publicidad = acumulados[0]['bienes']
+            folio_comision_publicidad = acumulados[0]['folio_comision_publicidad']
         else:
             importe_asesores = 0
             importe_gerente = 0
             importe_publicidad = 0
             importe_general = 0
+            estatus_pago_publicidad = 0
+            bienes_publicidad = 0
+            folio_comision_publicidad = 0
+        texto_estatus = STATUS_COMISION[estatus_comision][1]
+        context['texto_estatus'] = texto_estatus
+        context['estatus_pago_publicidad'] = estatus_pago_publicidad
         context['estatus_comision'] = estatus_comision
-        context['fecha_hasta_str'] = fecha_hasta_str
         context['importe_asesores'] = importe_asesores
         context['importe_gerente'] = importe_gerente
         context['importe_publicidad'] = importe_publicidad
         context['importe_general'] = importe_general
-        context['fecha_hasta'] = str(fecha_hasta)
+        context['bienes_publicidad'] = bienes_publicidad
+        context['folio_comision_publicidad'] = folio_comision_publicidad
 
         context['pagos_gerentes'] = pagos_gerentes
         return context
     def get_queryset(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
-        fecha_hasta_str = self.request.GET.get('id_periodo')
-# Información viene del template
-        fecha_hasta_str = self.request.GET.get('id_periodo')
-        if fecha_hasta_str == None:
-# Información viene de una funcion
-            fecha_hasta_str = self.kwargs.get('id_periodo')
-            if fecha_hasta_str == None:
-                fecha_hasta = fecha_ultima_pago(num_proyecto)
-            else:
-                fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))    
-        else:
-            fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+        fecha_hasta = fecha_periodo(self)
+        periodo = fecha_hasta
         fecha_desde_p = fecha_inicio_dia_mes_pago(fecha_hasta)
         fecha_hasta_p = fecha_ultimo_dia_mes_pago(fecha_hasta)
         pagos_pagados = PagoComision.objects.filter(fecha_periodo=fecha_hasta,proyecto_pago=num_proyecto)
@@ -1246,28 +1266,38 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         return self.reverse_lazy(self.get_context_data(form=form))
 
 def deposito_comision(self, fecha, num_proyecto, empleado, opcion):
-    fecha_hasta = str_to_fecha_amd(fecha)
+    fecha_hasta = fecha
+    hoy = fecha_hoy_amd()
     if opcion == '1':
-#  Todos los asesores        
-        pago_comision_detalle = PagoComision.objects \
-            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
-            .update(estatus_pago_asesor=1)
-    elif opcion== '2':
-#  Solo un asesor        
+#  Asesor
         pago_comision_detalle = PagoComision.objects \
             .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto, \
-                asesor_pago_id=empleado).update(estatus_pago_asesor=1)
-    elif opcion== '3':
-#  Gerente ventas
+                asesor_pago_id=empleado).update(estatus_pago_asesor=1,fecha_deposito_comision=hoy)
+    elif opcion== '2':
+#  Gerente
         pago_comision_detalle = PagoComision.objects \
-            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
-            .update(estatus_pago_gerente=1)
-    elif opcion== '4':
+            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto, \
+            gerente_pago_id=empleado).update(estatus_pago_gerente=1,fecha_deposito_comision_gerente=hoy)
+    elif opcion== '3':
 #  Publicidad
         pago_comision_detalle = PagoComision.objects \
             .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
-            .update(estatus_pago_publicidad=1)
-    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'id_periodo':fecha} ,))
+            .update(estatus_pago_publicidad=1,fecha_deposito_comision_publicidad=hoy)
+    confirma = PagoComision.objects \
+        .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto)
+    confirmado = 1
+    for c in confirma:
+        if c.estatus_pago_asesor == 0:
+            confirmado = 0
+        if c.estatus_pago_gerente == 0:
+            confirmado = 0
+        if c.estatus_pago_publicidad == 0:
+            confirmado = 0
+    if confirmado == 1:
+        deposito_confirmado = PagoComision.objects \
+            .filter(fecha_periodo=fecha_hasta, proyecto_pago=num_proyecto) \
+            .update(estatus_comision=2)
+    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'periodo':fecha} ,))
 
 class situacion_comisiones(LoginRequiredMixin, ListView):
     template_name = 'finanzas/situacion_comisiones.html'
@@ -1298,11 +1328,9 @@ def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_pro
         .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
             proyecto_pago=num_proyecto) \
         .update(estatus_comision=1, \
-            estatus_pago_asesor=1, \
-            estatus_pago_gerente=1, \
-            estatus_pago_publicidad=1, \
-            fecha_periodo=fecha_hasta)
+            fecha_periodo=fecha_hasta_str)
 #   Folio de publicidad
+    importe_publicidad = imp_pub.replace(",","").replace(",","")
     folio_publicidad = nuevo_folio(3)
     observacion = "Comisión publicidad de fecha " + fecha_hasta_str + \
         " del proyecto " + nom_proyecto
@@ -1310,64 +1338,111 @@ def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_pro
         tipo = 3, 
         numero = folio_publicidad,
         observacion = observacion,
-        importe = imp_pub)
+        importe = importe_publicidad)
     folio.save()
 #   Actualiza folio publicidad    
     act_folio_publicidad = PagoComision.objects \
-        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-            proyecto_pago=num_proyecto,estatus_pago_publicidad=1) \
+        .filter(proyecto_pago=num_proyecto, \
+            fecha_periodo=fecha_hasta_str) \
         .update(folio_comision_publicidad=folio_publicidad,)
     pago_comision_gerente_detalle = PagoComision.objects \
-        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], \
-            proyecto_pago=num_proyecto, \
-            estatus_comision=1, \
-            estatus_pago_asesor=1, \
-            estatus_pago_gerente=1, \
-            estatus_pago_publicidad=1, \
-            fecha_periodo=fecha_hasta) \
+        .filter(proyecto_pago=num_proyecto, \
+            fecha_periodo=fecha_hasta_str) \
         .order_by('gerente_pago')
     gerente_ant = 0
+    suma_gerente = 0
     for pago in pago_comision_gerente_detalle:
         num_gerente = pago.gerente_pago
         if num_gerente != gerente_ant:
-            gerente_ant = pago.empleado_pago
-            folio_gerente = nuevo_folio(3)
-            observacion = "Comisión gerente de fecha " + fecha_hasta_str + \
-                " del proyecto " + nom_proyecto
-            folio = Folios(
-                tipo = 3, 
-                numero = folio_gerente,
-                observacion = observacion,
-                importe = imp_ger)
-            folio.save()
-        actualiza = PagoComision.objects \
-            .filter(bien_pago=pago.bien_pago) \
-            .update(
-                folio_comision_gerente=folio_gerente, 
-                folio_comision_asesor=folio_asesor)
-
-
+            if gerente_ant == 0:
+                suma_gerente += pago.importe_gerente
+                nombre = pago.gerente_pago.nombre_completo
+                gerente_ant = num_gerente
+                bien = pago.bien_pago
+                folio_gerente = nuevo_folio(3)
+                actualiza = PagoComision.objects \
+                    .filter(bien_pago=pago.bien_pago) \
+                    .update(folio_comision_gerente=folio_gerente,)
+            else:
+                observacion = "Comisión gerente de fecha " + fecha_hasta_str + \
+                    " del proyecto " + nom_proyecto + " para  " + nombre
+                folio = Folios(
+                    tipo = 3, 
+                    numero = folio_gerente,
+                    observacion = observacion,
+                    importe = suma_gerente)
+                folio.save()
+                suma_gerente = pago.importe_gerente
+                gerente_ant = pago.gerente_pago
+                nombre = pago.gerente_pago.nombre_completo
+                bien = pago.bien_pago
+                folio_gerente = nuevo_folio(3)
+                actualiza = PagoComision.objects \
+                    .filter(bien_pago=pago.bien_pago) \
+                    .update(folio_comision_gerente=folio_gerente,)
+        else:
+            bien = pago.bien_pago
+            actualiza = PagoComision.objects \
+                .filter(bien_pago=pago.bien_pago) \
+                .update(folio_comision_gerente=folio_gerente,)
+            suma_gerente += pago.importe_gerente
+    if suma_gerente > 0:
+        observacion = "Comisión gerente de fecha " + fecha_hasta_str + \
+            " del proyecto " + nom_proyecto + " para  " + nombre
+        folio = Folios(
+            tipo = 3, 
+            numero = folio_gerente,
+            observacion = observacion,
+            importe = suma_gerente)
+        folio.save()
     empleado_ant = 0
     pago_comision_detalle = PagoComision.objects \
-        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) 
+        .filter(fecha_contrato__range=[fecha_desde_p, fecha_hasta_p], proyecto_pago=num_proyecto) \
+        .order_by('asesor_pago')
     for pago in pago_comision_detalle:
-        if not pago.empleado_pago == empleado_ant:
-            empleado_ant = pago.empleado_pago
-            folio_asesor = nuevo_folio(3)
-            observacion = "Comisión agente " + pago.empleado_pago.nombre_completo + \
-                " de fecha " + fecha_hasta_str + " del proyecto " + nom_proyecto
-            folio = Folios(
-                tipo = 3, 
-                numero = folio_asesor,
-                observacion = observacion,
-                importe = pago.importe)
-            folio.save()
-        actualiza = PagoComision.objects \
-            .filter(bien_pago=pago.bien_pago) \
-            .update(
-                folio_comision_gerente=folio_gerente, 
-                folio_comision_asesor=folio_asesor)
-    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'id_periodo':fecha_hasta_str} ,))
+        if not pago.asesor_pago == empleado_ant:
+            if empleado_ant == 0:
+                suma_asesor = pago.importe
+                empleado_ant = pago.asesor_pago
+                nombre = pago.asesor_pago.nombre_completo
+                bien = pago.bien_pago
+                folio_asesor = nuevo_folio(3)
+                actualiza = PagoComision.objects \
+                    .filter(bien_pago=bien) \
+                    .update(folio_comision_asesor=folio_asesor)
+            else:
+                observacion = "Comisión agente " + nombre + \
+                    " de fecha " + fecha_hasta_str + " del proyecto " + nom_proyecto
+                folio = Folios(
+                    tipo = 3, 
+                    numero = folio_asesor,
+                    observacion = observacion,
+                    importe = suma_asesor)
+                folio.save()
+                empleado_ant = pago.asesor_pago
+                suma_asesor = pago.importe
+                bien = pago.bien_pago
+                nombre = pago.asesor_pago.nombre_completo
+                folio_asesor = nuevo_folio(3)
+                actualiza = PagoComision.objects \
+                    .filter(bien_pago=bien) \
+                    .update(folio_comision_asesor=folio_asesor)
+        else:
+            bien = pago.bien_pago
+            actualiza = PagoComision.objects \
+                .filter(bien_pago=bien) \
+                .update(folio_comision_asesor=folio_asesor)
+            suma_asesor += pago.importe
+    if suma_asesor > 0:
+        observacion = "Comisión agente " + nombre + \
+            " de fecha " + fecha_hasta_str + " del proyecto " + nom_proyecto
+        folio = Folios(
+            tipo = 3, 
+            numero = folio_asesor,
+            observacion = observacion,
+            importe = suma_asesor)
+        folio.save()
+    return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'periodo':fecha_hasta_str} ,))
 
 class imprime_comprob_mensual_PDF(View):
     def link_callback(self, uri, rel):
@@ -1436,4 +1511,81 @@ class imprime_comprob_mensual_PDF(View):
                 dest=response,
                 link_callback=self.link_callback,
             )
+        return response
+
+class imprime_comprob_comision_PDF(View):
+    def link_callback(self, uri, rel):
+        """
+        Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+        resources
+        """
+        # use short variable names
+        sUrl = settings.STATIC_URL  # Typically /static/
+        sRoot = settings.STATIC_ROOT  # Typically /home/userX/project_static/
+        mUrl = settings.MEDIA_URL  # Typically /static/media/
+        mRoot = settings.MEDIA_ROOT  # Typically /home/userX/project_static/media/
+
+        # convert URIs to absolute system paths
+        if uri.startswith(mUrl):
+            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+        elif uri.startswith(sUrl):
+            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        else:
+            return uri  # handle absolute uri (ie: http://some.tld/foo.png)
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+    def get(self, request, *args, **kwargs): 
+        des_permiso = '_imprime_comprob_comision'
+        num_proyecto = self.kwargs['num_proyecto']
+        proyecto = Proyecto.objects.filter(id=num_proyecto)
+        nom_proy = proyecto[0].nom_proy
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = request.user.has_perms([permiso_str])
+        response = HttpResponse(content_type='application/pdf', )
+        if acceso:
+            fecha = self.kwargs['fecha']
+            empleado = self.kwargs['empleado']
+            bienes = self.kwargs['bienes']
+            importe = self.kwargs['importe']
+            nom_proyecto = self.kwargs['nom_proyecto']
+            folio = self.kwargs['folio']
+
+            context = {}
+
+            context['fecha'] = str_to_str_cambiar(fecha)
+            context['empleado'] = empleado
+            context['bienes'] = bienes
+            context['importe'] = importe
+            context['nom_proyecto'] = nom_proyecto
+            context['folio'] = folio
+            context['num_proyecto'] = num_proyecto
+
+
+            template = get_template('finanzas/recibo_pago_comisionPDF.html')
+            hoy = fecha_hoy()
+            empresa = trae_empresa(1)
+            context['empresa'] = empresa
+
+            context['hoy'] = hoy
+
+            importe_num = float(importe.replace(',','').replace(',',''))
+            importe_letras = numero_a_letras(importe_num)
+            context['importe_letras'] = importe_letras
+            copias = [0,1]
+            context['copias'] = copias
+            
+            html = template.render(context)
+            pisaStatus = pisa.CreatePDF(
+                html, 
+                dest=response,
+                link_callback=self.link_callback,
+            )
+        else:
+            print('Sin acceso')
         return response

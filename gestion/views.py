@@ -2105,9 +2105,9 @@ class datos_contrato(UpdateView):
                 gerente = jefe[0].subidPersonal
                 comision_gerente = obtener_comision(gerente, id_proyecto, True)
                 comision_publicidad = COMISION_PUBLICIDAD
-                importe = precio_final * comision / 100
-                importe_gerente = precio_final * comision_gerente / 100
-                importe_publicidad = precio_final * comision_publicidad / 100
+                importe = round(precio_final * comision / 100, 0)
+                importe_gerente = round(precio_final * comision_gerente / 100, 0)
+                importe_publicidad = round(precio_final * comision_publicidad / 100, 0)
                 pagoComision = PagoComision(proyecto_pago_id=id_proyecto, asesor_pago_id=asesor, bien_pago_id=lote, modo_pago=modo_pago, \
                     precio_final=precio_final, enganche=enganche, fecha_confirma_pago_adicional=fecha_confirma_pago_adicional, \
                     fecha_contrato=fecha_contrato, comsion=comision, importe=importe, comsion_gerente=comision_gerente, \

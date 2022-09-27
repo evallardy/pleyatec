@@ -1,11 +1,12 @@
+from datetime import date
 from bien.models import PagoComision
+from core.funciones import fecha_ultima_pago
 from empleado.models import Empleado
 from gestion.models import Solicitud
 from django.db.models.aggregates import Count
 from django.db.models import Sum
 
 def datos_tabla_amortizacion(pk):
-
     solicitud = Solicitud.objects.filter(id=pk).first()
     # Precio final
     field_object = Solicitud._meta.get_field('precio_final')
@@ -21,7 +22,6 @@ def datos_tabla_amortizacion(pk):
     # Cantidad de pagos
     field_object = Solicitud._meta.get_field('cantidad_pagos')
     cantidad_pagos = field_object.value_from_object(solicitud)
-
     interes = 0  ##  interes mensual a cada pago
     interes_total = impPorPagar * interes / 100
     pago_total = impPorPagar + interes_total
@@ -76,24 +76,38 @@ def datos_tabla_amortizacion(pk):
         saldo_interes -= interes_mensual
     return datos
 
+def fecha_periodo(self):
+    num_proyecto = self.kwargs.get('num_proyecto',0)
+# Información viene del template
+    fecha_hasta_str = self.request.GET.get('periodo')
+    if fecha_hasta_str == None:
+# Información viene de una funcion
+        fecha_hasta_str = self.kwargs.get('periodo')
+        if fecha_hasta_str == None:
+            fecha_hasta = fecha_ultima_pago(num_proyecto)
+        else:
+            fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))    
+    else:
+        fecha_hasta = date(int(fecha_hasta_str[0:4]), int(fecha_hasta_str[5:7]), int(fecha_hasta_str[8:10]))
+    return fecha_hasta
+
 def datos_comisiones_concentrado(num_proyecto, fecha_desde, fecha_hasta, estatus):
     if estatus == 0:  #  Nuevo periodo de pago
         ##  ok
         registros = PagoComision.objects \
             .filter(fecha_contrato__range=[fecha_desde, fecha_hasta], proyecto_pago=num_proyecto, \
                 estatus_comision=0) \
-            .values('proyecto_pago') \
+            .values('proyecto_pago','estatus_pago_publicidad','folio_comision_publicidad') \
             .annotate(bienes=Count('bien_pago'),total_asesor=Sum('importe'), \
             total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad'))
     else:
         ##  ok
         registros = PagoComision.objects \
             .filter(fecha_periodo=fecha_desde, proyecto_pago=num_proyecto, estatus_comision=estatus) \
-            .values('proyecto_pago') \
+            .values('proyecto_pago', 'estatus_pago_publicidad','folio_comision_publicidad') \
             .annotate(bienes=Count('bien_pago'),total_asesor=Sum('importe'), \
             total_gerente=Sum('importe_gerente'),total_publicidad=Sum('importe_publicidad'))
     return registros
-
 
 def datos_comision_detalle_concentrado(opcion, num_proyecto, fecha_desde, fecha_hasta, estatus):
     if estatus == 0:  #  Nuevo periodo de pago
@@ -101,7 +115,8 @@ def datos_comision_detalle_concentrado(opcion, num_proyecto, fecha_desde, fecha_
             ###  ok
             registros = Empleado.objects \
                 .filter(pagocomision__fecha_contrato__range=[fecha_desde, fecha_hasta], pagocomision__proyecto_pago=num_proyecto,) \
-                .values('pagocomision__asesor_pago','pagocomision__estatus_pago_asesor','nombre','paterno','materno') \
+                .values('pagocomision__asesor_pago','pagocomision__estatus_pago_asesor','nombre','paterno','materno', \
+                'pagocomision__folio_comision_asesor') \
                 .annotate(bienes=Count('pagocomision__bien_pago'),total_asesor=Sum('pagocomision__importe'), \
                 total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
                 .order_by('pagocomision__gerente_pago') 
@@ -109,14 +124,15 @@ def datos_comision_detalle_concentrado(opcion, num_proyecto, fecha_desde, fecha_
             ###  ok  
             registros = PagoComision.objects \
                     .filter(fecha_contrato__range=[fecha_desde, fecha_hasta], proyecto_pago=num_proyecto,) \
-                    .values('gerente_pago','gerente_pago__nombre', 'gerente_pago__paterno','gerente_pago__materno') \
+                    .values('gerente_pago','gerente_pago__nombre', 'gerente_pago__paterno','gerente_pago__materno','estatus_pago_gerente', \
+                    'folio_comision_gerente') \
                     .annotate(bienes=Count('bien_pago'),total_asesor=Sum('importe_gerente'),) \
                     .order_by('gerente_pago') 
         elif opcion == 3:  # Detalle todo
             ###  ok
             registros = PagoComision.objects \
                 .filter(fecha_contrato__range=[fecha_desde, fecha_hasta], proyecto_pago=num_proyecto,) \
-                .values('proyecto_pago') \
+                .values('proyecto_pago','folio_comision_publicidad') \
                 .annotate(bienes=Count('bien_pago'),total_publicidad=Sum('importe_publicidad'),)
         else:
             registros = PagoComision.objects.filter(id=0)
@@ -125,7 +141,8 @@ def datos_comision_detalle_concentrado(opcion, num_proyecto, fecha_desde, fecha_
             ###  ok
             registros = Empleado.objects \
                 .filter(pagocomision__fecha_periodo=fecha_desde, pagocomision__proyecto_pago=num_proyecto,) \
-                .values('pagocomision__asesor_pago','pagocomision__estatus_pago_asesor','nombre','paterno','materno') \
+                .values('pagocomision__asesor_pago','pagocomision__estatus_pago_asesor','nombre','paterno','materno', \
+                'pagocomision__folio_comision_asesor') \
                 .annotate(bienes=Count('pagocomision__bien_pago'),total_asesor=Sum('pagocomision__importe'), \
                 total_gerente=Sum('pagocomision__importe_gerente'),total_publicidad=Sum('pagocomision__importe_publicidad')) \
                 .order_by('paterno','materno','nombre') 
@@ -133,35 +150,33 @@ def datos_comision_detalle_concentrado(opcion, num_proyecto, fecha_desde, fecha_
             ###  ok
             registros = PagoComision.objects \
                 .filter(fecha_periodo=fecha_desde, proyecto_pago=num_proyecto,) \
-                .values('gerente_pago','gerente_pago__nombre', 'gerente_pago__paterno','gerente_pago__materno') \
+                .values('gerente_pago','gerente_pago__nombre', 'gerente_pago__paterno','gerente_pago__materno','estatus_pago_gerente', \
+                'folio_comision_gerente') \
                 .annotate(bienes=Count('bien_pago'),total_asesor=Sum('importe_gerente'),) \
                 .order_by('gerente_pago__paterno','gerente_pago__materno', 'gerente_pago__nombre') 
         elif opcion == 3:  # Detalle todo
             ###  ok
             registros = PagoComision.objects \
                 .filter(fecha_periodo=fecha_desde, proyecto_pago=num_proyecto,) \
-                .values('estatus_pago_publicidad') \
+                .values('estatus_pago_publicidad','folio_comision_publicidad') \
                 .annotate(bienes=Count('bien_pago'),total_publicidad=Sum('importe_publicidad'),)
         else:
             registros = PagoComision.objects.filter(id=0)
     return registros
 
-def datos_comision_detalle(opcion, num_proyecto, fecha_desde, fecha_hasta, estatus, empleado):
-    if estatus == 0:
-        if opcion == 1:   #  Detalle Asesores 
-            ###  ok
-            registros = Empleado.objects \
-                .filter(pagocomision__fecha_contrato__range=[fecha_desde, fecha_hasta], pagocomision__proyecto_pago=num_proyecto, \
-                    pagocomision__estatus_comision=estatus, pagocomision__asesor_pago=empleado) \
-                .order_by('-pagocomision__fecha_contrato')
-        elif opcion == 2:  # Detalle gerentes
-            ###  ok
+def datos_comision_detalle(opcion, num_proyecto, fecha_desde, fecha_hasta, estatus, empleado, periodo):
+    if estatus == '0':
+        if opcion == '1':   #  Detalle Asesores 
+            registros = PagoComision.objects \
+                .filter(fecha_contrato__range=[fecha_desde, fecha_hasta], proyecto_pago=num_proyecto, \
+                    estatus_comision=estatus, asesor_pago=empleado) \
+                .order_by('-fecha_contrato')
+        elif opcion == '2':  # Detalle gerentes
             registros = PagoComision.objects \
                 .filter(fecha_contrato__range=[fecha_desde, fecha_hasta], proyecto_pago=num_proyecto, \
                     estatus_comision=estatus, gerente_pago=empleado) \
                 .order_by('-fecha_contrato')
-        elif opcion == 3:  # Detalle todo
-            ###  ok
+        elif opcion == '3':  # Detalle todo
             registros = PagoComision.objects \
                 .filter(fecha_contrato__range=[fecha_desde, fecha_hasta], proyecto_pago=num_proyecto, \
                     estatus_comision=estatus) \
@@ -169,22 +184,19 @@ def datos_comision_detalle(opcion, num_proyecto, fecha_desde, fecha_hasta, estat
         else:
             registros = PagoComision.objects.filter(id=0)
     else:
-        if opcion == 1:   #  Detalle Asesores 
-            ###  ok
-            registros = Empleado.objects \
-                .filter(pagocomision__fecha_periodo=fecha_desde, pagocomision__proyecto_pago=num_proyecto, \
-                    pagocomision__estatus_comision=estatus, pagocomision__asesor_pago=empleado) \
-                .order_by('-pagocomision__fecha_contrato')
-        elif opcion == 2:  # Detalle gerentes
-            ###  ok
+        if opcion == '1':   #  Detalle Asesores 
             registros = PagoComision.objects \
-                .filter(fecha_periodo=fecha_desde, proyecto_pago=num_proyecto, \
+                .filter(fecha_periodo=periodo, proyecto_pago=num_proyecto, \
+                    estatus_comision=estatus, asesor_pago=empleado) \
+                .order_by('-fecha_contrato')
+        elif opcion == '2':  # Detalle gerentes
+            registros = PagoComision.objects \
+                .filter(fecha_periodo=periodo, proyecto_pago=num_proyecto, \
                     estatus_comision=estatus, gerente_pago=empleado) \
                 .order_by('-fecha_contrato')
-        elif opcion == 3:  # Detalle todo
-            ###  ok
+        elif opcion == '3':  # Detalle todo
             registros = PagoComision.objects \
-                .filter(fecha_periodo=fecha_desde, proyecto_pago=num_proyecto, \
+                .filter(fecha_periodo=periodo, proyecto_pago=num_proyecto, \
                     estatus_comision=estatus) \
                 .order_by('-fecha_contrato')
         else:

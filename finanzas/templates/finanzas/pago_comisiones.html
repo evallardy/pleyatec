@@ -23,11 +23,12 @@
     <hr>
     <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a><br><br>
     <form action="">
+        {% csrf_token %}
         <div class="container">
             <div class="form-row">
                 <div class="form-group col-md-3 mb-0">
                     <label for="id_periodo">Periodo de pago:</label>
-                    <select name="id_periodo" id="id_periodo" class="form-control" onchange="form.submit()">
+                    <select name="periodo" id="id_periodo" class="form-control" onchange="form.submit()">
                         {% for f in datos.fechas %}
                         <option value={{f.valor}}>{{f.despliegue}}</option>
                         {% endfor %}
@@ -37,70 +38,67 @@
                     {% if estatus_comision == 0 and app_proy_vobo_comisiones and object_list %}
                     <label>   </label><br>
                     <a class="btn btn btn-success"
-                        href="{% url 'vobo_comisiones' fecha_hasta_str py.id fecha_hasta py.nombre importe_gerente importe_publicidad %}">Vo.Bo.
+                        href="{% url 'vobo_comisiones' periodo py.id fecha_hasta py.nombre importe_gerente importe_publicidad %}">Vo.Bo.
                         Comisiones</a>
                     {% endif %}
                 </div>
-                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
+                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_gerentesvobo">
                     {% if object_list %}
                     <label>   </label><br>
-                    <a class="btn btn-outline-dark"
-                    href="{% url 'detalle_comisiones' 0 py.id fecha_desde fecha_hasta 2 estatus_comision %}">Detalle Gerentes</a>
+                    <button type="button" class="btn btn-outline-dark" data-toggle="modal"
+                        data-target="#datosGerentes">
+                        Detalle Gerentes
+                    </button>
                     {% endif %}
                 </div>
-                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_vobo">
+                <div class="form-group col-md-3 mb-0" style="text-align: right;" id="btn_publicidad">
                     {% if object_list %}
                     <label>   </label><br>
                     <a class="btn btn-outline-dark"
-                    href="{% url 'detalle_comisiones' 0 py.id fecha_desde fecha_hasta 3 estatus_comision %}">Detalle Publicidad</a>
+                        href="{% url 'detalle_comisiones' 0 py.id fecha_desde fecha_hasta 3 estatus_comision periodo %}">Detalle
+                        Publicidad</a>
                     {% endif %}
                 </div>
             </div>
             <br>
             <div class="form-row">
                 <div class="form-group col-md-2 mb-0" style="text-align: center;">
-                    <label for="id_periodo">Total Asesores</label>
+                    <label for="total_asesor">Total Asesores</label>
                     <input type="text" name="total_asesor" id="total_asesor" readonly class="form-control"
                         style="text-align: right;" value="{{importe_asesores}}">
-                    {% if estatus_comision == 1 and pago_asesores == 0 %}
-                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;" id="btn_deposito_asesores"
-                        onclick="deposito('{{fecha_hasta}}', 0, 1, 'de todos los asesores')">Depósito</a>
-                    {% endif %}
-                    {% if estatus_comision == 1 and pago_asesores == 1 %}
-                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
-                        id="btn_recibo_asesores">Recibos</a>
-                    {% endif %}
                 </div>
                 <div class="form-group col-md-2 mb-0" style="text-align: center;">
-                    <label for="id_periodo">Total Gerente</label>
+                    <label for="total_director">Total Gerente</label>
                     <input type="text" name="total_director" id="total_director" readonly class="form-control"
                         style="text-align: right;" value="{{importe_gerente}}">
-                    {% if estatus_comision == 1 and pago_gerente == 0 %}
-                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;" id="btn_deposito_gerente"
-                        onclick="deposito('{{fecha_hasta}}', 0, 3, 'del gerente')">Depósito</a>
-                    {% endif %}
-                    {% if estatus_comision == 1 and pago_gerente == 1 %}
-                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
-                        id="btn_recibo_gerente">Recibos</a>
-                    {% endif %}
                 </div>
                 <div class="form-group col-md-2 mb-0" style="text-align: center;">
-                    <label for="id_periodo">Total Publicidad</label>
+                    <label for="total_publicidad">Total Publicidad</label>
                     <input type="text" name="total_publicidad" id="total_publicidad" readonly class="form-control"
                         style="text-align: right; " value="{{importe_publicidad}}">
-                    {% if estatus_comision == 1 and pago_publicidad == 0 %}
+                    {% if estatus_comision == 1 and estatus_pago_publicidad == 0 %}
                     <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;" id="btn_deposito_publicidad"
-                        onclick="deposito('{{fecha_hasta}}', 0, 4, 'de la publicidad')">Depósito</a>
+                        onclick="deposito('{{periodo}}', 0, 3, 'de la publicidad')">Depósito</a>
                     {% endif %}
-                    {% if estatus_comision == 1 and pago_publicidad == 1 %}
-                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;"
-                        id="btn_recibo_publicidad">Recibos</a>
+                    {% if estatus_pago_publicidad == 1 %}
+                    {% if app_proy_imprime_comprob_comision %}
+                    <a class="btn btn-outline-dark" href="#" style="margin-top: 10px;" id="btn_recibo_publicidad"
+                        onclick="recibo('{{periodo}}', 'PUBLICIDAD',
+                            '{{bienes_publicidad}}','{{importe_publicidad}}' ,
+                            'de la publicidad', '{{folio_comision_publicidad}}','{{py.id}}')"
+                        >Recibos</a>
+                    {% endif %}
                     {% endif %}
                 </div>
                 <div class="form-group col-md-2 mb-0" style="text-align: center;">
-                    <label for="id_periodo">Gran total</label>
+                    <label for="total_general">Gran total</label>
                     <input type="text" name="total_general" id="total_general" readonly class="form-control"
                         style="text-align: right;" value="{{importe_general}}">
+                </div>
+                <div class="form-group col-md-3 mb-0" style="text-align: center;">
+                    <label for="total_general">Estatus de pago</label>
+                    <input type="text" name="total_general" id="total_general" readonly class="form-control"
+                        style="text-align: center;" value="{{ texto_estatus }}">
                 </div>
             </div>
         </div>
@@ -124,55 +122,23 @@
                             <td style="text-align: center;">{{pc.bienes}}</td>
                             <td style="text-align: right;">{{pc.total_asesor}}</td>
                             <td style="text-align: center;">
-                                [{{pc.pagocomision__asesor_pago}}]
-                                [{{py.id}}] [{{fecha_desde}}] [{{fecha_hasta}}] [1] [{{estatus_comision}}]
                                 <a class="btn btn-outline-dark"
-                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_desde fecha_hasta 1 estatus_comision %}">Detalle</a>
+                                    href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_desde fecha_hasta 1 estatus_comision periodo %}">Detalle</a>
                             </td>
                             <td style="text-align: center;">
                                 {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
                                 <a class="btn btn-outline-dark" href="#" id="btn_deposito_asesor"
-                                    onclick="deposito('{{fecha_hasta}}', '{{pc.pagocomision__asesor_pago}}', 2, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')">Depósito</a>
+                                    onclick="deposito('{{periodo}}', '{{pc.pagocomision__asesor_pago}}', 1, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')">Depósito</a>
                                 {% endif %}
-                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 1 %}
-                                <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor">Recibos</a>
+                                {% if pc.pagocomision__estatus_pago_asesor == 1 %}
+                                {% if app_proy_imprime_comprob_comision %}
+                                <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor"
+                                    onclick="recibo('{{periodo}}', '{{pc.nombre }} {{ pc.paterno}} {{pc.materno}}',
+                                        '{{pc.bienes}}','{{pc.total_asesor}}' ,
+                                        'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}',
+                                        '{{pc.pagocomision__folio_comision_asesor}}','{{py.id}}')"
+                                >Recibo</a>
                                 {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="container col-12" style="width: 800px;">
-            <div class="form-row">
-                <table class="table table-info  col-12">
-                    <thead>
-                        <tr>
-                            <th class="col-6" style="text-align: center;">Gerente</th>
-                            <th class="col-1" style="text-align: center;">Bienes</th>
-                            <th class="col-3" style="text-align: right;">Importe comisión</th>
-                            <th class="col-1"></th>
-                            <th class="col-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pc in pagos_gerentes %}
-                        <tr>
-                            <td style="text-align: left;">{{ pc.gerente_pago__paterno }} {{ pc.gerente_pago__materno }} 
-                                {{ pc.gerente_pago__nombre }}</td>
-                            <td style="text-align: center;">{{ pc.bienes }}</td>
-                            <td style="text-align: right;">{{ pc.total_asesor }}</td>
-                            <td style="text-align: center;">
-                                <a class="btn btn-outline-dark"
-                                    href="{% url 'detalle_comisiones' pc.gerente_pago py.id fecha_desde fecha_hasta 2 estatus_comision %}">Detalle</a>
-                            </td>
-                            <td style="text-align: center;">
-                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
-                                <a class="btn btn-outline-dark" href="#" id="btn_deposito_gerente">Depósito</a>
-                                {% endif %}
-                                {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 1 %}
-                                <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor">Recibos</a>
                                 {% endif %}
                             </td>
                         </tr>
@@ -181,7 +147,62 @@
                 </table>
             </div>
         </div>
-        <br>
+        <div class="modal fade" id="datosGerentes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" style="margin-top: 100px;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                    <div class="modal-header">
+                        <label class="encabezados">Comisiones gerentes</label>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <table class="table table-info  col-12">
+                                <thead>
+                                    <tr>
+                                        <th class="col-6" style="text-align: center;">Gerente</th>
+                                        <th class="col-1" style="text-align: center;">Bienes</th>
+                                        <th class="col-3" style="text-align: right;">Importe comisión</th>
+                                        <th class="col-1"></th>
+                                        <th class="col-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pc in pagos_gerentes %}
+                                    <tr>
+                                        <td style="text-align: left;">{{ pc.gerente_pago__paterno }} 
+                                            {{ pc.gerente_pago__materno }}
+                                            {{ pc.gerente_pago__nombre }}</td>
+                                        <td style="text-align: center;">{{ pc.bienes }}</td>
+                                        <td style="text-align: right;">{{ pc.total_asesor }}</td>
+                                        <td style="text-align: center;">
+                                            <a class="btn btn-outline-dark"
+                                                href="{% url 'detalle_comisiones' pc.gerente_pago py.id fecha_desde fecha_hasta 2 estatus_comision periodo %}">Detalle</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {% if pc.estatus_pago_gerente == 0 %}
+                                            <a class="btn btn-outline-dark" href="#"
+                                                id="btn_deposito_gerente" onclick="deposito('{{periodo}}', '{{pc.gerente_pago}}', 2, 'del gerente {{pc.gerente_pago_paterno}} {{pc.gerente_pago_materno}} {{pc.gerente_pago_nombre}}')">Depósito</a>
+                                            {% elif pc.estatus_pago_gerente == 1 %}
+                                            {% if app_proy_imprime_comprob_comision %}
+                                            <a class="btn btn-outline-dark" href="#" id="btn_recibo_asesor"
+                                                onclick="recibo('{{periodo}}', '{{pc.gerente_pago__nombre }} {{ pc.gerente_pago__paterno}} {{pc.gerente_pago__materno}}',
+                                                 '{{pc.bienes}}','{{pc.total_asesor}}' ,
+                                                 'del gerente {{pc.gerente_pago_paterno}} {{pc.gerente_pago_materno}} {{pc.gerente_pago_nombre}}',
+                                                 '{{pc.folio_comision_gerente}}','{{py.id}}')">Recibo</a>
+                                            {% endif %}    
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
     </form>
 </div>
 {% if page_obj.has_previous %}
@@ -198,9 +219,18 @@
         url = url.replace("789", opcion);
         confirmacion("Precaución", "Registrar el deposito " + mensaje + "? ", url, "", "Depósito registrado", "Depósito no se registro");
     }
-
+    function recibo(fecha, empleado, bienes, importe, mensaje, folio, num_proyecto) {
+        url = "/finanzas/imprime_comprob_comision_PDF/111111/222222/333333/444444/{{py.nombre}}/555555/666666/";
+        url = url.replace("111111", fecha);
+        url = url.replace("222222", empleado);
+        url = url.replace("333333", bienes);
+        url = url.replace("555555", folio);
+        url = url.replace("666666", num_proyecto);
+        url = url.replace("444444", importe);
+        window.open(url, "Recibo", target = "_blank");
+    }
     $(document).ready(function () {
-        $("#id_periodo").val("{{fecha_hasta}}");
+        $("#id_periodo").val("{{periodo}}");
     });
 </script>
 {% endfor %}

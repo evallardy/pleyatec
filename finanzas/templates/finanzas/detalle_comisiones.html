@@ -12,25 +12,19 @@
     <form action="">
         <label class="encabezados">{{py.nombre}}</label>
         <label class="encabezados">Pago de Comisiones Detalle</label><br>
-        {% if grupo == "1" %}
         <label class="encabezados">{{nombre}}</label><br>
-        {% elif grupo == "2" %}
-        <label class="encabezados">GERENTES</label><br>
-        {% else %}
-        <label class="encabezados">DIRECCION PUBLICIDAD</label><br>
-        {% endif %}
-        <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id fecha_hasta %}">Regresar</a><br><br>
+        <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id periodo %}">Regresar</a><br><br>
         <div class="container">
             <div class="form-row">
-                <div class="form-group col-md-3 mb-0" style="text-align: center;">
+                <div class="form-group col-md-2 mb-0" style="text-align: center;">
                     <label for="">Bienes</label>
                     <input type="text" name="total_bienes" id="total_bienes" readonly class="form-control"
                         style="text-align: center;" value="{{cantidad}}">
                 </div>
-                <div class="form-group col-md-3 mb-0" style="text-align: center;">
+                <div class="form-group col-md-2 mb-0" style="text-align: center;">
                     <label for="">Total</label>
                     <input type="text" name="total_importe" id="total_importe" readonly class="form-control"
-                        style="text-align: right;" value="{{total}}">
+                        style="text-align: right;" value="{{importe}}">
                 </div>
             </div>
         </div>
@@ -40,9 +34,6 @@
                 <table class="table table-info  col-12">
                     <thead>
                         <tr>
-                            {% if grupo == "2" %}
-                            <th class="col-5" style="text-align: center;">Gerente</th>
-                            {% endif %}
                             <th class="col-5" style="text-align: center;">Bien</th>
                             <th class="col-3" style="text-align: center;">Fecha contrato</th>
                             <th class="col-2" style="text-align: right;">Importe venta</th>
@@ -52,11 +43,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for pc in bienes %}
+                        {% for pc in object_list %}
                         <tr>
-                            {% if grupo == "2" %}
-                            <td style="text-align: left;">{{pc.asesor_pago.subidPersonal.nombre}} {{pc.asesor_pago.subidPersonal.paterno}} {{pc.asesor_pago.subidPersonal.materno}}</td>
-                            {% endif %}
                             <td style="text-align: left;">{{pc.bien_pago}}</td>
                             <td style="text-align: left;">{{pc.fecha_contrato}}</td>
                             <td style="text-align: right;">{{pc.precio_final}}</td>
