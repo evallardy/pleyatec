@@ -219,6 +219,7 @@
         url = url.replace("789", opcion);
         confirmacion("Precaución", "Registrar el deposito " + mensaje + "? ", url, "", "Depósito registrado", "Depósito no se registro");
     }
+    {% if app_proy_imprime_comprob_comision %}
     function recibo(fecha, empleado, bienes, importe, mensaje, folio, num_proyecto) {
         url = "/finanzas/imprime_comprob_comision_PDF/111111/222222/333333/444444/{{py.nombre}}/555555/666666/";
         url = url.replace("111111", fecha);
@@ -229,6 +230,7 @@
         url = url.replace("444444", importe);
         window.open(url, "Recibo", target = "_blank");
     }
+    {% endif %}
     $(document).ready(function () {
         $("#id_periodo").val("{{periodo}}");
     });

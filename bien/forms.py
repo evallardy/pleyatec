@@ -12,7 +12,7 @@ class ProyectoForm(forms.ModelForm):
         ]
         labels = {
             'comision_asesor':'Comisión asesor',
-            'comision_jefe_asesor':'Comisión coordinador',
+            'comision_jefe_asesor':'Comisión gerente',
         }
         widgets = {
             'comision_asesor':forms.NumberInput(attrs={'class':'form-control'}),
