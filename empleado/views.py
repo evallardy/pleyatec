@@ -1,3 +1,6 @@
+from ast import Not
+from multiprocessing import context
+import re
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import View
 from django.http.response import HttpResponseRedirect
@@ -56,41 +59,59 @@ class comisiones_asesor(LoginRequiredMixin, ListView):
         queryset = Proyecto.objects.all().order_by('id')
         return queryset
 
-class comision_por_asesor(LoginRequiredMixin, CreateView):
+class comision_por_asesor(LoginRequiredMixin, ListView):
     form_class = EmpleadoComisionForm
     template_name = 'empleado/nvo_comision.html'
     success_url = reverse_lazy('comisiones_asesor')
     def get_context_data(self, **kwargs):
         context = super(comision_por_asesor, self).get_context_data(**kwargs)
         pk = self.kwargs.get('pk',0)
-        empleados = Empleado.objects.filter(id=pk)
-        context['empleados'] = empleados
-        proyectos = Proyecto.objects.all()
-        context['proyectos'] = proyectos
-        datos = comisiones_proyecto_asesor(pk)
-        context['comision'] = comision_asesor_proyecto(pk, 1)
-        context['datos'] = datos
+        comisiones_asesor = Empleado.objects.filter(id=pk)
+        context['nombre_empleado'] = comisiones_asesor[0].nombre_completo
+        mensaje = self.kwargs.get('mensaje')
+        if not mensaje:
+            mensaje = ''
+        context['mensaje'] = mensaje
+        proyectos_cmb = Proyecto.objects.all()
+        context['proyectos_cmb'] = proyectos_cmb
         context['accion'] = "Comisiones"
         return context
     def get_queryset(self):
         pk = self.kwargs.get('pk',0)
-        queryset = ComisionAgente.objects.filter(id=pk)
-        return queryset        
+        queryset = ComisionAgente.objects.filter(empleado_com=pk).order_by('proyecto_com')
+        return queryset
     def post(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
-        form = self.form_class(request.POST)
-        id_asesor = int(request.POST.get('id'))
-        id_proyecto = int(request.POST.get('proyecto'))
-        id_comision = request.POST.get('comision')
-        comision = ComisionAgente.objects.filter(proyecto_com_id=id_proyecto, empleado_com_id=id_asesor)
-        if comision:
-            comisionAgente = ComisionAgente.objects.filter(proyecto_com_id=id_proyecto, empleado_com_id=id_asesor).update(comision=id_comision)
+        proyecto = request.POST.get('proyecto')
+        comision = request.POST.get('comision')
+        proyecto_comision = ComisionAgente.objects.filter(proyecto_com=proyecto,empleado_com=pk)
+        if comision == '.':
+            mensaje = 'Comisión inválida'
         else:
-            comisionAgente = ComisionAgente(
-                    proyecto_com_id = id_proyecto, 
-                    empleado_com_id = id_asesor,
-                    comision = id_comision)
-            comisionAgente.save()
-        return HttpResponseRedirect(reverse('comision_por_asesor', kwargs={'pk':pk},))
-#        return reverse('comision_por_asesor', kwargs={"pk": pk})
-#        return HttpResponseRedirect(reverse('comision_por_asesor',{pk:pk}))
+            comision_num = float(comision)
+            if proyecto_comision:
+                if comision_num == 0:
+                    # Eliminar registgro
+                    comision_accion = ComisionAgente.objects.filter(proyecto_com=proyecto,empleado_com=pk) \
+                        .delete()
+                    mensaje = 'Se eleminó la comisión'
+                else:
+                    # Actualizar registro
+                    if comision_num > 0 and comision_num < 30:
+                        comision_accion = ComisionAgente.objects.filter(proyecto_com=proyecto,empleado_com=pk) \
+                            .update(comision=comision_num)
+                        mensaje = 'Se actualizó la comisión'
+                    else:
+                        mensaje = 'Comisión no modificada'
+            else:
+                # Alta del registro
+                if comision_num > 0 and comision_num < 30:
+                    comision_accion = ComisionAgente(
+                            proyecto_com_id = proyecto, 
+                            empleado_com_id = pk,
+                            comision = comision_num)
+                    comision_accion.save()
+                    mensaje = 'Se agregó la comisión'
+                else:
+                    mensaje = 'Comisión no agregada'
+        return HttpResponseRedirect(reverse('comision_por_asesor', kwargs={'pk':pk,'mensaje':mensaje}))

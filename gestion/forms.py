@@ -71,7 +71,7 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'cantidad_pagos': 'Cantidad de pagos',
             'importe_x_pago': 'Importe por pago',
             'aprobacion_gerente': 'Aprobación gerente ventas',
-            'aprobacion_director': 'Aprobación director de desarrollo',
+            'aprobacion_director': 'Aprobación Director de Desarrollo',
             'foto_elector_frente': 'INE frente cliente',
             'foto_elector_reverso': 'INE reverso cliente',
             'foto_comprobante': 'Comprobante',

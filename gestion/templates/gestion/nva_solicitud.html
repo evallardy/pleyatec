@@ -488,22 +488,6 @@
         }
         calcula();
     }
-    /*    function valore_forma() {
-            num_proyecto = parseInt(' py.id ');
-            porcentaje_descuento = convierteDecimal($("#id_porcentaje_descuento").val());
-            descuento = convierteEntero($("#id_descuento").val());
-            modo_pago = convierteEntero($("#id_modo_pago").val());
-            enganche = convierteDecimal($("#id_enganche").val());
-            cantidad_pagos = convierteEntero($("#id_cantidad_pagos").val());
-            precio_lote = convierteDecimal($("#id_precio_lote").val());
-            precio_final = convierteDecimal($("#id_precio_final").val());
-            precio_final_s_enganche = precio_final - enganche;
-            precio_x_mt = convierteDecimal($("#id_precio_x_mt").val());
-            total = convierteDecimal($("#id_total").val());
-            tipo_descuento = convierteEntero($("#id_tipo_descuento").val());
-            dec_porcentaje_descuento = (porcentaje_descuento / 100);
-            asigna_descuento = convierteEntero($("#id_asigna_descuento").val());
-        } */
     function calcula() {
         porcentaje_descuento = convierteNumero("id_porcentaje_descuento");
         descuento = convierteNumero("id_descuento");
@@ -626,28 +610,6 @@
             $("#gpo_btn_documentos").show();
         }
     }
-    /*    function guarda() {
-            alert("GUARDA");
-            texto = "";
-            if (parseInt($("#id_modo_pago").val()) != 1) {
-                if ((parseFloat($("#id_enganche").val()) <= 0) || ($("#id_enganche").val() == "")) {
-                    texto += "ingrese el enganche, ";
-                }
-                if (parseInt($("#id_cantidad_pagos").val()) <= 0) {
-                    texto += "Ingrese la cantidad de pagos, ";
-                }
-                enganche_minimo();
-                if (parseFloat($("#id_enganche").val()) < valor_enganche_minimo) {
-                    texto += "El enganche mínimo es " + valor_enganche_minimo;
-                }
-            }
-            if (texto == "") {
-                aviso("Aviso", "Guardado exitosamente");
-            } else {
-                aviso("Error", texto);
-                return false;
-            }  
-        }  */
     // Acciones
     $("#lote_id").on("change", function () {
         cambia_lote();

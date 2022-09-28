@@ -40,7 +40,7 @@ class Empleado(models.Model,PermissionRequiredMixin):
 
     class Meta:
         verbose_name = 'Empleado'
-        verbose_name_plural = 'Personal'
+        verbose_name_plural = 'Empleados'
         ordering = ['paterno','materno','nombre']
         db_table = 'Empleado'
         permissions = (
