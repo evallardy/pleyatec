@@ -18,7 +18,7 @@ class Proyecto(models.Model):
     modified = models.DateTimeField("Actualizado", auto_now=True)
     app = models.CharField("App",max_length=20, blank=True, null=True)
     nom_proy = models.CharField("Abrev Proyecto",max_length=30, default=" ")
-    fecha_alta = models.DateField("Fecha cierre proyecto", blank=True, null=True)
+    fecha_alta = models.DateField("Fecha alta proyecto", blank=True, null=True)
     fecha_cierre = models.DateField("Fecha cierre proyecto", blank=True, null=True)
 
 

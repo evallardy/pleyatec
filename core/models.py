@@ -133,7 +133,7 @@ STATUS_BIEN = (
 STATUS_COMISION = (
     (0, 'Nueva'),
     (1, 'Depósito pendiente'),
-    (2, 'Recibos pendientes'),
+    (2, 'Impresión de recibos'),
     (3, 'Terminada'),
 )
 STATUS_COMPRA = (

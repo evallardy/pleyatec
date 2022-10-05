@@ -840,26 +840,24 @@ class mod_solicitud(UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST, request.FILES)
-        
         num_proyecto = self.kwargs.get('num_proyecto',0)
         pk = self.kwargs.get('pk',0)
         cliente = request.POST.get('cliente')
         asesor = request.POST.get('asesor')
         lote = request.POST.get('lote')
-
         modo_pago = int(request.POST.get('modo_pago').replace(',',''))
         tipo_descuento = int(request.POST.get('tipo_descuento').replace(',',''))
         asigna_descuento = request.POST.get('asigna_descuento')
         cantidad_pagos = request.POST.get('cantidad_pagos')
 
-        precio_lote = request.POST.get('precio_lote').replace(',','')
-        precio_final = request.POST.get('precio_final').replace(',','')
+        precio_lote = request.POST.get('precio_lote').replace(',','').replace(',','')
+        precio_final = request.POST.get('precio_final').replace(',','').replace(',','')
         porcentaje_descuento = request.POST.get('porcentaje_descuento').replace(',','')
-        descuento = request.POST.get('descuento').replace(',','')
-        enganche = request.POST.get('enganche').replace(',','')
-        importe_x_pago = request.POST.get('importe_x_pago').replace(',','')
-        total = request.POST.get('total').replace(',','')
-        precio_x_mt = request.POST.get('precio_x_mt').replace(',','')
+        descuento = request.POST.get('descuento').replace(',','').replace(',','')
+        enganche = request.POST.get('enganche').replace(',','').replace(',','')
+        importe_x_pago = request.POST.get('importe_x_pago').replace(',','').replace(',','')
+        total = request.POST.get('total').replace(',','').replace(',','')
+        precio_x_mt = request.POST.get('precio_x_mt').replace(',','').replace(',','')
 
         foto_elector_frente = request.POST.get('foto_elector_frente')
         foto_elector_reverso = request.POST.get('foto_elector_reverso')
@@ -938,12 +936,11 @@ class mod_solicitud(UpdateView):
             'precio_x_mt':precio_x_mt,
         }
         solicitud_valida = Nuvole_SolicitudForm(data)
-
         if solicitud_valida.is_valid():
             solicitud_upd = Solicitud.objects.get(id=pk)
-            solicitud_upd.cliente.id = cliente
-            solicitud_upd.asesor.id = asesor
-            solicitud_upd.lote.id = lote
+            solicitud_upd.cliente = Cliente.objects.get(id=cliente)
+            solicitud_upd.asesor = Empleado.objects.get(id=asesor)
+            solicitud_upd.lote = Lote.objects.get(id=lote)
             solicitud_upd.precio_lote = precio_lote
             solicitud_upd.precio_final = precio_final
             solicitud_upd.tipo_descuento = tipo_descuento
@@ -958,7 +955,10 @@ class mod_solicitud(UpdateView):
             solicitud_upd.foto_elector_reverso = foto_elector_reverso
             solicitud_upd.foto_comprobante = foto_comprobante
             solicitud_upd.foto_matrimonio = foto_matrimonio
-            solicitud_upd.estatus_solicitud = estatus_solicitud
+            if estatus_solicitud == '5':
+                solicitud_upd.estatus_solicitud = 1
+            else:
+                solicitud_upd.estatus_solicitud = estatus_solicitud
             solicitud_upd.foto_elector_frente_cy = foto_elector_frente_cy
             solicitud_upd.foto_elector_reverso_cy = foto_elector_reverso_cy
             solicitud_upd.foto_alta_shcp = foto_alta_shcp

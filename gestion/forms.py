@@ -233,6 +233,10 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             if porcentaje_descuento <= 0:
                 raise forms.ValidationError('Teclea % descuento')
         return porcentaje_descuento
+    def clean_id_precio_lote(self):
+        data = self.cleaned_data['id_precio_lote']
+        return data
+
 
 class Nuvole_CompromisoForm(forms.ModelForm):
     class Meta:
