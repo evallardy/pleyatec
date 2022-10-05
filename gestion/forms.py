@@ -307,6 +307,8 @@ class Nuvole_CompromisoForm(forms.ModelForm):
         self.fields['foto_comprobante_apartado'].required = False
         self.fields['foto_comprobante_pago_adicional'].required = False
         self.fields['modo_pago'].required = False
+        self.fields['cantidad_pagos'].required = False
+        
 
     def clean_apartado(self):
         pk = self.instance.id

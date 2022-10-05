@@ -1552,7 +1552,7 @@ class pagos(UpdateView):
                 solicitud_upd.numero_comprobante_pa = request.POST.get('numero_comprobante_pa')
                 solicitud_upd.fecha_confirma_pago_adicional = request.POST.get('fecha_confirma_pago_adicional')
                 solicitud_upd.estatus_solicitud = request.POST.get('estatus_solicitud')
-                solicitud_upd.save()
+                resultado = solicitud_upd.save()
 #                form.save()
                 numero_lote = request.POST.get('lote')
                 num_contrato_sol = request.POST.get('num_contrato')
@@ -1582,7 +1582,7 @@ class pagos(UpdateView):
                         numero = num_contrato,
                         observacion = observacion,
                         importe = precio_final)
-                    folio.save()
+                    resultado = folio.save()
                     sol = Solicitud.objects.filter(id=pk) \
                         .update(num_contrato=num_contrato)
             return HttpResponseRedirect(self.get_success_url())
