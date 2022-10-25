@@ -1,5 +1,9 @@
 import os
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 900
+SESSION_SAVE_EVERY_REQUEST = True
+
 from operator import truediv
 from pathlib import Path
 from django.forms.utils import flatatt
@@ -18,11 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-jbl&ygbf#h1*y0%r14-x5(n*!p_%c@5-)$ot9igb+v_^up8c_b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
-USE_THOUSAND_SEPARATOR = True
+DECIMAL_SEPARATOR = ',' 
+USE_THOUSAND_SEPARATOR = ' '
 
 # Application definition
 
@@ -33,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'crispy_forms',
     'bootstrap4',
     'bootstrap_datepicker_plus',
@@ -43,7 +49,6 @@ INSTALLED_APPS = [
     'finanzas',
     'gestion',
     'decouple',
-
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -72,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.mis_variables',
             ],
         },
     },
@@ -132,7 +138,7 @@ LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
 
-RENGLONES_X_PAGINA = 20
+RENGLONES_X_PAGINA = 10
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

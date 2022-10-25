@@ -2303,7 +2303,7 @@ class contratoPDF(CreateView):
             fecha_contrato_anio_s = str(fecha_contrato.year)
 
 #            if num_contrato != 0:
-            num_contrato = num_contrato
+            num_contrato_str = str(num_contrato)
 #            else: 
 #  Asiganr numero de contrato a la solcititud                
 #                num_contrato = Folios.objects.filter(tipo=2).aggregate(Max('numero'))['numero__max']
@@ -2332,7 +2332,7 @@ class contratoPDF(CreateView):
             copias = [0,1]
             context = {
                 'comp': {
-                    'num_contrato': num_contrato,
+                    'num_contrato': num_contrato_str,
                     'empresa':'Pleyatec, S.A. de C.V.',
                     'rfc':'AAA-333333333',
                     'ubicacion1':'Av. Constituyentes #1009, Interior No. 5, Col. Residencial del valle, C.P 76190,',

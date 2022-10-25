@@ -14,6 +14,34 @@
     <!-- Jquery Confirm -->
     <link rel="stylesheet" href="{% static 'core/css/jquery-confirm.min.css' %}">
     <style>
+        @page {
+            size: letter portrait;
+            @frame header_frame {
+                /* Static Frame */
+                -pdf-frame-content: header_content;
+                left: 50pt;
+                width: 512pt;
+                top: 50pt;
+                height: 40pt;
+            }
+
+            @frame content_frame {
+                /* Content Frame */
+                left: 50pt;
+                width: 512pt;
+                top: 110pt;
+                height: 632pt;
+            }
+
+            @frame footer_frame {
+                /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt;
+                width: 512pt;
+                top: 742pt;
+                height: 40pt;
+            }
+        }
         .parrafo_negritas {
             font-weight: bold;
         }
@@ -50,11 +78,6 @@
         td {
             padding-left: 5 px;
             margin-left: 5px;
-        }
-
-        @page {
-            margin: 50px 40px 50px 40px;
-            padding: 50px 40px 50px 40px;
         }
     </style>
 </head>
@@ -462,7 +485,7 @@
                 Sucursal:   017
             </li>
             <li>
-                Referencia: <label>L{{  }}F{{  }}</label>
+                Referencia: NVL-{{solicitud.lote.lote}}
             </li>
             <li>
                 PARA PAGO CON TRANSFERENCIA INTERBANCARIA:   136 680 179 946 200 118
