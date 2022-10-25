@@ -2403,3 +2403,4 @@ class contratoPDF(CreateView):
 #        queryset = Solicitud.objects.all()
 #        return queryset
 
+# Comentario paraactualizar
