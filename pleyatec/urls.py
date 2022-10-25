@@ -6,9 +6,12 @@ from django.views.static import serve
 from django.conf.urls.static import static
 from django.urls.conf import include
 
+from core.views import index
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('', index, name='index'),
     path('bien/', include('bien.urls')),
     path('gestion/', include('gestion.urls')),
     path('empleado/', include('empleado.urls')),
