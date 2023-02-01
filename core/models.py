@@ -129,6 +129,7 @@ STATUS_BIEN = (
     (2, 'Apartado'),
     (3, 'Vendido'),
     (4, 'Reservado'),
+    (9, 'Eliminado'),
 )
 STATUS_COMISION = (
     (0, 'Nueva'),

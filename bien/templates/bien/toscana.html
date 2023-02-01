@@ -62,6 +62,7 @@
             {% endif %}
             <svg style="position: absolute; width: 800px; height: 640px;" id="plano">
                 {% for e in object_list %}
+                {% if e.estatus_lote != 9 %}
                 <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
                         {% if e.estatus_lote == 1 %}
                             loteDisponible
@@ -89,7 +90,7 @@
                         {% endif %} - ${{e.gran_total}}</title>
                 </text>
                 <!--        <text x="{{e.posicion_texto_x}}" y="{{e.posicion_texto_y}}" style="font-size: 2.5px; ">{{e.total}}m²</text> -->
-
+                {% endif %}
                 {% endfor %}
             </svg>
         </div>

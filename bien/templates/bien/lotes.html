@@ -79,7 +79,7 @@
                 {% endif %}
                 <td class="col-md-1" style="text-align: center;">{{ e.get_estatus_lote_display }}</td>
                 <td class="col-md-1">
-                    {% if e.estatus_lote == 1 or e.estatus_lote == 4 %}
+                    {% if e.estatus_lote == 1 or e.estatus_lote == 4 or e.estatus_lote == 9 %}
                     {% if app_proy_chag %}
                     <a href="{% url 'mod_bien' e.id py.id %}" class="btn btn-outline-secondary">Editar</a>
                     {% endif %}

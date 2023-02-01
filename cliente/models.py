@@ -55,6 +55,10 @@ class Cliente(models.Model, PermissionRequiredMixin):
         return '%s' % (razon) 
     
     def _get_nombre_completo(self):
+        if self.nombre == None:
+            nombre = ""
+        else:
+            nombre = self.nombre
         if self.materno == None:
             materno = ""
         else:
@@ -64,7 +68,7 @@ class Cliente(models.Model, PermissionRequiredMixin):
         else:
             paterno = self.paterno
 #        if self.tipo_cliente == 0:
-        razon = self.nombre + " " + paterno + " " + materno
+        razon = nombre + " " + paterno + " " + materno
 #        else:
 #            razon = self.razon
         return '%s' % (razon) 
@@ -92,6 +96,13 @@ class Cliente(models.Model, PermissionRequiredMixin):
             rfc = self.rfc
         return '%s' % (rfc)
     rfc_val = property(_get_rfc)
+
+    def _get_razon_null(self):
+        razon = ""
+        if not self.razon == None:
+            razon = self.razon
+        return '%s' % (razon)
+    razon_null = property(_get_razon_null)
 
     def _get_telefono_fijo(self):
         telefono_fijo = ""
