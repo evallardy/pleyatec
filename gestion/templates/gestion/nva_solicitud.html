@@ -197,12 +197,12 @@
                             <label>Mensualidades</label>
                             <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
                                 <option value="0">---------</option>
-                                {% for permitidas in reglas %}
-                                {% if permitidas.modo_pago == 2 %}
-                                <option value="{{ permitidas.mensualidades_permitidas }}">
-                                    {{ permitidas.mensualidades_permitidas }}</option>
-                                {% endif %}
-                                {% endfor %}
+<!--                                 for permitidas in reglas 
+                                 if permitidas.modo_pago == 2 
+                                <option value=" permitidas.mensualidades_permitidas ">
+                                     permitidas.mensualidades_permitidas </option>
+                                 endif 
+                                 endfor -->
                             </select>
                             {% for error in form.cantidad_pagos.errors %}
                             {% if error != "Introduzca un número." %}
@@ -616,6 +616,15 @@
         calcula();
     });
     $("#id_modo_pago").on("change", function () {
+        $("#id_cantidad_pagos").find('option').not(':first').remove();
+        $("#id_cantidad_pagos").val($("#id_cantidad_pagos option:first").val());
+        {% for permitidas in reglas  %}
+            if ({{ permitidas.modo_pago }} == $("#id_modo_pago").val()) {
+                $('#id_cantidad_pagos').
+                    append('<option value="{{permitidas.mensualidades_permitidas}}"> \
+                                     {{permitidas.mensualidades_permitidas}}</option>');
+            }
+        {% endfor %}
         cambia_modo_pago();
     })
     $("#id_tipo_cliente").on("change", function () {
