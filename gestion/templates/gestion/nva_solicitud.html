@@ -616,15 +616,7 @@
         calcula();
     });
     $("#id_modo_pago").on("change", function () {
-        $("#id_cantidad_pagos").find('option').not(':first').remove();
-        $("#id_cantidad_pagos").val($("#id_cantidad_pagos option:first").val());
-        {% for permitidas in reglas  %}
-            if ({{ permitidas.modo_pago }} == $("#id_modo_pago").val()) {
-                $('#id_cantidad_pagos').
-                    append('<option value="{{permitidas.mensualidades_permitidas}}"> \
-                                     {{permitidas.mensualidades_permitidas}}</option>');
-            }
-        {% endfor %}
+        llenaModoPago();
         cambia_modo_pago();
     })
     $("#id_tipo_cliente").on("change", function () {
@@ -728,6 +720,17 @@
     $("#id_cantidad_pagos").on("change", function () {
         calcula();
     });
+    function llenaModoPago() {
+        $("#id_cantidad_pagos").find('option').not(':first').remove();
+        $("#id_cantidad_pagos").val($("#id_cantidad_pagos option:first").val());
+        {% for permitidas in reglas  %}
+            if ({{ permitidas.modo_pago }} == $("#id_modo_pago").val()) {
+                $('#id_cantidad_pagos').
+                    append('<option value="{{permitidas.mensualidades_permitidas}}"> \
+                                     {{permitidas.mensualidades_permitidas}}</option>');
+            }
+        {% endfor %}
+    }
 {% endblock %}
 </script>
 
@@ -783,6 +786,7 @@ $(document).ready(function () {
     activa_moral();
     activa_conyuge();
     cambia_modo_pago();
+    llenaModoPago();
 
     $("#id_credito").val("{{ credito }}").focus();
     $("#id_enganche").val("{{ enganche }}").focus();
