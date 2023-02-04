@@ -139,6 +139,7 @@ class Nuvole_SolicitudForm(forms.ModelForm):
         enganche = self.cleaned_data.get("enganche")
         precio_lote = self.cleaned_data.get("precio_lote")
         lote = self.cleaned_data.get("lote")
+        cantidad_pagos = self.cleaned_data.get("cantidad_pagos")
         if lote:
             tabla_lote = Lote.objects.filter(id=lote.id)
             proyecto = tabla_lote[0].proyecto.id
@@ -147,7 +148,7 @@ class Nuvole_SolicitudForm(forms.ModelForm):
                 if enganche == 0:
                     raise forms.ValidationError('Teclea engache')
                 for regla in reglas:
-                    if regla.modo_pago == modo_pago:
+                    if regla.modo_pago == modo_pago and regla.mensualidades_permitidas == cantidad_pagos:
                         if regla.tipo_enganche_minimo == 1:
                             monto = regla.valor3
                         else:
