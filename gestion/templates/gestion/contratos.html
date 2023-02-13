@@ -69,9 +69,11 @@
                     <a href="{% url 'datos_contrato' e.id py.id %}" class="btn btn-outline-dark">Datos</a>
                     {% endif %}
                     {% else %}
-                    {% if e.estatus_solicitud == 6 and app_proy_archivar_contrato %}
+                    {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
+                    {% if app_proy_archivar_contrato %}
                     <a href="#" onclick="archiva('{{ e.id }}','{{ e.estatus_solicitud }}')"
                         class="btn btn-warning">Archivar</a>
+                    {% endif %}
                     {% endif %}
                     {% endif %}
                 </td>

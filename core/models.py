@@ -218,7 +218,7 @@ STATUS_SOLICITUD = (
     (3, 'Comprometida'),
     (4, 'Pagando a crédito'),
     (5, 'Reasignar'),
-    (6, 'Terminada'),
+    (6, 'Terminada'), 
     (7, 'Archivo-Terminada'),
     (8, 'Archivo-Cancelada'),
     (9, 'Contado'),
