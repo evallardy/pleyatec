@@ -331,7 +331,6 @@
             }
             $("#id_diferencia").val(id_diferencia.toFixed(2));
             reformatear('id_diferencia')
-
         }
         function valoresForma() {
             id_diferencia = 0;
@@ -467,7 +466,6 @@
 
         function adicional() {
             $("#id_btsubapartado").hide();
-            $("#id_btsubpa").show();
             if (!$('#id_apartado').attr('readonly')) {
                 //                if ($("#id_confirmacion_apartado").val() == 1) {
                 inicia_apartado();
@@ -512,6 +510,12 @@
                 }
             }
             $('#id_estatus_solicitud').change();
+            id_diferencia = convierteNumero("id_diferencia");
+            if (id_diferencia <= 0) {
+                $("#id_btsubpa").show();
+            } else {
+                $("#id_btsubpa").hide();
+            }
         }
         function inicia_pago_adicional() {
             $("#id_pago_adicional").val(0.00);
