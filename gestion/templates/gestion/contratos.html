@@ -49,8 +49,8 @@
                 <th class="col-md-1" style="text-align: center;" scope="col">Num. Contrato</th>
                 <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
                 <th class="col-md-1" style="text-align: center;" scope="col"></th>
-                <th class="col-md-1" style="text-align: center;" scope="col"></th>
-                <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Contrato</th>
+                <th class="col-md-1" style="text-align: center;" scope="col">Calendario pagos</th>
             </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@
                     {% if app_proy_imprime_contrato %}
                     {% if not e.num_contrato == 0 and not e.modo_pago == 1 %}
                     <button class="btn btn-outline-dark"
-                        onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')">Calendario</button>
+                        onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')">Imprime</button>
                     {% endif %}
                     {% endif %}
                     {% endif %}
