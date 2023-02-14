@@ -53,8 +53,6 @@
         </thead>
         <tbody>
             {% for e in object_list %}
-            {% if e.estatus_solicitud != 99 %}
-            {% if e.estatus_solicitud < 4  %}
             <tr>
                 <td style="text-align: center;">{{ e.id }}</td>
                 <td>{{ e.cliente }}</td>
@@ -69,42 +67,6 @@
                     {% endif %}
                 </td>
             </tr>
-            {% else %}
-                {% if e.estatus_solicitud > 3 and e.apartado > 0 and e.num_apartado == 0  %}
-                <tr>
-                    <td style="text-align: center;">{{ e.id }}</td>
-                    <td>{{ e.cliente }}</td>
-                    <td>{{ e.lote }}</td>
-                    <td>{{ e.asesor }}</td>
-                    <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
-                    <td style="text-align: right;">{{ e.total_pagado }}</td>
-                    <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                    <td>
-                        {% if app_proy_pago_compromiso %}
-                        <a href="{% url 'pagos' e.id py.id %}" class="btn btn-outline-dark">Pagos</a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% else %}
-                    {% if e.estatus_solicitud > 3 and e.pago_adicional > 0 and e.num_adicional == 0  %}
-                    <tr>
-                        <td style="text-align: center;">{{ e.id }}</td>
-                        <td>{{ e.cliente }}</td>
-                        <td>{{ e.lote }}</td>
-                        <td>{{ e.asesor }}</td>
-                        <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
-                        <td style="text-align: right;">{{ e.total_pagado }}</td>
-                        <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                        <td>
-                            {% if app_proy_pago_compromiso %}
-                            <a href="{% url 'pagos' e.id py.id %}" class="btn btn-outline-dark">Pagos</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-            {% endif %}
             {% endfor %}
         </tbody>
     </table>
