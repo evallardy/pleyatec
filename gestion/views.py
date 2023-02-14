@@ -1351,24 +1351,28 @@ class compromisos(ListView):
             empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
-                .filter(estatus_solicitud__in=[1,2,3]) 
+#                .filter(estatus_solicitud != 99) 
+#                .filter(estatus_solicitud__in=[1,2,3]) 
         elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
             # DIRECTOR
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
-                .filter(estatus_solicitud__in=[1,2,3]) 
+#                .filter(estatus_solicitud != 99) 
+#                .filter(estatus_solicitud__in=[1,2,3]) 
         elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
             # DIRECTOR GENERAL
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
-                .filter(estatus_solicitud__in=[1,2,3]) 
+#                .filter(estatus_solicitud != 99) 
+#                .filter(estatus_solicitud__in=[1,2,3]) 
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(asesor_id=id_empleado) \
                 .filter(lote__in=Subquery(lotes.values('pk'))) \
-                .filter(estatus_solicitud__in=[1,2,3]) 
+ #               .filter(estatus_solicitud != 99) 
+ #               .filter(estatus_solicitud__in=[1,2,3]) 
         else:
             # SIN ACCESO
-            queryset = Solicitud.objects.filter(asesor_id=0)
+            queryset = Solicitud.objects.filter(asesor_id=0) 
 
 
 #        if asigna_solicitud == 1:
