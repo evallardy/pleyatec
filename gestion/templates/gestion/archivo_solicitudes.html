@@ -69,12 +69,25 @@
                 <td style="text-align: center; vertical-align: middle; padding: 1px;">
                     {% if app_proy_imp_pago_compromiso %}
                     {% if e.confirmacion_apartado == 2  %}
-                    <button id="btn_recibo" class="btn btn-outline-dark" 
+                    <button id="btn_recibo_apartado" 
+                    class=" btn 
+                    {% if e.num_apartado > 0 %}
+                    btn-outline-dark
+                    {% else %}
+                    btn-warning
+                    {% endif %}
+                    " 
                     style="margin-top: 2px; ;margin-bottom: 2px;"
                     onclick="imprime('parcial','{{ e.id }}')">Apartado</button>
                     {% endif %}
                     {% if e.confirmacion_pago_adicional == 2 %}
-                    <button id="btn_recibo" class="btn btn-outline-dark" style="margin-bottom: 2px;"
+                    <button id="btn_recibo_adicional" 
+                    {% if e.num_adicional > 0 %}
+                    class="btn btn-outline-dark"
+                    {% else %}
+                    class="btn btn-warning"
+                    {% endif %}
+                    style="margin-bottom: 2px;"
                     onclick="imprime('total','{{ e.id }}')">Pago Adic.</button>
                     {% endif %}
                     {% endif %}
