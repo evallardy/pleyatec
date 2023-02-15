@@ -1763,6 +1763,21 @@ class archivo(ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
+#  Impresión de Recibos
+        des_permiso = '_imp_pago_compromiso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Impresión de contrato
+        des_permiso = '_imprime_contrato'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+        
         return context
 
 class reciboPDF(View):

@@ -42,26 +42,51 @@
         <thead>
             <tr>
                 <th class="col-1" style="text-align: center;" scope="col">Num. Sol.</th>
+                <th class="col-1" style="text-align: center;" scope="col">Contrato</th>
                 <th class="col-2" style="text-align: center;" scope="col">Bien</th>
-                <th class="col-2" style="text-align: center;" scope="col">Asesor</th>
                 <th class="col-1" style="text-align: center;" scope="col">Modo pago</th>
                 <th class="col-1" style="text-align: center;" scope="col">Venta</th>
-                <th class="col-1" style="text-align: center;" scope="col">Saldo</th>
                 <th class="col-1" style="text-align: center;" scope="col">Estatus</th>
-                <th class="col-1" style="text-align: center;" scope="col">Contrato</th>
+                <th style="text-align: center;">Datos</th>
+                <th style="text-align: center;">Imprime Recibos</th>
+                <th style="text-align: center;">Contrato</th>
             </tr>
         </thead>
         <tbody>
             {% for e in object_list %}
             <tr>
                 <td style="text-align: center;">{{ e.id }}</td>
+                <td style="text-align: center;">{{ e.num_contrato_val }}</td>
                 <td>{{ e.lote }}</td>
-                <td>{{ e.asesor }}</td>
                 <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
                 <td style="text-align: right;">{{ e.precio_final }}</td>
-                <td style="text-align: right;">{{ e.saldo }}</td>
                 <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                <td style="text-align: center;">{{ e.num_contrato_val }}</td>
+                <td style="text-align: center; vertical-align: middle">
+                    {% if app_proy_imp_pago_compromiso %}
+                    <a href="#" class="btn btn-outline-dark">Solicitud</a>
+                    {% endif %}
+                </td>
+                <td style="text-align: center; vertical-align: middle; padding: 1px;">
+                    {% if app_proy_imp_pago_compromiso %}
+                    {% if e.apartado > 0 %}
+                    <button id="btn_recibo" class="btn btn-outline-dark" 
+                    style="margin-top: 2px; ;margin-bottom: 2px;"
+                    onclick="imprime('parcial','{{ e.id }}')">Apartado</button>
+                    {% endif %}
+                    {% if e.pago_adicional > 0 %}
+                    <button id="btn_recibo" class="btn btn-outline-dark" style="margin-bottom: 2px;"
+                    onclick="imprime('total','{{ e.id }}')">Pago Adic.</button>
+                    {% endif %}
+                    {% endif %}
+                </td>
+                <td style="text-align: center; vertical-align: middle">
+                    {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
+                    {% if app_proy_imprime_contrato %}
+                    <button class="btn btn-outline-dark"
+                        onclick="imprimeContrato('{{ e.id }}', '{{ e.modo_pago }}')">Imprime</button>
+                    {% endif %}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -74,6 +99,43 @@
     {% endif %}
 </div>
 <script>
+    {% if app_proy_imp_pago_compromiso %}
+    function imprime(dato, pk) {
+        window.open("/gestion/reciboPDF/" + pk + "/" + dato + "/",
+            "Recibo", target = "_blank");
+    }
+    {% endif %}
+    function imprimeContrato(dato, modoPago) {
+        $.confirm({
+            theme: 'Material',
+            title: "Precaución",
+            icon: 'fa fa-info',
+            content: "Esta seguro de imprir el contrato",
+            columnClass: 'medium',
+            typeAnimated: true,
+            cancelButtonClass: 'btn-primary',
+            draggable: true,
+            dragWindowBorder: false,
+            buttons: {
+                info: {
+                    text: 'Si',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        window.open("/gestion/contratoPDF/" + dato + "/{{num_proyecto}}/",
+                            "Contrato", target = "_blank");
+                    }
+                },
+                info1: {
+                    text: 'No',
+                    btnClass: 'btn-red',
+                    keys: ['esc'],
+                    action: function () {
+                        aviso("Aviso", "Cancelación de impresión");
+                    }
+                },
+            }
+        });
+    }
     {% block bljs %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
