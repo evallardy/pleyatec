@@ -7,7 +7,7 @@
 {% if app_proy_ver_solicitud %}
 <div class="container">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified container">
         {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
