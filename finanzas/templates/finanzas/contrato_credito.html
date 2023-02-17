@@ -38,17 +38,17 @@
     </div>
 </div>
 <div class="container mapa">
-    <table class="table table-info table-striped container col-6">
+    <table  class="estilo-tabla container col-6">
         <thead>
             <tr>
-                <th class="col-md-1" style="text-align: center;" scope="col">Contratos</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Ventas</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Pagado</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Por pagar</th>
+                <th class="col-md-1 titulo-tabla">Contratos</th>
+                <th class="col-md-2 titulo-tabla">Ventas</th>
+                <th class="col-md-2 titulo-tabla">Pagado</th>
+                <th class="col-md-2 titulo-tabla">Por pagar</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr class="datos-tabla">
                 <td class="col-md-1" style="text-align: center;" scope="col">
                     {% if totales.contratos %}
                     {{ totales.contratos }}
@@ -80,22 +80,22 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-info table-striped container">
+    <table  class="estilo-tabla container">
         <thead>
             <tr>
-                <th class="col-md-1" style="text-align: center;" scope="col">Núm. Contrato</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Núm. pagos</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Venta</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Imp. pagado</th>
-                <th class="col-md-2" style="text-align: right;" scope="col">Saldo</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Pagos pagados</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Pagos vencidos</th>
+                <th class="col-md-1 titulo-tabla">Núm. Contrato</th>
+                <th class="col-md-2 titulo-tabla">Cliente</th>
+                <th class="col-md-2 titulo-tabla">Núm. pagos</th>
+                <th class="col-md-2 titulo-tabla">Venta</th>
+                <th class="col-md-2 titulo-tabla">Imp. pagado</th>
+                <th class="col-md-2 titulo-tabla">Saldo</th>
+                <th class="col-md-2 titulo-tabla">Pagos pagados</th>
+                <th class="col-md-2 titulo-tabla">Pagos vencidos</th>
             </tr>
         </thead>
         <tbody>
             {% for e in object_list %}
-            <tr>
+            <tr class="datos-tabla">
                 <td style="text-align: center">
                     {% if not e.num_contrato == 0 %}
                     {{ e.num_contrato }}
@@ -112,12 +112,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="saltador-hoja">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
     {% endif %}
+    </div>
 </div>
 <script>
     {% block bljs %}

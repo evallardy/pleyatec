@@ -40,26 +40,23 @@
 <div class="container mapa">
     <div class="container">
         {% if app_proy_ver_solicitud %}
-        <a type="button" class="btn btn-outline-dark" href="{% url 'nva_solicitud' py.id %}">Agregar</a>
+        <a type="button" class="btn btn-outline-dark boton-agregar" href="{% url 'nva_solicitud' py.id %}">Agregar</a>
         {% endif %}
-        <table class="table table-info table-striped titulo-tabla" style="width: 850px;">
+        <table class="estilo-tabla">
             <thead>
                 <tr>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Fecha</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Bien</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col"></th>
-                    <th class="col-md-1" style="text-align: center;" scope="col"></th>
-                    <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                    <th class="col-md-1 titulo-tabla">Num. Sol.</th>
+                    <th class="col-md-2 titulo-tabla">Fecha</th>
+                    <th class="col-md-2 titulo-tabla">Cliente</th>
+                    <th class="col-md-2 titulo-tabla">Bien</th>
+                    <th class="col-md-2 titulo-tabla">Asesor</th>
+                    <th class="col-md-2 titulo-tabla">Modo pago</th>
+                    <th class="col-md-1 titulo-tabla">Estatus</th>
                 </tr>
             </thead>
             <tbody>
                 {% for e in object_list %}
-                <tr>
+                <tr class="datos-tabla">
                     <td style="text-align: center;">{{ e.id }}</td>
                     <td style="text-align: center;">{{ e.created|date:'d/m/Y' }}</td>
                     <td>{{ e.cliente }}</td>
@@ -103,12 +100,14 @@
             </tbody>
         </table>
     </div>
+    <div class="saltador-hoja ">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
     {% endif %}
+    </div>
 </div>
 <script>
     {% block bljs %}

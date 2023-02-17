@@ -38,25 +38,25 @@
     </div>
 </div>
 <div class="container mapa"  style="width: 1000px;">
-    <table class="table table-info table-striped titulo-tabla">
+    <table class="estilo-tabla">
         <thead>
             <tr>
-                <th class="col-1" style="text-align: center;" scope="col">Núm. Contrato</th>
-                <th class="col-1" style="text-align: center;" scope="col">Cliente</th>
-                <th class="col-1" style="text-align: center;" scope="col">Bien</th>
-                <th class="col-1" style="text-align: center;" scope="col">Por pagar</th>
-                <th class="col-1" style="text-align: center;" scope="col">Pago mensual</th>
-                <th class="col-1" style="text-align: center;" scope="col">Importe</th>
-                <th class="col-1" style="text-align: center;" scope="col">Pagados</th>
-                <th class="col-1" style="text-align: center;" scope="col">Importe</th>
-                <th class="col-1" style="text-align: center;" scope="col">Restan</th>
-                <th class="col-1" style="text-align: center;" scope="col">Importe</th>
-                <th class="col-1" style="text-align: center;" scope="col"></th>
+                <th class="col-1 titulo-tabla">Núm. Contrato</th>
+                <th class="col-1 titulo-tabla">Cliente</th>
+                <th class="col-1 titulo-tabla">Bien</th>
+                <th class="col-1 titulo-tabla">Por pagar</th>
+                <th class="col-1 titulo-tabla">Pago mensual</th>
+                <th class="col-1 titulo-tabla">Importe</th>
+                <th class="col-1 titulo-tabla">Pagados</th>
+                <th class="col-1 titulo-tabla">Importe</th>
+                <th class="col-1 titulo-tabla">Restan</th>
+                <th class="col-1 titulo-tabla">Importe</th>
+                <th class="col-1 titulo-tabla"></th>
             </tr>
         </thead>
         <tbody>
             {% for e in object_list %}
-            <tr>
+            <tr class="datos-tabla">
                 <td style="text-align: center">{{ e.num_contrato }}</td>
                 <td>{{ e.cliente }}</td>
                 <td>{{ e.lote }}</td>
@@ -76,12 +76,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="saltador-hoja">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
     {% endif %}
+    </div>
 </div>
 <script>
     {% block bljs %}

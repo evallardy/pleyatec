@@ -186,18 +186,22 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             raise forms.ValidationError('Teclee paterno cliente')
         return paterno
     def clean_celular(self):
-        celular = self.cleaned_data.get('celular')
-        if len(celular) == 0:
-            raise forms.ValidationError('Teclee celular cliente')
-        return celular
+        if self.cleaned_data.get('celular'):
+            celular = self.cleaned_data.get('celular')
+            if len(celular) == 0:
+                raise forms.ValidationError('Teclee celular cliente')
+            return celular
+        raise forms.ValidationError('Teclee celular cliente')
     def clean_correo(self):
-        correo = self.cleaned_data.get('correo')
-        if len(correo) == 0:
-            raise forms.ValidationError('Teclee correo cliente')
-        else:
-            if not valida_correo(correo):
-                raise forms.ValidationError('Correo cliente inválido')
-        return correo
+        if self.cleaned_data.get('correo'):
+            correo = self.cleaned_data.get('correo')
+            if len(correo) == 0:
+                raise forms.ValidationError('Teclee correo cliente')
+            else:
+                if not valida_correo(correo):
+                    raise forms.ValidationError('Correo cliente inválido')
+            return correo
+        raise forms.ValidationError('Correo cliente inválido')
     def clean_cantidad_pagos(self):
         modo_pago = self.cleaned_data.get('modo_pago')
         cantidad_pagos = self.cleaned_data.get('cantidad_pagos')

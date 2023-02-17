@@ -40,23 +40,24 @@
 </div>
 <div class="container mapa">
     <div class="container">
-        <table class="table table-info table-striped titulo-tabla" style="font-size: 15px; ">
+        <table class="estilo-tabla">
             <thead>
                 <tr>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Bien</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Asesor</th>
-                    <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Precio venta</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Enganche</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">% descto.</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col" colspan="2">Autoriza</th>
+                    <th class="col-md-1 titulo-tabla">Num. Sol.</th>
+                    <th class="col-md-2 titulo-tabla">Bien</th>
+                    <th class="col-md-2 titulo-tabla">Asesor</th>
+                    <th class="col-md-2 titulo-tabla">Modo pago</th>
+                    <th class="col-md-1 titulo-tabla">Precio venta</th>
+                    <th class="col-md-1 titulo-tabla">Enganche</th>
+                    <th class="col-md-1 titulo-tabla">% descto.</th>
+                    <th class="col-md-1 titulo-tabla">Estatus</th>
+                    <th class="col-md-1 titulo-tabla">Ventas</th>
+                    <th class="col-md-1 titulo-tabla">Desarrollo</th>
                 </tr>
             </thead>
             <tbody>
                 {% for e in object_list %}
-                <tr>
+                <tr class="datos-tabla">
                     <td style="text-align: center;">{{ e.id }}</td>
                     <td>{{ e.lote }}</td>
                     <td>{{ e.asesor }}</td>
@@ -68,7 +69,7 @@
                     <td>
                         {% if not e.aprobacion_gerente %}
                         {% if app_proy_autoriza_venta %}
-                        <button onclick="autventas('{{ e.id }}')" class="btn btn-outline-secondary">Ventas</button>
+                        <button onclick="autventas('{{ e.id }}')" class="btn btn-outline-secondary">Autoriza</button>
                         {% else %}
                         No autorizada
                         {% endif %}
@@ -80,7 +81,7 @@
                         {% if not e.aprobacion_director %}
                         {% if app_proy_autoriza_desarrollo %}
                         <button onclick="autdesarrollo('{{ e.id }}')"
-                            class="btn btn-outline-secondary">Desarrollo</button>
+                            class="btn btn-outline-secondary">Autoriza</button>
                         {% else %}
                         No autorizada
                         {% endif %}
@@ -93,11 +94,13 @@
             </tbody>
         </table>
     </div>
+    <div class="saltador-hoja">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    </div>
 </div>
 {% endif %}
 {% endfor %}

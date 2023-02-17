@@ -38,24 +38,24 @@
     </div>
 </div>
 <div class="container mapa" style="width: 1000px;">
-    <table class="table table-info table-striped titulo-tabla">
+    <table class="estilo-tabla">
         <thead>
             <tr>
-                <th class="col-md-1" style="text-align: center;" scope="col">Num. Sol.</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Cliente</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Bien</th>
-                <th class="col-md-2" style="text-align: center;" scope="col">Modo pago</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Enganche</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Num. Contrato</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
-                <th class="col-md-1" style="text-align: center;" scope="col"></th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Contrato</th>
-                <th class="col-md-1" style="text-align: center;" scope="col">Calendario pagos</th>
+                <th class="col-md-1 titulo-tabla">Num. Sol.</th>
+                <th class="col-md-2 titulo-tabla">Cliente</th>
+                <th class="col-md-2 titulo-tabla">Bien</th>
+                <th class="col-md-2 titulo-tabla">Modo pago</th>
+                <th class="col-md-1 titulo-tabla">Enganche</th>
+                <th class="col-md-1 titulo-tabla">Num. Contrato</th>
+                <th class="col-md-1 titulo-tabla">Estatus</th>
+                <th class="col-md-1 titulo-tabla"></th>
+                <th class="col-md-1 titulo-tabla">Contrato</th>
+                <th class="col-md-1 titulo-tabla">Calendario pagos</th>
             </tr>
         </thead>
         <tbody>
             {% for e in object_list %}
-            <tr>
+            <tr class="datos-tabla">
                 <td style="text-align: center;">{{ e.id }}</td>
                 <td>{{ e.cliente }}</td>
                 <td>{{ e.lote }}</td>
@@ -100,12 +100,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="saltador-hoja">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
     {% endif %}
+    </div>
 </div>
 <script>
     {% block bljs %}

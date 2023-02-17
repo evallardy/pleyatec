@@ -40,31 +40,30 @@
 <div class="container mapa">
     <div class="container">
         {% if app_proy_add %}
-        <a class="btn btn-outline-dark saltador-hoja" href="{% url 'nvo_bien' py.id %}" role="button">Agregar</a>
+        <a class="btn btn-outline-dark boton-agregar" href="{% url 'nvo_bien' py.id %}" role="button">Agregar</a>
         {% endif %}
-        <table style="width: 850px; background-color: transparent;">
+        <table class="estilo-tabla">
             <thead>
-                <tr class="titulo-tabla">
+                <tr>
                     <th class="titulo-tabla" hidden>Clave</th>
                     <th class="titulo-tabla col-3" >Bien</th>
                     <th class="titulo-tabla col-3" >Medidas</th>
                     <th class="titulo-tabla col-1" >Área total</th>
-                    <th class="titulo-tabla col-2" >Precio m²</th>
-                    <th class="titulo-tabla col-2" >Precio</th>
+                    <th class="titulo-tabla col-1" >Precio m²</th>
+                    <th class="titulo-tabla col-1" >Precio</th>
                     {% if py.app == 'toscana' or app == 'plazapuntaoriente' %}
                     <th class="titulo-tabla col-1" >Terraza</th>
-                    <th class="titulo-tabla col-2" >Precio total</th>
+                    <th class="titulo-tabla col-1" >Precio total</th>
                     {% endif %}
                     {% if py.app == 'nuvole' or app == 'portoSanto' %}
                     <th class="titulo-tabla col-1" >Esquina</th>
                     {% endif %}
                     <th class="titulo-tabla col-1" >Estatus</th>
-                    <th class="titulo-tabla col-1" ></th>
                 </tr>
             </thead>
             <tbody>
                 {% for e in object_list %}
-                <tr style="border-bottom: 1px; border-style: solid; border-width: 1px;">
+                <tr class="datos-tabla">
                     <td class="col-md-1" style="text-align: center;" hidden>{{ e.id }}</td>
                     <td class="col-md-1" style="text-align: center;">{{ e.identificador_bien }}</td>
                     <td style="text-align: center;">{{ e.medidas }}</td>

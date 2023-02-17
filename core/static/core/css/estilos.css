@@ -27,16 +27,29 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.estilo-tabla {
+    width: 850px;
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 .titulo-tabla {
     background-color:  #2B6CB0;
     border-color: transparent;
     border-radius: 10px;
     text-align: center;
 }
+.datos-tabla {
+    border: dimgrey;
+    border-style: solid;
+    border-width: 1px;
+}
 .saltador-hoja {
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+.boton-agregar {
+    margin-top: 15px;
 }
 label.error {
     color: darkred;

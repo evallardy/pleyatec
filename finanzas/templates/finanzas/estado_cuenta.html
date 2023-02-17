@@ -19,35 +19,35 @@
     <label class="encabezados">{{ solicitud.titulo_bien }}</label>
     <br>
     <div class="container col-12">
-        <a class="btn btn-outline-dark" href="{% url 'pagar' py.id %}">Regresar</a>
-        <table class="table table-info table-striped col-md-12">
+        <a class="btn btn-outline-dark boton-agregar" href="{% url 'pagar' py.id %}">Regresar</a>
+        <table class="estilo-tabla">
             <thead>
                 <tr>
-                    <th style="text-align: center;">Pago</th>
-                    <th style="text-align: center;">Compromiso</th>
-                    <th style="text-align: center;">importe</th>
-                    <th style="text-align: center;">Pago en</th>
-                    <th style="text-align: center;">Comprobante</th>
-                    <th style="text-align: center;">Estatus</th>
-                    <th style="text-align: center;">Depósito</th>
-                    <th style="text-align: center;">Registrar</th>
-                    <th style="text-align: center;">Recibo</th>
+                    <th class="titulo-tabla">Pago</th>
+                    <th class="titulo-tabla">Compromiso</th>
+                    <th class="titulo-tabla">importe</th>
+                    <th class="titulo-tabla">Pago en</th>
+                    <th class="titulo-tabla">Comprobante</th>
+                    <th class="titulo-tabla">Estatus</th>
+                    <th class="titulo-tabla">Depósito</th>
+                    <th class="titulo-tabla">Registrar</th>
+                    <th class="titulo-tabla">Recibo</th>
                 </tr>
             </thead>
             <tbody>
                 {% for p in object_list %}
-                <tr>
+                <tr class="datos-tabla">
                     <td style="text-align: center;">{{ p.numero_pago }}</td>
-                    <td style="text-align: left;">{{ p.fecha_pago }}</td>
+                    <td style="text-align: center;">{{ p.fecha_pago }}</td>
                     <td style="text-align: right;">{{ p.importe }}</td>
-                    <td style="text-align: left;">{{ p.get_forma_pago_display }}</td>
-                    <td style="text-align: left;">
+                    <td style="text-align: center;">{{ p.get_forma_pago_display }}</td>
+                    <td style="text-align: center;">
                         {% if p.numero_comprobante %}
                         {{ p.numero_comprobante }}
                         {% endif %}
                     </td>
-                    <td style="text-align: left;">{{ p.get_estatus_pago_display }}</td>
-                    <td style="text-align: left;">{{ p.get_deposito_display }}</td>
+                    <td style="text-align: center;">{{ p.get_estatus_pago_display }}</td>
+                    <td style="text-align: center;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
                         {% if app_proy_cap_dep_mensual %}
                         <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Pago</a>
