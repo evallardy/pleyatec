@@ -11,10 +11,12 @@
 {% if app_proy_estado_cuenta %}
 {% for py in proyecto_tb %}
 <div class="container" style="margin-left: 20px;">
-    <label class="encabezados">Estado de cuenta<br> {{ solicitud.titulo_bien }}</label>
+    <label class="encabezados">Estado de cuenta</label>
     {% if app_proy_imp_estado_cuenta %}
     <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
     {% endif %}
+    <br>
+    <label>{{ solicitud.titulo_bien }}</label>
     <br>
     <div class="container col-12">
         <a class="btn btn-outline-dark" href="{% url 'pagar' py.id %}">Regresar</a>
