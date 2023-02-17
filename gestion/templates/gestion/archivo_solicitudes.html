@@ -63,7 +63,7 @@
                 <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
                 <td style="text-align: center; vertical-align: middle">
                     {% if app_proy_imp_pago_compromiso %}
-                    <a href="#" class="btn btn-outline-dark">Solicitud</a>
+                    <a href="{% url 'archivo_sol' e.id py.id %}" class="btn btn-outline-dark">Solicitud</a>
                     {% endif %}
                 </td>
                 <td style="text-align: center; vertical-align: middle; padding: 1px;">

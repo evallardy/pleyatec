@@ -2418,4 +2418,28 @@ class contratoPDF(CreateView):
 #        queryset = Solicitud.objects.all()
 #        return queryset
 
-# Comentario paraactualizar
+# Comentario para actualizar
+
+class archivo_sol(ListView):
+    model = Solicitud
+    template_name = 'gestion/solicitud_archivo.html'
+    def get_context_data(self, **kwargs):
+        context = super(archivo_sol, self).get_context_data(**kwargs)
+#  Proyecto
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id = num_proyecto)
+        context['proyecto_tb'] = proyecto_tb
+        nom_proy = proyecto_tb[0].nom_proy
+#  Solicitud        
+        num_solicitud = self.kwargs.get('id',0)
+        solicitud_tb = Solicitud.objects.filter(id = num_solicitud)
+        context['solicitud_tb'] = solicitud_tb
+#  Ver solicitud 
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+        
+        return context

@@ -19,4 +19,5 @@ urlpatterns = [
     path('contratoPDF/<pk>/<num_proyecto>/', contratoPDF.as_view(), name='contratoPDF'),
     path('datos_contrato/<pk>/<num_proyecto>/', datos_contrato.as_view(), name='datos_contrato'),
     path('archiva/<id>/<estado>/<num_proyecto>/', archiva, name='archiva'),
+    path('archivo_sol/<id>/<num_proyecto>/', archivo_sol.as_view(), name='archivo_sol'),
 ]
