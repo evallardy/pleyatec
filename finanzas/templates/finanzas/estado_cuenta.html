@@ -11,12 +11,13 @@
 {% if app_proy_estado_cuenta %}
 {% for py in proyecto_tb %}
 <div class="container" style="margin-left: 20px;">
-    <label class="encabezados">Estado de cuenta<br> {{ solicitud.titulo_bien }}</label><br>
+    <label class="encabezados">Estado de cuenta<br> {{ solicitud.titulo_bien }}</label>
+    {% if app_proy_imp_estado_cuenta %}
+    <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
+    {% endif %}
+    <br>
     <div class="container col-12">
         <a class="btn btn-outline-dark" href="{% url 'pagar' py.id %}">Regresar</a>
-        {% if app_proy_imp_estado_cuenta %}
-        <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
-        {% endif %}
         <table class="table table-info table-striped col-md-12">
             <thead>
                 <tr>
@@ -27,8 +28,8 @@
                     <th style="text-align: center;">Comprobante</th>
                     <th style="text-align: center;">Estatus</th>
                     <th style="text-align: center;">Depósito</th>
-                    <th style="text-align: center;"></th>
-                    <th style="text-align: center;"></th>
+                    <th style="text-align: center;">Registrar</th>
+                    <th style="text-align: center;">Recibo</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +48,7 @@
                     <td style="text-align: left;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
                         {% if app_proy_cap_dep_mensual %}
-                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Actuliza</a>
+                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Pago</a>
                         {% endif %}
                     </td>
                     <td style="text-align: center;">
