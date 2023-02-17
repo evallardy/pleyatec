@@ -15,6 +15,9 @@ body {
     padding-left: 10px;
     padding-right: 10px;
 }
+.espacio-menu {
+    margin-bottom: 10px;
+}
 .titulo-principal {
     background-color:  darkgrey;
     margin-top: 10px;
