@@ -27,6 +27,17 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.titulo-tabla {
+    background-color:  #2B6CB0;
+    border-color: transparent;
+    border-radius: 10px;
+    text-align: center;
+}
+.saltador-hoja {
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 label.error {
     color: darkred;
 }

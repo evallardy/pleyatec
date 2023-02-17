@@ -7,7 +7,7 @@
 {% for py in proyecto_tb %}
 <div class="container espacio-menu">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
+    <div class="btn-group btn-group-justified">
         {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
