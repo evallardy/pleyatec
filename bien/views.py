@@ -81,7 +81,7 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context[variable_proy] = acceso
         
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
 
         return context
     def get_queryset(self):
@@ -113,7 +113,7 @@ class toscana(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context[variable_html] = acceso
 #  nom_proy = 'toscana'
         context["proyecto"] = proyecto
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nivel = self.kwargs['nivel']
         context['nivel'] = nivel
         if nivel == '1':
@@ -193,7 +193,7 @@ class plazapuntaoriente(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         proyecto = Proyecto.objects.filter(id=num_proyecto)
         nom_proy = proyecto[0].nom_proy
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
 #  Acceso local punta opriente
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
@@ -267,7 +267,7 @@ class torrevento(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(torrevento, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nom_proy = 'torre_vento'
 #  Menu opcion lotes
         des_permiso = '_ver'
@@ -334,7 +334,7 @@ class condominioM(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nom_proy = 'condom_multiple'
 #  Menu opcion lotes
         des_permiso = '_ver'
@@ -401,7 +401,7 @@ class porto_santo(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nom_proy = 'porto_santo'
 #  Menu opcion lotes
         des_permiso = '_ver'
@@ -468,7 +468,7 @@ class viviendaNuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nom_proy = 'vivienda_nuvole'
 #  Menu opcion lotes
         des_permiso = '_ver'
@@ -535,7 +535,7 @@ class monte_cris(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nom_proy = 'monte_cristallo'
 #  Menu opcion lotes
         des_permiso = '_ver'
@@ -601,7 +601,7 @@ class TMpuntaorienta(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         nom_proy = 'consul_punta_o'
 #  Menu opcion lotes
         des_permiso = '_ver'
@@ -845,7 +845,7 @@ class nvo_bien(LoginRequiredMixin, CreateView):
 
 def carga_bienes(self, context):
         num_proyecto = self.kwargs.get('proyecto',0)
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         context['num_proyecto'] = num_proyecto
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
@@ -906,7 +906,7 @@ class mod_bien(LoginRequiredMixin, UpdateView):
         num_proyecto = self.kwargs.get('proyecto',0)
         pk = self.kwargs.get('pk',0)
         context['accion'] = 'Modifica'
-        context['menu'] = "lote"
+        context['menu'] = "bien"
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
@@ -1031,7 +1031,7 @@ class mod_bien(LoginRequiredMixin, UpdateView):
             context['pk'] = pk
             context['form'] = form
             context['accion'] = 'Modifica'
-            context['menu'] = "lote"
+            context['menu'] = "bien"
             proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
             context['proyecto_tb'] = proyecto_tb
             context['num_proyecto'] = num_proyecto
