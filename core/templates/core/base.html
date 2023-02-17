@@ -25,21 +25,21 @@
 
 <body style="background-color: darkgrey;">
     <div class="container">
-        <div id="header">
-            <table class="col-12">
-                <tbody>
-                    <tr>
-                        <td style="background-color: darkblue; height: 80px; max-height: 80px;">
-                            <div class="contenedor_logo">
+        <div id="header" class="titulo-principal">
+            <table class="col-12" style="background-color: transparent;">
+                <tbody style="background-color: transparent;">
+                    <tr style="background-color: transparent;">
+                        <td style="height: 80px; max-height: 80px; background-color: transparent;">
+                            <div class="contenedor_logo" style="background-color: transparent;">
                                 <img class="logo" src="{% static 'core/img/logo.png' %}" alt="logo"
-                                    style="height: 80px;">
-                                <label style="margin-left: 60px; font-size: 36px; color: white;">Grupo
+                                    style="height: 80px; background-color: transparent;">
+                                <label style="margin-left: 60px; font-size: 36px; color: white; background-color: transparent;">Grupo
                                     Pleyatec</label>
                             </div>
                         </td>
-                        <td style="vertical-align: bottom; text-align: right; font-size: 16px; height: 80px; background-color: darkblue;
-                                 max-height: 80px;">
-                            <div class="col-12">
+                        <td style="vertical-align: bottom; text-align: right; font-size: 16px; height: 80px; 
+                                 max-height: 80px; background-color: transparent;">
+                            <div class="col-12" style="background-color: transparent;">
                                 <nav id="nav">
                                     <ul>{% if valida_proyectos %}
                                         <li><a href="{% url 'index'%}"> Proyectos </a> </li>
@@ -72,7 +72,7 @@
         </div>
 
         {% if user.is_authenticated %}
-        <div style="position: absolute; margin-left: 80px;
+        <div style="position: absolute; margin-left: 80px; 
                 height: auto; width: auto; background-color: transparent;" class="mapa">
             {% endif %}
             <!--        <div id="contenido" style="float: left;">   -->

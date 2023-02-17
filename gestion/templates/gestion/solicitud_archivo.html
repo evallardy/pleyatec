@@ -12,7 +12,7 @@
 {% if app_proy_ver_solicitud %}
 {% for py in proyecto_tb %}
 {% for sl in solicitud_tb %}
-<div class="container" style="width: 850px;">
+<div class="container" style="width: 850px; ">
     <label class="encabezados">{{ py.nombre }} - Solicitud - {{ sl.id }}</label>
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Consulta</h3>
     <hr class="mt-0 mb-4">
@@ -21,7 +21,7 @@
             <a class="btn btn-outline-dark" href="{% url 'archivo' py.id %}">Regresar</a>
         </div>
     </div>
-    <form method="POST" style="margin-top: 20px;" class="col-12">
+    <form method="POST" style="margin-top: 20px; margin-bottom: 20px;" class="col-12">
         {% csrf_token %}
         <div class="row">
             <div class="col-3">
