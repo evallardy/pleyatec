@@ -16,7 +16,7 @@
     <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
     {% endif %}
     <br>
-    <label>{{ solicitud.titulo_bien }}</label>
+    <label class="encabezados">{{ solicitud.titulo_bien }}</label>
     <br>
     <div class="container col-12">
         <a class="btn btn-outline-dark" href="{% url 'pagar' py.id %}">Regresar</a>
