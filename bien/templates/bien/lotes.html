@@ -99,10 +99,12 @@
     {% endif %}
 </div>
 <script>
+    {% block bljs %}
     $(document).ready(function () {
         opcion = "#" + "{{ menu }}";
         $(opcion).addClass('active');
     });
+    {% endblock %}
 </script>
 {% endif %}
 {% endfor %}
