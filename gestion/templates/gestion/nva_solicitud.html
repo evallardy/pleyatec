@@ -387,7 +387,7 @@
         return (tecla != 13);
     }
     function activa_moral() {
-        opcion = convierteNumero("id_tipo_cliente");
+        opcion = convierteNumero("id_tipo_cliente,0");
         if (opcion == 0) {
             $("#gpo_razon").hide();
             $("#id_razon").val(" ");
@@ -396,7 +396,7 @@
         }
     }
     function activa_conyuge() {
-        opcion = convierteNumero("id_estado_civil");
+        opcion = convierteNumero("id_estado_civil",0);
         if (opcion == 2) {
             $("#gpo_conyuge").show();
         } else {
@@ -409,8 +409,8 @@
     }
     function cambia_lote() {
         // Armado del objeto lotes de python a javascript
-        opcion = convierteNumero("lote_id");
-        modo_pago = convierteNumero("id_modo_pago");
+        opcion = convierteNumero("lote_id",0);
+        modo_pago = convierteNumero("id_modo_pago",0);
         $("#id_precio_lote").val(0.00);
         $("#id_precio_x_mt").val(0.00);
         $("#id_total").val(0.00);
@@ -447,7 +447,7 @@
         $("#id_correo").val(" ");
     }
     function accionAsignaDescuento() {
-        opcion = convierteNumero("id_asigna_descuento");
+        opcion = convierteNumero("id_asigna_descuento",0);
         if (opcion == 0) {
             $("#tipo_desc").hide();
             accionTipoDescuento();
@@ -459,7 +459,7 @@
         }
     }
     function accionTipoDescuento() {
-        opcion = convierteNumero("id_tipo_descuento");
+        opcion = convierteNumero("id_tipo_descuento",0);
         if (opcion == 1) {
             $("#id_descuento").prop('readonly', true).val(0);
             $("#id_porcentaje_descuento").prop('readonly', false).val(0);
@@ -470,7 +470,7 @@
         calcula();
     }
     function cambia_modo_pago() {
-        opcion = convierteNumero("id_modo_pago");
+        opcion = convierteNumero("id_modo_pago",0);
         if (opcion != 1) {
             $("#gpo_credito").show();
             $("#gpo_enganche").show();
@@ -489,19 +489,19 @@
         calcula();
     }
     function calcula() {
-        porcentaje_descuento = convierteNumero("id_porcentaje_descuento");
-        descuento = convierteNumero("id_descuento");
-        modo_pago = convierteNumero("id_modo_pago");
-        enganche = convierteNumero("id_enganche");
-        cantidad_pagos = convierteNumero("id_cantidad_pagos");
-        precio_lote = convierteNumero("id_precio_lote");
-        precio_final = convierteNumero("id_precio_final");
+        porcentaje_descuento = convierteNumero("id_porcentaje_descuento",1);
+        descuento = convierteNumero("id_descuento",1);
+        modo_pago = convierteNumero("id_modo_pago",0);
+        enganche = convierteNumero("id_enganche",1);
+        cantidad_pagos = convierteNumero("id_cantidad_pagos",0);
+        precio_lote = convierteNumero("id_precio_lote",1);
+        precio_final = convierteNumero("id_precio_final",1);
         precio_final_s_enganche = precio_final - enganche;
-        precio_x_mt = convierteNumero("id_precio_x_mt");
-        total = convierteNumero("id_total");
-        tipo_descuento = convierteNumero("id_tipo_descuento");
+        precio_x_mt = convierteNumero("id_precio_x_mt",1);
+        total = convierteNumero("id_total",1);
+        tipo_descuento = convierteNumero("id_tipo_descuento",0);
         dec_porcentaje_descuento = (porcentaje_descuento / 100);
-        asigna_descuento = convierteNumero("id_asigna_descuento");
+        asigna_descuento = convierteNumero("id_asigna_descuento",0);
 
         if (asigna_descuento == 1) {
             if (precio_lote > 0 && (porcentaje_descuento > 0 || descuento > 0)) {
@@ -539,11 +539,11 @@
         reformatear('id_importe_x_pago');
     }
     function ext_descuento() {
-        cantidad_pagos = convierteNumero("id_cantidad_pagos");
-        enganche = convierteNumero("id_enganche");
-        precio_lote = convierteNumero("id_precio_lote");
-        total = convierteNumero("id_total");
-        modo_pago = convierteNumero("id_modo_pago");
+        cantidad_pagos = convierteNumero("id_cantidad_pagos",0);
+        enganche = convierteNumero("id_enganche",1);
+        precio_lote = convierteNumero("id_precio_lote",1);
+        total = convierteNumero("id_total",1);
+        modo_pago = convierteNumero("id_modo_pago",0);
 
         tipo_aplica_descto = 0;
         valor3 = 0;
@@ -587,7 +587,7 @@
         reformatear('id_importe_x_pago');
     }
     function enganche_minimo() {
-        cantidad_pagos = convierteNumero("id_cantidad_pagos");
+        cantidad_pagos = convierteNumero("id_cantidad_pagos",0);
         valor3 = 0;
         {% for re in reglas %}
         if ((parseInt("{{re.modo_pago}}") == 2) && (parseInt("{{ re.mensualidades_permitidas }}")) == cantidad_pagos) {
@@ -601,7 +601,7 @@
         {% endfor %}
     }
     function ver_btn_cliente() {
-        opcion = convierteNumero("cliente_id");
+        opcion = convierteNumero("cliente_id",0);
         if (opcion == 0) {
             $("#gpo_btn_cliente").hide();
             $("#gpo_btn_documentos").hide();
@@ -778,7 +778,7 @@ $(document).ready(function () {
     $("#id_correo").val("{{ id_estatus_solicitud }}");
     $("#lote_id").val("{{ lote }}").focus();
     
-    estatus_sol = convierteNumero("id_estatus_solicitud");
+    estatus_sol = convierteNumero("id_estatus_solicitud",0);
     if (estatus_sol > 1) {
         $("#btub").hide();
     } 
