@@ -1517,6 +1517,8 @@ class imprime_comprob_mensual_PDF(View):
             importe = folio[0].importe
             context['concepto'] = concepto
             context['importe'] = importe
+            centavos = "{:.2f}".format(round(importe, 2))[-2:]
+            context['centavos'] = centavos
             importe_letras = numero_a_letras(importe)
             context['importe_letras'] = importe_letras
             copias = [0,1]

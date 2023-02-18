@@ -410,9 +410,7 @@ class Nuvole_CompromisoForm(forms.ModelForm):
                     diferencia = enganche - apartado
                     mensaje = "Debe ser " + "{:,}".format(diferencia)
                     raise forms.ValidationError(mensaje)        
-        valor = round(pago_adicional, 2)
-        print(float(valor))
-        return float(valor)
+        return float(pago_adicional)
 
     def clean_confirmacion_pago_adicional(self):
 #        pago_adicional_tp = self.cleaned_data.get("pago_adicional")
