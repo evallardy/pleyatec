@@ -130,9 +130,13 @@
                 }
             }
 		}
-        function convierteNumero(campo) {
+        function convierteNumero(campo,opcion) {
             deCampo = "#" + campo;
-            a = parseFloat($(deCampo).val().replace(",","").replace(",",""));
+            if (opcion == 0) {
+                a = parseFloat($(deCampo).val().replace(",","").replace(",",""));
+            } else {
+                a = parseFloat($(deCampo).val().replace(",","").replace(",","")).toFixed(2);
+            }
             resultado = 0;
             if ((isNaN(a)) ||  (a == null)) {
                 resultado = 0;

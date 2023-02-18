@@ -1529,6 +1529,7 @@ class pagos(UpdateView):
         pk = self.kwargs.get('pk',0)
         solicitud = self.model.objects.get(id=pk)
         form = self.form_class(request.POST, request.FILES, instance=solicitud)
+        print(request.POST)
         valida = True
         if form.errors:
             for field in form:

@@ -314,16 +314,16 @@
             $('#id_cantidad_pagos').hide();
             $('#id_precio_lote').hide();
             $('#id_id').hide();
-            if (convierteNumero("id_modo_pago") == 1) {
+            if (convierteNumero("id_modo_pago", 0) == 1) {
                 $("#gpo_credito").hide();
             }
         }
         function calcula_diferencia() {
-            id_apartado = convierteNumero("id_apartado");
-            id_pago_adicional = convierteNumero("id_pago_adicional");
-            id_modo_pago = convierteNumero("id_modo_pago");
-            id_precio_final = convierteNumero("id_precio_final");
-            id_enganche = convierteNumero("id_enganche");
+            id_apartado = convierteNumero("id_apartado", 1);
+            id_pago_adicional = convierteNumero("id_pago_adicional", 1);
+            id_modo_pago = convierteNumero("id_modo_pago", 0);
+            id_precio_final = convierteNumero("id_precio_final",1 );
+            id_enganche = convierteNumero("id_enganche", 1);
             if (id_modo_pago == "1") {
                 id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
             } else {
@@ -338,13 +338,13 @@
             if ($("#id_apartado").val() == "") { $("#id_apartado").val(0.00) }
             if ($("#id_pago_adicional").val() == "") { $("#id_pago_adicional").val(0.00) }
             //  Asignacion de valores            
-            id_modo_pago = convierteNumero("id_modo_pago");
-            id_estatus_lote = convierteNumero("id_estatus_lote");
-            id_estatus_solicitud = convierteNumero("id_estatus_solicitud");
-            id_precio_final = convierteNumero("id_precio_final");
-            id_enganche = convierteNumero("id_enganche");
-            id_apartado = convierteNumero("id_apartado");
-            id_pago_adicional = convierteNumero("id_pago_adicional");
+            id_modo_pago = convierteNumero("id_modo_pago", 0);
+            id_estatus_lote = convierteNumero("id_estatus_lote", 0);
+            id_estatus_solicitud = convierteNumero("id_estatus_solicitud", 0);
+            id_precio_final = convierteNumero("id_precio_final", 1);
+            id_enganche = convierteNumero("id_enganche", 1);
+            id_apartado = convierteNumero("id_apartado", 1);
+            id_pago_adicional = convierteNumero("id_pago_adicional", 1);
         }
         function valoresIniciales () {
             {% for s in sol %}
@@ -362,23 +362,23 @@
             }
 
             {% endfor %}
-            if (convierteNumero("id_confirmacion_apartado") == 2) {
+            if (convierteNumero("id_confirmacion_apartado", 0) == 2) {
                 $("#btn_recibo").show();
                 proteje_apartado();
             } else {
                 $("#btn_recibo").hide();
-                if (convierteNumero("id_apartado") > 0) {
+                if (convierteNumero("id_apartado", 1) > 0) {
                     inicia_pago_adicional();
                     proteje_adicional();
                 }
             }
-            if (convierteNumero("id_confirmacion_pago_adicional") == 2) {
+            if (convierteNumero("id_confirmacion_pago_adicional", 0) == 2) {
                 $("#btn_adicional").show();
                 proteje_apartado();
                 proteje_adicional();
             } else {
                 $("#btn_adicional").hide();
-                if (convierteNumero("id_pago_adicional") > 0) {
+                if (convierteNumero("id_pago_adicional", 1) > 0) {
                     proteje_apartado();
                 }
             }
@@ -420,7 +420,7 @@
                     texto += "Falta imagen comprobante, ";
                 }
             }
-            if (convierteNumero("id_apartado") < 50000) {
+            if (convierteNumero("id_apartado", 1) < 50000) {
                 texto += "El importe del apartado debe ser mayor igual a 50,000.00, ";
             }
             if ($("#id_confirmacion_apartado").val() == 2) {
@@ -510,7 +510,7 @@
                 }
             }
             $('#id_estatus_solicitud').change();
-            id_diferencia = convierteNumero("id_diferencia");
+            id_diferencia = convierteNumero("id_diferencia", 1);
             if (id_diferencia <= 0) {
                 $("#id_btsubpa").show();
             } else {
