@@ -1551,12 +1551,14 @@ class pagos(UpdateView):
         solicitud = self.model.objects.get(id=pk)
         form = self.form_class(request.POST, request.FILES, instance=solicitud)
         print(request.POST)
+        print(form.data)
         valida = True
         if form.errors:
             for field in form:
                 for error in field.errors:
                     if error != "Introduzca un número.":
-                        valida = False
+                        if error != "Asegúrese de que no haya más de 2 dígitos decimales.":
+                            valida = False
         if valida:
             with transaction.atomic():
                 solicitud_upd = Solicitud.objects.get(id=pk)
@@ -1878,6 +1880,7 @@ class reciboPDF(View):
         importe_letras = numero_a_letras(importe)
         copias = [0,1]
         empresa=trae_empresa(1)
+        centavos = "{:.2f}".format(round(importe, 2))[-2:]
         context = {
             'comp': {
                 'numero_recibo': num_recibo, 
@@ -1888,6 +1891,7 @@ class reciboPDF(View):
                 'ubicacion3':empresa['titulos'][0]['telefono'],
                 'hoy':hoy,
                 'importe': importe,
+                'centavos':centavos,
                 'importe_letras': importe_letras,
                 'pago':pago,
             },

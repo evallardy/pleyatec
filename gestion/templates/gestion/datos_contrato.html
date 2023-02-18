@@ -10,51 +10,45 @@
 {% for py in proyecto_tb %}
 {% if app_proy_datos_contrato %}
 <div class="container mapa col-4">
-    <label class="encabezados">Datos contrato</label>
-    <hr class="mt-0 mb-12">
-    <a class="btn btn-outline-dark" href="{% url 'contratos' py.id %}">Regresar</a>
-    <div class="container col-12">
-        <div class="wrapper fadeInDown">
-            <div id="formContent" style="text-align: right;">
-                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
-                    onkeypress="return anular(event)">
-                    {% csrf_token %}
-                    <div class="form-row" hidden>
-                        <div class="form-group col-md-8 mb-0">
-                            {{ form.modo_pago|as_crispy_field }}
+    <div class="form-group">
+        <label class="encabezados">Datos contrato</label>
+        <hr class="mt-0 mb-12">
+        <div class="form-group col-3 mb-0">
+            <a class="btn btn-outline-dark " href="{% url 'contratos' py.id %}">Regresar</a>
+        </div>
+        <br>
+        <div class="container col-12">
+            <div class="wrapper fadeInDown">
+                <div id="formContent" style="text-align: right;">
+                    <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
+                        onkeypress="return anular(event)">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-0" hidden>
+                                {{ form.modo_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.fecha_contrato|as_crispy_field }}
+                            </div>
+                        {% if solicitud.modo_pago == 2 or solicitud.modo_pago == 4 %}
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.anio_inicio_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.mes_inicio_pago|as_crispy_field }}
+                            </div>
+                        {% else %}
+                            <div class="form-group col-md-4 mb-0" hidden>
+                                {{ form.anio_inicio_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0" hidden>
+                                {{ form.mes_inicio_pago|as_crispy_field }}
+                            </div>
+                        {% endif %}
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-5 mb-0">
-                            {{ form.fecha_contrato|as_crispy_field }}
-                        </div>
-                    </div>
-                    {% if solicitud.modo_pago == 2 or solicitud.modo_pago == 4 %}
-                    <div class="form-row">
-                        <div class="form-group col-md-5 mb-0">
-                            {{ form.anio_inicio_pago|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-5 mb-0">
-                            {{ form.mes_inicio_pago|as_crispy_field }}
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="form-row" hidden="hidden">
-                        <div class="form-group col-md-5 mb-0">
-                            {{ form.anio_inicio_pago|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row" hidden="hidden">
-                        <div class="form-group col-md-5 mb-0">
-                            {{ form.mes_inicio_pago|as_crispy_field }}
-                        </div>
-                    </div>
-                    {% endif %}
-                    <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
-                </form>
-                <br>
+                        <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
