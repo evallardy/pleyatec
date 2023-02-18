@@ -579,9 +579,9 @@ class estado_cuenta_PDF(View):
         pk = self.kwargs['pk']
         datos = Pago.objects.filter(convenio=pk).order_by('numero_pago')
         total_por_pagar = Pago.objects.filter(convenio=pk).values('convenio'). \
-            annotate(cantidad=Count('numero_pago'),suma=Sum('importe'),importe_p=Sum('importe_pagado'))
-        total_pagado = Pago.objects.filter(convenio=pk, importe_pagado__gt=0).values('convenio'). \
             annotate(cantidad=Count('numero_pago'),suma=Sum('importe'))
+        total_pagado = Pago.objects.filter(convenio=pk, importe_pagado__gt=0).values('convenio'). \
+            annotate(cantidad=Count('numero_pago'),suma=Sum('importe_pagado'))
         solicitud = Solicitud.objects.filter(id=pk)
         titulo = Titulo.objects.filter(id=1)
         hoy = fecha_hoy()
@@ -596,7 +596,7 @@ class estado_cuenta_PDF(View):
         importe_pagado = 0
         if total_pagado:
             pagado = total_pagado[0]['cantidad']
-            importe_pagado = total_pagado[0]['importe_p']
+            importe_pagado = total_pagado[0]['suma']
         por_pagar = total_por_pagar[0]['cantidad']
         importe_por_pagar = total_por_pagar[0]['suma']
         pagos_saldo = por_pagar - pagado
