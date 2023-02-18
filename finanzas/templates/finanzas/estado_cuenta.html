@@ -25,9 +25,9 @@
                 <tr>
                     <th class="titulo-tabla">Pago</th>
                     <th class="titulo-tabla">Compromiso</th>
-                    <th class="titulo-tabla">importe</th>
+                    <th class="titulo-tabla">Por pagar</th>
+                    <th class="titulo-tabla">Pagado</th>
                     <th class="titulo-tabla">Pago en</th>
-                    <th class="titulo-tabla">Comprobante</th>
                     <th class="titulo-tabla">Estatus</th>
                     <th class="titulo-tabla">Depósito</th>
                     <th class="titulo-tabla">Registrar</th>
@@ -40,12 +40,10 @@
                     <td style="text-align: center;">{{ p.numero_pago }}</td>
                     <td style="text-align: center;">{{ p.fecha_pago }}</td>
                     <td style="text-align: right;">{{ p.importe }}</td>
-                    <td style="text-align: center;">{{ p.get_forma_pago_display }}</td>
                     <td style="text-align: center;">
-                        {% if p.numero_comprobante %}
-                        {{ p.numero_comprobante }}
-                        {% endif %}
+                        {{ p.importe_pagado }}
                     </td>
+                    <td style="text-align: center;">{{ p.get_forma_pago_display }}</td>
                     <td style="text-align: center;">{{ p.get_estatus_pago_display }}</td>
                     <td style="text-align: center;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
