@@ -130,11 +130,11 @@
                 <thead>
                     <tr>
                         <th style="text-align: center; width: 60px;" scope="col">Núm. Pago</th>
-                        <th style="text-align: right; width: 180px;" scope="col">Compromiso</th>
-                        <th style="text-align: right; width: 150px;" scope="col">Importe</th>
-                        <th style="text-align: right; width: 190px;" scope="col">Pago</th>
-                        <th style="text-align: right; width: 150px;" scope="col">importe</th>
-                        <th style="text-align: right; width: 80px;" scope="col">Estatus</th>
+                        <th style="text-align: center; width: 160px;" scope="col">Fecha compromiso</th>
+                        <th style="text-align: center; width: 100px;" scope="col">Mensualidad</th>
+                        <th style="text-align: center; width: 190px;" scope="col">Fecha de pago</th>
+                        <th style="text-align: center; width: 100px;" scope="col">Importe pagado</th>
+                        <th style="text-align: center; width: 80px;" scope="col">Estatus</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,7 +143,7 @@
                         <td style="text-align: center;">{{ e.numero_pago }}</td>
                         <td style="text-align: left;">{{ e.fecha_pago }}</td>
                         <td style="text-align: right;">{{ e.importe }}</td>
-                        <td style="text-align: left; margin-left: 10px;">
+                        <td style="text-align: left; margin-left: 30px;">
                             {% if e.fecha_voucher %}
                             {{ e.fecha_voucher }}
                             {% endif %}
