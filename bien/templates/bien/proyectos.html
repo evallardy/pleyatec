@@ -2,61 +2,31 @@
 {% load static %}
 {% block contenido %}
 {% if comision_proyectos %}
-<div class="container" style="width: 300px;">
+<div class="container mapa col-7">
     <label class="encabezados">Proyectos</label><br>
 </div>
-<div class="container mapa">
+<div class="container mapa col-7">
     <div class="container">
-        <table class="table table-info table-striped" style="width: 700px;">
+        <table class="estilo-tabla">
             <thead>
                 <tr>
-                    <th style="text-align: center; width: 20%;">Proyecto</th>
-                    <th style="text-align: center; width: 20%;" hidden>Tipo</th>
-                    <th style="text-align: center; width: 10%;">Com. Agente</th>
-                    <th style="text-align: center; width: 10%;">Com. Gerente</th>
-                    <th style="text-align: center; width: 10%;">Pendientes de pago</th>
-                    <th style="text-align: center; width: 10%;"></th>
-                    <th style="text-align: center; width: 10%;" colspan="2">Pago de Comisiones</th>
+                    <th class="col-md-4 titulo-tabla">Proyecto</th>
+                    <th class="col-md-4 titulo-tabla" hidden>Tipo</th>
+                    <th class="col-md-1 titulo-tabla">Com. Agente</th>
+                    <th class="col-md-1 titulo-tabla">Com. Gerente</th>
+                    <th class="col-md-1 titulo-tabla">Pendientes de pago</th>
+                    <th class="col-md-1 titulo-tabla">Pago de Comisiones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for c in object_list %}
-                <tr>
+                <tr class="datos-tabla">
                     <td>{{ c.nombre }}</td>
                     <td hidden>{{ c.get_tipo_proyecto_display }}</td>
                     <td style="text-align: center;">{{ c.comision_asesor }}</td>
                     <td style="text-align: center;">{{ c.comision_jefe_asesor }}</td>
                     <td style="text-align: center;"></td>
-                    <td>
-                        {% if c.nom_proy == 'nuvole' and nuvole_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'toscana' and toscana_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'torre_vento' and torre_vento_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'condom_multiple' and condom_multiple_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'porto_santo' and porto_santo_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                        {% if c.nom_proy == 'local_punta_o' and local_punta_o_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
-                        {% endif %}
-                    </td>
-                    <td>
+                    <td style="text-align: center;">
                         {% if c.nom_proy == 'nuvole' and nuvole_pago_normal_comisiones %}
                         <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-outline-secondary">Normal</a>
                         {% endif %}
@@ -85,7 +55,36 @@
                         <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-outline-secondary">Normal</a>
                         {% endif %}
                     </td>
-                    <td>
+                    <td style="text-align: center;">
+                        {% if c.nom_proy == 'nuvole' and nuvole_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'toscana' and toscana_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'torre_vento' and torre_vento_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'condom_multiple' and condom_multiple_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'porto_santo' and porto_santo_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                        {% if c.nom_proy == 'local_punta_o' and local_punta_o_edita_comisiones_proyecto %}
+                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-outline-secondary">Editar</a>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center;">
                         {% if c.nom_proy == 'nuvole' and nuvole_consulta_comisiones %}
                         <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-outline-secondary">Consulta</a>
                         {% endif %}

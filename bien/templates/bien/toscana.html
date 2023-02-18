@@ -1,16 +1,16 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block blcss %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto %}
 {% if app_proy_acceso %}
-<div class="container espacio-menu">
+<div class="container mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified container">
+        {% if toscana_acceso %}
+        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+        {% endif %}
         {% if toscana_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
@@ -40,16 +40,16 @@
         {% endif %}
     </div>
 </div>
-<div style="height: 600px; width: 800px; " class="mapa">
-    <div class="container" style="margin-top: 10px;">
-        <div class="btn-group" style="margin-left: 100px;">
+<div class="container mapa" style="width: 690px;">
+    <div class="container">
+        <div class="btn-group" >
             <a href="{% url 'toscana' py.id 1 %}" class="btn btn-primary {{nivel_1}}">Planta baja</a>
             <a href="{% url 'toscana' py.id 2 %}" class="btn btn-primary {{nivel_2}}">Primer piso</a>
             <a href="{% url 'toscana' py.id 3 %}" class="btn btn-primary {{nivel_3}}">Segundo piso</a>
         </div>
     </div>
-    <div class="container" style="margin-top: 10px;">
-        <div style="margin-left: 80px; height: 510px; width: 640px; background-color: white;" class="mapa">
+    <div class="container">
+        <div style="height: 520px; width: 640px; background-color: white;" class="mapa">
             {% if nivel == '1' %}
             <img src="{% static 'core/img/Planta baja.png' %}" alt=""
                 style="height: 500px; width: auto; position: absolute; margin-top: 5px; margin-left: 50px;">
@@ -97,11 +97,12 @@
     </div>
 </div>
 <script>
+    {% block bljs %}
     $(document).ready(function () {
         opcion = "#" + "{{ menu }}";
         $(opcion).addClass('active');
     });
-
+    {% endblock %}
 </script>
 {% endif %}
 {% endfor %}

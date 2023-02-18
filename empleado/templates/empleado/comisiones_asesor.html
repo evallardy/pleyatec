@@ -1,20 +1,19 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block contenido %}
-<div style="position: absolute; margin-left: 80px;
-     height: auto; width: auto; background-color: transparent;" class="mapa">
+<div class="container mapa col-8">
     <label class="encabezados">Comisiones</label>
     <div class="container col-12">
         <br>
         <div class="container col-12">
-            <table class="table table-info table-striped" style="width: 850px;">
+            <table class="estilo-tabla">
                 <thead>
                     <tr>
-                        <th style="text-align: center; width: 10%;">Asesor</th>
+                        <th class="col-md-4 titulo-tabla">Asesor</th>
                         {% for p in object_list %}
-                        <th style="text-align: center; width: 20%;">{{ p.nombre }}</th>
+                        <th class="col-md-4 titulo-tabla">{{ p.nombre }}</th>
                         {% endfor %}
-                        <th style="text-align: center; width: 10%;"></th>
+                        <th class="col-md-4 titulo-tabla"></th>
                     </tr>
                 </thead>
                 <tbody>

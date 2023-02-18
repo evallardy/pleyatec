@@ -73,6 +73,13 @@ class solicitudes(ListView):
         context['num_proyecto'] = num_proyecto
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
+# ver mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 # ver listado solicitudes
         des_permiso = '_ver_solicitud'
         variable_proy = nom_proy + des_permiso
@@ -1241,6 +1248,13 @@ class autorizaciones(ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -1404,6 +1418,13 @@ class compromisos(ListView):
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion lotes
@@ -1701,6 +1722,13 @@ class archivo(ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -1978,6 +2006,13 @@ class contratos(ListView):
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion lotes

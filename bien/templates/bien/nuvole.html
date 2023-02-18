@@ -1,16 +1,16 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block blcss %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto %}
 {% if app_proy_acceso %}
-<div class="container espacio-menu">
+<div class="container mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified container">
+        {% if nuvole_acceso %}
+        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+        {% endif %}
         {% if nuvole_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
@@ -40,10 +40,10 @@
         {% endif %}
     </div>
 </div>
-<div style="height: 410px; width: 650px; " class="mapa">
+<div class="container mapa" style="width: 650px; height: 428px;">
     <img src="{% static 'core/img/plano2022.jpg' %}" alt=""
-        style="height: 405px; width: 620; position: absolute; margin-left: 20px; padding: 5px;">
-    <svg style="position: absolute; width: 800px; height: 600px; margin-left: 20px;">
+        style="height: 405px; width: 620; position: absolute; padding: 5px;">
+    <svg style="position: absolute; width: 800px; height: 600px; ">
         {% for e in object_list %}
         {% if e.estatus_lote != 9 %}
         <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
@@ -73,10 +73,12 @@
     </svg>
 </div>
 <script>
+    {% block bljs %}
     $(document).ready(function () {
         opcion = "#" + "{{ menu }}";
         $(opcion).addClass('active');
     });
+    {% endblock %}
 </script>
 {% endif %}
 {% endfor %}

@@ -3,15 +3,15 @@ from .views import *
 
 urlpatterns = [
     # Proyecto 1 
-    path('nuvole/<py>/', nuvole.as_view(), name='nuvole'), 
+    path('nuvole/<py>/<nivel>/', nuvole.as_view(), name='nuvole'), 
     # Proyecto 1 
     path('toscana/<py>/<nivel>/', toscana.as_view(), name='toscana'), 
     # Proyecto 3 
     path('torrevento/<py>/<nivel>/', torrevento.as_view(), name='torrevento'), 
     # Proyecto 4 
-    path('monte_cris/<py>/', monte_cris.as_view(), name='monte_cris'), 
+    path('monte_cris/<py>/<nivel>/', monte_cris.as_view(), name='monte_cris'), 
     # Proyecto 5 
-    path('viviendaNuvole/<py>/', viviendaNuvole.as_view(), name='viviendaNuvole'), 
+    path('viviendaNuvole/<py>/<nivel>/', viviendaNuvole.as_view(), name='viviendaNuvole'), 
     # Proyecto 6 
     path('porto_santo/<py>/<nivel>/', porto_santo.as_view(), name='porto_santo'), 
     # Proyecto 7 

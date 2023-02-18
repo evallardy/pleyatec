@@ -5,9 +5,12 @@
 {% block contenido %}
 {% if app_proy_creditos %}
 {% for py in proyecto_tb %}
-<div class="container espacio-menu">
+<div class="container mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified container">
+        {% if menu_proy_acceso %}
+        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+        {% endif %}
         {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
@@ -112,7 +115,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="saltador-hoja">
+    <div class="container">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}

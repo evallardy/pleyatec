@@ -8,8 +8,8 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-<div class="container" style="width: 450px;">
-    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+<div class="container mapa col-5" style="width: 450px;">
+    <h3 style="margin-right: 25px; margin-top: 15px;">Comisiones asesor</h3>
     <hr class="mt-0 mb-4">
     <a class="btn btn-outline-dark" href="{% url 'empleados' %}">Regresar</a>
     <br>
@@ -39,8 +39,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-4 mb-0">
                             <label>Comisión</label>
-                            <input type="text" name="comision" id="id_comision" class="form-control"
-                            step='0.01' value='0.00' placeholder='0.00' style="text-align: right;">
+                            <input type="text" name="comision" id="id_comision" class="form-control" step='0.01'
+                                value='0.00' placeholder='0.00' style="text-align: right;">
                         </div>
                     </div>
                     <br>
@@ -57,12 +57,12 @@
             </div>
             <br>
             <div class="row">
-                <table class="table table-info table-striped col-12">
+                <table class="estilo-tabla col-12">
                     <thead>
                         <tr>
-                            <th style="text-align: center; width: 10%;">Id</th>
-                            <th style="text-align: center; width: 70%;">Proyecto</th>
-                            <th style="text-align: center; width: 20%;">Comisión</th>
+                            <th class="col-md-2 titulo-tabla">Id</th>
+                            <th class="col-md-8 titulo-tabla">Proyecto</th>
+                            <th class="col-md-2 titulo-tabla">Comisión</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,30 +84,30 @@
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-    $("#id_comision").keypress(function(event) {
+    $("#id_comision").keypress(function (event) {
         var c = event.keyCode || event.which,
-        key = String.fromCharCode(c),
-        chars = "0123456789."
+            key = String.fromCharCode(c),
+            chars = "0123456789."
         if (chars.search(key) !== -1) {
             contador = 0;
             decimales = 0;
             enteros = 0;
             cadena = $("#id_comision").val() + key;
             sw = 0;
-            for(var i = 0; i < cadena.length; i++) {
-	            if (cadena[i] == ".") {
-                    contador ++
+            for (var i = 0; i < cadena.length; i++) {
+                if (cadena[i] == ".") {
+                    contador++
                     sw = 1;
                 } else {
                     if (sw == 1) {
                         if (contador == 1) {
-                            decimales ++;
+                            decimales++;
                             if (decimales > 2) {
                                 return false;
                             }
                         }
                     } else {
-                        enteros ++;
+                        enteros++;
                         if (enteros > 2) {
                             return false;
                         }

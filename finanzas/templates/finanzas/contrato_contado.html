@@ -5,9 +5,12 @@
 {% block contenido %}
 {% if app_proy_contados %}
 {% for py in proyecto_tb %}
-<div class="container espacio-menu">
+<div class="container mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
     <div class="btn-group btn-group-justified container">
+        {% if menu_proy_acceso %}
+        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+        {% endif %}
         {% if menu_proy_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
@@ -37,7 +40,7 @@
         {% endif %}
     </div>
 </div>
-<div class="mapa" style="width: auto;">
+<div class="container mapa">
     <table class="estilo-tabla col-8 container">
         <thead>
             <tr>
@@ -80,7 +83,7 @@
             </tr>
         </tbody>
     </table>
-    <table class="estilo-tabla col-8 container">
+    <table class="estilo-tabla col-10 container">
         <thead>
             <tr>
                 <th class="col-md-1 titulo-tabla">Núm. Contrato</th>
@@ -106,7 +109,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="saltador-hoja">
+    <div class="container">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
     {% endif %}

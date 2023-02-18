@@ -9,7 +9,7 @@
 {% block contenido %}
 {% if app_proy_cap_dep_mensual %}
 {% for py in proyecto_tb %}
-<div class="container col-12">
+<div class="container mapa col-6">
     <label class="encabezados">Datos pago</label>
     <hr class="mt-0 mb-12">
     <a class="btn btn-outline-secondary" href="{% url 'estado_cuenta' sol py.id %}">Regresar</a>

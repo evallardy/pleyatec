@@ -2,29 +2,27 @@
 {% load static %}
 {% block contenido %}
 {% if perms.empleado.view_empleado %}
-<div class="container" style="width: 300px;">
+<div class="container mapa col-md-8">
     <label class="encabezados">Personal</label>
 </div>
-<div class="container mapa">
+<div class="container mapa col-md-8">
     <div class="container">
         {% if perms.empleado.add_empleado %}
         <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_empleado' %}">Agregar</a>
         {% endif %}
-        <table class="table table-info table-striped" style="width: 850px;">
+        <table class="estilo-tabla">
             <thead>
                 <tr>
-                    <th class="col-md-4" style="text-align: center;" scope="col">Nombre</th>
-                    <th class="col-md-3" style="text-align: center;" scope="col">Area</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Puesto</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Administrador</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col">Estatus</th>
-                    <th class="col-md-1" style="text-align: center;" scope="col"></th>
-                    <th class="col-md-1" style="text-align: center;" scope="col"></th>
+                    <th class="col-md-4 titulo-tabla">Nombre</th>
+                    <th class="col-md-3 titulo-tabla">Area</th>
+                    <th class="col-md-2 titulo-tabla">Puesto</th>
+                    <th class="col-md-1 titulo-tabla">Administrador</th>
+                    <th class="col-md-1 titulo-tabla">Estatus</th>
                 </tr>
             </thead>
             <tbody>
                 {% for e in object_list %}
-                <tr>
+                <tr class="estilo-datos">
                     <td style="text-align: left;">{{ e.nombre_completo }}</td>
                     <td style="text-align: center;">{{ e.get_area_operativa_display }}</td>
                     <td style="text-align: center;">{{ e.get_puesto_display }}</td>
@@ -45,11 +43,13 @@
             </tbody>
         </table>
     </div>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    <div class="container">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    </div>
 </div>
 {% endif %}
 {% endif %}

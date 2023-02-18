@@ -2,43 +2,44 @@
 {% load static %}
 {% block contenido %}
 {% if perms.core.view_banco %}
-<div class="container" style="width: 300px;">
+<div class="container mapa col-5">
     <label class="encabezados">Bancos</label><br>
 </div>
-<div class="container mapa" >
+<div class="container mapa col-5">
     {% if perms.core.add_banco %}
     <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_banco' %}">Agregar</a>
     {% endif %}
-    <table class="table table-info table-striped container" >
+    <table class="estilo-tabla col-12" >
         <thead>
             <tr>
-                <th scope="col-1">Abreviación</th>
-                <th scope="col-3">Nombre</th>
-                <th scope="col-1">Estatus</th>
-                <th scope="col-1"></th>
+                <th class="col-md-3 titulo-tabla">Abreviación</th>
+                <th class="col-md-5 titulo-tabla">Nombre</th>
+                <th class="col-md-3 titulo-tabla">Estatus</th>
             </tr>
         </thead>
         <tbody>
             {% for p in object_list %}
-            <tr>
+            <tr class="datos-tabla">
                 <td>{{ p.abreviacion }}</td>
                 <td>{{ p.banco }}</td>
-                <td>{{ p.get_estatus_banco_display }}</td>
+                <td style="text-align: center;">{{ p.get_estatus_banco_display }}</td>
                 {% if perms.core.change_banco %}
                 <td><a href="{% url 'mod_banco' p.id %}" class="btn btn-outline-secondary">Editar</a></td>
                 {% else %}
-                <td></td>
+                <td class="col-2"></td>
                 {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="container">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    {% endif %}
+    </div>
 </div>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-{% endif %}
 {% endif %}
 {% endblock %}

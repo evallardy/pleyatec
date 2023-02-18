@@ -24,8 +24,8 @@
 </head>
 
 <body style="background-color: darkgrey;">
-    <div class="container">
-        <div id="header" class="titulo-principal">
+    <div class="col-12">
+        <div id="header" class="mapa" >
             <table class="col-12" style="background-color: transparent;">
                 <tbody style="background-color: transparent;">
                     <tr style="background-color: transparent;">
@@ -72,15 +72,12 @@
         </div>
 
         {% if user.is_authenticated %}
-        <div style="position: absolute; margin-left: 80px; 
-                height: auto; width: auto; background-color: transparent;" class="mapa">
+        <div style="background-color: transparent;" >
             {% endif %}
             <!--        <div id="contenido" style="float: left;">   -->
-
             {% block contenido %}
 
             {% endblock %}
-
             <!--        </div>   -->
             {% if user.is_authenticated %}
         </div>

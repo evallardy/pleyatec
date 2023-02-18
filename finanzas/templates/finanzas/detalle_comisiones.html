@@ -7,11 +7,11 @@
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto_tb %}
-<div style="position: absolute; margin-left: 80px;
-     height: auto; width: auto; background-color: transparent;" class="mapa">
+<div class="container mapa col-8">
     <form action="">
         <label class="encabezados">{{py.nombre}}</label>
-        <label class="encabezados">Pago de Comisiones Detalle</label><br>
+        <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Pago de Comisiones Detalle</h3>
+        <hr class="mt-0 mb-4" style="background-color: transparent;">
         <label class="encabezados">{{nombre}}</label><br>
         <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id periodo %}">Regresar</a><br><br>
         <div class="container">
@@ -29,36 +29,35 @@
             </div>
         </div>
         <br>
-        <div class="container col-12" style="width: 850px;">
+        <div class="container col-12">
             <div class="form-row">
-                <table class="table table-info  col-12">
+                <table class="estilo-tabla col-12">
                     <thead>
                         <tr>
-                            <th class="col-5" style="text-align: center;">Bien</th>
-                            <th class="col-3" style="text-align: center;">Fecha contrato</th>
-                            <th class="col-2" style="text-align: right;">Importe venta</th>
-                            <th class="col-1" style="text-align: right;">Comisión</th>
-                            <th class="col-2" style="text-align: right;">Importe comisión</th>
-                            <th></th>
+                            <th class="col-3 titulo-tabla" style="text-align: center;">Bien</th>
+                            <th class="col-3 titulo-tabla" style="text-align: center;">Fecha contrato</th>
+                            <th class="col-2 titulo-tabla" style="text-align: right;">Importe venta</th>
+                            <th class="col-1 titulo-tabla" style="text-align: center;">Comisión</th>
+                            <th class="col-2 titulo-tabla" style="text-align: right;">Importe comisión</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for pc in object_list %}
-                        <tr>
+                        <tr class="datos-tabla">
                             <td style="text-align: left;">{{pc.bien_pago}}</td>
-                            <td style="text-align: left;">{{pc.fecha_contrato}}</td>
+                            <td style="text-align: center;">{{pc.fecha_contrato}}</td>
                             <td style="text-align: right;">{{pc.precio_final}}</td>
                             {% if grupo == "1" %}
-                            <td style="text-align: right;">{{pc.comsion}}</td>
+                            <td style="text-align: center;">{{pc.comsion}}</td>
                             <td style="text-align: right;">{{pc.importe}}</td>
                             {% elif grupo == "2" %}
-                            <td style="text-align: right;">{{pc.comsion_gerente}}</td>
+                            <td style="text-align: center;">{{pc.comsion_gerente}}</td>
                             <td style="text-align: right;">{{pc.importe_gerente}}</td>
                             {% else %}
-                            <td style="text-align: right;">{{pc.comsion_publicidad}}</td>
+                            <td style="text-align: center;">{{pc.comsion_publicidad}}</td>
                             <td style="text-align: right;">{{pc.importe_publicidad}}</td>
                             {% endif %}
-                            <td>
+                            <td class="col-1">
                                 {% if app_proy_vobo_comisiones %}
                                 <a class="btn btn-outline-dark" href="#">Quitar</a><br><br>
                                 {% endif %}

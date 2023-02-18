@@ -8,19 +8,10 @@
 {% block contenido %}
 {% if app_proy_pago_normal_comisiones %}
 {% for py in proyecto_tb %}
-<div style="position: absolute; margin-left: 80px;
-     height: auto; width: auto; background-color: transparent;" class="mapa">
-    <table class="container">
-        <tr>
-            <td style="background-color: darkgrey;">
-                <label class="encabezados">{{py.nombre}}</label><br>
-            </td>
-            <td style="background-color: darkgrey; width: 40%;">
-                <label class="encabezados">Pago de Comisiones</label><br>
-            </td>
-        </tr>
-    </table>
-    <hr>
+<div class="container mapa col-8">
+    <label class="encabezados">{{py.nombre}}</label>
+    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Pago de Comisiones</h3>
+    <hr class="mt-0 mb-4" style="background-color: transparent;">
     <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a><br><br>
     <form action="">
         {% csrf_token %}
@@ -103,29 +94,27 @@
             </div>
         </div>
         <br>
-        <div class="container col-12" style="width: 800px;">
+        <div class="col-12" style="text-align: center;">
             <div class="form-row">
-                <table class="table table-info  col-12">
+                <table class="estilo-tabla col-9">
                     <thead>
                         <tr>
-                            <th class="col-6" style="text-align: center;">Asesor</th>
-                            <th class="col-1" style="text-align: center;">Bienes</th>
-                            <th class="col-3" style="text-align: right;">Importe comisión</th>
-                            <th class="col-1"></th>
-                            <th class="col-1"></th>
+                            <th  class="col-md-5 titulo-tabla" style="text-align: center;">Asesor</th>
+                            <th  class="col-md-2 titulo-tabla" style="text-align: center;">Bienes</th>
+                            <th  class="col-md-3 titulo-tabla" style="text-align: right;">Importe comisión</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for pc in object_list %}
-                        <tr>
+                        <tr class="datos-tabla">
                             <td style="text-align: left;">{{pc.paterno}} {{pc.materno}} {{pc.nombre}}</td>
                             <td style="text-align: center;">{{pc.bienes}}</td>
                             <td style="text-align: right;">{{pc.total_asesor}}</td>
-                            <td style="text-align: center;">
+                            <td class="col1" style="text-align: center;">
                                 <a class="btn btn-outline-dark"
                                     href="{% url 'detalle_comisiones' pc.pagocomision__asesor_pago py.id fecha_desde fecha_hasta 1 estatus_comision periodo %}">Detalle</a>
                             </td>
-                            <td style="text-align: center;">
+                            <td class="col-1" style="text-align: center;">
                                 {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
                                 <a class="btn btn-outline-dark" href="#" id="btn_deposito_asesor"
                                     onclick="deposito('{{periodo}}', '{{pc.pagocomision__asesor_pago}}', 1, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')">Depósito</a>
@@ -157,29 +146,27 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
-                            <table class="table table-info  col-12">
+                            <table class="estilo-tabla col-12">
                                 <thead>
                                     <tr>
-                                        <th class="col-6" style="text-align: center;">Gerente</th>
-                                        <th class="col-1" style="text-align: center;">Bienes</th>
-                                        <th class="col-3" style="text-align: right;">Importe comisión</th>
-                                        <th class="col-1"></th>
-                                        <th class="col-1"></th>
+                                        <th class="col-6 titulo-tabla" style="text-align: center;">Gerente</th>
+                                        <th class="col-1 titulo-tabla" style="text-align: center;">Bienes</th>
+                                        <th class="col-4 titulo-tabla" style="text-align: right;">Importe comisión</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for pc in pagos_gerentes %}
-                                    <tr>
+                                    <tr class="datos-tabla">
                                         <td style="text-align: left;">{{ pc.gerente_pago__paterno }} 
                                             {{ pc.gerente_pago__materno }}
                                             {{ pc.gerente_pago__nombre }}</td>
                                         <td style="text-align: center;">{{ pc.bienes }}</td>
                                         <td style="text-align: right;">{{ pc.total_asesor }}</td>
-                                        <td style="text-align: center;">
+                                        <td class="col-1" style="text-align: center;">
                                             <a class="btn btn-outline-dark"
                                                 href="{% url 'detalle_comisiones' pc.gerente_pago py.id fecha_desde fecha_hasta 2 estatus_comision periodo %}">Detalle</a>
                                         </td>
-                                        <td style="text-align: center;">
+                                        <td class="col-1" style="text-align: center;">
                                             {% if pc.estatus_pago_gerente == 0 %}
                                             <a class="btn btn-outline-dark" href="#"
                                                 id="btn_deposito_gerente" onclick="deposito('{{periodo}}', '{{pc.gerente_pago}}', 2, 'del gerente {{pc.gerente_pago_paterno}} {{pc.gerente_pago_materno}} {{pc.gerente_pago_nombre}}')">Depósito</a>
@@ -204,13 +191,15 @@
             <br>
         </div>
     </form>
+    <div class="container">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    {% endif %}
+    </div>
 </div>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-{% endif %}
 <script>
     function deposito(fecha, empleado, opcion, mensaje) {
         var url = "{% url 'deposito_comision' 123 py.id 456 789 %}";

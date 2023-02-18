@@ -8,8 +8,6 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 .encabezados {
-    margin-top: 5px;
-    margin-left: 10px;
     font-size: 28px;
     font-style: italic;
     padding-left: 10px;
@@ -28,7 +26,6 @@ body {
     padding-bottom: 10px;
 }
 .estilo-tabla {
-    width: 850px;
     font-size: 15px;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -136,26 +133,29 @@ nav a {
     border-radius: 10px;
     box-shadow: 0 0 10px #000;
 }
+.proyecto-card {
+    font-size: 16px;
+    max-width: 15rem;
+    max-height: 20rem;
+    background-color: white; 
+    margin-left: 15px; 
+    margin-right: 15px;
+}
 .proyecto {
     height: 250px;
     width: 250px;
     margin-top: 20px;
     margin-left: 20px;
-    float: left;
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 0 10px #000;
     background-color: white;
 }
-.proyecto .contenedor_proyecto {
-    width: 90%;
-    margin: auto;
-}
-.proyecto .detalle {
+.detalle {
     font-size: 16px;
     font-style: italic;
-    width: 80%;
-    height: 20%;
+    width: 100%;
+    height: 100%;
     margin: auto;
 }
 .proyecto img {
@@ -305,10 +305,10 @@ input[type="checkbox"]:checked + label:after {
     box-shadow: 0 0 10px #000;
     border-radius: 10px;
     background-color: white;
-    position: absolute;
     margin-top: 10px;
     background-color: transparent;
-    width: 1000px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }  
 .loteVendido {
     fill: crimson;

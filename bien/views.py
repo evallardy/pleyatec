@@ -25,6 +25,13 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         variable_html = 'app_proy' + des_permiso
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
+#  Menu opcion mapa Nuvole
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -81,7 +88,7 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context[variable_proy] = acceso
         
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
 
         return context
     def get_queryset(self):
@@ -113,7 +120,7 @@ class toscana(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context[variable_html] = acceso
 #  nom_proy = 'toscana'
         context["proyecto"] = proyecto
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nivel = self.kwargs['nivel']
         context['nivel'] = nivel
         if nivel == '1':
@@ -128,6 +135,13 @@ class toscana(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             context['nivel_1'] = ""
             context['nivel_2'] = ""
             context['nivel_3'] = "active"
+#  Menu opcion mapa Toscana
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -193,12 +207,19 @@ class plazapuntaoriente(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         proyecto = Proyecto.objects.filter(id=num_proyecto)
         nom_proy = proyecto[0].nom_proy
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
 #  Acceso local punta opriente
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
         permiso_str = "bien." + variable_proy
         variable_html = 'app_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion mapa local punta opriente
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Menu opcion lotes
@@ -267,8 +288,15 @@ class torrevento(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(torrevento, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nom_proy = 'torre_vento'
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -334,8 +362,15 @@ class condominioM(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nom_proy = 'condom_multiple'
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -401,8 +436,15 @@ class porto_santo(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nom_proy = 'porto_santo'
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -468,8 +510,15 @@ class viviendaNuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nom_proy = 'vivienda_nuvole'
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -535,8 +584,15 @@ class monte_cris(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nom_proy = 'monte_cristallo'
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -601,8 +657,15 @@ class TMpuntaorienta(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(nuvole, self).get_context_data(**kwargs)
         context["proyecto"] = Proyecto.objects.filter(id=1)
-        context['menu'] = "bien"
+        context['menu'] = "menuMapa"
         nom_proy = 'consul_punta_o'
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion lotes
         des_permiso = '_ver'
         variable_proy = nom_proy + des_permiso
@@ -692,6 +755,13 @@ class bienes(LoginRequiredMixin, ListView):
         des_permiso = '_chag'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "menu_proy" + des_permiso
         permiso_str = "bien." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso

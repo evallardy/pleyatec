@@ -1,16 +1,16 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block blcss %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto %}
 {% if app_proy_acceso %}
-<div class="container espacio-menu">
+<div class="container mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
     <div class="btn-group btn-group-justified container">
+        {% if local_punta_o_acceso %}
+        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+        {% endif %}
         {% if local_punta_o_ver %}
         <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
         {% endif %}
@@ -40,17 +40,19 @@
         {% endif %}
     </div>
 </div>
-<div class="mapa" style="height: 410px; width: 650px; ">
+<div class="container mapa" style="height: 320px; width: 400px; ">
     <div class="container">
         <img src="{% static 'core/img/no disponible.jpg' %}" alt=""
             style="height: 300px; width: 620; position: absolute; margin-left: 20px; padding: 5px;"/>
     </div>
 </div>
 <script>
+    {% block bljs %}
     $(document).ready(function () {
         opcion = "#" + "{{ menu }}";
         $(opcion).addClass('active');
     });
+    {% endblock %}
 </script>
 {% endif %}
 {% endfor %}

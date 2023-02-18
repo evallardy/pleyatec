@@ -39,7 +39,7 @@
 {% block contenido %}
 {% if app_proy_compromiso %}
 {% for py in proyecto_tb %}
-<div class="container col-12" style="width: 850px;">
+<div class="container mapa col-6">
     <label class="encabezados">{{ py.nombre }} - Compromiso de la solicitud {{ pk }}</label><br>
     <hr class="mt-0 mb-4">
     <a class="btn btn-outline-dark" href="{% url 'compromisos' py.id %}">Regresar</a>
