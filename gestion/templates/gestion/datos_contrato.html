@@ -14,7 +14,9 @@
         <label class="encabezados">Datos contrato</label>
         <hr class="mt-0 mb-12">
         <div class="form-group col-3 mb-0">
-            <a class="btn btn-outline-dark " href="{% url 'contratos' py.id %}">Regresar</a>
+            <a class="btn btn-info" href="{% url 'contratos' py.id %}" title="Regresar a la pantalla anterior">
+                <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+            </a>
         </div>
         <br>
         <div class="container col-12">
@@ -46,7 +48,10 @@
                             </div>
                         {% endif %}
                         </div>
-                        <input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                        <button type="submit" class="btn btn-success" title="Guarda datos del contrato">
+                            <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                        </button>
+                        
                     </form>
                 </div>
             </div>

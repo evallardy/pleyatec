@@ -12,7 +12,9 @@
 <div class="container mapa col-6">
     <label class="encabezados">Datos pago</label>
     <hr class="mt-0 mb-12">
-    <a class="btn btn-outline-secondary" href="{% url 'estado_cuenta' sol py.id %}">Regresar</a>
+    <a class="btn btn-info" href="{% url 'estado_cuenta' sol py.id %}" title="Regresar a la pantalla anterior">
+        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+    </a>
     <div class="container col-12">
         <div class="wrapper fadeInDown">
             <div id="formContent" style="text-align: right;">

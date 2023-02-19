@@ -42,7 +42,11 @@
 <div class="container mapa col-6">
     <label class="encabezados">{{ py.nombre }} - Compromiso de la solicitud {{ pk }}</label><br>
     <hr class="mt-0 mb-4">
-    <a class="btn btn-outline-dark" href="{% url 'compromisos' py.id %}">Regresar</a>
+    <div class="container">
+    <a class="btn btn-info" href="{% url 'compromisos' py.id %}" title="Regresar a la pantalla anterior">
+        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+    </a>
+    </div>
     <div class="container col-12">
         <div class="wrapper fadeInDown">
             {% for s in sol %}
@@ -168,11 +172,13 @@
                         <div class="form-group col-3" id="gpo_confirmacion_apartado" style="text-align: center;">
                             {% if app_proy_imp_pago_compromiso %}
                             <label for="btn_recibo"> </label><br>
-                            <button id="btn_recibo" class="btn btn-outline-dark"
-                                onclick="imprime('parcial')">Imprimir</button>
+                            <button id="btn_recibo" class="btn btn-info" onclick="imprime('parcial')" title="Imprime recibo apartado">
+                                <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                            </button>
                             {% endif %}
-                            <input id="id_btsubapartado" name="btsubapartado" type="submit" value="Guarda"
-                                class="btn btn-success">
+                            <button type="submit" id="id_btsubapartado" name="btsubapartado" class="btn btn-success" title="Guarda apartado">
+                                <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                            </button>
                         </div>
                     </div>
                     <div class="form-row" id="bloque_apartado2">
@@ -231,10 +237,13 @@
                         <div class="form-group col-3" style="text-align: center;">
                             {% if app_proy_imp_pago_compromiso %}
                             <label for="btn_adicional"> </label><br>
-                            <button id="btn_adicional" class="btn btn-outline-dark"
-                                onclick="imprime('total')">Imprimir</button>
+                            <button id="btn_adicional" class="btn btn-info" onclick="imprime('total')" title="Imprime recibo pago adicional">
+                                <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                            </button>
                             {% endif %}
-                            <input id="id_btsubpa" name="btsubpa" type="submit" value="Guarda" class="btn btn-success">
+                            <button id="id_btsubpa" name="btsubpa" type="submit" class="btn btn-success" title="Guarda pago adicional">
+                                <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                            </button>
                         </div>
                     </div>
                     <div class="form-row">

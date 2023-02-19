@@ -1,5 +1,7 @@
 {% extends "core/base.html" %}
 {% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
 {% block blcss %}
 {% endblock %}
 {% block contenido %}
@@ -51,9 +53,6 @@
                 <th class="col-md-1 titulo-tabla">Enganche</th>
                 <th class="col-md-1 titulo-tabla">Num. Contrato</th>
                 <th class="col-md-1 titulo-tabla">Estatus</th>
-                <th class="col-md-1 titulo-tabla"></th>
-                <th class="col-md-1 titulo-tabla">Contrato</th>
-                <th class="col-md-1 titulo-tabla">Calendario pagos</th>
             </tr>
         </thead>
         <tbody>
@@ -69,13 +68,16 @@
                 <td style="text-align: center;">
                     {% if e.estatus_solicitud == 3 or e.estatus_solicitud == 4 %}
                     {% if app_proy_datos_contrato %}
-                    <a href="{% url 'datos_contrato' e.id py.id %}" class="btn btn-outline-dark">Datos</a>
+                    <a href="{% url 'datos_contrato' e.id py.id %}" class="btn btn-info" title="Captura fechas de contrato">
+                        <img src="{% static 'core/img/datos.svg' %}" width="20" />
+                    </a>
                     {% endif %}
                     {% else %}
                     {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
                     {% if app_proy_archivar_contrato %}
-                    <a href="#" onclick="archiva('{{ e.id }}','{{ e.estatus_solicitud }}')"
-                        class="btn btn-warning">Archivar</a>
+                    <a href="#" onclick="archiva('{{ e.id }}','{{ e.estatus_solicitud }}')" class="btn btn-warning" title="Archivar solicitud">
+                        <img src="{% static 'core/img/archiva.svg' %}" width="20" />
+                    </a>
                     {% endif %}
                     {% endif %}
                     {% endif %}
@@ -83,8 +85,9 @@
                 <td style="text-align: center;">
                     {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
                     {% if app_proy_imprime_contrato %}
-                    <button class="btn btn-outline-dark"
-                        onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')">Imprime</button>
+                    <button class="btn btn-info" onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')" title="Imprimir contrato">
+                        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                    </button>
                     {% endif %}
                     {% endif %}
                 </td>
@@ -92,8 +95,9 @@
                     {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10%}
                     {% if app_proy_imprime_contrato %}
                     {% if not e.num_contrato == 0 and not e.modo_pago == 1 %}
-                    <button class="btn btn-outline-dark"
-                        onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')">Imprime</button>
+                    <button class="btn btn-info" onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')" title="Imprimir listado de pagos">
+                        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                    </button>
                     {% endif %}
                     {% endif %}
                     {% endif %}
@@ -104,12 +108,16 @@
         </tbody>
     </table>
     <div class="container">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-    {% endif %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
+        {% endif %}
     </div>
 </div>
 <script>

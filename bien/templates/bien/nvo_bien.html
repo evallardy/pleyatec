@@ -12,7 +12,12 @@
     <label class="encabezados">{{ py.nombre }} - {{ py.get_tipo_proyecto_display }}</label>
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4">
-    <a class="btn btn-outline-dark" href="{% url 'bienes' py.id %}">Regresar</a>
+    <div class="container">
+    <a class="btn btn-info" href="{% url 'bienes' py.id %}" title="Regresar a la pantalla anterior">
+        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+    </a>
+    </div>
+    <br>
     <div class="container col-12">
         <div class="wrapper fadeInDown">
             <div id="formContent" style="text-align: right;">
@@ -173,7 +178,10 @@
                         </div>
                     </div>
                     {% if app_proy_add or app_proy_chag %}
-                    <input type="submit" value="Guarda" class="btn btn-success">
+<!--                    <input type="submit" value="Guarda" class="btn btn-info">   -->
+                    <button type="submit" class="btn btn-success" title="Guarda bien">
+                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                    </button>
                     {% endif %}
                 </form>
                 <br>

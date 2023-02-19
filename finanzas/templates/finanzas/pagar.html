@@ -45,8 +45,8 @@
         <thead>
             <tr>
                 <th class="col-1 titulo-tabla">Núm. Contrato</th>
-                <th class="col-1 titulo-tabla">Cliente</th>
-                <th class="col-1 titulo-tabla">Bien</th>
+                <th class="col-2 titulo-tabla">Cliente</th>
+                <th class="col-2 titulo-tabla">Bien</th>
                 <th class="col-1 titulo-tabla">Por pagar</th>
                 <th class="col-1 titulo-tabla">Pago mensual</th>
                 <th class="col-1 titulo-tabla">Importe</th>
@@ -54,7 +54,6 @@
                 <th class="col-1 titulo-tabla">Importe</th>
                 <th class="col-1 titulo-tabla">Restan</th>
                 <th class="col-1 titulo-tabla">Importe</th>
-                <th class="col-1 titulo-tabla"></th>
             </tr>
         </thead>
         <tbody>
@@ -70,9 +69,11 @@
                 <td style="text-align: right;">{{ e.importe_pagado }}</td>
                 <td style="text-align: center;">{{ e.resta_pagos }}</td>
                 <td style="text-align: right;">{{ e.saldo }}</td>
-                <td>
+                <td style="text-align: center;">
                     {% if app_proy_estado_cuenta %}
-                    <a href="{% url 'estado_cuenta' e.id py.id %}" class="btn btn-outline-dark">Pagar</a>
+                    <a href="{% url 'estado_cuenta' e.id py.id %}" class="btn btn-info" title="Registro de pagos mensuales">
+                        <img src="{% static 'core/img/pago.svg' %}" width="20" />
+                    </a>
                     {% endif %}
                 </td>
             </tr>
@@ -80,12 +81,16 @@
         </tbody>
     </table>
     <div class="container">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-    {% endif %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
+        {% endif %}
     </div>
 </div>
 <script>

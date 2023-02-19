@@ -43,7 +43,9 @@
 <div class="container mapa">
     <div class="container">
         {% if app_proy_add %}
-        <a class="btn btn-outline-dark" href="{% url 'nvo_bien' py.id %}" role="button">Agregar</a>
+        <a class="btn btn-info" href="{% url 'nvo_bien' py.id %}" role="button" title="Agrega bien">
+            <img src="{% static 'core/img/agregar.svg' %}" width="20" />
+        </a>
         {% endif %}
         <table class="estilo-tabla">
             <thead>
@@ -84,7 +86,10 @@
                     <td class="col-md-1">
                         {% if e.estatus_lote == 1 or e.estatus_lote == 4 or e.estatus_lote == 9 %}
                         {% if app_proy_chag %}
-                        <a href="{% url 'mod_bien' e.id py.id %}" class="btn btn-outline-secondary">Editar</a>
+                        <a href="{% url 'mod_bien' e.id py.id %}" class="btn btn-info" title="
+                        Edita bien">
+                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                        </a>
                         {% endif %}
                         {% endif %}
                     </td>
@@ -95,10 +100,14 @@
     </div>
     <div class="container">
     {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+        <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+    </a>
     {% endif %}
     {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+        <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+    </a>
     {% endif %}
     </div>
 </div>

@@ -43,7 +43,9 @@
 <div class="container mapa">
     <div class="container">
         {% if app_proy_ver_solicitud %}
-        <a type="button" class="btn btn-outline-dark" href="{% url 'nva_solicitud' py.id %}">Agregar</a>
+        <a type="button" class="btn btn-info" href="{% url 'nva_solicitud' py.id %}" title="Agregar solicitud">
+            <img src="{% static 'core/img/agregar.svg' %}" width="20"/>
+        </a>
         {% endif %}
         <table class="estilo-tabla">
             <thead>
@@ -71,7 +73,9 @@
                     {% if app_proy_cambia_solicitud %}
                     <td>
                         {% if not e.estatus_solicitud == 99 %}
-                        <a href="{% url 'mod_solicitud' e.id py.id %}" class="btn btn-outline-secondary">Edita</a>
+                        <a href="{% url 'mod_solicitud' e.id py.id %}" class="btn btn-info" title="Edita solicitud">
+                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                        </a>
                         {% endif %}
                     </td>
                     {% endif %}
@@ -81,20 +85,26 @@
                     {% if app_proy_cancela_solicitud %}
                     {% if e.estatus_solicitud == 99 %}
                     <td>
-                        <button class="btn btn-outline-secondary" onclick="recuperaSol('{{ e.id }}')">Recupera</button>
+                        <button class="btn btn-info" onclick="recuperaSol('{{ e.id }}')" title="Recupera solicitud">
+                            <img src="{% static 'core/img/recupera.svg' %}" width="20" />
+                        </button>
                     </td>
                     {% else %}
                     <td>
-                        <button class="btn btn-outline-secondary" onclick="cancelaSol('{{ e.id }}')">Cancela</button>
+                        <button class="btn btn-danger" onclick="cancelaSol('{{ e.id }}')" title="Cancela solicitud">
+                            <img src="{% static 'core/img/cancelar.svg' %}" width="20" />
+                        </button>
                     </td>
                     {% endif %}
                     {% else %}
                     <td></td>
                     {% endif %}
                     <td>
-                        {% if e.modo_pago == 2 or e.modo_pago == 3 %}
+                        {% if e.modo_pago == 2 or e.modo_pago == 4 %}
                         {% if app_proy_amortizacion and e.estatus_solicitud == 1 %}
-                        <a href="{% url 'tabla_amortizacion' e.id py.id %}" class="btn btn-outline-secondary">Amort.</a>
+                        <a href="{% url 'tabla_amortizacion' e.id py.id %}" class="btn btn-info" title="Tabla de amortización">
+                            <img src="{% static 'core/img/amortizacion.svg' %}" width="20"/>
+                        </a>
                         {% endif %}
                         {% endif %}
                     </td>
@@ -104,14 +114,18 @@
         </table>
     </div>
     <div class="container">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-    {% endif %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        </div>
     </div>
-</div>
 <script>
     {% block bljs %}
     opcion = "#" + "{{ menu }}";

@@ -16,33 +16,37 @@
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4">
     <div class="form-row">
-        <div class="form-group col-3 mb-0">
-            <a class="btn btn-outline-dark" href="{% url 'solicitudes' py.id %}">Regresar</a>
-        </div>
-        <div class="form-group col-3 mb-0" id="gpo_btn_cliente">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
-                Datos Cliente
-            </button>
-            {% for error in form.nombre.errors %}
-            <br><small class="mensaje-error">{{ error }}</small>
-            {% endfor %}
-            {% for error in form.paterno.errors %}
-            <br><small class="mensaje-error">{{ error }}</small>
-            {% endfor %}
-            {% for error in form.razon.errors %}
-            <br><small class="mensaje-error">{{ error }}</small>
-            {% endfor %}
-            {% for error in form.celular.errors %}
-            <br><small class="mensaje-error">{{ error }}</small>
-            {% endfor %}
-            {% for error in form.correo.errors %}
-            <br><small class="mensaje-error">{{ error }}</small>
-            {% endfor %}
-        </div>
-        <div class="form-group col-3 mb-0" id="gpo_btn_documentos">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
-                Documentos Cliente
-            </button>
+        <div class="container form-row">
+            <div class="form-group col-4">
+                <a class="btn btn-info" href="{% url 'solicitudes' py.id %}" title="Regresar a la pantalla anterior">
+                    <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                </a>
+            </div>
+            <div class="form-group col-4" id="gpo_btn_cliente">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
+                    Datos Cliente
+                </button>
+                {% for error in form.nombre.errors %}
+                <br><small class="mensaje-error">{{ error }}</small>
+                {% endfor %}
+                {% for error in form.paterno.errors %}
+                <br><small class="mensaje-error">{{ error }}</small>
+                {% endfor %}
+                {% for error in form.razon.errors %}
+                <br><small class="mensaje-error">{{ error }}</small>
+                {% endfor %}
+                {% for error in form.celular.errors %}
+                <br><small class="mensaje-error">{{ error }}</small>
+                {% endfor %}
+                {% for error in form.correo.errors %}
+                <br><small class="mensaje-error">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <div class="form-group col-4" id="gpo_btn_documentos">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
+                    Documentos Cliente
+                </button>
+            </div>
         </div>
     </div>
     <div class="container" style="width: 850px;">
@@ -223,7 +227,9 @@
                             <div class="modal-content" style="background-color: darkgrey; width: 700px;">
                                 <div class="modal-header">
                                     <label class="encabezados">Datos cliente</label>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" title="Regresar a la pantalla anterior">
+                                        <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+                                    </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-row">
@@ -307,7 +313,9 @@
                             <div class="modal-content" style="background-color: darkgrey; width: 700px;">
                                 <div class="modal-header">
                                     <label class="encabezados">Documentos cliente</label>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" title="Regresar a la pantalla anterior">
+                                        <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+                                    </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-row">
@@ -347,9 +355,10 @@
                             {{ form.estatus_solicitud|as_crispy_field }}
                         </div>
                     </div>
-                    <br><input id="btsub" name="btsub" type="submit" value="Guarda" class="btn btn-success">
+                    <button type="submit" class="btn btn-success" title="Guarda solicitud">
+                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                    </button>
                 </form>
-                <br>
             </div>
         </div>
     </div>

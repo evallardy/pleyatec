@@ -69,10 +69,13 @@
                     <td style="text-align: right;">{{ e.enganche }}</td>
                     <td style="text-align: right;">{{ e.porcentaje_descuento }}</td>
                     <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                    <td>
+                    <td style="text-align: center;">
                         {% if not e.aprobacion_gerente %}
                         {% if app_proy_autoriza_venta %}
-                        <button onclick="autventas('{{ e.id }}')" class="btn btn-outline-secondary">Autoriza</button>
+                        <button onclick="autventas('{{ e.id }}')" class="btn btn-success"
+                            title="Autoriza gerente de ventas">
+                            <img src="{% static 'core/img/autoriza.svg' %}" width="20" />
+                        </button>
                         {% else %}
                         No autorizada
                         {% endif %}
@@ -80,11 +83,13 @@
                         Autorizada
                         {% endif %}
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         {% if not e.aprobacion_director %}
                         {% if app_proy_autoriza_desarrollo %}
-                        <button onclick="autdesarrollo('{{ e.id }}')"
-                            class="btn btn-outline-secondary">Autoriza</button>
+                        <button onclick="autdesarrollo('{{ e.id }}')" class="btn btn-success"
+                            title="Autoriza personal desarrollo">
+                            <img src="{% static 'core/img/autoriza.svg' %}" width="20" />
+                        </button>
                         {% else %}
                         No autorizada
                         {% endif %}
@@ -98,14 +103,18 @@
         </table>
     </div>
     <div class="container">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 {% endfor %}
 {% endif %}
 <script>

@@ -10,28 +10,30 @@
 {% block contenido %}
 {% if app_proy_estado_cuenta %}
 {% for py in proyecto_tb %}
-<div class="container mapa col-6">
+<div class="container mapa col-7">
     <label class="encabezados">Estado de cuenta</label>
     {% if app_proy_imp_estado_cuenta %}
-    <a class="btn btn-outline-dark" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank">Imprimir</a>
+    <a class="btn btn-info" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank" title="Imprimir estado de cuenta actualizado">
+        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+    </a>
     {% endif %}
     <br>
     <label class="encabezados">{{ solicitud.titulo_bien }}</label>
     <br>
     <div class="container col-12">
-        <a class="btn btn-outline-dark boton-agregar" href="{% url 'pagar' py.id %}">Regresar</a>
+        <a class="btn btn-info" href="{% url 'pagar' py.id %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+        </a>
         <table class="estilo-tabla">
             <thead>
                 <tr>
                     <th class="titulo-tabla">Pago</th>
-                    <th class="titulo-tabla">Compromiso</th>
-                    <th class="titulo-tabla">Por pagar</th>
-                    <th class="titulo-tabla">Pagado</th>
+                    <th class="titulo-tabla col-3">Compromiso</th>
+                    <th class="titulo-tabla col-2">Por pagar</th>
+                    <th class="titulo-tabla col-2">Pagado</th>
                     <th class="titulo-tabla">Pago en</th>
                     <th class="titulo-tabla">Estatus</th>
                     <th class="titulo-tabla">Depósito</th>
-                    <th class="titulo-tabla">Registrar</th>
-                    <th class="titulo-tabla">Recibo</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,12 +48,16 @@
                     <td style="text-align: center;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
                         {% if app_proy_cap_dep_mensual %}
-                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-outline-secondary">Pago</a>
+                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-info" title="Registro de una mensualidad pagada">
+                            <img src="{% static 'core/img/pago.svg' %}" width="20" />
+                        </a>
                         {% endif %}
                     </td>
                     <td style="text-align: center;">
                         {% if app_proy_imprime_comprob_mensual and p.folio_recibo != 0 %}
-                        <a class="btn btn-outline-dark" href="{% url 'imprime_comprob_mensual_PDF' p.id py.id %}" target = "_blank">Imprimir</a>
+                        <a class="btn btn-info" href="{% url 'imprime_comprob_mensual_PDF' p.id py.id %}" target = "_blank" title="Imprimir recibo de mensualidad pagada">
+                            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                        </a>
                         {% endif %}
                     </td>
                 </tr>
