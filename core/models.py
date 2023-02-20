@@ -204,7 +204,7 @@ STATUS_PAGO = (
     (99, 'Cancelado'),
 )
 STATUS_PAGADO_VENCIDO = (
-    (1, 'Normal'),
+    (1, 'A tiempo'),
     (2, 'Vencido'),
 )
 STATUS_RECEPCION = (

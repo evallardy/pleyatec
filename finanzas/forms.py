@@ -26,16 +26,16 @@ class PagoForm(forms.ModelForm):
         labels = {
             'id': 'Clave',
             'convenio': 'Convenio',
-            'fecha_pago':'Fecha compromiso',
+            'fecha_pago':'Fecha',
             'importe':'importe',
-            'fecha_voucher':'Fecha comprobante',
+            'fecha_voucher':'Fecha',
             'importe_pagado':'Importe pagado',
             'forma_pago':'Forma de pago',
-            'numero_comprobante':'Número de comprobante',
-            'file_comprobante':'Archivo comprobante',
+            'numero_comprobante':'Número',
+            'file_comprobante':'Archivo',
             'estatus_pago':'Estatus del pago',
             'deposito':'Depósito',
-            'pagado_vencido':'Pagado',
+            'pagado_vencido':'Pagado ralizado',
             'cuenta':'Cuenta (4 dígitos)',
         }
         widgets = {

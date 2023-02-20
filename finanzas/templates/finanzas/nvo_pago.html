@@ -23,6 +23,9 @@
                     onkeypress="return anular(event)">
                     {% csrf_token %}
                     <div class="form-row">
+                        <label class="sub-titulo">Compromiso</label>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group" hidden>
                             {{ form.convenio|as_crispy_field }}
                         </div>
@@ -40,10 +43,13 @@
                             {{ form.pagado_vencido|as_crispy_field }}
                         </div>
                         <div class="form-group col-4" id="gpo_pagado_vencido">
-                            <label for="id_forma_pago_pa1">Pagado</label>
+                            <label for="id_forma_pago_pa1">Pagado realizado</label>
                             <input type="text" name="pagado_vencido1" id="id_pagado_vencido1" readonly
                                 class="form-control">
                         </div>
+                    </div>
+                    <div class="form-row">
+                    <label class="sub-titulo">Comprobante</label>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4 mb-0">
@@ -65,18 +71,8 @@
 
                     <!--      form.importe_pagado|as_crispy_field }}  -->
                         </div>
-                        
-                        <div class="form-group col-md-4 mb-0"  id="gpo_deposito"
-                        {% if not app_proy_confirma_deposito_mensual %}
-                        hidden
-                        {% endif %}
-                        >
-                            {{ form.deposito|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-4" id="gpo_deposito1">
-                            <label for="id_deposito1">Depósito</label>
-                            <input type="text" name="deposito1" id="id_deposito1" readonly
-                                class="form-control">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.numero_comprobante|as_crispy_field }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -91,8 +87,17 @@
                         <div class="form-group col-md-4 mb-0">
                             {{ form.cuenta|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-4 mb-0">
-                            {{ form.numero_comprobante|as_crispy_field }}
+                        <div class="form-group col-md-4 mb-0"  id="gpo_deposito"
+                        {% if not app_proy_confirma_deposito_mensual %}
+                        hidden
+                        {% endif %}
+                        >
+                            {{ form.deposito|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-4" id="gpo_deposito1">
+                            <label for="id_deposito1">Depósito</label>
+                            <input type="text" name="deposito1" id="id_deposito1" readonly
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-row">
@@ -100,7 +105,7 @@
                             {{ form.estatus_pago|as_crispy_field }}
                         </div>
                         <div class="form-group col-4" id="gpo_estatus_pago">
-                            <label for="id_estatus_pago1">Pagado</label>
+                            <label for="id_estatus_pago1">Estatus del pago</label>
                             <input type="text" name="estatus_pago1" id="id_estatus_pago1" readonly
                                 class="form-control">
                         </div>
