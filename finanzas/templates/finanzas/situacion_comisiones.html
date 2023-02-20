@@ -12,47 +12,58 @@
     <label class="encabezados">{{py.nombre}}</label>
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Consulta de pago de comisiones</h3>
     <hr class="mt-0 mb-4" style="background-color: transparent;">
-    <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a><br><br>
-    <table class="estilo-tabla cols-12">
-        <thead>
-            <tr>
-                <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Bien</th>
-                <th class="col-md-2 titulo-tabla" style="text-align: center; border-left: 1px; border-left-style: solid;" scope="col">
-                    Comisión asesor</th>
-                <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Comisión gerente</th>
-                <th class="col-md-2 titulo-tabla" style="text-align: center; border-right: 1px; border-right-style: solid;"
-                    scope="col">Comisión Publicidad</th>
-                <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Fecha contrato</th>
-                <th class="col-md-2 titulo-tabla" style="text-align: center; ;" scope="col">Periodo</th>
-                <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Estatus pago</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for c in object_list %}
-            <tr class="datos-tabla">
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.bien_pago }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe }}<br>{{c.get_estatus_pago_asesor_display }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_gerente }}<br>{{c.get_estatus_pago_gerente_display }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_publicidad }}<br>{{c.get_estatus_pago_publicidad_display }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.fecha_contrato }}</td>
-                <td class="col-md-1" style="text-align: center;" scope="col">
-                    {% if c.fecha_periodo %}
-                    {{ c.fecha_periodo }}
-                    {% endif %}
-                </td>
-                <td class="col-md-1" style="text-align: center;" scope="col">{{ c.get_estatus_comision_display }}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <a class="btn btn-info" href="{% url 'proyectos' %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+        </a>
+    </div>
+    <div class="container">
+        <table class="estilo-tabla cols-12">
+            <thead>
+                <tr>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Bien</th>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center; border-left: 1px; border-left-style: solid;" scope="col">
+                        Comisión asesor</th>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Comisión gerente</th>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center; border-right: 1px; border-right-style: solid;"
+                        scope="col">Comisión Publicidad</th>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Fecha contrato</th>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center; ;" scope="col">Periodo</th>
+                    <th class="col-md-2 titulo-tabla" style="text-align: center;" scope="col">Estatus pago</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in object_list %}
+                <tr class="datos-tabla">
+                    <td class="col-md-1" style="text-align: center;" scope="col">{{ c.bien_pago }}</td>
+                    <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe }}<br>{{c.get_estatus_pago_asesor_display }}</td>
+                    <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_gerente }}<br>{{c.get_estatus_pago_gerente_display }}</td>
+                    <td class="col-md-1" style="text-align: center;" scope="col">{{ c.importe_publicidad }}<br>{{c.get_estatus_pago_publicidad_display }}</td>
+                    <td class="col-md-1" style="text-align: center;" scope="col">{{ c.fecha_contrato }}</td>
+                    <td class="col-md-1" style="text-align: center;" scope="col">
+                        {% if c.fecha_periodo %}
+                        {{ c.fecha_periodo }}
+                        {% endif %}
+                    </td>
+                    <td class="col-md-1" style="text-align: center;" scope="col">{{ c.get_estatus_comision_display }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <div class="container">
         {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
         {% endif %}
         {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
         {% endif %}
+        </div>
     </div>
 </div>
 <script>

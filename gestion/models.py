@@ -37,6 +37,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     forma_pago_apa = models.IntegerField("Forma pago apartado",choices=STATUS_FORMA_PAGO, default=0)
     cuenta_apa = models.CharField("Número de cuenta apartado",max_length=4, blank=True, null=True)
     numero_comprobante_apa = models.CharField("Número de comprobante apartado",max_length=40, blank=True, null=True)
+    recibo_firmado_apa = models.FileField('Recibo firmado apartado', upload_to="compApartado/firmado", blank=True, null=True)
 #  Pago adicional
     pago_adicional = models.DecimalField("Pago adicional", decimal_places=2, max_digits=10, default=0)
     confirmacion_pago_adicional = models.IntegerField("Depósito PA", choices=STATUS_DEPOSITO, default=0)
@@ -45,6 +46,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     cuenta_pa = models.CharField("Número de cuenta pago adic",max_length=4, blank=True, null=True)
     numero_comprobante_pa = models.CharField("Número de comprobante pago adic",max_length=40, blank=True, null=True)
     fecha_confirma_pago_adicional = models.DateField("Fecha confirmado", blank=True, null=True)
+    recibo_firmado_pa = models.FileField('Recibo firmado pago adic', upload_to="compAdicional/firmado", blank=True, null=True)
 
     cantidad_pagos = models.IntegerField("Pagos", default=0)
     importe_x_pago = models.DecimalField("Importe por pago", decimal_places=2, max_digits=10, default=0)

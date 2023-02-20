@@ -8,11 +8,14 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-<div class="container mapa col-5" style="width: 450px;">
+<div class="container mapa col-4">
     <h3 style="margin-right: 25px; margin-top: 15px;">Comisiones asesor</h3>
     <hr class="mt-0 mb-4">
-    <a class="btn btn-outline-dark" href="{% url 'empleados' %}">Regresar</a>
-    <br>
+    <div class="container">
+    <a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
+        <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+    </a>
+    </div>
     <br>
     <div class="container col-12">
         <div class="wrapper fadeInDown">
@@ -20,14 +23,14 @@
                 <form action="" method="POST" style="text-align: left;" onkeypress="return anular(event)">
                     {% csrf_token %}
                     <div class="form-row ">
-                        <div class=" col-12">
+                        <div class=" col-6">
                             <label>Empleado</label>
                             <input type="text" name="nombre_empleado" id="id_nombre_empleado" class="form-control"
                                 readonly value="{{ nombre_empleado }}">
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-12 mb-0">
+                        <div class="form-group col-md-7 mb-0">
                             <label for="">Proyecto</label>
                             <select name="proyecto" id="id_proyecto" class="form-control">
                                 {% for p in proyectos_cmb %}
@@ -37,7 +40,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-4 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             <label>Comisión</label>
                             <input type="text" name="comision" id="id_comision" class="form-control" step='0.01'
                                 value='0.00' placeholder='0.00' style="text-align: right;">
@@ -46,11 +49,14 @@
                     <br>
                     <div class="form-row">
                         <div class="form-group col-md-4 mb-0">
-                            <input type="submit" value="Guarda" class="btn btn-success">
+                            <button type="submit" class="btn btn-success" title="Guarda comisión asesor">
+                                <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                            </button>
                         </div>
                         <div class="form-group col-md-8 mb-0">
                             <input type="text" name="mensaje" id="id_mensaje" value="{{ mensaje }}" readonly
-                                class="form-control" style="text-align: center;">
+                                class="form-control" style="text-align: center; background-color: transparent;
+                                    font-weight: bold; font-style: italic; color: green;">
                         </div>
                     </div>
                 </form>

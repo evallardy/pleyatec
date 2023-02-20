@@ -12,9 +12,9 @@ class BancoForm(forms.ModelForm):
             'estatus_banco',
         ]
         labels = {
-            'banco': 'Nombre del banco',
-            'abreviacion': 'Abreviación del banco',
-            'estatus_banco': 'Estatus del banco',
+            'banco': 'Nombre',
+            'abreviacion': 'Abreviación',
+            'estatus_banco': 'Estatus',
         }
 
 class CambiaContrasenaForm(forms.Form):

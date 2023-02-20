@@ -7,7 +7,11 @@
 </div>
 <div class="container mapa col-5">
     {% if perms.core.add_banco %}
-    <a type="button" class="btn btn-outline-dark" href="{% url 'nvo_banco' %}">Agregar</a>
+    <div class="container">
+    <a type="button" class="btn btn-info" href="{% url 'nvo_banco' %}" title="Agregar banco">
+        <img src="{% static 'core/img/agregar.svg' %}" width="20" />
+    </a>
+    </div>
     {% endif %}
     <table class="estilo-tabla col-12" >
         <thead>
@@ -24,7 +28,11 @@
                 <td>{{ p.banco }}</td>
                 <td style="text-align: center;">{{ p.get_estatus_banco_display }}</td>
                 {% if perms.core.change_banco %}
-                <td><a href="{% url 'mod_banco' p.id %}" class="btn btn-outline-secondary">Editar</a></td>
+                <td>
+                    <a href="{% url 'mod_banco' p.id %}" class="btn btn-info" title="Edita banco">
+                        <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                    </a>
+                </td>
                 {% else %}
                 <td class="col-2"></td>
                 {% endif %}
@@ -33,12 +41,17 @@
         </tbody>
     </table>
     <div class="container">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-    {% endif %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        </div>
     </div>
 </div>
 {% endif %}

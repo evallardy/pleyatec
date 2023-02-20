@@ -46,13 +46,10 @@
             <tr>
                 <th class="col-1 titulo-tabla">Num. Sol.</th>
                 <th class="col-1 titulo-tabla">Contrato</th>
-                <th class="col-2 titulo-tabla">Bien</th>
-                <th class="col-1 titulo-tabla">Modo pago</th>
-                <th class="col-1 titulo-tabla">Venta</th>
-                <th class="col-1 titulo-tabla">Estatus</th>
-                <th class="col-1 titulo-tabla" >Datos</th>
-                <th class="col-1 titulo-tabla" >Imprime Recibos</th>
-                <th class="col-1 titulo-tabla" >Contrato</th>
+                <th class="col-4 titulo-tabla">Bien</th>
+                <th class="col-2 titulo-tabla">Modo pago</th>
+                <th class="col-2 titulo-tabla">Venta</th>
+                <th class="col-2 titulo-tabla">Estatus</th>
             </tr>
         </thead>
         <tbody>
@@ -66,40 +63,25 @@
                 <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
                 <td style="text-align: center; vertical-align: middle">
                     {% if app_proy_imp_pago_compromiso %}
-                    <a href="{% url 'archivo_sol' e.id py.id %}" class="btn btn-outline-dark">Solicitud</a>
+                    <a href="{% url 'archivo_sol' e.id py.id %}" class="btn btn-info"
+                        title="Consulta solicitud">
+                        <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                    </a>
                     {% endif %}
                 </td>
                 <td style="text-align: center; vertical-align: middle; padding: 1px;">
-                    {% if app_proy_imp_pago_compromiso %}
-                    {% if e.confirmacion_apartado == 2  %}
-                    <button id="btn_recibo_apartado" 
-                    class=" btn 
-                    {% if e.num_apartado > 0 %}
-                    btn-outline-dark
-                    {% else %}
-                    btn-warning
-                    {% endif %}
-                    " 
-                    style="margin-top: 2px; ;margin-bottom: 2px;"
-                    onclick="imprime('parcial','{{ e.id }}')">Apartado</button>
-                    {% endif %}
-                    {% if e.confirmacion_pago_adicional == 2 %}
-                    <button id="btn_recibo_adicional" 
-                    {% if e.num_adicional > 0 %}
-                    class="btn btn-outline-dark"
-                    {% else %}
-                    class="btn btn-warning"
-                    {% endif %}
-                    style="margin-bottom: 2px;"
-                    onclick="imprime('total','{{ e.id }}')">Pago Adic.</button>
-                    {% endif %}
-                    {% endif %}
+                    <a href="{% url 'archivo_sol' e.id py.id %}" class="btn btn-info"
+                        title="Impresión comprobantes">
+                        <img src="{% static 'core/img/Imprimir.svg' %}" width="20" />
+                    </a>
                 </td>
                 <td style="text-align: center; vertical-align: middle">
                     {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
                     {% if app_proy_imprime_contrato %}
-                    <button class="btn btn-outline-dark"
-                        onclick="imprimeContrato('{{ e.id }}', '{{ e.modo_pago }}')">Imprime</button>
+                    <button class="btn btn-info" onclick="imprimeContrato('{{ e.id }}', '{{ e.modo_pago }}')" 
+                        title="Imprimir contrato">
+                        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                    </button>
                     {% endif %}
                     {% endif %}
                 </td>
@@ -121,12 +103,6 @@
     </div>
 </div>
 <script>
-    {% if app_proy_imp_pago_compromiso %}
-    function imprime(dato, pk) {
-        window.open("/gestion/reciboPDF/" + pk + "/" + dato + "/",
-            "Recibo", target = "_blank");
-    }
-    {% endif %}
     function imprimeContrato(dato, modoPago) {
         $.confirm({
             theme: 'Material',
@@ -143,7 +119,7 @@
                     text: 'Si',
                     btnClass: 'btn-green',
                     action: function () {
-                        window.open("/gestion/contratoPDF/" + dato + "/{{num_proyecto}}/",
+                        window.open("{{ reporte }}" + dato + "/{{num_proyecto}}/",
                             "Contrato", target = "_blank");
                     }
                 },

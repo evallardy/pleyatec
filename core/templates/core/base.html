@@ -29,7 +29,7 @@
         <div id="header" class="mapa" >
             <table class="col-12" style="background-color: transparent;">
                 <tbody style="background-color: transparent;">
-                    <tr style="background-color: transparent;">
+                    <tr style="background-color: transparent;" class="col-12">
                         <td style="height: 80px; max-height: 80px; background-color: transparent;">
                             <div class="contenedor_logo" style="background-color: transparent; vertical-align: middle;">
                                 <img class="logo" src="{% static 'core/img/logo.png' %}" alt="logo"
@@ -38,9 +38,10 @@
                                     Pleyatec</label>
                             </div>
                         </td>
+                        <td class="col-2" style="height: 80px; max-height: 80px; background-color: transparent;">
                         <td style="vertical-align: bottom; text-align: right; font-size: 16px; height: 80px; 
                                  max-height: 80px; background-color: transparent;">
-                            <div class="col-12" style="background-color: transparent;">
+                            <div class="col-12 row" style="background-color: transparent; text-align: right;">
                                 <nav id="nav">
                                     <ul>{% if valida_proyectos %}
                                         <li><a href="{% url 'index'%}"> Proyectos </a> </li>
@@ -58,10 +59,28 @@
                                         <li><a href="{% url 'clientes'%}"> Clientes </a> </li>
                                         {% endif %}
                                         {% if user.is_authenticated %}
-                                        <li><a href="{% url 'cambiar_contrasena'%}" style="color:gold">{{ user.username }}</a> </li>
-                                        <li><a href="{% url 'logout'%}">Logout</a> </li>
+                                        <li><a href="{% url 'cambiar_contrasena'%}" style="color:gold">
+                                            <svg width="32" height="32" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                                <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+                                                <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                            </svg>
+                                        </a> </li>
+                                        <li>
+                                            <a href="{% url 'cambiar_contrasena'%}" style="color:gold">{{ user.username }}</a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                <nav>
+                                    <ul>
+                                        {% if user.is_authenticated %}
+                                        <li><a href="{% url 'logout'%}">
+                                            <img src="{% static 'core/img/logout.svg' %}" width="32" />
+                                        </a> </li>
                                         {% else %}
-                                        <li><a href="{% url 'login'%}">Login</a> </li>
+                                        <li><a href="{% url 'login'%}">
+                                            <img src="{% static 'core/img/login.svg' %}" width="32" />
+                                        </a> </li>
                                         {% endif %}
                                     </ul>
                                 </nav>

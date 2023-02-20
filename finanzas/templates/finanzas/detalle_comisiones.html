@@ -13,7 +13,10 @@
         <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Pago de Comisiones Detalle</h3>
         <hr class="mt-0 mb-4" style="background-color: transparent;">
         <label class="encabezados">{{nombre}}</label><br>
-        <a class="btn btn-outline-dark" href="{% url 'pago_comisiones' py.id periodo %}">Regresar</a><br><br>
+        <a class="btn btn-info" href="{% url 'pago_comisiones' py.id periodo %}"
+            title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+        </a><br><br>
         <div class="container">
             <div class="form-row">
                 <div class="form-group col-md-2 mb-0" style="text-align: center;">
@@ -70,13 +73,20 @@
             <br>
         </div>
     </form>
+    <div class="container">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+        </a>
+        {% endif %}
+        </div>
+    </div>
 </div>
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-success">Anterior</a>
-{% endif %}
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}" class="btn btn-success">Siguiente</a>
-{% endif %}
 {% block bljs %}
 
 

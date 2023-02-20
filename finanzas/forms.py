@@ -36,7 +36,7 @@ class PagoForm(forms.ModelForm):
             'estatus_pago':'Estatus del pago',
             'deposito':'Depósito',
             'pagado_vencido':'Pagado',
-            'cuenta':'Cuenta (ultimos 4 digs)',
+            'cuenta':'Cuenta (últimos 4 dígitos)',
         }
         widgets = {
             'fecha_voucher':DateInput(),

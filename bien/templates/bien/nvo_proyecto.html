@@ -9,39 +9,46 @@
 {% load crispy_forms_tags %}
 {% block contenido %}
 {% if app_proy_edita_comisiones_proyecto %}
-<div class="container mapa col-6">
-    <label class="encabezados">{{nombre}} comisiones</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+<div class="container mapa col-4">
+    <label class="encabezados">{{nombre}} comisiones</label>
+    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4" style="background-color: transparent;">
-    <a class="btn btn-outline-dark" href="{% url 'proyectos' %}">Regresar</a>
     <div class="container col-12">
-        <form action="" method="POST" style="text-align: left;">
+        <div class="container">
+        <a class="btn btn-info" href="{% url 'proyectos' %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
+        </div>
+        <br>
+        <form action="" method="POST">
             {% csrf_token %}
             {% for p in proyecto %}
             <div class="form-row col-12">
-                <div class="form-group col-6">
+                <div class="form-group col-5">
                     <label>Nombre</label>
                     <input type="text" name="" id="" value="{{p.nombre}}" class="form-control col-12" readonly>
                 </div>
-                <div class="form-group col-6">
+                <div class="form-group col-5">
                     <label>Tipo proyecto</label>
-                    <input type="text" name="" id=""
-                        value="{{ p.get_tipo_proyecto_display }}" class="form-control col-12" readonly>
+                    <input type="text" name="" id="" value="{{ p.get_tipo_proyecto_display }}"
+                        class="form-control col-12" readonly>
                 </div>
             </div>
             {% endfor %}
-            <div class="form-row col-6">
-                <div class="form-group">
+            <div class="form-row col-12">
+                <div class="form-group col-5">
                     {{ form.comision_asesor|as_crispy_field }}
                 </div>
-            </div>
-            <div class="form-row col-6">
-                <div class="form-group">
+                <div class="form-group col-5">
                     {{ form.comision_jefe_asesor|as_crispy_field }}
                 </div>
             </div>
-            <input type="submit" value="Guarda" class="btn btn-success">
+            <div class="form-group col-5">
+                <button type="submit" class="btn btn-success" title="Guarda comisión">
+                    <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                </button>
+            </div>
         </form>
-        <br>
     </div>
 </div>
 <script>

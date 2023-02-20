@@ -11,13 +11,17 @@
 <div class="container mapa col-6">
 <label class="encabezados">Empleado</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
 <hr class="mt-0 mb-4">
-<a class="btn btn-outline-dark" href="{% url 'empleados' %}">Regresar</a>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosDomicilio">
+<div class="container">
+<a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
+    <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+</a>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosDomicilio" style="margin-left: 40px;">
     Datos Domicilio
 </button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosPersonales">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosPersonales" style="margin-left: 40px;">
     Datos Personales
 </button>
+</div>
 <div class="container col-12">
     <div class="wrapper fadeInDown">
         <div id="formContent" style="text-align: right;">
@@ -50,7 +54,10 @@
                         <div class="modal-content" style="background-color: darkgrey; width: 700px;">
                             <div class="modal-header">
                                 <label class="encabezados">Datos Domicilio</label>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal"
+                                    title="Regresar a la pantalla anterior">
+                                    <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+                                </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-row">
@@ -87,7 +94,10 @@
                         <div class="modal-content" style="background-color: darkgrey; width: 700px;">
                             <div class="modal-header">
                                 <label class="encabezados">Datos Domicilio</label>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal" 
+                                    title="Regresar a la pantalla anterior">
+                                    <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+                                </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-row">
@@ -163,9 +173,10 @@
                         {{ form.foto|as_crispy_field }}
                     </div>
                 </div>
-                <input type="submit" value="Guarda" class="btn btn-success">
+                <button type="submit" class="btn btn-success" title="Guarda empleado">
+                    <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                </button>
             </form>
-            <br>
         </div>
     </div>
 </div>

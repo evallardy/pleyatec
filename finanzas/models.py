@@ -25,6 +25,8 @@ class Pago(models.Model, PermissionRequiredMixin):
     deposito = models.IntegerField("Depósito", choices=STATUS_DEPOSITO, default=1)
     pagado_vencido = models.IntegerField("Pagado vencido", choices=STATUS_PAGADO_VENCIDO, default=0)
     folio_recibo = models.IntegerField('Folio de pago mensual',default=0)
+    recibo_firmado = models.FileField('Recibo firmado mensualidad', upload_to="comprobante/firmado", blank=True, null=True)
+    
 
     class Meta:
         constraints = [

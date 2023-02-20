@@ -1806,7 +1806,8 @@ class archivo(ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
-        
+        context['num_proyecto'] = num_proyecto
+        context['reporte'] = "/gestion/contratoPDF/"
         return context
 
 class reciboPDF(View):
@@ -2275,7 +2276,15 @@ class contratoPDF(CreateView):
         acceso = self.request.user.has_perms([permiso_str])
         if acceso:
             solicitud = Solicitud.objects.all().filter(id=self.kwargs['pk']).first()
-            template_contrato = 'gestion/' + nom_proy + '_contratoPDF.html'
+            
+            #  Agregar los contratos a visualizar 
+            
+            if num_proyecto == '1' or num_proyecto == '2':
+                template_contrato = 'gestion/' + nom_proy + '_contratoPDF.html'
+            else:
+                template_contrato = 'gestion/sin_contratoPDF.html'
+                
+                
 #            template = get_template('gestion/contratoPDF.html')
             template = get_template(template_contrato)
             field_object1 = Solicitud._meta.get_field('num_contrato')
@@ -2479,5 +2488,4 @@ class archivo_sol(ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
-        
         return context
