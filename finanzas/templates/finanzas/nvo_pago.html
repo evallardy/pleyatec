@@ -30,7 +30,7 @@
                             {{ form.fecha_pago|as_crispy_field }}
                         </div>
                         <div class="form-group col-md-4 mb-0">
-                            <label>importe</label>
+                            <label>Importe</label>
                             <input type="text" name="importe" id="id_importe" class="form-control"
                                 onfocusout="reformatear('id_importe')" onkeypress="return valideKey(event);">
                             
@@ -81,11 +81,9 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4 mb-0" id="gpo_forma_pago">
-                            <br>
                             {{ form.forma_pago|as_crispy_field }}
                         </div>
                         <div class="form-group col-4" id="gpo_forma_pago1">
-                            <br>
                             <label for="id_forma_pago1">Forma de pago</label>
                             <input type="text" name="forma_pago1" id="id_forma_pago1" readonly
                                 class="form-control">
@@ -94,7 +92,6 @@
                             {{ form.cuenta|as_crispy_field }}
                         </div>
                         <div class="form-group col-md-4 mb-0">
-                            <br>
                             {{ form.numero_comprobante|as_crispy_field }}
                         </div>
                     </div>
