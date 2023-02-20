@@ -10,7 +10,7 @@
 {% block contenido %}
 {% if app_proy_estado_cuenta %}
 {% for py in proyecto_tb %}
-<div class="container mapa col-7">
+<div class="container mapa col-8">
     <label class="encabezados">Estado de cuenta</label>
     {% if app_proy_imp_estado_cuenta %}
     <a class="btn btn-info" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank" title="Imprimir estado de cuenta actualizado">
@@ -24,16 +24,16 @@
         <a class="btn btn-info" href="{% url 'pagar' py.id %}" title="Regresar a la pantalla anterior">
             <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
         </a>
-        <table class="estilo-tabla">
+        <table class="estilo-tabla col-12">
             <thead>
                 <tr>
                     <th class="titulo-tabla">Pago</th>
                     <th class="titulo-tabla col-3">Compromiso</th>
                     <th class="titulo-tabla col-2">Por pagar</th>
                     <th class="titulo-tabla col-2">Pagado</th>
-                    <th class="titulo-tabla">Pago en</th>
-                    <th class="titulo-tabla">Estatus</th>
-                    <th class="titulo-tabla">Depósito</th>
+                    <th class="titulo-tabla col-2">Pago en</th>
+                    <th class="titulo-tabla col-2">Estatus</th>
+                    <th class="titulo-tabla col-2">Depósito</th>
                 </tr>
             </thead>
             <tbody>

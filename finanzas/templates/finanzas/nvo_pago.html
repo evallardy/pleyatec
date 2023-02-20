@@ -9,7 +9,7 @@
 {% block contenido %}
 {% if app_proy_cap_dep_mensual %}
 {% for py in proyecto_tb %}
-<div class="container mapa col-4">
+<div class="container mapa col-5">
     <label class="encabezados">Datos pago</label>
     <hr class="mt-0 mb-12">
     <div class="container col-12">
@@ -50,7 +50,6 @@
                             {{ form.fecha_voucher|as_crispy_field }}
                         </div>
                         <div class="form-group col-md-4 mb-0">
-                            <br>
                             <label>Importe pagado</label>
                             <input type="text" name="importe_pagado" id="id_importe_pagado" class="form-control"
                                 onfocusout="reformatear('id_importe_pagado')" onkeypress="return valideKey(event);">
@@ -71,11 +70,10 @@
                         {% if not app_proy_confirma_deposito_mensual %}
                         hidden
                         {% endif %}
-                        > <br>
+                        >
                             {{ form.deposito|as_crispy_field }}
                         </div>
                         <div class="form-group col-4" id="gpo_deposito1">
-                            <br>
                             <label for="id_deposito1">Depósito</label>
                             <input type="text" name="deposito1" id="id_deposito1" readonly
                                 class="form-control">
@@ -96,6 +94,7 @@
                             {{ form.cuenta|as_crispy_field }}
                         </div>
                         <div class="form-group col-md-4 mb-0">
+                            <br>
                             {{ form.numero_comprobante|as_crispy_field }}
                         </div>
                     </div>
