@@ -35,7 +35,7 @@ class PagoForm(forms.ModelForm):
             'file_comprobante':'Archivo',
             'estatus_pago':'Estatus del pago',
             'deposito':'Depósito',
-            'pagado_vencido':'Pagado ralizado',
+            'pagado_vencido':'Pago ralizado',
             'cuenta':'Cuenta (4 dígitos)',
         }
         widgets = {
