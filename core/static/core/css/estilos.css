@@ -212,14 +212,14 @@ nav a {
 /* ventana modal */
 
 /* Estilo básico para la ventana modal */
-.modal {
+.modal-adicional {
     display: block;
     width: 60%;
     opacity: 1;
 }
   
   /* Estilo para el contenido de la ventana modal */
-  .modal-contenido {
+.modal-adicional-contenido {
     background-color: #fefefe;
     margin: 2% 20%;
     border: 1px solid #888;
@@ -228,19 +228,19 @@ nav a {
   }
   
   /* Estilo para el botón de cerrar */
-  .cerrar {
+.cerrar-adicional {
     color: red;
     float: right;
     font-size: 28px;
     font-weight: bold;
-  }
+}
   
-  .cerrar:hover,
-  .cerrar:focus {
+.cerrar-adicional:hover,
+.cerrar-adicional:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-  }
+}
 
 /* Termina configuración boton imagenes */
 th {

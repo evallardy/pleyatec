@@ -4,14 +4,13 @@
 {% if perms.empleado.view_empleado %}
 <div class="container mapa col-md-8">
     <label class="encabezados">Personal</label>
-</div>
-<div class="container mapa col-md-8">
     <div class="container">
         {% if perms.empleado.add_empleado %}
         <div class="container">
-        <a type="button" class="btn btn-info" href="{% url 'nvo_empleado' %}" title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-        </a>
+            <a type="button" class="btn btn-info" href="{% url 'nvo_empleado' %}"
+                title="Regresar a la pantalla anterior">
+                <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+            </a>
         </div>
         {% endif %}
         <table class="estilo-tabla">
@@ -41,7 +40,8 @@
                     </td>
                     <td>
                         {% if perms.empleado.comisiones_asesor %}
-                        <a href="{% url 'comision_por_asesor' e.id %}" class="btn btn-info" title="Asignar comisión a empleado">
+                        <a href="{% url 'comision_por_asesor' e.id %}" class="btn btn-info"
+                            title="Asignar comisión a empleado">
                             <img src="{% static 'core/img/comision.svg' %}" width="20" />
                         </a>
                         {% endif %}
@@ -62,7 +62,6 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
 </div>
 {% endif %}
