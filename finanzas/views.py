@@ -805,6 +805,13 @@ class contrato_contado(ListView):
                 .aggregate(contratos=Count('id',distinct=True) \
                     ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
                     ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
+        elif datos['area_operativa'] == 2:
+            # Finanzas
+            totales = Solicitud.objects \
+                .filter(estatus_solicitud__in=[2,3,6,7,9], modo_pago__in=[1,3],lote__in=Subquery(lotes.values('pk'))) \
+                .aggregate(contratos=Count('id',distinct=True) \
+                    ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
+                    ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
@@ -1004,6 +1011,13 @@ class contrato_credito(ListView):
                     ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
         elif asigna_solicitud == 1 and datos['area_operativa'] == 1 and datos['puesto'] == 3:
             # DIRECTOR GENERAL
+            totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
+                .aggregate(contratos=Count('id',distinct=True) \
+                    ,ventas=Sum('precio_final'), pagado=Sum('apartado') + Sum('pago_adicional') + Sum('importe_pagado') \
+                    ,por_pagar=Sum('precio_final') - Sum('apartado') - Sum('pago_adicional') - Sum('importe_pagado'))
+        elif datos['area_operativa'] == 2:
+            # Finanzas
             totales = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(estatus_solicitud__in=[2,3,4,6,7,10], modo_pago__in=[2,4]) \
                 .aggregate(contratos=Count('id',distinct=True) \
