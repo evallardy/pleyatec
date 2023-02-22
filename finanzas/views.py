@@ -140,7 +140,7 @@ class pagar(ListView):
         elif datos['area_operativa'] == 2:
             # Finanzas
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
-                .filter(estatus_solicitud 10) 
+                .filter(estatus_solicitud = 10) 
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
