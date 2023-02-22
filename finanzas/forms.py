@@ -103,3 +103,26 @@ class PagoForm(forms.ModelForm):
             raise forms.ValidationError('Tecleé comprobante')
         return numero_comprobante
 
+class ComprobanteForm(forms.ModelForm):
+    class Meta:
+        model = Solicitud
+        fields = [
+            'foto_comprobante_apartado',
+            'recibo_firmado_apa',
+            'foto_comprobante_pago_adicional',
+            'recibo_firmado_pa',
+        ]
+
+class Comprobante_MensualidadForm(forms.ModelForm):
+    class Meta:
+        model = Pago
+        fields = [
+            'numero_pago',
+            'fecha_pago',
+            'importe',
+            'fecha_voucher',
+            'numero_comprobante',
+            'importe_pagado',
+            'file_comprobante',
+            'recibo_firmado',
+        ]

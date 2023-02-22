@@ -26,7 +26,7 @@ from core.funciones import datos_fecha, fecha_hoy, fecha_hoy_amd, fecha_hoy_d, f
 from gestion.models import Folios, Solicitud
 from gestion.funciones import f_area_puesto, f_asigna_solicitud, f_empleado, nuevo_folio
 from finanzas.models import Pago
-from .forms import PagoForm
+from .forms import PagoForm, ComprobanteForm, Comprobante_MensualidadForm
 from django.db import transaction
 
 class tabla_amortizacion(TemplateView):
@@ -1612,3 +1612,79 @@ class imprime_comprob_comision_PDF(View):
         else:
             print('Sin acceso')
         return response
+
+class comprobantes(UpdateView):
+    model = Solicitud
+    fields = [
+        'foto_comprobante_apartado',
+        'recibo_firmado_apa',
+        'foto_comprobante_pago_adicional',
+        'recibo_firmado_pa',
+    ]
+    template_name = 'finanzas/comprobantes.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk',0)
+    # Proyecto
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['num_proyecto'] = num_proyecto         
+        context['proyecto_tb'] = proyecto_tb
+        nom_proy = proyecto_tb[0].nom_proy
+        nombre = proyecto_tb[0].nombre
+        context['nombre'] = nombre
+    # Solicitud
+        pk = self.kwargs.get('pk',0)
+        solicitud_tb = Solicitud.objects.filter(id=pk)
+        context['solicitud_tb'] = solicitud_tb
+    # Pagos
+        pago_tb = Pago.objects.filter(convenio_id=pk)
+        context['pago_tb'] = pago_tb        
+        return context
+
+
+'''
+class comprobantes(UpdateView):
+    model = Solicitud
+    form_class = ComprobanteForm
+    template_name = 'finanzas/comprobantes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = self.kwargs.get('pk',0)
+        context['modelo2'] = Pago.objects.filter(pk=id)
+        context['form2'] = Comprobante_MensualidadForm(instance=context['modelo2'])
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        form2 = context['form2']
+        if form2.is_valid():
+            form2.save()
+        return super().form_valid(form)    
+
+
+
+    model = Solicitud
+    form_class = ComprobanteForm
+    template_name = 'finanzas/comprobantes.html'
+    def get_context_data(self, **kwargs):
+        context = super(comprobantes, self).get_context_data(**kwargs)
+    # Proyecto
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['num_proyecto'] = num_proyecto         
+        context['proyecto_tb'] = proyecto_tb
+        nom_proy = proyecto_tb[0].nom_proy
+        nombre = proyecto_tb[0].nombre
+        context['nombre'] = nombre
+    # Solicitud
+        pk = self.kwargs.get('pk',0)
+        solicitud_tb = Solicitud.objects.filter(id=pk)
+        context['solicitud_tb'] = solicitud_tb
+    # Pagos
+        pk = self.kwargs.get('pk',0)
+        pago_tb = Pago.objects.filter(convenio_id=pk)
+        context['pago_tb'] = pago_tb        
+        return context
+'''

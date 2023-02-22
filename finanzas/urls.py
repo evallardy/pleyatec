@@ -20,5 +20,6 @@ urlpatterns = [
     path('vobo_comisiones/<fecha_hasta_str>/<num_proyecto>/<fecha_hasta>/<nom_proyecto>/<imp_ger>/<imp_pub>', vobo_comisiones, name='vobo_comisiones'), 
     path('imprime_comprob_mensual_PDF/<pk>/<num_proyecto>/', imprime_comprob_mensual_PDF.as_view(), name='imprime_comprob_mensual_PDF'), 
     path('imprime_comprob_comision_PDF/<fecha>/<empleado>/<bienes>/<importe>/<nom_proyecto>/<folio>/<num_proyecto>/', imprime_comprob_comision_PDF.as_view(), name='imprime_comprob_comision_PDF'), 
+    path('comprobantes/<pk>/<num_proyecto>/', comprobantes.as_view(), name='comprobantes'), 
 ]
 

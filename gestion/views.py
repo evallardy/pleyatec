@@ -1374,6 +1374,10 @@ class compromisos(ListView):
             # DIRECTOR GENERAL
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,2,3]) 
+        elif asigna_solicitud == 1 and datos['area_operativa'] == 2 and datos['puesto'] == 4:
+            # Finanzas
+            queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
+                .filter(estatus_solicitud__in=[2,3]) 
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
@@ -1789,6 +1793,13 @@ class archivo(ListView):
         des_permiso = '_contados'
         variable_proy = nom_proy + des_permiso
         variable_html = "menu_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Consulta solicitud
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso

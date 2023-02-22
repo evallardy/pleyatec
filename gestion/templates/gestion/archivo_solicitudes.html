@@ -62,19 +62,24 @@
                 <td style="text-align: right;">{{ e.precio_final }}</td>
                 <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
                 <td style="text-align: center; vertical-align: middle">
-                    {% if app_proy_imp_pago_compromiso %}
+                    {% if app_proy_ver_solicitud %}
                     <a href="{% url 'archivo_sol' e.id py.id %}" class="btn btn-info"
                         title="Consulta solicitud">
                         <img src="{% static 'core/img/consultar.svg' %}" width="20" />
                     </a>
                     {% endif %}
                 </td>
+                <!-- if e.estatus_solicitud > 2 -->
+                {% if e.estatus_solicitud == 777 %}
+                {% if app_proy_imp_pago_compromiso %}                
                 <td style="text-align: center; vertical-align: middle; padding: 1px;">
-                    <a href="{% url 'archivo_sol' e.id py.id %}" class="btn btn-info"
+                    <a href="{% url 'comprobantes' e.id py.id %}" class="btn btn-info"
                         title="Comprobantes">
                         <img src="{% static 'core/img/comprobantes.svg' %}" width="20" />
                     </a>
                 </td>
+                {% endif %}
+                {% endif %}
                 <td style="text-align: center; vertical-align: middle">
                     {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
                     {% if app_proy_imprime_contrato %}

@@ -41,6 +41,10 @@ class Cliente(models.Model, PermissionRequiredMixin):
 
     def __str__(self):   # para poner los nombre en los renglones
         if self.tipo_cliente == 0:
+            if self.nombre == None:
+                nombre = ""
+            else:
+                nombre = self.nombre
             if self.materno == None:
                 materno = ""
             else:
@@ -49,7 +53,7 @@ class Cliente(models.Model, PermissionRequiredMixin):
                 paterno = ""
             else:
                 paterno = self.paterno
-            razon = self.nombre + " " + paterno + " " + materno
+            razon = nombre + " " + paterno + " " + materno
         else:
             razon = self.razon
         return '%s' % (razon) 

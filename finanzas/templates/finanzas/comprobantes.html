@@ -1,0 +1,234 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto_tb %}
+{% for sol in solicitud_tb %}
+<div class="container mapa col-9">
+    <label class="encabezados">{{ py.nombre }} - Registro de comprobantes</label>
+    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+    <hr class="mt-0 mb-4">
+    <div class="form-row">
+        <div class="container form-row">
+            <div class="form-group col-4">
+                <a class="btn btn-info" href="{% url 'archivo' py.id %}" title="Regresar a la pantalla anterior">
+                    <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="wrapper fadeInDown">
+            <div id="formContent" style="text-align: right;">
+                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <hr>
+                    <div class="form-row col-12">
+                        <div class="col-5">
+                            <div>
+                                <label style="font-size: 20px; font-style: italic;">Comprobante cliente apartado</label>
+                                <label for="id_foto_comprobante_apartado" title="Selecciona comprobante cliente">
+                                    <span class="fancy-file__fancy-file-name" hidden>
+                                    </span>
+                                    <span class="fancy-file__fancy-file-button">
+                                    </span>
+                                </label>
+                                <span class="muestra_archivo_foto_comprobante_apartado" onclick="abrirImagen('id_temporal_foto_comprobante_apartado')"
+                                    title="Muestra la imagen del comprobante">
+                                    <span>
+                                        <img src="
+                                        {% if sol.foto_comprobante_apartado %}
+                                        {% static 'core/img/comprobante.svg' %}
+                                        {% else %}
+                                         {% static 'core/img/vacio.svg' %}
+                                         {% endif %}
+                                         " width="25">
+                                    </span>
+                                </span>
+                                <input type="text" name="temporal_foto_comprobante_apartado" id="id_temporal_foto_comprobante_apartado"
+                                    value="/media/{{ sol.foto_comprobante_apartado  }}" hidden>
+                                <input type="file" class="fancy-file" id="id_foto_comprobante_apartado" hidden>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label style="font-size: 20px; font-style: italic;">Recibo firmado apartado</label>
+                                <label for="id_recibo_firmado_apa" title="Selecciona recibo firmado">
+                                    <span class="fancy-file__fancy-file-name" hidden>
+                                    </span>
+                                    <span class="fancy-file__fancy-file-button">
+                                    </span>
+                                </label>
+                                <span class="muestra_archivo_recibo_firmado_apa" onclick="abrirImagen('id_temporal_recibo_firmado_apa')"
+                                    title="Muestra la imagen del recibo">
+                                    <span>
+                                        <img src="
+                                        {% if sol.recibo_firmado_apa %}
+                                        {% static 'core/img/comprobante.svg' %}
+                                        {% else %}
+                                         {% static 'core/img/vacio.svg' %}
+                                         {% endif %}
+                                         " width="25">
+                                    </span>
+                                </span>
+                                <input type="text" name="temporal_recibo_firmado_ap" id="id_temporal_recibo_firmado_apa"
+                                    value="/media/{{ sol.recibo_firmado_apa  }}" hidden>
+                                <input type="file" class="fancy-file" id="id_recibo_firmado_apa" hidden>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-row col-12">
+                        <div class="col-5">
+                            <div>
+                                <label style="font-size: 20px; font-style: italic;">Comprobante cliente pago adicional</label>
+                                <label for="id_foto_comprobante_pago_adicional" title="Selecciona comprobante cliente">
+                                    <span class="fancy-file__fancy-file-name" hidden>
+                                    </span>
+                                    <span class="fancy-file__fancy-file-button">
+                                    </span>
+                                </label>
+                                <span class="muestra_archivo_foto_comprobante_pago_adicional" onclick="abrirImagen('id_temporal_foto_comprobante_pago_adicional')"
+                                    title="Muestra la imagen del comprobante">
+                                    <span>
+                                        <img src="
+                                        {% if sol.foto_comprobante_pago_adicional %}
+                                        {% static 'core/img/comprobante.svg' %}
+                                        {% else %}
+                                         {% static 'core/img/vacio.svg' %}
+                                         {% endif %}
+                                         " width="25">
+                                    </span>
+                                </span>
+                                <input type="text" name="temporal_comprobante_pago_adicional" id="id_temporal_foto_comprobante_pago_adicional"
+                                    value="/media/{{ sol.foto_comprobante_pago_adicional  }}" hidden>
+                                <input type="file" class="fancy-file" id="id_foto_comprobante_pago_adicional" hidden>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label style="font-size: 20px; font-style: italic;">Recibo firmado pago adicional</label>
+                                <label for="id_recibo_firmado_pa" title="Selecciona recibo firmado">
+                                    <span class="fancy-file__fancy-file-name" hidden>
+                                    </span>
+                                    <span class="fancy-file__fancy-file-button">
+                                    </span>
+                                </label>
+                                <span class="muestra_archivo_recibo_firmado_pa" onclick="abrirImagen('id_temporal_recibo_firmado_pa')"
+                                    title="
+                                    {% if sol.recibo_firmado_pa %}
+                                    Muestra la imagen del recibo
+                                    {% else %}
+                                    No hay archivo
+                                     {% endif %}
+                                    ">
+                                    <span>
+                                        <img src="
+                                        {% if sol.recibo_firmado_pa %}
+                                        {% static 'core/img/comprobante.svg' %}
+                                        {% else %}
+                                         {% static 'core/img/vacio.svg' %}
+                                         {% endif %}
+                                         " width="25">
+                                    </span>
+                                </span>
+                                <input type="text" name="temporal_recibo_firmado_pa" id="id_temporal_recibo_firmado_pa"
+                                    value="/media/{{ sol.recibo_firmado_pa  }}" hidden>
+                                <input type="file" class="fancy-file" id="id_recibo_firmado_pa" hidden>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-4">
+                            {{ form.convenio_in.foto_comprobante_pago_adicional }}
+                        </div>
+                        <div class="col-4">
+                            {{ form.convenio_in.recibo_firmado_pa }}
+                        </div>
+                    </div>
+                    <table class="estilo-tabla">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1 titulo-tabla">Pago</th>
+                                <th class="col-md-3 titulo-tabla">Compromiso</th>
+                                <th class="col-md-2 titulo-tabla">Mensualidad</th>
+                                <th class="col-md-3 titulo-tabla">Fecha pago</th>
+                                <th class="col-md-2 titulo-tabla"># Comprobante</th>
+                                <th class="col-md-2 titulo-tabla">Importe pagado</th>
+                                <th class="col-md-3 titulo-tabla">Comprobante</th>
+                                <th class="col-md-2 titulo-tabla">Recibo firmado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in form %}
+                            <tr>
+                                <td>{{ p.numero_pago }}</td>
+                                <td>{{ p.fecha_pago }}</td>
+                                <td>{{ p.importe }}</td>
+                                <td>{{ p.fecha_voucher }}</td>
+                                <td>{{ p.numero_comprobante }}</td>
+                                <td>{{ p.importe_pagado }}</td>
+                                <td>{{ p.file_comprobante }}</td>
+                                <td>{{ p.recibo_firmado }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-success" title="Guarda solicitud">
+                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="bt_imagen"
+        onclick="abrir_imagen()">Abrir imagen</button>
+    <div class="modal" id="myModal">
+        <div class="modal-contenido">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Título</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <img src="" style="max-width:100%;" id="imagen-documento">
+                    <embed src="" type="application/pdf" style="max-width:100%;"  id="pdf-documento" hidden/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cerrar" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'core/js/btn-imagen.js' %}"></script>
+<script>
+    function abrirImagen(dato) {
+        const campo = $("#" + dato);
+        const nom_imagen = campo.val();
+        alert(campo.type);
+        if ((nom_imagen != "/media/") && (nom_imagen != "")) {
+            $("#imagen-documento").attr('src', nom_imagen);
+            $("#myModal").modal('show');
+        }
+    }
+    {% block bljs %}
+
+    {% endblock %}
+</script>
+
+<script>
+    {% block inicio %}
+    {% endblock %}
+</script>
+{% endfor %}
+{% endfor %}
+{% endblock %}
