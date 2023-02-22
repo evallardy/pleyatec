@@ -746,7 +746,8 @@ class contrato_contado(ListView):
         elif datos['area_operativa'] == 2:
             # Finanzas
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
-                .filter(estatus_solicitud__in=[2,3,6,7,9]) 
+                .filter(estatus_solicitud__in=[2,3,6,7,9])  \
+                .filter(modo_pago__in=[1,3])        
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
@@ -959,7 +960,8 @@ class contrato_credito(ListView):
         elif datos['area_operativa'] == 2:
             # Finanzas
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
-                .filter(estatus_solicitud__in=[2,3,4,6,7,10]) 
+                .filter(estatus_solicitud__in=[2,3,4,6,7,10])  \
+                .filter(modo_pago__in=[2,4])        
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR
             id_empleado = f_empleado(self)
