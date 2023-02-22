@@ -1374,7 +1374,7 @@ class compromisos(ListView):
             # DIRECTOR GENERAL
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(estatus_solicitud__in=[1,2,3]) 
-        elif asigna_solicitud == 1 and datos['area_operativa'] == 2 and datos['puesto'] == 4:
+        elif datos['area_operativa'] == 2:
             # Finanzas
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(estatus_solicitud__in=[2,3]) 
