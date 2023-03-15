@@ -33,7 +33,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
 #  Pago apartado
     apartado = models.DecimalField("Apartado", decimal_places=2, max_digits=10, default=0)
     confirmacion_apartado = models.IntegerField("Depósito apartado", choices=STATUS_DEPOSITO, default=0)
-    foto_comprobante_apartado = models.FileField(upload_to="compApartado", blank=True, null=True)
+    foto_comprobante_apartado = models.FileField('Comprobante cliente apartado', upload_to="compApartado", blank=True, null=True)
     forma_pago_apa = models.IntegerField("Forma pago apartado",choices=STATUS_FORMA_PAGO, default=0)
     cuenta_apa = models.CharField("Número de cuenta apartado",max_length=4, blank=True, null=True)
     numero_comprobante_apa = models.CharField("Número de comprobante apartado",max_length=40, blank=True, null=True)
@@ -41,7 +41,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
 #  Pago adicional
     pago_adicional = models.DecimalField("Pago adicional", decimal_places=2, max_digits=10, default=0)
     confirmacion_pago_adicional = models.IntegerField("Depósito PA", choices=STATUS_DEPOSITO, default=0)
-    foto_comprobante_pago_adicional = models.FileField(upload_to="compAdicional", blank=True, null=True)
+    foto_comprobante_pago_adicional = models.FileField('Comprobante cliente pago adicional', upload_to="compAdicional", blank=True, null=True)
     forma_pago_pa = models.IntegerField("Forma pago pago adic.",choices=STATUS_FORMA_PAGO, default=0)
     cuenta_pa = models.CharField("Número de cuenta pago adic",max_length=4, blank=True, null=True)
     numero_comprobante_pa = models.CharField("Número de comprobante pago adic",max_length=40, blank=True, null=True)

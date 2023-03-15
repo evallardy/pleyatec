@@ -70,7 +70,7 @@
                     {% endif %}
                 </td>
                 <!-- if e.estatus_solicitud > 2 -->
-                {% if e.estatus_solicitud == 777 %}
+                {% if e.estatus_solicitud > 0 %}
                 {% if app_proy_imp_pago_compromiso %}                
                 <td style="text-align: center; vertical-align: middle; padding: 1px;">
                     <a href="{% url 'comprobantes' e.id py.id %}" class="btn btn-info"

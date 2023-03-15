@@ -87,8 +87,8 @@
         <thead>
             <tr>
                 <th class="col-md-1 titulo-tabla">Núm. Contrato</th>
-                <th class="col-md-2 titulo-tabla">Cliente</th>
-                <th class="col-md-2 titulo-tabla">Núm. pagos</th>
+                <th class="col-md-4 titulo-tabla">Cliente</th>
+                <th class="col-md-1 titulo-tabla">Núm. pagos</th>
                 <th class="col-md-2 titulo-tabla">Venta</th>
                 <th class="col-md-2 titulo-tabla">Imp. pagado</th>
                 <th class="col-md-2 titulo-tabla">Saldo</th>
@@ -104,7 +104,7 @@
                     {{ e.num_contrato }}
                     {% endif %}
                 </td>
-                <td style="text-align: center;">{{ e.cliente }}</td>
+                <td style="text-align: left;">{{ e.cliente }}</td>
                 <td style="text-align: center">{{ e.cantidad_pagos }}</td>
                 <td style="text-align: right;">{{ e.precio_final }}</td>
                 <td style="text-align: right;">{{ e.total_pagado }}</td>

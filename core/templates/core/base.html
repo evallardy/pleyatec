@@ -113,6 +113,8 @@
 <!--    <script src=" static 'core/js/menu.js' "></script>  -->
     <script src="{% static 'core/js/funciones.js' %}"></script>
     <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'core/js/btn-imagen.js' %}"></script>
 <!--    <script src="http://momentjs.com/downloads/moment.min.js"></script>  -->
     <!--    <script src="{% static 'core/js/autoNumeric.min.js' %}"></script>
     <script src="{% static 'core/js/autoNumeric.js' %}"></script>
@@ -188,12 +190,11 @@
                 auto: true,
                 pause: 3000
             });
+            {% block inicio %}
+
+            {% endblock %}
         });
-        {% block inicio %}
-
-        {% endblock %}
 </script>
-
 </body>
 
 </html>

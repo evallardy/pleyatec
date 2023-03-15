@@ -112,6 +112,12 @@ class ComprobanteForm(forms.ModelForm):
             'foto_comprobante_pago_adicional',
             'recibo_firmado_pa',
         ]
+        labels = {
+            'foto_comprobante_apartado': 'Comprobante cliente apartado',
+            'recibo_firmado_apa': 'Recibo firmado apartado',
+            'foto_comprobante_pago_adicional':'Comprobante cliente pago adicional',
+            'recibo_firmado_pa':'Recibo firmado pagoadicional',
+        }
 
 class Comprobante_MensualidadForm(forms.ModelForm):
     class Meta:

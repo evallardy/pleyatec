@@ -1,0 +1,156 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% for py in proyecto_tb %}
+{% for sol in solicitud_tb %}
+<div class="container mapa col-9">
+    <label class="encabezados">{{ py.nombre }} - Registro de comprobantes</label>
+    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+    <hr class="mt-0 mb-4">
+    <div class="form-row">
+        <div class="container form-row">
+            <div class="form-group col-4">
+                <a class="btn btn-info" href="{% url 'archivo' py.id %}" title="Regresar a la pantalla anterior">
+                    <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="wrapper fadeInDown">
+            <div id="formContent" style="text-align: right;">
+                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <hr>
+                    <div class="col-12 row" >
+                        <div class="col-5 row">
+                            <div class="custom-input-file-label" >
+                                <label>Comprobante cliente apartado</label>
+                            </div>
+                            <div class="custom-input-file" title="Selecciona comprobante cliente">
+                                <input type="file" id="id_foto_comprobante_apartado" name="foto_comprobante_apartado"
+                                    class="input-file" value="">
+                                <img src="{% static 'core/img/folder.svg' %}" width="30" />
+                            </div>
+                        </div>
+                        <div class="col-5 row">
+                            <div class="custom-input-file-label" >
+                                <label>Recibo firmado apartado</label>
+                            </div>
+                            <div class="custom-input-file" title="Selecciona recibo firmado">
+                                <input type="file" id="id_recibo_firmado_apa" name="recibo_firmado_apa"
+                                    class="input-file" value="">
+                                <img src="{% static 'core/img/folder.svg' %}" width="30" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-12 row" >
+                        <div class="col-5 row">
+                            <div class="custom-input-file-label" >
+                                <label>Comprobante cliente pago adicional</label>
+                            </div>
+                            <div class="custom-input-file" title="Selecciona comprobante cliente">
+                                <input type="file" id="id_foto_comprobante_pago_adicional" name="foto_comprobante_pago_adicional"
+                                    class="input-file" value="">
+                                <img src="{% static 'core/img/folder.svg' %}" width="30" />
+                            </div>
+                        </div>
+                        <div class="col-5 row">
+                            <div class="custom-input-file-label" >
+                                <label>Recibo firmado pago adicional</label>
+                            </div>
+                            <div class="custom-input-file" title="Selecciona recibo firmado">
+                                <input type="file" id="id_Comprobante cliente apartado" name="Comprobante cliente apartado"
+                                    class="input-file" value="">
+                                <img src="{% static 'core/img/folder.svg' %}" width="30" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="estilo-tabla">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1 titulo-tabla">Pago</th>
+                                <th class="col-md-3 titulo-tabla">Compromiso</th>
+                                <th class="col-md-2 titulo-tabla">Mensualidad</th>
+                                <th class="col-md-3 titulo-tabla">Fecha pago</th>
+                                <th class="col-md-2 titulo-tabla"># Comprobante</th>
+                                <th class="col-md-2 titulo-tabla">Importe pagado</th>
+                                <th class="col-md-3 titulo-tabla">Comprobante</th>
+                                <th class="col-md-2 titulo-tabla">Recibo firmado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in form %}
+                            <tr>
+                                <td>{{ p.numero_pago }}</td>
+                                <td>{{ p.fecha_pago }}</td>
+                                <td>{{ p.importe }}</td>
+                                <td>{{ p.fecha_voucher }}</td>
+                                <td>{{ p.numero_comprobante }}</td>
+                                <td>{{ p.importe_pagado }}</td>
+                                <td>{{ p.file_comprobante }}</td>
+                                <td>{{ p.recibo_firmado }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-success" title="Guarda solicitud">
+                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade modalImagenEncabezado" id="cuadroImagen" tabindex="-1" aria-labelledby="cuadroImagenLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" style="height: 650px;">
+            <div class="modal-content" style="border-radius: 12px;">
+                <div class="modal-header" style="background-color: darkgrey;">
+                    <label class="encabezados" id="cuadroImagenLabel">Title</label>
+                </div>
+                <div class="modal-body" style="text-align: center; background-color: darkgrey;">
+                    <embed src="" type="application/pdf" style="width:100%; height: 98%;" id="pdf-documento" />
+                </div>
+                <div class="modal-footer" style="background-color: darkgray;">
+                    <button type="button" class="btn btn-info" data-bs-dismiss="modal"
+                        title="Regresar a la pantalla anterior">
+                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'core/js/btn-imagen.js' %}"></script>
+<script>
+    function abrirImagen(dato, titulo) {
+        const campo = $("#" + dato);
+        const nom_imagen = campo.val();
+        if ((nom_imagen != "/media/") && (nom_imagen != "")) {
+            $("#pdf-documento").attr('src', nom_imagen);
+            $("#cuadroImagenLabel").html(titulo);
+            $("#cuadroImagen").modal('show');
+        }
+    }
+    {% block bljs %}
+
+    {% endblock %}
+</script>
+
+<script>
+    {% block inicio %}
+    {% endblock %}
+</script>
+{% endfor %}
+{% endfor %}
+{% endblock %}

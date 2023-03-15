@@ -168,81 +168,10 @@ nav a {
     height: 60% ;
 }
 /* configuracion boton imagenes */
-.fancy-file {
+/* Foramto Input */
+.file-select {
     
 }
-.fancy-file + label {
-    max-height: 40px;
-}
-.fancy-file__fancy-file-name,
-.[class^="muestra-archivo-"],
-.fancy-file__fancy-file-button {
-    max-height: 40px;
-}
-.fancy-file__fancy-file-name {
-    max-height: 40px;
-}
-.[class^="muestra-archivo-"] {
-    background:#EEE;
-    border: 1px sold #CACACA;
-    border-radius: 4px 4px 4px 4px;
-    cursor: pointer;
-    background: transparent;
-}
-.fancy-file__fancy-file-name span {
-    flex: 1;
-}
-.[class^="muestra-archivo-"] span {
-    
-}
-.fancy-file__fancy-file-button {
-    background: #5BC0DE;
-    background-image: url(../img/folder.svg) ;
-    background-repeat: no-repeat; 
-    background-size: 25px;
-    background-position-y: center;
-    background-position-x: 5px;
-    border: 1px solid #5BC0DE;
-    color: white;
-    border-radius: 4px 4px 4px 4px;
-    padding-left: 33px;
-    cursor: pointer;
-    height: 50px;
-}
-/* ventana modal */
-
-/* Estilo básico para la ventana modal */
-.modal-adicional {
-    display: block;
-    width: 60%;
-    opacity: 1;
-}
-  
-  /* Estilo para el contenido de la ventana modal */
-.modal-adicional-contenido {
-    background-color: #fefefe;
-    margin: 2% 20%;
-    border: 1px solid #888;
-    width: 60%;
-    border-radius: 6px 6px 6px 6px;
-  }
-  
-  /* Estilo para el botón de cerrar */
-.cerrar-adicional {
-    color: red;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-  
-.cerrar-adicional:hover,
-.cerrar-adicional:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Termina configuración boton imagenes */
 th {
     background-color: darkblue;
     color: white;
