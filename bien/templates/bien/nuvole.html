@@ -72,6 +72,37 @@
         {% endfor %}
     </svg>
 </div>
+<div class="container mapa" style="width: 650px; height: 40px;">
+    <div class="row col-12"> 
+        {% for bien in bienes %}
+        <div class="col-3" >
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; 
+            background-color:
+                {% if bien.estatus_lote == 1 %}
+                    #38E940; 
+                {% elif bien.estatus_lote == 2 %}
+                    #FCF900; 
+                {% elif bien.estatus_lote == 3 %}
+                    #EB6664; 
+                {% elif bien.estatus_lote == 4 %}
+                    #117CF4; 
+                {% endif %}
+             "></span>
+            <label style="font-size: small;">{{ bien.total }}, 
+                {% if bien.estatus_lote == 1 %}
+                    Disponibles
+                {% elif bien.estatus_lote == 2 %}
+                    Apartados
+                {% elif bien.estatus_lote == 3 %}
+                    Vendidos
+                {% elif bien.estatus_lote == 4 %}
+                    Reservados
+                {% endif %}
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 <script>
     {% block bljs %}
     $(document).ready(function () {

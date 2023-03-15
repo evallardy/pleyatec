@@ -320,25 +320,25 @@ input[type="checkbox"]:checked + label:after {
     padding-bottom: 10px;
 }  
 .loteVendido {
-    fill: crimson;
+    fill: #EB6664;
     stroke: darkgrey;
     position: absolute;
     cursor: pointer;
 }
 .loteDisponible {
-    fill: chartreuse;
+    fill: #38E940;
     stroke: darkgrey;
     position: absolute;
     cursor: pointer;
 }
 .loteApartado {
-    fill: yellow;
+    fill: #FCF900;
     stroke: darkgrey;
     position: absolute;
     cursor: pointer;
 }
 .loteReservado {
-    fill: blue;
+    fill: #117CF4;
     stroke: darkgrey;
     position: absolute;
     cursor: pointer;

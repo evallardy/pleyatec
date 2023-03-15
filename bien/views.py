@@ -9,6 +9,7 @@ from django.urls import reverse_lazy, reverse
 from .forms import BienForm, FormaBienValida, ProyectoForm, FormaBien
 from django.conf import settings
 from django.http.response import HttpResponseRedirect
+from django.db.models import Count
 
 class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'bien.nuvole_acceso'
@@ -87,6 +88,10 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
         
+# Contador de estados de los lotes
+        bienes = Lote.objects.filter(proyecto_id=num_proyecto).values('estatus_lote').annotate(total=Count('id'))
+        context["bienes"] = bienes
+
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
         context['menu'] = "menuMapa"
 
