@@ -76,7 +76,7 @@
                     </a>
                     {% endif %}
                 </td>
-                {% if e.saldo <= 0 %}
+                {% if e.saldo <= 0 and app_proy_archiva_credito %}
                 <td style="text-align: center;">
                     <a href="#" onclick="archiva_credito('{{ e.id }}')" class="btn btn-warning" title="Archivar crédito">
                         <img src="{% static 'core/img/archiva.svg' %}" width="20" />

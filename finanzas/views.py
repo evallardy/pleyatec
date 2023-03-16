@@ -188,6 +188,13 @@ class pagar(ListView):
         context['proyecto_tb'] = proyecto_tb
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
+#  Archiva crédito
+        des_permiso = '_archiva_credito'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 # Listado de mensualidades
         des_permiso = '_listado_registro_mensual'
         variable_proy = nom_proy + des_permiso
