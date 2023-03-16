@@ -21,5 +21,6 @@ urlpatterns = [
     path('imprime_comprob_mensual_PDF/<pk>/<num_proyecto>/', imprime_comprob_mensual_PDF.as_view(), name='imprime_comprob_mensual_PDF'), 
     path('imprime_comprob_comision_PDF/<fecha>/<empleado>/<bienes>/<importe>/<nom_proyecto>/<folio>/<num_proyecto>/', imprime_comprob_comision_PDF.as_view(), name='imprime_comprob_comision_PDF'), 
     path('comprobantes/<pk>/<num_proyecto>/', comprobantes.as_view(), name='comprobantes'), 
+    path('archiva_credito/<pk>/<num_proyecto>/', archiva_credito, name='archiva_credito'), 
 ]
 

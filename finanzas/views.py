@@ -9,11 +9,10 @@ from django.template.loader import get_template
 from django.http.response import HttpResponse, HttpResponseRedirect
 from time import gmtime, strftime
 from xhtml2pdf import pisa
-from django.db.models import Subquery
+from django.db.models import Subquery, Sum, F, Q
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.db.models.aggregates import Count
-from django.db.models import Sum
 
 from django.shortcuts import render
 
@@ -113,6 +112,20 @@ class tabla_amort_PDF(View):
         )
         return response
 
+def archiva_credito(request, pk, num_proyecto):
+    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+#  Proyecto
+    nom_proy = proyecto_tb[0].nom_proy
+# Listado contratos
+    des_permiso = '_archivar_credito'
+    variable_proy = nom_proy + des_permiso
+    permiso_str = "finanzas." + variable_proy
+    acceso = request.user.has_perms([permiso_str])
+    if acceso:
+        archiva_solicitud = Solicitud.objects.filter(id=pk).update(estatus_solicitud = 7)
+        
+    return HttpResponseRedirect(reverse_lazy(('pagar'), kwargs={'num_proyecto':num_proyecto} ,))
+
 class pagar(ListView):
     model = Solicitud
     template_name = 'finanzas/pagar.html'
@@ -126,6 +139,7 @@ class pagar(ListView):
             # GERENTE
             gerente = Empleado.objects.all().only("id").filter(usuario=self.request.user.id)
             empleados = Empleado.objects.all().only("id").filter(subidPersonal__in=Subquery(gerente.values('pk')))
+#                .annotate(para_pagar=F('precio_final') - F('enganche')).filter(para_pagar__gt=F('importe_pagado')) \
             queryset = Solicitud.objects.filter(lote__in=Subquery(lotes.values('pk'))) \
                 .filter(asesor__in=Subquery(empleados.values('pk'))) \
                 .filter(estatus_solicitud=10) 

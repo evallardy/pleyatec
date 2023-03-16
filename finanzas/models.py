@@ -53,6 +53,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('nuvole_pago_extemp_comisiones', 'Nuvole pago extemp comisiones'),
                     ('nuvole_consulta_comisiones', 'Nuvole consulta comisiones'),
                     ('nuvole_vobo_comisiones', 'Nuvole vobo comisiones'),
+                    ('nuvole_archivar_credito', 'Nuvole archivar crédito'),
             # Toscana
                     ('toscana_listado_registro_mensual', 'Toscana listado registro mensualidades'),
                     ('toscana_estado_cuenta', 'Toscana Mostrar estado de cuenta'),
@@ -67,6 +68,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('toscana_pago_extemp_comisiones', 'Toscana pago extemp comisiones'),
                     ('toscana_consulta_comisiones', 'Toscana consulta comisiones'),
                     ('toscana_vobo_comisiones', 'Toscana vobo comisiones'),
+                    ('toscana_archivar_credito', 'Toscana archivar crédito'),
             # Local Punta Oriente
                     ('local_punta_o_listado_registro_mensual', 'Local Punta O listado registro mensualidades'),
                     ('local_punta_o_estado_cuenta', 'Local Punta O Mostrar estado de cuenta'),
@@ -81,6 +83,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('local_punta_o_pago_extemp_comisiones', 'Local Punta O pago extemp comisiones'),
                     ('local_punta_o_consulta_comisiones', 'Local Punta O consulta comisiones'),
                     ('local_punta_o_vobo_comisiones', 'Local Punta O vobo comisiones'),
+                    ('local_punta_o_archivar_credito', 'Local Punta O archivar crédito'),
             # Consultorio Punta Oriente
                     ('consul_punta_o_listado_registro_mensual', 'Consultorio Punta O listado registro mensualidades'),
                     ('consul_punta_o_estado_cuenta', 'Consultorio Punta O Mostrar estado de cuenta'),
@@ -95,6 +98,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('consul_punta_o_pago_extemp_comisiones', 'Consultorio Punta O pago extemp comisiones'),
                     ('consul_punta_o_consulta_comisiones', 'Consultorio Punta O consulta comisiones'),
                     ('consul_punta_o_vobo_comisiones', 'Consultorio Punta O vobo comisiones'),
+                    ('consul_punta_o_archivar_credito', 'Consultorio Punta O archivar crédito'),
             #  Torre Vento
                     ('torre_vento_listado_registro_mensual', 'Torre Vento listado registro mensualidades'),
                     ('torre_vento_estado_cuenta', 'Torre Vento Mostrar estado de cuenta'),
@@ -109,6 +113,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('torre_vento_pago_extemp_comisiones', 'Torre Vento pago extemp comisiones'),
                     ('torre_vento_consulta_comisiones', 'Torre Vento consulta comisiones'),
                     ('torre_vento_vobo_comisiones', 'Torre Vento vobo comisiones'),
+                    ('torre_vento_archivar_credito', 'Torre Vento archivar crédito'),
             #  Porto Santo
                     ('porto_santo_listado_registro_mensual', 'Porto Santo listado registro mensualidades'),
                     ('porto_santo_estado_cuenta', 'Porto Santo Mostrar estado de cuenta'),
@@ -123,6 +128,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('porto_santo_pago_extemp_comisiones', 'Porto Santo pago extemp comisiones'),
                     ('porto_santo_consulta_comisiones', 'Porto Santo consulta comisiones'),
                     ('porto_santo_vobo_comisiones', 'Porto Santo vobo comisiones'),
+                    ('porto_santo_archivar_credito', 'Porto Santo archivar crédito'),
             #  Vivienda Nuvole
                     ('vivienda_nuvole_listado_registro_mensual', 'Vivienda Nuvole listado registro mensualidades'),
                     ('vivienda_nuvole_estado_cuenta', 'Vivienda Nuvole Mostrar estado de cuenta'),
@@ -137,6 +143,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('vivienda_nuvole_pago_extemp_comisiones', 'Vivienda Nuvole pago extemp comisiones'),
                     ('vivienda_nuvole_consulta_comisiones', 'Vivienda Nuvole consulta comisiones'),
                     ('vivienda_nuvole_vobo_comisiones', 'Vivienda Nuvole vobo comisiones'),
+                    ('vivienda_nuvole_archivar_credito', 'Vivienda Nuvole archivar crédito'),
             #  Monte Cristallo
                     ('monte_cristallo_listado_registro_mensual', 'Monte Cristallo listado registro mensualidades'),
                     ('monte_cristallo_estado_cuenta', 'Monte Cristallo Mostrar estado de cuenta'),
@@ -151,6 +158,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('monte_cristallo_pago_extemp_comisiones', 'Monte Cristallo pago extemp comisiones'),
                     ('monte_cristallo_consulta_comisiones', 'Monte Cristallo consulta comisiones'),
                     ('monte_cristallo_vobo_comisiones', 'Monte Cristallo vobo comisiones'),
+                    ('monte_cristallo_archivar_credito', 'Monte Cristallo archivar crédito'),
             #  Condominio Múltiple
                     ('condom_multiple_listado_registro_mensual', 'Condominio Múltiple listado registro mensualidades'),
                     ('condom_multiple_estado_cuenta', 'Condominio Múltiple Mostrar estado de cuenta'),
@@ -165,6 +173,7 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('condom_multiple_pago_extemp_comisiones', 'Condominio Múltiple pago extemp comisiones'),
                     ('condom_multiple_consulta_comisiones', 'Condominio Múltiple consulta comisiones'),
                     ('condom_multiple_vobo_comisiones', 'Condominio Múltiple vobo comisiones'),
+                    ('condom_multiple_archivar_credito', 'Condominio Múltiple archivar crédito'),
                     )
 
     def __str__(self):   

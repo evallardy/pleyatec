@@ -76,6 +76,13 @@
                     </a>
                     {% endif %}
                 </td>
+                {% if e.saldo <= 0 %}
+                <td style="text-align: center;">
+                    <a href="#" onclick="archiva_credito('{{ e.id }}')" class="btn btn-warning" title="Archivar crédito">
+                        <img src="{% static 'core/img/archiva.svg' %}" width="20" />
+                    </a>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -97,6 +104,12 @@
     {% block bljs %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
+    function archiva_credito(id) {
+        var url = "{% url 'archiva_credito' 123 num_proyecto %}";
+        url = url.replace('123', id);
+        confirmacion("Precaución", "Desea archivar el crédito",
+            url, "", "Crédito archivado", "Operación cancelada");
+    }
     {% endblock %}
 </script>
 {% endfor %}
