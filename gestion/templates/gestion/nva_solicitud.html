@@ -558,10 +558,10 @@
         valor3 = 0;
         {% for re in reglas %}
         if (modo_pago == parseInt("{{re.modo_pago}}")) {
-            tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
-            valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
             mensualidades_permitidas = parseInt("{{ re.mensualidades_permitidas }}");
             if ((cantidad_pagos == mensualidades_permitidas)
+                tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
+                valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
                 && (modo_pago != 1)) {
                 valor3 = parseFloat("{{ re.valor3 }}".replaceAll(",", ""));
             }

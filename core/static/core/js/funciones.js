@@ -1,3 +1,16 @@
+function descuento_credito(id) {
+    $.ajax({
+        url: '/paciente/datos_paciente/' + id + "/",
+        type: 'GET',
+        success: function(response) {
+            $('#expediente-cliente').html(response);
+            $('#id-nombre-paciente').val('');
+            if (id == '0') {
+                $('#id-celular').val($('#id-celular-memoria').val());
+            }
+        }
+    });
+}
 function confirmacion(titulo, contenido, url_ok, url_nok, texto_ok, texto_nok) {
     $.confirm({
         theme: 'Material',
