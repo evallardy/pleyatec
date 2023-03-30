@@ -222,30 +222,29 @@
         precio_total = precio + precio_terraza;
         if (Number.isNaN(precio)) {
             precio = 0;
+            $("#id_precio").val(numberFormat2.format(precio));
         }
         if (Number.isNaN(precio_terraza)) {
             precio_terraza = 0;
+            $("#id_precio_terraza").val(numberFormat2.format(precio_terraza));
         }
         if (Number.isNaN(precio_x_mt)) {
             precio_x_mt = 0;
+            $("#id_precio_x_mt").val(numberFormat2.format(precio_x_mt));
         }
         if (Number.isNaN(precio_x_mt_t)) {
             precio_x_mt_t = 0;
+            $("#id_precio_x_mt_t").val(numberFormat2.format(precio_x_mt_t));
         }
         if (Number.isNaN(gran_total)) {
             gran_total = 0;
+            $("#id_gran_total").val(numberFormat2.format(gran_total));
         }
         if (Number.isNaN(precio_total)) {
             precio_total = 0;
+            $("#id_precio_total").val(numberFormat2.format(precio_total));
         }
-        $("#id_total").val(numberFormat2.format(total));
-        $("#id_precio_x_mt").val(numberFormat2.format(precio_x_mt));
-        $("#id_precio").val(numberFormat2.format(precio));
-        $("#id_precio_terraza").val(numberFormat2.format(precio_terraza));
         $("#id_terraza").val(numberFormat2.format(terraza));
-        $("#id_precio_x_mt_t").val(numberFormat2.format(precio_x_mt_t));
-        $("#id_gran_total").val(numberFormat2.format(gran_total));
-        $("#id_precio_total").val(numberFormat2.format(precio_total));
     }
     function calculaMetros() {
         frente = parseFloat($("#id_frente").val()).toFixed(2);

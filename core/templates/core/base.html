@@ -140,14 +140,12 @@
         }
         function valideKey(evt){
 			var code = (evt.which) ? evt.which : evt.keyCode;
-			if (code == 46) {
-			  return true;
-			} else {
-                if(code>=48 && code<=57) {
-                    return true;
-                } else{
-                    return false;
-                }
+            var value = evt.target.value;
+            var hasDecimal = (value.indexOf('.') !== -1);
+            if((code>=48 && code<=57) || (code == 46 && !hasDecimal)) {
+                return true;
+            } else{
+                return false;
             }
 		}
         function convierteNumero(campo,opcion) {

@@ -512,23 +512,24 @@
         dec_porcentaje_descuento = (porcentaje_descuento / 100);
         asigna_descuento = convierteNumero("id_asigna_descuento",0);
 
-        if (asigna_descuento == 1) {
-            if (precio_lote > 0 && (porcentaje_descuento > 0 || descuento > 0)) {
-                if (tipo_descuento == 1) {
-                    descuento = Math.ceil(parseFloat(precio_lote * dec_porcentaje_descuento));
-                    $("#id_descuento").val(descuento);
-                    reformatear('id_descuento');
-                }
-                precio_final = parseFloat(precio_lote - descuento);
-                $("#id_precio_final").val(precio_final);
-                reformatear('id_precio_final');
-            } else {
-                $("#id_precio_final").val(precio_lote);
-                reformatear('id_precio_final');
-            }
-        } else {
-            ext_descuento();
-        }
+//        if (asigna_descuento == 1) {
+//            if (precio_lote > 0 && (porcentaje_descuento > 0 || descuento > 0)) {
+//                if (tipo_descuento == 1) {
+//                    descuento = Math.ceil(parseFloat(precio_lote * dec_porcentaje_descuento));
+//                    $("#id_descuento").val(descuento);
+//                    reformatear('id_descuento');
+//                }
+//                precio_final = parseFloat(precio_lote - descuento);
+//                $("#id_precio_final").val(precio_final);
+//                reformatear('id_precio_final');
+//            } else {
+//                $("#id_precio_final").val(precio_lote);
+//                reformatear('id_precio_final');
+//            }
+//        } else {
+ //           ext_descuento();
+//        }
+        ext_descuento();
         if ((cantidad_pagos > 0) && (enganche > 0) && (modo_pago != 1)) {
             monto_x_pago = Math.ceil(parseFloat((precio_final - enganche) / (cantidad_pagos))).toFixed(2);
         } else {
@@ -553,40 +554,74 @@
         precio_lote = convierteNumero("id_precio_lote",1);
         total = convierteNumero("id_total",1);
         modo_pago = convierteNumero("id_modo_pago",0);
+        precio_x_mt = convierteNumero("id_precio_x_mt",1);
+        porcentaje_descuento = convierteNumero("id_porcentaje_descuento",1);
+        descuento = convierteNumero("id_descuento",1);
 
         tipo_aplica_descto = 0;
         valor3 = 0;
+        valor1 = 0;
         {% for re in reglas %}
         if (modo_pago == parseInt("{{re.modo_pago}}")) {
-            tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
-            valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
-            mensualidades_permitidas = parseInt("{{ re.mensualidades_permitidas }}");
-            if ((cantidad_pagos == mensualidades_permitidas)
-                && (modo_pago != 1)) {
-                    tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
-                    valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
-                    valor3 = parseFloat("{{ re.valor3 }}".replaceAll(",", ""));
+//            tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
+//            valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
+            if (modo_pago == 1) {
+                tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
+                valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
+            } else {
+                mensualidades_permitidas = parseInt("{{ re.mensualidades_permitidas }}");
+                if ((cantidad_pagos == mensualidades_permitidas)
+                    && (modo_pago != 1)) {
+                        tipo_aplica_descto = parseInt("{{ re.tipo_aplica_descto }}");
+                        valor1 = parseFloat("{{ re.valor1 }}".replaceAll(",", ""));
+                        valor3 = parseFloat("{{ re.valor3 }}".replaceAll(",", ""));
+                }
             }
         }
         {% endfor %}
-        porcentaje_descuento = 0;
-        descuento = 0;
-        if (tipo_aplica_descto == 1) {
-            descuento = total * valor1;
-        } else if (tipo_aplica_descto == 2) {
-            descuento = valor1;
-        } else if (tipo_aplica_descto == 3) {
-            descuento = ((precio_lote * valor1) / 100);
-            porcentaje_descuento = valor1;
-        } else if (tipo_aplica_descto == 4) {
-            descuento = valor1;
-        } else if (tipo_aplica_descto == 5) {
-            descuento = ((precio_lote * valor1) / 100);
-            porcentaje_descuento = valor1;
+        asigna_descuento = convierteNumero("id_asigna_descuento",0);
+        if ((tipo_aplica_descto != 0) && (asigna_descuento != 1)) {
+            if (tipo_aplica_descto == 1) {
+                descuento = total * valor1;
+                porcentaje_descuento = 0;
+                precio_final = precio_lote - descuento;
+            } else if (tipo_aplica_descto == 2) {
+                importe_mt = ((precio_x_mt * valor1) / 100);
+                descuento = importe_mt * total;
+                porcentaje_descuento = valor1;
+                precio_final = precio_lote - descuento;
+            } else if (tipo_aplica_descto == 3) {
+                descuento = valor1;
+                porcentaje_descuento = 0;
+                precio_final = precio_lote - descuento;
+            } else if (tipo_aplica_descto == 4) {
+                importe_mt = ((precio_x_mt * valor1) / 100);
+                descuento = importe_mt * total;
+                porcentaje_descuento = valor1;
+                precio_final = precio_lote - descuento;
+            } else if (tipo_aplica_descto == 5) {
+                importe_mt = (precio_x_mt * 1) + (valor1 * 1);
+                precio_lote = total * importe_mt;
+                descuento = 0;
+                porcentaje_descuento = 0;
+                precio_final = precio_lote 
+                $("#id_precio_x_mt").val(importe_mt);
+                reformatear('id_precio_x_mt');
+                $("#id_precio_lote").val(precio_lote);
+                reformatear('id_precio_lote');
+            }
         } else {
-            descuento = 0.00;
+            if (porcentaje_descuento > 0) {
+                descuento = ((precio_lote * porcentaje_descuento) / 100)
+                precio_final = precio_lote - descuento;
+            } else if (descuento > 0) {
+                precio_final = precio_lote - descuento;
+            } else {
+                precio_final = precio_lote;
+                descuento = 0;
+                porcentaje_descuento = 0;
+            }
         }
-        precio_final = precio_lote - descuento;
         $("#id_descuento").val(descuento);
         reformatear('id_descuento');
         $("#id_precio_final").val(precio_final);
@@ -627,6 +662,8 @@
         calcula();
     });
     $("#id_modo_pago").on("change", function () {
+        $("#id_descuento").val(0);
+        $("#id_porcentaje_descuento").val(0);
         llenaModoPago();
         cambia_modo_pago();
     })
@@ -717,6 +754,7 @@
         calcula();
     });
     $("#id_porcentaje_descuento").on("keyup", function () {
+        $("#id_descuento").val(0);
         calcula();
     });
     $("#id_asigna_descuento").on("change", function () {
@@ -729,6 +767,9 @@
         calcula();
     });
     $("#id_cantidad_pagos").on("change", function () {
+        $("#id_descuento").val(0);
+        $("#id_porcentaje_descuento").val(0);
+        cambia_lote();
         calcula();
     });
     function llenaModoPago() {
