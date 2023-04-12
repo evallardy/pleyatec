@@ -21,7 +21,7 @@
             <div id="formContent" style="text-align: right;">
                 <form action="" method="POST" style="text-align: left;" onkeypress="return anular(event)">
                     {% csrf_token %}
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.tipo_cliente|as_crispy_field }}
                         </div>
@@ -29,10 +29,10 @@
                             {{ form.razon|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row" id="lbl_representante" style="text-align: center; font-weight: bold;">
+                    <div class="row" id="lbl_representante" style="text-align: center; font-weight: bold;">
                         <label class="col-md-12">Representante legal</label>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.nombre|as_crispy_field }}
                         </div>
@@ -43,7 +43,7 @@
                             {{ form.materno|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.fecha_nac|as_crispy_field }}
                         </div>
@@ -54,7 +54,7 @@
                             {{ form.curp|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.genero|as_crispy_field }}
                         </div>
@@ -62,12 +62,12 @@
                             {{ form.estado_civil|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-12 mb-0">
                             {{ form.calle|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.colonia|as_crispy_field }}
                         </div>
@@ -75,7 +75,7 @@
                             {{ form.codpos|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.municipio|as_crispy_field }}
                         </div>
@@ -83,7 +83,7 @@
                             {{ form.estado|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.celular|as_crispy_field }}
                         </div>
@@ -91,7 +91,7 @@
                             {{ form.correo|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.estatus_cliente|as_crispy_field }}
                         </div>

@@ -28,7 +28,7 @@
                 <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
                     onkeypress="return anular(event)">
                     {% csrf_token %}
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-6 mb-0">
                             <label for="">Cliente</label>
                             <select name="cliente" id="cliente_id" class="form-control">
@@ -43,7 +43,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-6 mb-0">
                             <label for="">Asesores</label>
                             <select name="asesor" id="asesor_id" class="form-control">
@@ -54,7 +54,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-6 mb-0">
                             <label for="">{{ py.singular }}</label>
                             <select name="lote" id="lote_id" class="form-control">
@@ -73,7 +73,7 @@
                             <input type="number" name="total" id="id_total" readonly class="form-control">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-3 mb-0">
                             {{ form.precio_lote|as_crispy_field|unlocalize }}
                         </div>
@@ -84,7 +84,7 @@
                             {{ form.precio_final|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-3 mb-0">
                             {{ form.modo_pago|as_crispy_field }}
                         </div>
@@ -104,7 +104,7 @@
                             {{ form.porcentaje_descuento|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-3 mb-0">
                             {{ form.enganche|as_crispy_field }}
                         </div>
@@ -133,7 +133,7 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-5 mb-0">
                                             {{ form.tipo_cliente|as_crispy_field }}
                                         </div>
@@ -141,7 +141,7 @@
                                             {{ form.razon|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.nombre|as_crispy_field }}
                                         </div>
@@ -152,7 +152,7 @@
                                             {{ form.materno|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.rfc|as_crispy_field }}
                                         </div>
@@ -163,7 +163,7 @@
                                             {{ form.estado_civil|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row" id="gpo_conyuge">
+                                    <div class="row" id="gpo_conyuge">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.regimen|as_crispy_field }}
                                         </div>
@@ -177,7 +177,7 @@
                                             {{ form.materno_conyuge|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.calle|as_crispy_field }}
                                         </div>
@@ -188,7 +188,7 @@
                                             {{ form.codpos|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.municipio|as_crispy_field }}
                                         </div>
@@ -196,7 +196,7 @@
                                             {{ form.estado|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.celular|as_crispy_field }}
                                         </div>
@@ -217,7 +217,7 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.foto_elector_frente|as_crispy_field }}
                                         </div>
@@ -231,7 +231,7 @@
                                             {{ form.foto_elector_reverso_cy|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.foto_comprobante|as_crispy_field }}
                                         </div>
@@ -249,7 +249,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row" hidden>
+                    <div class="row" hidden>
                         <div class="form-group col-md-1 mb-0">
                             {{ form.estatus_solicitud|as_crispy_field }}
                         </div>

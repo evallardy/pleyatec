@@ -23,7 +23,7 @@
         <form action="" method="POST">
             {% csrf_token %}
             {% for p in proyecto %}
-            <div class="form-row col-12">
+            <div class="row col-12">
                 <div class="form-group col-5">
                     <label>Nombre</label>
                     <input type="text" name="" id="" value="{{p.nombre}}" class="form-control col-12" readonly>
@@ -35,7 +35,7 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="form-row col-12">
+            <div class="row col-12">
                 <div class="form-group col-5">
                     {{ form.comision_asesor|as_crispy_field }}
                 </div>

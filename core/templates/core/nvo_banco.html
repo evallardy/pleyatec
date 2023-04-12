@@ -21,7 +21,7 @@
             <div id="formContent" style="text-align: right;">
                 <form action="" method="POST" style="text-align: left;" onkeypress="return anular(event)">
                     {% csrf_token %}
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-5 mb-0">
                             {{ form.abreviacion|as_crispy_field }}
                         </div>
@@ -29,12 +29,12 @@
                             {{ form.banco|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             {{ form.estatus_banco|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                     {% if perms.core.add_banco or perms.core.change_banco %}
                     <button type="submit" class="btn btn-success" title="Guarda banco">
                         <img src="{% static 'core/img/guardar.svg' %}" width="20" />

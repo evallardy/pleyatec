@@ -55,25 +55,25 @@
             <input type="text" value="{{ s.foto_comprobante_pago_adicional }}" id="foto_comprobante_pago_adicional"
                 hidden>
             <div id="formContent" style="text-align: right;">
-                <div class="form-row col-md-6 mb-0">
+                <div class="row col-md-6 mb-0">
                     <label for="asesor">Cliente</label>
                 </div>
-                <div class="form-row form-control  col-md-6 mb-0">
+                <div class="row form-control  col-md-6 mb-0">
                     {{ s.cliente}}
                 </div>
-                <div class="form-row col-md-6 mb-0">
+                <div class="row col-md-6 mb-0">
                     <label for="asesor">Bien</label>
                 </div>
-                <div class="form-row form-control  col-md-6 mb-0">
+                <div class="row form-control  col-md-6 mb-0">
                     {{ s.lote}}
                 </div>
-                <div class="form-row col-md-6 mb-0">
+                <div class="row col-md-6 mb-0">
                     <label for="asesor">Asesor</label>
                 </div>
-                <div class="form-row form-control  col-md-6 mb-0">
+                <div class="row form-control  col-md-6 mb-0">
                     {{ s.asesor}}
                 </div>
-                <div class="form-row">
+                <div class="row">
                     <div class="form-group col-md-3 mb-0">
                         <label>Precio</label>
                         <div class="form-group form-control" style="text-align: right;">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="row">
                     <div class="form-group col-md-3 mb-0">
                         <label>Modo de pago</label>
                         <div class="form-group form-control">
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row" id="gpo_credito">
+                <div class="row" id="gpo_credito">
                     <div class="form-group col-md-3 mb-0">
                         <label>Enganche</label>
                         <div class="form-group form-control" style="text-align: right;">
@@ -144,7 +144,7 @@
                     {% endfor %}
                     <hr id="bloque_apartado4">
                     <h4 style="font-style: italic;" id="bloque_apartado5">Apartado</h4>
-                    <div class="form-row" id="bloque_apartado1">
+                    <div class="row" id="bloque_apartado1">
                         <div class="form-group col-3" id="gpo_apartado">
                             <label>Apartado</label>
                             <input type="text" name="apartado" id="id_apartado" class="form-control"
@@ -181,7 +181,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="form-row" id="bloque_apartado2">
+                    <div class="row" id="bloque_apartado2">
                         <div class="form-group col-3" id="gpo_forma_pago_apa">
                             {{ form.forma_pago_apa|as_crispy_field }}
                         </div>
@@ -197,7 +197,7 @@
                             {{ form.numero_comprobante_apa|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row" id="bloque_apartado3">
+                    <div class="row" id="bloque_apartado3">
                         <div class="form-group col-3" id="gpo_comprobante_apartado">
                             {{ form.foto_comprobante_apartado }}
                             {% for error in form.foto_comprobante_apartado.errors %}
@@ -207,7 +207,7 @@
                     </div>
                     <hr>
                     <h4 style="font-style: italic;">Pago adicional</h4>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-3">
                             <label>Pago adicional</label>
                             <input type="text" name="pago_adicional" id="id_pago_adicional" class="form-control"
@@ -246,7 +246,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-3" id="gpo_forma_pago_pa">
                             {{ form.forma_pago_pa|as_crispy_field }}
                         </div>
@@ -262,12 +262,12 @@
                             {{ form.numero_comprobante_pa|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-3" id="gpo_foto_comprobante_pago_adicional">
                             {{ form.foto_comprobante_pago_adicional|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-1 mb-0" hidden>
                             {{ form.precio_final }}
                         </div>

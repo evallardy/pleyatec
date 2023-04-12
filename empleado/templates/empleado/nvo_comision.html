@@ -22,14 +22,14 @@
             <div id="formContent" style="text-align: right;">
                 <form action="" method="POST" style="text-align: left;" onkeypress="return anular(event)">
                     {% csrf_token %}
-                    <div class="form-row ">
+                    <div class="row ">
                         <div class=" col-6">
                             <label>Empleado</label>
                             <input type="text" name="nombre_empleado" id="id_nombre_empleado" class="form-control"
                                 readonly value="{{ nombre_empleado }}">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-7 mb-0">
                             <label for="">Proyecto</label>
                             <select name="proyecto" id="id_proyecto" class="form-control">
@@ -39,7 +39,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-3 mb-0">
                             <label>Comisión</label>
                             <input type="text" name="comision" id="id_comision" class="form-control" step='0.01'
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             <button type="submit" class="btn btn-success" title="Guarda comisión asesor">
                                 <img src="{% static 'core/img/guardar.svg' %}" width="20" />

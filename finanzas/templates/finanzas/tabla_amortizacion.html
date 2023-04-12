@@ -24,7 +24,7 @@
     {% endif %}
     <br><br>
     <div class="container col-12">
-        <div class="form-row">
+        <div class="row">
             <div class="form-group col-md- mb-0">
                 <label for="ptp">Cliente</label>
                 <input type="text" name="ptp" id="ptp" value="{{ solicitud.cliente }}" readonly="readonly">
@@ -34,7 +34,7 @@
                 <input type="text" name="en" id="en" value="{{ solicitud.lote }}" readonly="readonly">
             </div>
         </div>
-        <div class="form-row">
+        <div class="row">
             <div class="form-group col-md-3 mb-0">
                 <label for="ptp">Precio de venta</label>
                 <input type="text" name="ptp" id="ptp" value="{{ x.precio_final }}" readonly="readonly"
@@ -46,7 +46,7 @@
                     style="text-align: right;">
             </div>
         </div>
-        <div class="form-row">
+        <div class="row">
             <div class="form-group col-md-3 mb-0">
                 <label for="ic">Importe de crédito</label>
                 <input type="text" name="ic" id="ic" value="{{ x.impPorPagar }}" readonly="readonly"
@@ -63,7 +63,7 @@
                     style="text-align: right;">
             </div>
         </div>
-        <div class="form-row">
+        <div class="row">
             <div class="form-group col-md-3 mb-0">
                 <label for="pra">Pagos a realizar</label>
                 <input type="text" name="pra" id="pra" value="{{ x.cantidad_pagos }}" readonly="readonly"

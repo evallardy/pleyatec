@@ -15,8 +15,8 @@
     <label class="encabezados">{{ py.nombre }} - Solicitud - {{ id }}</label>
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4">
-    <div class="form-row">
-        <div class="container form-row">
+    <div class="row">
+        <div class="container row">
             <div class="form-group col-4">
                 <a class="btn btn-info" href="{% url 'solicitudes' py.id %}" title="Regresar a la pantalla anterior">
                     <img src="{% static 'core/img/regresar.svg' %}" width="20" />
@@ -54,7 +54,7 @@
             <div id="formContent" style="text-align: right;">
                 <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-6 mb-0">
                             <label>Cliente</label>
                             <select name="cliente" id="cliente_id" class="form-control">
@@ -72,7 +72,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-6 mb-0">
                             <label>Asesores</label>
                             <input type="text" name="nom_asesor" id="id_nom_asesor" class="form-control" readonly> 
@@ -84,7 +84,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-6 mb-0">
                             <label>{{ py.singular }}</label>
                             <select name="lote" id="lote_id" class="form-control">
@@ -120,7 +120,7 @@
                             <!--                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control">  -->
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-2 mb-0">
                             <label>Precio inicial</label>
                             <input type="text" name="precio_lote" id="id_precio_lote" class="form-control"
@@ -160,7 +160,7 @@
                             <!--                             form.precio_final|as_crispy_field   -->
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-2 mb-0">
                             {{ form.modo_pago|as_crispy_field }}
                         </div>
@@ -185,7 +185,7 @@
                                 <!--                             form.porcentaje_descuento|as_crispy_field   -->
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="form-group col-md-2 mb-0" id="gpo_enganche">
                             <label>Enganche</label>
                             <input type="text" name="enganche" id="id_enganche" class="form-control"
@@ -235,7 +235,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-5 mb-0">
                                             {{ form.tipo_cliente|as_crispy_field }}
                                         </div>
@@ -243,7 +243,7 @@
                                             {{ form.razon|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.nombre|as_crispy_field }}
                                         </div>
@@ -254,7 +254,7 @@
                                             {{ form.materno|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.rfc|as_crispy_field }}
                                         </div>
@@ -265,7 +265,7 @@
                                             {{ form.estado_civil|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row" id="gpo_conyuge">
+                                    <div class="row" id="gpo_conyuge">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.regimen|as_crispy_field }}
                                         </div>
@@ -279,7 +279,7 @@
                                             {{ form.materno_conyuge|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.calle|as_crispy_field }}
                                         </div>
@@ -290,7 +290,7 @@
                                             {{ form.codpos|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.municipio|as_crispy_field }}
                                         </div>
@@ -298,7 +298,7 @@
                                             {{ form.estado|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.celular|as_crispy_field }}
                                         </div>
@@ -321,7 +321,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.foto_elector_frente|as_crispy_field }}
                                         </div>
@@ -335,7 +335,7 @@
                                             {{ form.foto_elector_reverso_cy|as_crispy_field }}
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="row">
                                         <div class="form-group col-md-3 mb-0">
                                             {{ form.foto_comprobante|as_crispy_field }}
                                         </div>
@@ -353,7 +353,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row" hidden>
+                    <div class="row" hidden>
                         <div class="form-group col-md-1 mb-0">
                             {{ form.estatus_solicitud|as_crispy_field }}
                         </div>

@@ -12,12 +12,12 @@
                     <hr>
                     <form action="" method="post" onkeypress="return anular(event)">
                         {% csrf_token %}
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-6 mb-0">
                                 {{ form.username|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-6 mb-0">
                                 {{ form.password|as_crispy_field }}
                             </div>
