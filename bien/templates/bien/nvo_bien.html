@@ -13,180 +13,173 @@
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4">
     <div class="container">
-    <a class="btn btn-info" href="{% url 'bienes' py.id %}" title="Regresar a la pantalla anterior">
-        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-    </a>
+        <a class="btn btn-info" href="{% url 'bienes' py.id %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
     </div>
     <br>
     <div class="container col-12">
-        <div class="wrapper fadeInDown">
-            <div id="formContent" style="text-align: right;">
-                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
-                    onkeypress="return anular(event)">
-                    {% csrf_token %}
-                    <div class="form-row" >
-                        <div class="form-group col-md-4 mb-0">
-                            {{ form.proyecto|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3 mb-0" id="fase">
-                            {{ form.fase|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="manzana">
-                            {{ form.manzana|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="lote">
-                            {{ form.lote|as_crispy_field }}
-                            {% for error in form.non_field_errors %}
-                            {% if error == 'Lote con este Proyecto,Fase,Manzana y Lote ya existe.' %}
-                            {% if py.id == 1 %}
-                            <p><small class="mensaje-error">El número de lote con la fase y manzana, ya existe</small></p>
-                            {% else %}
-                            <p><small class="mensaje-error">El número de bien ya existe</small></p>
-                            {% endif %}
-                            {% else %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        {% if app_proy_reservar %}
-                        <div class="form-group col-md-3 mb-0">
-                            <label for="">Estatus bien</label>
-                            <select name="estatus" id="estatus" class="form-control">
-                                <option value="1">Disponible</option>
-                                <option value="4">Reservado</option>
-                                <option value="9">Eliminado</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="lote" hidden>
-                            {{ form.estatus_lote|as_crispy_field }}
-                        </div>
-                        {% endif %}
-                    </div>
-                    <div class="form-row" id="gpo-lote">
-                        <div class="form-group col-md-3 mb-0" id="altura">
-                            {{ form.altura|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" style="text-align: center;" id="tipo_lote">
-                            {{ form.tipo_lote|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-6 mb-0" id="obs_irregular">
-                            {{ form.obs_irregular|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="frente">
-                            {{ form.frente|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="fondo">
-                            {{ form.fondo|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3" style="text-align: center;" id="esquina">
-                            {{ form.esquina|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3 mb-0" id="total">
-                            <label for="">Area</label>
-                            <input type="text" name="total" id="id_total" class="form-control"
-                                onfocusout="reformatear('id_total')"
-                                onkeypress="return valideKey(event);">
-                            {% for error in form.total.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="precio_x_mt">
-                            <label for="">Precio x m²</label>
-                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" 
-                                class="form-control" onfocusout="reformatear('id_precio_x_mt')"
-                                onkeypress="return valideKey(event);">
-                                {% for error in form.precio_x_mt.errors %}
-                                {% if error != "Introduzca un número." %}
-                                <p><small class="mensaje-error">{{ error }}</small></p>
-                                {% endif %}
-                                {% endfor %}
-                            </div>
-                        <div class="form-group col-md-3 mb-0" id="precio">
-                            <label for="">Precio</label>
-                            <input type="text" name="precio" id="id_precio" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-row" id="gpo-terraza">
-                        <div class="form-group col-md-3 mb-0" id="terraza">
-                            <label for="">Terraza m²</label>
-                            <input type="text" name="terraza" id="id_terraza" class="form-control"
-                            onfocusout="reformatear('id_terraza')"
-                            onkeypress="return valideKey(event);">
-                            {% for error in form.precio_x_mt_t.errors %}
-                            {% if error == 'Teclear área terraza' %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="precio_x_mt_t">
-                            <label for="">Precio terraza m²</label>
-                            <input type="text" name="precio_x_mt_t" id="id_precio_x_mt_t" class="form-control"
-                            onfocusout="reformatear('id_precio_x_mt_t')"
-                            onkeypress="return valideKey(event);">
-                            {% for error in form.precio_x_mt_t.errors %}
-                            {% if error == 'Teclear precio m² terraza' %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="precio_terraza">
-                            <label for="">Precio terraza</label>
-                            <input type="text" name="precio_terraza" id="id_precio_terraza" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3" id="gran_total">
-                            <label for="">Total m²</label>
-                            <input type="text" name="gran_total" id="id_gran_total" class="form-control">
-                        </div>
-                        <div class="form-group col-md-3 offset-md-3" id="precio_total">
-                            <label for="">Precio total</label>
-                            <input type="text" name="precio_total" id="id_precio_total" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-row" id="estacionamientos">
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.estacionamientos|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div id="colindancias">
-                        <div class="form-row">
-                            <div class="form-group col-md-12 mb-0" id="colindancia_norte">
-                                {{ form.colindancia_norte|as_crispy_field }}
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12 mb-0" id="colindancia_sur">
-                                {{ form.colindancia_sur|as_crispy_field }}
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12 mb-0" id="colindancia_este">
-                                {{ form.colindancia_este|as_crispy_field }}
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12 mb-0" id="colindancia_oeste">
-                                {{ form.colindancia_oeste|as_crispy_field }}
-                            </div>
-                        </div>
-                    </div>
-                    {% if app_proy_add or app_proy_chag %}
-<!--                    <input type="submit" value="Guarda" class="btn btn-info">   -->
-                    <button type="submit" class="btn btn-success" title="Guarda bien">
-                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                    </button>
-                    {% endif %}
-                </form>
-                <br>
+        <form class="container" action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
+            onkeypress="return anular(event)">
+            {% csrf_token %}
+            <div class="row">
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.proyecto|as_crispy_field }}
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="form-group col-md-3 mb-0" id="fase">
+                    {{ form.fase|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="manzana">
+                    {{ form.manzana|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="lote">
+                    {{ form.lote|as_crispy_field }}
+                    {% for error in form.non_field_errors %}
+                    {% if error == 'Lote con este Proyecto,Fase,Manzana y Lote ya existe.' %}
+                    {% if py.id == 1 %}
+                    <p><small class="mensaje-error">El número de lote con la fase y manzana, ya existe</small>
+                    </p>
+                    {% else %}
+                    <p><small class="mensaje-error">El número de bien ya existe</small></p>
+                    {% endif %}
+                    {% else %}
+                    <p><small class="mensaje-error">{{ error }}</small></p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% if app_proy_reservar %}
+                <div class="form-group col-md-3 mb-0">
+                    <label for="">Estatus bien</label>
+                    <select name="estatus" id="estatus" class="form-control">
+                        <option value="1">Disponible</option>
+                        <option value="4">Reservado</option>
+                        <option value="9">Eliminado</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 mb-0" id="lote" hidden>
+                    {{ form.estatus_lote|as_crispy_field }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="row" id="gpo-lote">
+                <div class="form-group col-md-3 mb-0" id="altura">
+                    {{ form.altura|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0" style="text-align: center;" id="tipo_lote">
+                    {{ form.tipo_lote|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0" id="obs_irregular">
+                    {{ form.obs_irregular|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="frente">
+                    {{ form.frente|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="fondo">
+                    {{ form.fondo|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3" style="text-align: center;" id="esquina">
+                    {{ form.esquina|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3 mb-0" id="total">
+                    <label for="">Area</label>
+                    <input type="text" name="total" id="id_total" class="form-control"
+                        onfocusout="reformatear('id_total')" onkeypress="return valideKey(event);">
+                    {% for error in form.total.errors %}
+                    {% if error != "Introduzca un número." %}
+                    <p><small class="mensaje-error">{{ error }}</small></p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="precio_x_mt">
+                    <label for="">Precio x m²</label>
+                    <input type="text" name="precio_x_mt" id="id_precio_x_mt" class="form-control"
+                        onfocusout="reformatear('id_precio_x_mt')" onkeypress="return valideKey(event);">
+                    {% for error in form.precio_x_mt.errors %}
+                    {% if error != "Introduzca un número." %}
+                    <p><small class="mensaje-error">{{ error }}</small></p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="precio">
+                    <label for="">Precio</label>
+                    <input type="text" name="precio" id="id_precio" class="form-control">
+                </div>
+            </div>
+            <div class="row" id="gpo-terraza">
+                <div class="form-group col-md-3 mb-0" id="terraza">
+                    <label for="">Terraza m²</label>
+                    <input type="text" name="terraza" id="id_terraza" class="form-control"
+                        onfocusout="reformatear('id_terraza')" onkeypress="return valideKey(event);">
+                    {% for error in form.precio_x_mt_t.errors %}
+                    {% if error == 'Teclear área terraza' %}
+                    <p><small class="mensaje-error">{{ error }}</small></p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="precio_x_mt_t">
+                    <label for="">Precio terraza m²</label>
+                    <input type="text" name="precio_x_mt_t" id="id_precio_x_mt_t" class="form-control"
+                        onfocusout="reformatear('id_precio_x_mt_t')" onkeypress="return valideKey(event);">
+                    {% for error in form.precio_x_mt_t.errors %}
+                    {% if error == 'Teclear precio m² terraza' %}
+                    <p><small class="mensaje-error">{{ error }}</small></p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-3 mb-0" id="precio_terraza">
+                    <label for="">Precio terraza</label>
+                    <input type="text" name="precio_terraza" id="id_precio_terraza" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3" id="gran_total">
+                    <label for="">Total m²</label>
+                    <input type="text" name="gran_total" id="id_gran_total" class="form-control">
+                </div>
+                <div class="form-group col-md-3 offset-md-3" id="precio_total">
+                    <label for="">Precio total</label>
+                    <input type="text" name="precio_total" id="id_precio_total" class="form-control">
+                </div>
+            </div>
+            <div class="row" id="estacionamientos">
+                <div class="form-group col-md-3 mb-0">
+                    {{ form.estacionamientos|as_crispy_field }}
+                </div>
+            </div>
+            <div id="colindancias">
+                <div class="row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_norte">
+                        {{ form.colindancia_norte|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_sur">
+                        {{ form.colindancia_sur|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_este">
+                        {{ form.colindancia_este|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12 mb-0" id="colindancia_oeste">
+                        {{ form.colindancia_oeste|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+            {% if app_proy_add or app_proy_chag %}
+            <!--                    <input type="submit" value="Guarda" class="btn btn-info">   -->
+            <button type="submit" class="btn btn-success" title="Guarda bien">
+                <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+            </button>
+            {% endif %}
+        </form>
+        <br>
     </div>
 </div>
 {% endif %}
@@ -195,18 +188,18 @@
 
 <script>
     {% block bljs %}
-//    window.captureEvents(Event.SUBMIT);
-//    window.onsubmit = guarda;
-//    function guarda() {
-//        return true;
-//    }
+    //    window.captureEvents(Event.SUBMIT);
+    //    window.onsubmit = guarda;
+    //    function guarda() {
+    //        return true;
+    //    }
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
     function valorCero(valor) {
         v = valor;
-        if (valor.isNaN || valor.trim() ==  "") {
+        if (valor.isNaN || valor.trim() == "") {
             v = 0;
         }
         return v;
@@ -288,32 +281,32 @@
     }
     function actualizaPantalla() {
         "{% for l in inf_lote %}"
-            $("#id_tipo_lote").val("{{ l.tipo_lote }}").change();
-            $("#id_obs_irregular").val("{{ l.obs_irregular }}");
-            $("#id_frente").val("{{ l.frente }}");
-            $("#id_fondo").val("{{ l.fondo }}");
-            $("#id_total").val("{{ l.total }}");
-            $("#id_precio_x_mt").val("{{ l.precio_x_mt }}");
-            $("#id_precio").val("{{ l.precio }}");
-            $("#id_terraza").val("{{ l.terraza }}");
-            $("#id_precio_x_mt_t").val("{{ l.precio_x_mt_t }}");
-            $("#id_precio_terraza").val("{{ l.precio_terraza }}");
-            $("#id_gran_total").val("{{ l.gran_total }}");
-            $("#id_precio_total").val("{{ l.precio_total }}");
+        $("#id_tipo_lote").val("{{ l.tipo_lote }}").change();
+        $("#id_obs_irregular").val("{{ l.obs_irregular }}");
+        $("#id_frente").val("{{ l.frente }}");
+        $("#id_fondo").val("{{ l.fondo }}");
+        $("#id_total").val("{{ l.total }}");
+        $("#id_precio_x_mt").val("{{ l.precio_x_mt }}");
+        $("#id_precio").val("{{ l.precio }}");
+        $("#id_terraza").val("{{ l.terraza }}");
+        $("#id_precio_x_mt_t").val("{{ l.precio_x_mt_t }}");
+        $("#id_precio_terraza").val("{{ l.precio_terraza }}");
+        $("#id_gran_total").val("{{ l.gran_total }}");
+        $("#id_precio_total").val("{{ l.precio_total }}");
         "{% endfor %}"
     }
     $("#id_fondo").on("keyup", function () {
-//        calculaMetros();
+        //        calculaMetros();
     });
     $("#id_frente").on("keyup", function () {
-//        calculaMetros();
+        //        calculaMetros();
     });
     $("#id_total").on("keyup", function (e) {
         calcula();
     });
     $("#id_precio_x_mt").on("keyup", function (e) {
         if (e.keyCode >= 48 && e.keyCode <= 57) {
-            
+
         } else {
             e.preventDefault()
         }
@@ -375,7 +368,7 @@
             $("#id_precio_x_mt").val("{{ precio_x_mt }}");
             $("#id_terraza").val("{{ terraza }}");
             $("#id_precio_x_mt_t").val("{{ precio_x_mt_t }}");
-            $("#id_esquina").val(0).change();            
+            $("#id_esquina").val(0).change();
         } else {
             actualizaPantalla();
         }
