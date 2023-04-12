@@ -1666,6 +1666,30 @@ class comprobantes(LoginRequiredMixin, UpdateView):
     model = Solicitud
     form_class = ComprobanteForm
     template_name = 'finanzas/comprobantes.html'
+    def get_context_data(self, **kwargs):
+        context = super(comprobantes, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs.get('num_proyecto',0)
+        pk = self.kwargs.get('pk',0)
+        context['solicitud'] = Solicitud.objects.filter(id=pk)
+        context['mensualidades'] = Pago.objects.filter(convenio=pk)
+        context['id'] = pk
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['nom_proyecto'] = proyecto_tb[0].nombre
+        context['num_proyecto'] = num_proyecto
+#  Proyecto
+        nom_proy = proyecto_tb[0].nom_proy
+# Actualiza comprobantes
+        des_permiso = '_cambia_solicitud'
+        variable_proy = nom_proy + des_permiso
+        variable_html = "app_proy" + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+        return context
+
+
+
+
     def get_success_url(self):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('archivo', kwargs={'num_proyecto': num_proyecto})        

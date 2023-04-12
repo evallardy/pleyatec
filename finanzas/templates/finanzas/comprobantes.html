@@ -1,45 +1,175 @@
 {% extends "core/base.html" %}
 {% load static %}
-{% block blcss %}
+{% load l10n %}
+{% load crispy_forms_tags %}
 {% load bootstrap4 %}
-{% bootstrap_css %}
+{% block blcss %}
+<style>
+  input[type="file"].tres {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+</style>
 {% endblock %}
 {% block contenido %}
-<div class="container mapa col-9">
-    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
-    <hr class="mt-0 mb-4">
-    <div class="form-row">
-        <div class="container form-row">
-        </div>
+<div class="container mapa col-6">
+  <label class="encabezados">{{ nom_proyecto }} - Solicitud - {{ id }}</label>
+  <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Comprobantes</h3>
+  <hr class="mt-0 mb-4">
+  <div class="form-row">
+    <div class="container form-row">
+      <div class="form-group col-4">
+        <a class="btn btn-info" href="{% url 'archivo' num_proyecto %}" title="Regresar a la pantalla anterior">
+          <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
+      </div>
     </div>
-    <div class="container">
-        <div class="wrapper fadeInDown">
-            <div id="formContent" style="text-align: right;">
-                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row mb-3">
-                        <label for="form.foto_comprobante_apartado.name" class="form-label-sm ">
-                            {{ form.foto_comprobante_apartado.label }}
-                        </label>
-                        <embed src="{{MEDIA_URL}}/{{ form.foto_comprobante_apartado.url }}" type="">
-                        <input type="file" class="form-control form-control-sm"
-                            name="foto_comprobante_apartado" id="id_foto_comprobante_apartado">
-                    </div>
-                    <button type="submit" class="btn btn-success" title="Guarda solicitud">
-                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                    </button>
-                </form>
-            </div>
+  </div>
+  <div class="col-12">
+    <form action="" method="POST">
+      {% for e in solicitud %}
+      {% if e.apartado > 0 and e.confirmacion_apartado == 2 %}
+      <div class="row">
+        <label for="formFileSm" class="form-label">Comprobante Apartado depósito</label>
+        <div class="col-8">
+          <input class="form-control form-control" name="foto_comprobante_apartado" id="id_foto_comprobante_apartado" type="file" accept="application/pdf">
         </div>
-    </div>
+        <div class="col-4 ExternalFiles">
+          {% if e.foto_comprobante_apartado.url != '' %}
+          <a href="{{ e.foto_comprobante_apartado.url }}" target="_blank" class="btn btn-info"
+            title="Mostrar comprobante apartado depósito">
+            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+          </a>
+          {% else %}
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <label for="formFileSm" class="form-label">Recibo apartado firmado</label>
+        <div class="col-8">
+          <input class="form-control form-control" name="recibo_firmado_apa" id="id_recibo_firmado_apa" type="file" accept="application/pdf">
+        </div>
+        <div class="col-4 ExternalFiles">
+          {% if e.recibo_firmado_apa.url != '' %}
+          <a href="{{ e.recibo_firmado_apa.url }}" target="_blank" class="btn btn-info"
+            title="Mostrar recibo apartado firmado">
+            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+          </a>
+          {% else %}
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% if e.pago_adicional > 0 and e.confirmacion_pago_adicional == 2 %}
+      <div class="row">
+        <label for="formFileSm" class="form-label">Comprobante adicional depósito</label>
+        <div class="col-8">
+          <input class="form-control form-control" name="foto_comprobante_pago_adicional" id="id_foto_comprobante_pago_adicional" type="file" accept="application/pdf">
+        </div>
+        <div class="col-4 ExternalFiles">
+          {% if e.foto_comprobante_pago_adicional.url != '' %}
+          <a href="{{ e.foto_comprobante_pago_adicional.url }}" target="_blank" class="btn btn-info"
+            title="Mostrar comprobante adicional depósito">
+            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+          </a>
+          {% else %}
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <label for="formFileSm" class="form-label">Pago adicional firmado</label>
+        <div class="col-8">
+          <input class="form-control form-control" id="id_recibo_firmado_pa" type="file" accept="application/pdf">
+        </div>
+        <div class="col-4 ExternalFiles">
+          {% if e.recibo_firmado_pa.url != '' %}
+          <a href="{{ e.recibo_firmado_pa.url }}" target="_blank" class="btn btn-info"
+            title="Mostrar pago adicional firmado">
+            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+          </a>
+          {% else %}
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+      <hr>
+      {% if mensualidades %}
+      <label for="formFileSm" class="form-label">Recibos mensualidades</label>
+      <table class="table col-12 text-center">
+        <thead>
+          <tr>
+            <th>Mens.</th>
+            <th>Compromiso</th>
+            <th>Pago</th>
+            <th>comprobante</th>
+            <th>Mostrar</th>
+            <th>Recibo</th>
+            <th>Mostrar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in mensualidades %}
+          <tr>
+            <td style="vertical-align: middle;">{{m.numero_pago}}</td>
+            <td style="vertical-align: middle;">{{m.fecha_pago | date:"Y/m/d" }}</td>
+            <td style="vertical-align: middle;">{{m.fecha_voucher | date:"Y/m/d" }}</td>
+            <td style="vertical-align: middle;">
+              {% if m.deposito == 2 %}
+              <label for='id_file_comprobante-{{m.convenio}}-{{numero_pago}}' class='btn btn-secondary' title="Agregar documento PDF">
+                <img src="{% static 'core/img/comprobante.svg' %}" width="20" />
+              </label>
+              <input class="btn tres" id="id_file_comprobante-{{m.convenio}}-{{numero_pago}}" type="file" accept="application/pdf">
+              {% endif %}
+            </td>
+            <td style="vertical-align: middle;">
+              {% if m.file_comprobante.url != '' %}
+              <a href="{{ m.file_comprobante.url }}" target="_blank" class="btn btn-info"
+                title="Mostrar comprobotante">
+                <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+              </a>
+              {% else %}
+              <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+              {% endif %}
+            </td>
+            <td style="vertical-align: middle;">
+              {% if m.deposito == 2 %}
+              <label for='id_recibo_firmado-{{m.convenio}}-{{numero_pago}}' class='btn btn-secondary' title="Agrega documento PDF">
+                <img src="{% static 'core/img/comprobante.svg' %}" width="20" />
+              </label>
+              <input class="form-control form-control tres" id="id_recibo_firmado-{{m.convenio}}-{{numero_pago}}" type="file" accept="application/pdf">
+              {% endif %}
+            </td>
+            <td style="vertical-align: middle;">
+              {% if m.recibo_firmado.url != '' %}
+              <a href="{{ m.recibo_firmado.url }}" target="_blank" class="btn btn-info"
+                title="Mostrar recibo firmaddo">
+                <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+              </a>
+              {% else %}
+              <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <hr>
+      {% endif %}
+      <div>
+        <button type="submit" class="btn btn-success" title="Guarda solicitud">
+          <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-<script>
-    
-</script>
 {% endblock %}
-
-<script>
-{% block inicio %}
-    
-{% endblock %}
-</script>

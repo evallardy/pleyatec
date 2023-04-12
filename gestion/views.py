@@ -18,12 +18,149 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.views.generic.edit import ModelFormMixin
 from django.db import transaction
+import decimal
+from django.http import JsonResponse
+import math
 
 from .models import *
 from .funciones import *
 from .forms import *
 from core.numero_letras import numero_a_letras
 from core.funciones import *
+from bien.models import Lote
+
+@login_required
+def calcula_operacion(request, descuento, porcentaje_descuento, modo_pago, idLote, enganche, cantidad_pagos, asigna_descuento, tipo_desc):
+    lote = Lote.objects.filter(id=idLote)
+    num_proyecto = lote[0].proyecto.id
+    precio = lote[0].precio
+    total = lote[0].total
+    precio_x_mt = lote[0].precio_x_mt
+    regla = Regla.objects.filter(proyecto_id=num_proyecto, modo_pago=modo_pago , mensualidades_permitidas=cantidad_pagos)
+
+    precio_final = precio
+
+    if asigna_descuento == '1':
+        if regla:
+            tipo_aplica_descto = regla[0].tipo_aplica_descto
+            if tipo_aplica_descto != 0:
+                valor1 = regla[0].valor1
+                if tipo_aplica_descto == 1:                        #  Importe por metro cuadrado
+                    precio_x_mt = precio_x_mt - valor1
+                    precio = total * precio_x_mt
+                    precio_final = precio
+                elif tipo_aplica_descto == 2:                      #  % por metro cuadrado
+                    descuento_mt = ((precio_x_mt * valor1) / 100)
+                    precio_x_mt = precio_x_mt - descuento_mt
+                    precio = total * precio_x_mt
+                    precio_final = precio
+        if tipo_desc == '1':
+            descuento = (precio * decimal.Decimal(porcentaje_descuento)) / 100
+            precio_final = precio - decimal.Decimal(descuento)
+        elif tipo_desc == '2':
+            precio_final = precio - decimal.Decimal(descuento)
+    else:
+        descuento = 0
+        porcentaje_descuento = 0
+        if regla:
+            tipo_aplica_descto = regla[0].tipo_aplica_descto
+            if tipo_aplica_descto != 0:
+                valor1 = regla[0].valor1
+                if tipo_aplica_descto == 1:                        #  Importe por metro cuadrado
+                    precio_x_mt = precio_x_mt - valor1
+                    precio = total * precio_x_mt
+                    precio_final = precio
+                elif tipo_aplica_descto == 2:                      #  % por metro cuadrado
+                    descuento_mt = ((precio_x_mt * valor1) / 100)
+                    precio_x_mt = precio_x_mt - descuento_mt
+                    precio = total * precio_x_mt
+                    precio_final = precio
+                elif tipo_aplica_descto == 3:                      # Importe al precio de lista
+                    descuento = valor1
+                    porcentaje_descuento = 0
+                    precio_final = precio - descuento
+                elif tipo_aplica_descto == 4:                      # % al precio de lista
+                    porcentaje_descuento = valor1
+                    descuento = ((precio * decimal.Decimal(porcentaje_descuento)) / 100)
+                    precio_final = precio - descuento
+    error_enganche = ''
+    if regla:
+        tipo_enganche_minimo = regla[0].tipo_enganche_minimo
+        valor3 = regla[0].valor3
+        if tipo_enganche_minimo == 1:
+            enganche_calculado = valor3
+        else:
+            enganche_calculado = (decimal.Decimal(precio_final) * decimal.Decimal(valor3)) / decimal.Decimal('100')
+        if decimal.Decimal(enganche) < enganche_calculado:
+            importe_formateado = "{:,.2f}".format(enganche_calculado)
+            error_enganche = '<label class="text-danger" >' + "El enganche mínimo es " + str(importe_formateado) + '</label>'
+    
+    pago_mensual = 0
+    credito = 0
+    if modo_pago != '1':
+        credito = precio_final - decimal.Decimal(enganche)
+        if decimal.Decimal(cantidad_pagos) > 0:
+            pago_mensual = math.ceil(float((precio_final - decimal.Decimal(enganche)) / decimal.Decimal(cantidad_pagos)) * 100) / 100
+    datos= {}
+    datos['total'] = "{:,.2f}".format(total)
+    datos['precio_x_mt'] = "{:,.2f}".format(precio_x_mt)
+    datos['precio'] = "{:,.2f}".format(precio)
+    datos['descuento'] = "{:,.2f}".format(decimal.Decimal(descuento))
+    datos['precio_final'] = "{:,.2f}".format(precio_final)
+    datos['credito'] = "{:,.2f}".format(credito)
+    datos['porcentaje_descuento'] = "{:,.2f}".format(decimal.Decimal(porcentaje_descuento))
+    datos['enganche'] = "{:,.2f}".format(decimal.Decimal(enganche))
+    datos['pago_mensual'] = "{:,.2f}".format(pago_mensual)
+    datos['error_enganche'] = error_enganche
+    datos['asigna_descuento'] = asigna_descuento
+    datos['tipo_desc'] = tipo_desc
+    return JsonResponse({'datos': datos})
+
+@login_required
+def valida_enganche_minimo(request, proyecto, modo_pago, precio, enganche, mensualidades):
+    reglas = Regla.objects.filter(proyecto_id=proyecto, modo_pago=modo_pago , mensualidades_permitidas=mensualidades)
+    valor3 = reglas[0].valor3
+    if reglas[0].tipo_enganche_minimo == 1:
+        importe = valor3
+    else:
+        importe = (decimal.Decimal(precio) * decimal.Decimal(valor3)) / decimal.Decimal('100')
+    importe_formateado = "{:,.2f}".format(importe)
+    if decimal.Decimal(enganche) < importe:
+        respuesta = '<label class="text-danger" >' + "El enganche mínimo es " + str(importe_formateado) + '</label>'
+    else:
+        respuesta = ''
+    return JsonResponse({'mensaje': respuesta})
+    
+@login_required
+def valores_bien(request, id, importe):
+    importe_dec = float(importe)
+    datos = {}
+    if id != '0':
+        lote = Lote.objects.filter(id=id)
+        importe_suma = lote[0].precio_x_mt + decimal.Decimal(importe_dec)
+        importe_formateado = "{:,.2f}".format(importe_suma)
+        datos['precio_x_mt'] = importe_formateado
+        importe_formateado = "{:,.2f}".format(lote[0].total * importe_suma)
+        datos['precio'] = importe_formateado
+    else:
+        print('Cero')
+        datos['precio_x_mt'] = 0
+        datos['precio'] = 0
+    return JsonResponse({'datos': datos})
+
+@login_required
+def valores_bien_inicial(request, id):
+    datos = {}
+    if id != '0':
+        lote = Lote.objects.filter(id=id)
+        importe_formateado = "{:,.2f}".format(lote[0].precio_x_mt)
+        datos['precio_x_mt'] = importe_formateado
+        importe_formateado = "{:,.2f}".format(lote[0].precio)
+        datos['precio'] = importe_formateado
+    else:
+        datos['precio_x_mt'] = 0
+        datos['precio'] = 0
+    return JsonResponse({'datos': datos})
 
 class solicitudes(ListView):
     model = Solicitud
@@ -1136,6 +1273,7 @@ class mod_solicitud(UpdateView):
 
             return render(self.request, self.template_name, context)
 
+@login_required
 def can_sol(request, llave, num_proyecto):
     proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
 #  Proyecto
@@ -1150,6 +1288,7 @@ def can_sol(request, llave, num_proyecto):
         sol = Solicitud.objects.filter(id=llave).update(estatus_solicitud='99', apartado=0)
         return HttpResponseRedirect(reverse('solicitudes', kwargs={'num_proyecto':num_proyecto},))
 
+@login_required
 def rec_sol(request, llave, num_proyecto):
     proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
 #  Proyecto
@@ -1320,6 +1459,7 @@ class autorizaciones(ListView):
         context[variable_html] = acceso
         return context
 
+@login_required
 def aut_ventas(request, llave, num_proyecto):
     proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
 #  Proyecto
@@ -1334,6 +1474,7 @@ def aut_ventas(request, llave, num_proyecto):
         sol = Solicitud.objects.filter(id=llave).update(aprobacion_gerente=True)
         return HttpResponseRedirect(reverse(('autorizaciones'), kwargs={'num_proyecto':num_proyecto} ,))
 
+@login_required
 def aut_desarrollo(request, llave, num_proyecto):
     proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
 #  Proyecto
@@ -2221,6 +2362,7 @@ class datos_contrato(UpdateView):
         num_proyecto = self.kwargs.get('num_proyecto',0)
         return reverse_lazy('contratos', kwargs={'num_proyecto': num_proyecto})
 
+@login_required
 def archiva(request, id, estado, num_proyecto):
     proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
 #  Proyecto

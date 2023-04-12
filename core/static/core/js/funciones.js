@@ -1,3 +1,65 @@
+function calcula_operacion(descuento, porcentaje_descuento, modo_pago, idLote, enganche, cantidad_pagos, asigna_descuento, tipo_desc) {
+    url = '/gestion/calcula_operacion/' + descuento + '/' + porcentaje_descuento + '/' + modo_pago + '/' + idLote + '/' + enganche + '/' + cantidad_pagos + '/' + asigna_descuento + '/' + tipo_desc + '/';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            if (asigna_descuento == '1') {
+                if (tipo_desc == '1') {
+                    $('#id_descuento').val(data.datos['descuento']);
+                } else {
+                    $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
+                }
+            } else {
+                $('#id_descuento').val(data.datos['descuento']);
+                $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
+            }
+            $('#id_total').val(data.datos['total']);
+            $('#id_precio_x_mt').val(data.datos['precio_x_mt']);
+            $('#id_precio_lote').val(data.datos['precio']);
+            $('#id_precio_final').val(data.datos['precio_final']);
+            $('#id_credito').val(data.datos['credito']);
+            $('#id_importe_x_pago').val(data.datos['pago_mensual']);
+            $('#id-enganche-minimo-error').html(data.datos['error_enganche']);
+        }
+    });
+}
+function valores_bien_inicial(id) {
+    url = '/gestion/valores_bien_inicial/' + id + '/';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            $('#id_precio_x_mt').val(data.datos['precio_x_mt']);
+            $('#id_precio_lote').val(data.datos['precio']);
+        }
+    });
+}
+function valores_bien(id, importe, proyecto, modo_pago, enganche, cantidad_pagos) {
+    url = '/gestion/valores_bien/' + id + '/' + importe + '/';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            precio = data.datos['precio'].replaceAll(',','');
+            $('#id_precio_x_mt').val(data.datos['precio_x_mt']);
+            $('#id_precio_lote').val(data.datos['precio']);
+            $('#id_precio_final').val(data.datos['precio']);
+            valida_enganche_minimo(proyecto, modo_pago, precio, enganche, cantidad_pagos);
+        }
+    });
+}
+function valida_enganche_minimo(proyecto, modo_pago, precio, enganche, mensualidades) {
+    url = '/gestion/valida_enganche_minimo/' + proyecto + '/' + modo_pago + '/' + precio + '/' + enganche + '/' + mensualidades + '/';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(response) {
+            $('#id-enganche-minimo-error').html(response.mensaje);
+        }
+    });
+}
+
 function descuento_credito(id) {
     $.ajax({
         url: '/paciente/datos_paciente/' + id + "/",

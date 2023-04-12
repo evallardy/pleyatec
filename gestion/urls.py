@@ -20,4 +20,8 @@ urlpatterns = [
     path('datos_contrato/<pk>/<num_proyecto>/', datos_contrato.as_view(), name='datos_contrato'),
     path('archiva/<id>/<estado>/<num_proyecto>/', archiva, name='archiva'),
     path('archivo_sol/<id>/<num_proyecto>/', archivo_sol.as_view(), name='archivo_sol'),
+    path('valida_enganche_minimo/<proyecto>/<modo_pago>/<precio>/<enganche>/<mensualidades>/', valida_enganche_minimo, name='valida_enganche_minimo'),
+    path('valores_bien/<id>/<importe>/', valores_bien, name='valores_bien'), 
+    path('valores_bien_inicial/<id>/', valores_bien_inicial, name='valores_bien_inicial'), 
+    path('calcula_operacion/<descuento>/<porcentaje_descuento>/<modo_pago>/<idLote>/<enganche>/<cantidad_pagos>/<asigna_descuento>/<tipo_desc>/', calcula_operacion, name='calcula_operacion'),
 ]
