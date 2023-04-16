@@ -13,7 +13,7 @@ from django.db.models import Subquery, Sum, F, Q
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.db.models.aggregates import Count
-
+from django.core.files import File
 from django.shortcuts import render
 
 from bien.models import PagoComision, Proyecto, Lote
@@ -1514,7 +1514,7 @@ def vobo_comisiones(request, fecha_hasta_str, num_proyecto, fecha_hasta, nom_pro
         folio.save()
     return HttpResponseRedirect(reverse_lazy(('pago_comisiones'), kwargs={'num_proyecto':num_proyecto,'periodo':fecha_hasta_str} ,))
 
-class imprime_comprob_mensual_PDF(View):
+class imprime_comprob_mensual_PDF(LoginRequiredMixin, View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -1585,7 +1585,7 @@ class imprime_comprob_mensual_PDF(View):
             )
         return response
 
-class imprime_comprob_comision_PDF(View):
+class imprime_comprob_comision_PDF(LoginRequiredMixin, View):
     def link_callback(self, uri, rel):
         """
         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -1686,70 +1686,42 @@ class comprobantes(LoginRequiredMixin, UpdateView):
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
         return context
-
-
-
-
-    def get_success_url(self):
-        num_proyecto = self.kwargs.get('num_proyecto',0)
-        return reverse_lazy('archivo', kwargs={'num_proyecto': num_proyecto})        
-    def get_post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk',0)
-        num_proyecto = self.kwargs.get('num_proyecto',0)
         solicitud = Solicitud.objects.get(id=pk)
-        form = ComprobanteForm(request.POST, request.FILES, instance=solicitud)
-        if formulario.is_valid():
-            formulario.save()
-            return HttpResponseRedirect(reverse_lazy(('archivo'), kwargs={'num_proyecto':num_proyecto} ,))
-        else:
-            context = {}
-            id = self.kwargs.get('pk',0)
-        # Proyecto
-            proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
-            context['num_proyecto'] = num_proyecto         
-            context['proyecto_tb'] = proyecto_tb
-            nom_proy = proyecto_tb[0].nom_proy
-            nombre = proyecto_tb[0].nombre
-            context['nombre'] = nombre
-        # Solicitud
-            formulario = Solicitud.objects.filter(id=id)
-            context['formulario'] = formulario
-        # Pagos
-            pago_tb = Pago.objects.filter(convenio_id=id)
-            context['pago_tb'] = pago_tb        
-            return render(request, 'finanzas/comprobantes.html', {'formulario': formulario, 'context': context})
-            
-#        if request.FILES.get('foto_comprobante_apartado'):
-#            foto_comprobante_apartado = request.FILES.get('foto_comprobante_apartado')
-#            solicitud = Solicitud.objects.filter(id=pk).update(foto_comprobante_apartado=foto_comprobante_apartado)
-#        if request.FILES.get('recibo_firmado_apa'):
-#            recibo_firmado_apa = request.FILES.get('recibo_firmado_apa')
-#            solicitud = Solicitud.objects.filter(id=pk).update(recibo_firmado_apa=recibo_firmado_apa)
-#        if request.FILES.get('foto_comprobante_pago_adicional'):
-#            foto_comprobante_pago_adicional = request.FILES.get('foto_comprobante_pago_adicional')
-#            solicitud = Solicitud.objects.filter(id=pk).update(foto_comprobante_pago_adicional=foto_comprobante_pago_adicional)
-#        if request.FILES.get('recibo_firmado_pa'):
-#            recibo_firmado_pa = request.FILES.get('recibo_firmado_pa')
-#            solicitud = Solicitud.objects.filter(id=pk).update(recibo_firmado_pa=recibo_firmado_pa)
-#            formulario = ComprobanteForm(request.POST or None, request.FILES or None, instance=solicitud)
-#            if formulario.is_valid():
-#                formulario.save()
-    #            form.foto_comprobante_apartado = self.request.FILES['foto_comprobante_apartado']
-    #            form.recibo_firmado_apa = self.request.FILES['recibo_firmado_apa']
-    #            form.foto_comprobante_pago_adicional = self.request.FILES['foto_comprobante_pago_adicional']
-    #            form.recibo_firmado_pa = self.request.FILES['recibo_firmado_pa']
-    #            form.save()
-        return HttpResponseRedirect(reverse_lazy(('archivo'), kwargs={'num_proyecto':num_proyecto} ,))
-
-
-
-'''
-    def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-        context = {}
-        id = self.kwargs.get('pk',0)
-    # Proyecto
+        guardar = False
+        if 'foto_comprobante_apartado' in request.FILES:
+            guardar = True
+            solicitud.foto_comprobante_apartado = request.FILES['foto_comprobante_apartado']
+        if 'recibo_firmado_apa' in request.FILES:
+            guardar = True
+            solicitud.recibo_firmado_apa = request.FILES['recibo_firmado_apa']
+        if 'foto_comprobante_pago_adicional' in request.FILES:
+            guardar = True
+            solicitud.foto_comprobante_pago_adicional = request.FILES['foto_comprobante_pago_adicional']
+        if 'recibo_firmado_pa' in request.FILES:
+            guardar = True
+            solicitud.recibo_firmado_pa = request.FILES['recibo_firmado_pa']
+        if guardar:
+            solicitud.save()
+#        comprobantes = [request.FILES[key] for key in request.FILES.keys() if key.startswith('file-comprobante-')]
+        comprobantes = request.FILES
+        for comprobante in comprobantes:
+            if comprobante.startswith('file-comprobante-'):
+                partes = comprobante.split("-")
+                registro = partes[2]
+                pago = Pago.objects.get(id=registro)
+                pago.file_comprobante = request.FILES[comprobante]
+                pago.save()
+            elif comprobante.startswith('recibo-firmado-'):
+                partes = comprobante.split("-")
+                registro = partes[2]
+                pago = Pago.objects.get(id=registro)
+                pago.recibo_firmado = request.FILES[comprobante]
+                pago.save()        
         num_proyecto = self.kwargs.get('num_proyecto',0)
+        context = {}
+    # Proyecto
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['num_proyecto'] = num_proyecto         
         context['proyecto_tb'] = proyecto_tb
@@ -1757,40 +1729,10 @@ class comprobantes(LoginRequiredMixin, UpdateView):
         nombre = proyecto_tb[0].nombre
         context['nombre'] = nombre
     # Solicitud
+        formulario = Solicitud.objects.filter(id=pk)
+        context['formulario'] = formulario
     # Pagos
-        pago_tb = Pago.objects.filter(convenio_id=id)
+        pago_tb = Pago.objects.filter(convenio_id=pk)
         context['pago_tb'] = pago_tb        
-        return context
-        
-    def get_success_url(self):
-        num_proyecto = self.kwargs.get('num_proyecto',0)
-        return reverse_lazy('archivo', kwargs={'num_proyecto': num_proyecto})        
-'''
+        return HttpResponseRedirect(reverse_lazy(('comprobantes'), kwargs={'pk': pk, 'num_proyecto':num_proyecto} ,))
 
-'''
-def comprobantes(request, pk, num_proyecto):
-    context = {}
-# Proyecto
-    proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
-    context['num_proyecto'] = num_proyecto         
-    context['proyecto_tb'] = proyecto_tb
-    nom_proy = proyecto_tb[0].nom_proy
-    nombre = proyecto_tb[0].nombre
-    context['nombre'] = nombre
-# Solicitud
-    solicitud_tb = Solicitud.objects.filter(id=pk)
-    context['solicitud_tb'] = solicitud_tb
-# Pagos
-    pago_tb = Pago.objects.filter(convenio_id=pk)
-    context['pago_tb'] = pago_tb        
-    if request.method == 'POST':
-        solicitud = Solicitud.objects.filter(id=pk)
-        comprobantes = ComprobanteForm(request.POST or None, request.FILES or None, instance=solicitud)
-        if comprobantes.is_valid():
-            comprobantes.save()
-            return HttpResponseRedirect(reverse_lazy(('archivo'), kwargs={'num_proyecto':proyecto} ,))
-        return render(request, 'finanzas/comprobantes.html', {'context': context})
-            
-    else:
-        return render(request, 'finanzas/comprobantes.html', {'context': context})
-'''
