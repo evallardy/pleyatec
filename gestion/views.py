@@ -46,12 +46,12 @@ def calcula_operacion(request, descuento, porcentaje_descuento, modo_pago, idLot
             if tipo_aplica_descto != 0:
                 valor1 = regla[0].valor1
                 if tipo_aplica_descto == 1:                        #  Importe por metro cuadrado
-                    precio_x_mt = precio_x_mt - valor1
+                    precio_x_mt = precio_x_mt + valor1
                     precio = total * precio_x_mt
                     precio_final = precio
                 elif tipo_aplica_descto == 2:                      #  % por metro cuadrado
                     descuento_mt = ((precio_x_mt * valor1) / 100)
-                    precio_x_mt = precio_x_mt - descuento_mt
+                    precio_x_mt = precio_x_mt + descuento_mt
                     precio = total * precio_x_mt
                     precio_final = precio
         if tipo_desc == '1':
@@ -67,22 +67,22 @@ def calcula_operacion(request, descuento, porcentaje_descuento, modo_pago, idLot
             if tipo_aplica_descto != 0:
                 valor1 = regla[0].valor1
                 if tipo_aplica_descto == 1:                        #  Importe por metro cuadrado
-                    precio_x_mt = precio_x_mt - valor1
+                    precio_x_mt = precio_x_mt + valor1
                     precio = total * precio_x_mt
                     precio_final = precio
                 elif tipo_aplica_descto == 2:                      #  % por metro cuadrado
                     descuento_mt = ((precio_x_mt * valor1) / 100)
-                    precio_x_mt = precio_x_mt - descuento_mt
+                    precio_x_mt = precio_x_mt + descuento_mt
                     precio = total * precio_x_mt
                     precio_final = precio
                 elif tipo_aplica_descto == 3:                      # Importe al precio de lista
                     descuento = valor1
                     porcentaje_descuento = 0
-                    precio_final = precio - descuento
+                    precio_final = precio + descuento
                 elif tipo_aplica_descto == 4:                      # % al precio de lista
                     porcentaje_descuento = valor1
                     descuento = ((precio * decimal.Decimal(porcentaje_descuento)) / 100)
-                    precio_final = precio - descuento
+                    precio_final = precio + descuento
     error_enganche = ''
     if regla:
         tipo_enganche_minimo = regla[0].tipo_enganche_minimo

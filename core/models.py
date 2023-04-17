@@ -247,7 +247,6 @@ TIPO_APLICA_DESCUENTO = (
     (2,'% de descuento por m2'),
     (3,'Importe de descuento del precio de lista'),
     (4,'% de descuento de precio de lista'),
-    (5,'Importe de incremento por m²'),
 )
 TIPO_CALCULO = (
     ("C", 'Cantidad'),
