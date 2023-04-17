@@ -41,7 +41,7 @@
             type="file" accept="application/pdf">
         </div>
         <div class="col-1 ExternalFiles">
-          {% if e.foto_comprobante_apartado.url != '' %}
+          {% if trim(e.foto_comprobante_apartado.url) != '' %}
           <a href="{{ e.foto_comprobante_apartado.url }}" target="_blank" class="btn btn-info"
             title="Mostrar comprobante apartado depósito">
             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
@@ -52,7 +52,7 @@
           {% endif %}
         </div>
         <div class="col-1">
-          {% if e.foto_comprobante_apartado.url != '' %}
+          {% if trim(e.foto_comprobante_apartado.url) != '' %}
           <a class="btn btn-danger" title="Eliminar archivo almacenado del comprobante"
             onclick="eliminar_imagen('Comprobante apartado', 'Solicitud', '{{e.id}}', 'foto_comprobante_apartado')">
             <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
@@ -67,7 +67,7 @@
             accept="application/pdf">
         </div>
         <div class="col-1 ExternalFiles">
-          {% if e.recibo_firmado_apa.url != '' %}
+          {% if trim(e.recibo_firmado_apa.url) != '' %}
           <a href="{{ e.recibo_firmado_apa.url }}" target="_blank" class="btn btn-info"
             title="Mostrar recibo apartado firmado">
             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
@@ -78,7 +78,7 @@
           {% endif %}
         </div>
         <div class="col-1">
-          {% if e.recibo_firmado_apa.url != '' %}
+          {% if trim(e.recibo_firmado_apa.url) != '' %}
           <a class="btn btn-danger" title="Eliminar archivo almacenado del recibo firmado"
             onclick="eliminar_imagen('Recibo apartado firmado', 'Solicitud', '{{e.id}}', 'recibo_firmado_apa')">
             <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
@@ -175,7 +175,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.file_comprobante.url != '' %}
+              {% if trim(m.file_comprobante.url) != '' %}
               <a href="{{ m.file_comprobante.url }}" target="_blank" class="btn btn-info" title="Mostrar comprobotante">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
@@ -185,7 +185,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.file_comprobante.url != '' %}
+              {% if trim(m.file_comprobante.url) != '' %}
               <a class="btn btn-danger" title="Eliminar archivo almacenado del comprobante"
                 onclick="eliminar_imagen('Comprobante mensualidad', 'Pago', '{{m.id}}', 'file_comprobante')">
                 <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
@@ -202,7 +202,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.recibo_firmado.url != '' %}
+              {% if trim(m.recibo_firmado.url) != '' %}
               <a href="{{ m.recibo_firmado.url }}" target="_blank" class="btn btn-info" title="Mostrar recibo firmaddo">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
@@ -212,7 +212,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.recibo_firmado.url != '' %}
+              {% if trim(m.recibo_firmado.url) != '' %}
               <a class="btn btn-danger" title="Eliminar archivo almacenado del recibo firmado"
                 onclick="eliminar_imagen('Recibo de mensualidad firmado', 'Pago', '{{m.id}}', 'recibo_firmado')">
                 <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
