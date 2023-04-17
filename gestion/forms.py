@@ -66,7 +66,7 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             'asigna_descuento':'Asigna descto',
             'porcentaje_descuento':'% de descuento',
             'descuento': 'Descuento',
-            'modo_pago': 'Modo de pago',
+            'modo_pago': 'Modo pago',
             'enganche': 'Enganche',
             'cantidad_pagos': 'Cantidad de pagos',
             'importe_x_pago': 'Importe por pago',
