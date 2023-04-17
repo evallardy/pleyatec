@@ -11,10 +11,12 @@ from time import gmtime, strftime
 from xhtml2pdf import pisa
 from django.db.models import Subquery, Sum, F, Q
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db.models.aggregates import Count
 from django.core.files import File
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from django.test import RequestFactory
 
 from bien.models import PagoComision, Proyecto, Lote
 from core.models import STATUS_COMISION, Titulo
@@ -27,6 +29,20 @@ from gestion.funciones import f_area_puesto, f_asigna_solicitud, f_empleado, nue
 from finanzas.models import Pago
 from .forms import PagoForm, ComprobanteForm, Comprobante_MensualidadForm
 from django.db import transaction
+
+def elimina_archivo_url(request, almacen, id, documento, pk, num_proyecto):
+    if almacen == 'Solicitud' or almacen == 'Pago':
+        if almacen == 'Solicitud':
+            pdf = get_object_or_404(Solicitud, pk=id)
+        elif almacen == 'Pago':
+            pdf = get_object_or_404(Pago, pk=id)
+        setattr(pdf, documento, '')
+        pdf.save()
+        factory = RequestFactory()
+        response = comprobantes.as_view()(request, pk=pk, num_proyecto=num_proyecto)
+        return response
+    else:
+        return JsonResponse({'mensaje': 'Error'})
 
 class tabla_amortizacion(TemplateView):
     template_name = 'finanzas/tabla_amortizacion.html'
@@ -1673,6 +1689,7 @@ class comprobantes(LoginRequiredMixin, UpdateView):
         context['solicitud'] = Solicitud.objects.filter(id=pk)
         context['mensualidades'] = Pago.objects.filter(convenio=pk)
         context['id'] = pk
+        context['pk'] = pk
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['nom_proyecto'] = proyecto_tb[0].nombre
         context['num_proyecto'] = num_proyecto
@@ -1704,7 +1721,6 @@ class comprobantes(LoginRequiredMixin, UpdateView):
             solicitud.recibo_firmado_pa = request.FILES['recibo_firmado_pa']
         if guardar:
             solicitud.save()
-#        comprobantes = [request.FILES[key] for key in request.FILES.keys() if key.startswith('file-comprobante-')]
         comprobantes = request.FILES
         for comprobante in comprobantes:
             if comprobante.startswith('file-comprobante-'):

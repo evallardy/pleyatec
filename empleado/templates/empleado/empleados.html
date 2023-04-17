@@ -7,13 +7,13 @@
     <div class="container">
         {% if perms.empleado.add_empleado %}
         <div class="container">
-            <a type="button" class="btn btn-info" href="{% url 'nvo_empleado' %}" 
+            <a type="button" class="btn btn-info" href="{% url 'nvo_empleado' %}"  
                 title="Regresar a la pantalla anterior">
                 <img src="{% static 'core/img/agregar.svg' %}" width="20" />
             </a>
         </div>
         {% endif %}
-        <table class="estilo-tabla">
+        <table class="estilo-tabla col-12">
             <thead>
                 <tr>
                     <th class="col-md-4 titulo-tabla">Nombre</th>
@@ -25,7 +25,7 @@
             </thead>
             <tbody>
                 {% for e in object_list %}
-                <tr class="estilo-datos">
+                <tr class="datos-tabla">
                     <td style="text-align: left;">{{ e.nombre_completo }}</td>
                     <td style="text-align: center;">{{ e.get_area_operativa_display }}</td>
                     <td style="text-align: center;">{{ e.get_puesto_display }}</td>

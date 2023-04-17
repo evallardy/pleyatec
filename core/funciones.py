@@ -3,14 +3,20 @@ from datetime import date, time, timedelta
 import calendar
 from distutils.util import subst_vars
 from xml.parsers.expat import model
-from bien.models import PagoComision, Proyecto,ComisionAgente
-from core.models import Titulo
-from empleado.models import Empleado
 from django.contrib.auth.models import  Group,User,Permission
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db.models.functions import Substr
+from django.shortcuts import get_object_or_404, render
+from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
+
+from bien.models import PagoComision, Proyecto,ComisionAgente
+from core.models import Titulo
+from empleado.models import Empleado
+from gestion import models as sol
+from finanzas import models as pag
 
 def fecha_hoy():
     return datetime.date.today().strftime("%d-%m-%Y")

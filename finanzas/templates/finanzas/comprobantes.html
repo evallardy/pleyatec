@@ -1,6 +1,5 @@
 {% extends "core/base.html" %}
 {% load static %}
-{% load l10n %}
 {% load crispy_forms_tags %}
 {% load bootstrap4 %}
 {% block blcss %}
@@ -38,32 +37,52 @@
       <div class="row">
         <label for="formFileSm" class="form-label">Comprobante Apartado depósito</label>
         <div class="col-8">
-          <input class="form-control form-control" name="foto_comprobante_apartado" id="id_foto_comprobante_apartado" type="file" accept="application/pdf">
+          <input class="form-control form-control" name="foto_comprobante_apartado" id="id_foto_comprobante_apartado"
+            type="file" accept="application/pdf">
         </div>
-        <div class="col-4 ExternalFiles">
+        <div class="col-1 ExternalFiles">
           {% if e.foto_comprobante_apartado.url != '' %}
           <a href="{{ e.foto_comprobante_apartado.url }}" target="_blank" class="btn btn-info"
             title="Mostrar comprobante apartado depósito">
             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
           </a>
           {% else %}
-          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
+            comprobante</label>
+          {% endif %}
+        </div>
+        <div class="col-1">
+          {% if e.foto_comprobante_apartado.url != '' %}
+          <a class="btn btn-danger" title="Eliminar archivo almacenado del comprobante"
+            onclick="eliminar_imagen('Comprobante apartado', 'Solicitud', '{{e.id}}', 'foto_comprobante_apartado')">
+            <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
+          </a>
           {% endif %}
         </div>
       </div>
       <div class="row">
         <label for="formFileSm" class="form-label">Recibo apartado firmado</label>
         <div class="col-8">
-          <input class="form-control form-control" name="recibo_firmado_apa" id="id_recibo_firmado_apa" type="file" accept="application/pdf">
+          <input class="form-control form-control" name="recibo_firmado_apa" id="id_recibo_firmado_apa" type="file"
+            accept="application/pdf">
         </div>
-        <div class="col-4 ExternalFiles">
+        <div class="col-1 ExternalFiles">
           {% if e.recibo_firmado_apa.url != '' %}
           <a href="{{ e.recibo_firmado_apa.url }}" target="_blank" class="btn btn-info"
             title="Mostrar recibo apartado firmado">
             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
           </a>
           {% else %}
-          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
+            comprobante</label>
+          {% endif %}
+        </div>
+        <div class="col-1">
+          {% if e.recibo_firmado_apa.url != '' %}
+          <a class="btn btn-danger" title="Eliminar archivo almacenado del recibo firmado"
+            onclick="eliminar_imagen('Recibo apartado firmado', 'Solicitud', '{{e.id}}', 'recibo_firmado_apa')">
+            <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
+          </a>
           {% endif %}
         </div>
       </div>
@@ -72,32 +91,52 @@
       <div class="row">
         <label for="formFileSm" class="form-label">Comprobante adicional depósito</label>
         <div class="col-8">
-          <input class="form-control form-control" name="foto_comprobante_pago_adicional" id="id_foto_comprobante_pago_adicional" type="file" accept="application/pdf">
+          <input class="form-control form-control" name="foto_comprobante_pago_adicional"
+            id="id_foto_comprobante_pago_adicional" type="file" accept="application/pdf">
         </div>
-        <div class="col-4 ExternalFiles">
+        <div class="col-1 ExternalFiles">
           {% if e.foto_comprobante_pago_adicional.url != '' %}
           <a href="{{ e.foto_comprobante_pago_adicional.url }}" target="_blank" class="btn btn-info"
             title="Mostrar comprobante adicional depósito">
             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
           </a>
           {% else %}
-          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
+            comprobante</label>
+          {% endif %}
+        </div>
+        <div class="col-1">
+          {% if e.foto_comprobante_pago_adicional.url != '' %}
+          <a href="#" class="btn btn-danger" title="Eliminar archivo almacenado del comprobante"
+            onclick="eliminar_imagen('Comprobante pago adicional', 'Solicitud', '{{e.id}}', 'foto_comprobante_pago_adicional')">
+            <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
+          </a>
           {% endif %}
         </div>
       </div>
       <div class="row">
         <label for="formFileSm" class="form-label">Pago adicional firmado</label>
         <div class="col-8">
-          <input class="form-control form-control" name="recibo_firmado_pa" id="id_recibo_firmado_pa" type="file" accept="application/pdf">
+          <input class="form-control form-control" name="recibo_firmado_pa" id="id_recibo_firmado_pa" type="file"
+            accept="application/pdf">
         </div>
-        <div class="col-4 ExternalFiles">
+        <div class="col-1 ExternalFiles">
           {% if e.recibo_firmado_pa.url != '' %}
           <a href="{{ e.recibo_firmado_pa.url }}" target="_blank" class="btn btn-info"
             title="Mostrar pago adicional firmado">
             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
           </a>
           {% else %}
-          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+          <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
+            comprobante</label>
+          {% endif %}
+        </div>
+        <div class="col-1">
+          {% if e.recibo_firmado_pa.url != '' %}
+          <a class="btn btn-danger" title="Eliminar archivo almacenado del recibo firmado"
+            onclick="eliminar_imagen('Recibo pago adicional firmado', 'Solicitud', '{{e.id}}', 'recibo_firmado_pa')">
+            <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
+          </a>
           {% endif %}
         </div>
       </div>
@@ -112,10 +151,12 @@
             <th>Mens.</th>
             <th>Compromiso</th>
             <th>Pago</th>
-            <th>comprobante</th>
-            <th>Mostrar</th>
+            <th>Comprobante</th>
+            <th></th>
+            <th></th>
             <th>Recibo</th>
-            <th>Mostrar</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -129,17 +170,26 @@
               <label for='id-file-comprobante-{{m.id}}' class='btn btn-secondary' title="Agregar documento PDF">
                 <img src="{% static 'core/img/comprobante.svg' %}" width="20" />
               </label>
-              <input class="btn tres" name='file-comprobante-{{m.id}}' id="id-file-comprobante-{{m.id}}" type="file" accept="application/pdf">
+              <input class="btn tres" name='file-comprobante-{{m.id}}' id="id-file-comprobante-{{m.id}}" type="file"
+                accept="application/pdf">
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
               {% if m.file_comprobante.url != '' %}
-              <a href="{{ m.file_comprobante.url }}" target="_blank" class="btn btn-info"
-                title="Mostrar comprobotante">
+              <a href="{{ m.file_comprobante.url }}" target="_blank" class="btn btn-info" title="Mostrar comprobotante">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
               {% else %}
-              <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+              <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
+                comprobante</label>
+              {% endif %}
+            </td>
+            <td style="vertical-align: middle;">
+              {% if m.file_comprobante.url != '' %}
+              <a class="btn btn-danger" title="Eliminar archivo almacenado del comprobante"
+                onclick="eliminar_imagen('Comprobante mensualidad', 'Pago', '{{m.id}}', 'file_comprobante')">
+                <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
+              </a>
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
@@ -147,18 +197,26 @@
               <label for='id-recibo-firmado-{{m.id}}' class='btn btn-secondary' title="Agrega documento PDF">
                 <img src="{% static 'core/img/comprobante.svg' %}" width="20" />
               </label>
-              <input class="form-control form-control tres" name='recibo-firmado-{{m.id}}' 
+              <input class="form-control form-control tres" name='recibo-firmado-{{m.id}}'
                 id="id-recibo-firmado-{{m.id}}" type="file" accept="application/pdf">
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
               {% if m.recibo_firmado.url != '' %}
-              <a href="{{ m.recibo_firmado.url }}" target="_blank" class="btn btn-info"
-                title="Mostrar recibo firmaddo">
+              <a href="{{ m.recibo_firmado.url }}" target="_blank" class="btn btn-info" title="Mostrar recibo firmaddo">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
               {% else %}
-              <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin comprobante</label>
+              <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
+                comprobante</label>
+              {% endif %}
+            </td>
+            <td style="vertical-align: middle;">
+              {% if m.recibo_firmado.url != '' %}
+              <a class="btn btn-danger" title="Eliminar archivo almacenado del recibo firmado"
+                onclick="eliminar_imagen('Recibo de mensualidad firmado', 'Pago', '{{m.id}}', 'recibo_firmado')">
+                <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
+              </a>
               {% endif %}
             </td>
           </tr>
@@ -175,5 +233,19 @@
     </form>
   </div>
 </div>
+<script>
+  {% block bljs %}
+  function eliminar_imagen(nombre, almacen, id, documento) {
+    var accion = "¿Eliminar arcvhivo PDF almacenado, " + nombre + "?";
+    var texto_ok = "Archivo PDF " + nombre + " almacenado eliminado";
+    var url = "{% url 'elimina_archivo_url' 123 456 789 pk num_proyecto %}";
+    url = url.replace('123', almacen);
+    url = url.replace('456', id);
+    url = url.replace('789', documento);
+    confirmacion("Precaución", accion,
+      url, "", texto_ok, "Operación cancelada");
+  }
+  {% endblock %}
+</script>
 {% endif %}
 {% endblock %}
