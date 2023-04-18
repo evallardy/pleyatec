@@ -175,7 +175,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.file_comprobante.url.strip != '' %}
+              {% if m.file_comprobante.url.strip != '' and m.deposito == 2 %}
               <a href="{{ m.file_comprobante.url }}" target="_blank" class="btn btn-info" title="Mostrar comprobotante">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
@@ -185,7 +185,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.file_comprobante.url.strip != '' %}
+              {% if m.file_comprobante.url.strip != '' and m.deposito == 2 %}
               <a class="btn btn-danger" title="Eliminar archivo almacenado del comprobante"
                 onclick="eliminar_imagen('Comprobante mensualidad', 'Pago', '{{m.id}}', 'file_comprobante')">
                 <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
@@ -202,7 +202,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.recibo_firmado.url.strip != '' %}
+              {% if m.recibo_firmado.url.strip != '' and m.deposito == 2 %}
               <a href="{{ m.recibo_firmado.url }}" target="_blank" class="btn btn-info" title="Mostrar recibo firmaddo">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
@@ -212,7 +212,7 @@
               {% endif %}
             </td>
             <td style="vertical-align: middle;">
-              {% if m.recibo_firmado.url.strip != '' %}
+              {% if m.recibo_firmado.url.strip != '' and m.deposito == 2 %}
               <a class="btn btn-danger" title="Eliminar archivo almacenado del recibo firmado"
                 onclick="eliminar_imagen('Recibo de mensualidad firmado', 'Pago', '{{m.id}}', 'recibo_firmado')">
                 <img src="{% static 'core/img/eliminar.svg' %}" width="20" />
