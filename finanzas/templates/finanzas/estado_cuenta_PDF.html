@@ -62,11 +62,21 @@
         <div class="container col-12">
             {% for y in titulo %}
             <table style="text-align: center;">
-                <tr><td>{{ y.nombre }}</td></tr>
-                <tr><td>{{ y.rfc }}</td></tr>
-                <tr><td>{{ y.domicilio1 }}</td></tr>
-                <tr><td>{{ y.domicilio2 }}</td></tr>
-                <tr><td>{{ y.telefono }}</td></tr>
+                <tr>
+                    <td>{{ y.nombre }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.rfc }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.domicilio1 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.domicilio2 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.telefono }}</td>
+                </tr>
             </table>
             {% endfor %}
             <div style="text-align: center;" class="container">
@@ -112,7 +122,7 @@
                     <td style="width: 120px;"><label>Saldo</label></td>
                 </tr>
                 <tr>
-                    <td style="border-style: solid; border-color: black; width: 140px;">{{  por_pagar }}</td>
+                    <td style="border-style: solid; border-color: black; width: 140px;">{{ por_pagar }}</td>
                     <td style="border-style: solid; border-color: black; width: 140px;">{{ x.importe_x_pago }}</td>
                     <td style="width: 60px;"></td>
                     <td style="border-style: solid; border-color: black; width: 140px;">{{ pagado }}</td>
@@ -124,7 +134,7 @@
         </div>
         <br>
         <hr>
-        <br>    
+        <br>
         <div class="container col-12">
             <table class="table table-info table-striped col-md-7">
                 <thead>
@@ -161,5 +171,4 @@
         </div>
     </div>
 </body>
-
 </html>

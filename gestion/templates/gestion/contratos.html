@@ -120,10 +120,16 @@
         {% endif %}
     </div>
 </div>
+
+{% endfor %}
+{% endif %}
+{% endblock %}
 <script>
+    {% block inicio %}
+        opcion = "#" + "{{ menu }}";
+        $(opcion).addClass('active');
+    {% endblock %}
     {% block bljs %}
-    opcion = "#" + "{{ menu }}";
-    $(opcion).addClass('active');
     function imprime(dato, modoPago) {
         $.confirm({
             theme: 'Material',
@@ -195,6 +201,3 @@
     }
     {% endblock %}
 </script>
-{% endfor %}
-{% endif %}
-{% endblock %}

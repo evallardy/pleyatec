@@ -1273,6 +1273,7 @@ class pago_comisiones(LoginRequiredMixin, ListView):
         acceso = self.request.user.has_perms([permiso_str])
         context['app_proy_imprime_comprob_comision'] = acceso
 
+        context['num_proyecto'] = num_proyecto
         context['proyecto_tb'] = proyecto_tb
         datos = datos_fecha(num_proyecto)
         context['datos'] = datos

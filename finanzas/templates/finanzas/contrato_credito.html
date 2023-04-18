@@ -41,7 +41,7 @@
     </div>
 </div>
 <div class="container mapa">
-    <table  class="estilo-tabla container col-6">
+    <table class="estilo-tabla container col-6">
         <thead>
             <tr>
                 <th class="col-md-1 titulo-tabla">Contratos</th>
@@ -83,7 +83,7 @@
             </tr>
         </tbody>
     </table>
-    <table  class="estilo-tabla container">
+    <table class="estilo-tabla container">
         <thead>
             <tr>
                 <th class="col-md-1 titulo-tabla">Núm. Contrato</th>
@@ -126,15 +126,14 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
 </div>
+{% endfor %}
+{% endif %}
+{% endblock %}
 <script>
-    {% block bljs %}
+    {% block inicio %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
     {% endblock %}
 </script>
-{% endfor %}
-{% endif %}
-{% endblock %}

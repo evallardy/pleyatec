@@ -133,8 +133,8 @@
     </p>
     <p>
         El predio en compra venta es el local {{ solicitud.lote.local}}, <label>Nivel</label> {{ solicitud.lote.nivel}},
-        del desarrollo comercial <label>"PLAZA PUNTA ORIENTE"</label> con una área de <label>superficie total de {{
-            solicitud.lote.total }} m²
+        del desarrollo comercial <label>"PLAZA PUNTA ORIENTE"</label> con una área de <label>superficie total de 
+            {{solicitud.lote.total }} m²
             ({{ comp.metros_letra }} m²), con las medidas siguientes:
             <!-- Vericar si tiene terraza  -->
     </p>
@@ -143,16 +143,16 @@
     <p class="parrafo_negritas">ALTURA LIBRE: {{ solicitud.lote.altura}} mts.</p>
     <p>
         En el presente contrato, al inmueble identificado en este Antecedente,
-        se le denominará como el <label>“EL LOCAL”</label>.
+        se le denominará como el <label>"EL LOCAL"</label>.
     </p>
     <p>
-        Se agrega como anexo debidamente firmado por las partes, el <label>"Anexo A-2”</label>
+        Se agrega como anexo debidamente firmado por las partes, el <label>"Anexo A-2"</label>
         consistente en el Plano Individual en planta del <label>"EL LOCAL"</label>
         y en el cual se precisan la superficie, medidas y
         linderos del inmueble objeto de la presente compraventa.
     </p>
     <p>
-        V.- Declara <label>“EL COMPRADOR”> : </label </p>
+        V.- Declara <label>"EL COMPRADOR"> : </label </p>
 
     <ol type="A">
         <li>
@@ -171,12 +171,12 @@
 
         <li>
             Que es su deseo obligarse en todos los términos y condiciones del presente instrumento,
-            respecto de <label>“EL LOCAL”</label>.
+            respecto de <label>"EL LOCAL"</label>.
         </li>
         <li>
             Que conoce el proyecto y las características físicas, proyectadas
             proyectadas para el DESARROLLO COMERCIAL denominada <label>PLAZA PUNTA ORIENTE</label>
-            y en específico de <label>“EL LOCAL” número {{ solicitud.lote.local}</label>,
+            y en específico de <label>"EL LOCAL" número {{ solicitud.lote.local}}</label>,
             así como que es de su conocimiento de que en la actualidad dicho desarrollo inmobiliario
             se encuentra en proceso de desarrollo.
         </li>
@@ -184,15 +184,15 @@
             Que sabe que sobre el inmueble referido en el Antecedente II (dos romano) de este
             Instrumento, al día de hoy, y previa obtención de las autorizaciones, licencias y
             permisos de Ley, se constituirá un Régimen en Condominio Comercial, cuya denominación
-            será <label>“PLAZA PUNTA ORIENTE”</label>, o bien la denominación que finalmente sea autorizada por
+            será <label>"PLAZA PUNTA ORIENTE"</label>, o bien la denominación que finalmente sea autorizada por
             las entidades oficiales correspondientes, ubicada en lote 40 (cuarenta) manzana 1 (uno)
             en la calle Jalpan, en el fraccionamiento Granjas Banthi, en el municipio de San Juan del Rio,
-            estado de Querétaro. Dicho régimen de propiedad en condominio a los que se sujeta <label>“EL LOCAL”</label>
+            estado de Querétaro. Dicho régimen de propiedad en condominio a los que se sujeta <label>"EL LOCAL"</label>
             objeto de la presente operación.
         </li>
 
         <li>
-            Manifiesta también <label>“EL COMPRADOR"</label> que ha tenido a la vista el plano del proyecto
+            Manifiesta también <label>"EL COMPRADOR"</label> que ha tenido a la vista el plano del proyecto
             arquitectónico.
         </li>
     </ol>
@@ -222,11 +222,11 @@
         en este acto por ARTURO DOMÍNGUEZ RUÍZ, por medio del
         presente instrumento <label>VENDE Y EL COMPRADOR, COMPRA PARA SI,</label> sujeto a
         condición suspensiva, señalada en la cláusula SÉPTIMA del presente
-        contrato; el <label>"EL LOCAL"</label> marcado como <label>NÚMERO {{ solicitud.lote.local},
+        contrato; el <label>"EL LOCAL"</label> marcado como <label>NÚMERO {{ solicitud.lote.local}},
         </label> de la <label>PLAZA PUNTA ORIENTE,</label>
-        según el proyecto arquitectónico que en este momento se exhibe y que se agrega 
-        al presente instrumento como anexo "A-1", del cual más adelante se especifica 
-        precio y forma de pago del mismo; cuyas medidas, características y demás 
+        según el proyecto arquitectónico que en este momento se exhibe y que se agrega
+        al presente instrumento como anexo "A-1", del cual más adelante se especifica
+        precio y forma de pago del mismo; cuyas medidas, características y demás
         especificaciones se detallan en el anexo "A-2" y
         así como con los acabados y accesorios de los cuales se
         enlistan en el documento que las partes adjuntan al presente contrato,
@@ -237,8 +237,8 @@
     </p>
 
     <p>
-        <label>SEGUNDA. - PRECIO Y FORMA DE PAGO. - “LAS PARTES”</label> convienen que el
-        precio por la adquisición de <label>“EL LOCAL”</label>, será por la:
+        <label>SEGUNDA. - PRECIO Y FORMA DE PAGO. - "LAS PARTES"</label> convienen que el
+        precio por la adquisición de <label>"EL LOCAL"</label>, será por la:
     </p>
     <ul>
         <li>cantidad de $ {{ precio_x_mt_i }} ({{ precio_x_mt_l }} pesos {{ precio_x_mt_d }}/100 M.N.), por metro
@@ -251,8 +251,8 @@
             {% else %}
             <li>Descuento del {{ solicitud.porcentaje_descuento }}% por el importe de enganche pagado</li>
             {% endif %}
-            <li>arrojando un precio por m² de ${{ precio_x_mt_n_i }} ({{precio_x_mt_n_l}} pesos {{ precio_x_mt_n_d
-                }}/100 M.N.), por m², </li>
+            <li>arrojando un precio por m² de ${{ precio_x_mt_n_i }} ({{precio_x_mt_n_l}} pesos 
+                {{ precio_x_mt_n_d}}/100 M.N.), por m², </li>
             <li>quedando como valor total de <label>"El Lote"</label> la cantidad de
                 ${{ precio_final_i }} ({{precio_final_l}} pesos {{ precio_final_d }}/100 M.N.),</li>
         </ul>
@@ -284,7 +284,7 @@
 
     <p>
         {% if not solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
-        <label>“LAS PARTES”</label> acuerdan que, en caso de retraso en el pago del precio pactado,
+        <label>"LAS PARTES"</label> acuerdan que, en caso de retraso en el pago del precio pactado,
         la parte que sea responsable del incumplimiento pagará a la parte inocente y
         afectada con el incumplimiento, un interés moratorio del 18 % (dieciocho por
         ciento) anual sobre saldos vencidos y no pagados.
@@ -318,28 +318,28 @@
     <p>
         Los pagos deberán realizarse en días y horas hábiles, por lo que si la
         fecha de una o más de las exhibiciones antes señaladas coincide con un
-        día inhábil, <label>“EL COMPRADOR”</label> deberá realizar el pago en el día hábil
+        día inhábil, <label>"EL COMPRADOR"</label> deberá realizar el pago en el día hábil
         inmediato siguiente a la fecha de vencimiento del calendario de pagos
         precedente.
     </p>
     <p>
-        En este acto <label>“EL COMPRADOR”</label> suscribirá {{cantidad_pagos}} ({{cantidad_pagos_l}})
+        En este acto <label>"EL COMPRADOR"</label> suscribirá {{cantidad_pagos}} ({{cantidad_pagos_l}})
         pagares que garantizarán los pagos establecidos en el calendario de pagos,
         mismos que estarán numerados del 1/{{cantidad_pagos}} al
         {{cantidad_pagos}}/{{cantidad_pagos}}, los cuales quedarán en posesión de
-        <label>“EL VENDEDOR”</label> y serán cancelados y entregados a
-        <label>“EL COMPRADOR”</label> contra el recibo de pago correspondiente.
+        <label>"EL VENDEDOR"</label> y serán cancelados y entregados a
+        <label>"EL COMPRADOR"</label> contra el recibo de pago correspondiente.
     </p>
     <p>
         Únicamente se aceptarán como medios de pago transferencias electrónicas,
-        tarjeta de crédito o débito, cheques “para abono en cuenta” y similares
+        tarjeta de crédito o débito, cheques "para abono en cuenta" y similares
         y/o financiamientos de cualquier tipo que tengan origen en instituciones
         financieras acreditadas en México o en aquellos países que establezcan
         requisitos equivalentes a los de la legislación mexicana para la
         realización de este tipo de actividades.
     </p>
     <p>
-        <label>“EL COMPRADOR”</label> deberá realizar el canje de los comprobantes de pago por
+        <label>"EL COMPRADOR"</label> deberá realizar el canje de los comprobantes de pago por
         recibos, con el asesor correspondiente, dentro de los 5 días naturales
         siguientes a la fecha de pago, siempre y cuando haya enviado el comprobante
         del pago efectuado al correo comprobantes@geztio.mx incluyendo los datos
@@ -351,30 +351,30 @@
 
 
     <p>
-        <label>TERCERA.- ESCRITURA PÚBLICA.- “EL VENDEDOR”</label> se obliga a otorgar la escritura pública que
-        formalice el presente contrato a favor de <label></label>“EL COMPRADOR”</label>, a más tardar en el mes de julio
+        <label>TERCERA.- ESCRITURA PÚBLICA.- "EL VENDEDOR"</label> se obliga a otorgar la escritura pública que
+        formalice el presente contrato a favor de <label></label>"EL COMPRADOR"</label>, a más tardar en el mes de julio
         de 2023 dos
         mil veintidós, siempre y cuando se haya dado cumplimiento a la condición suspensiva
         señalada en la cláusula séptima de este contrato, para lo cual se observará lo siguiente:
     </p>
     <ol type="A">
         <li>
-            <label>>“EL VENDEDOR”</label> se obliga a otorgar la escritura pública que formalice la transmisión de
-            <label>“EL
-                LOCAL”</label> referido a favor de <label>“EL COMPRADOR”</label>.
+            <label>>"EL VENDEDOR"</label> se obliga a otorgar la escritura pública que formalice la transmisión de
+            <label>"EL
+                LOCAL"</label> referido a favor de <label>"EL COMPRADOR"</label>.
         </li>
         <li>
-            El otorgamiento de la escritura pública que formalice la transmisión de <label>“EL LOCAL”</label>, se
+            El otorgamiento de la escritura pública que formalice la transmisión de <label>"EL LOCAL"</label>, se
             realizará
             ante la fe del Licenciado José Ignacio Paulín Posada, Titular de la Notaría Pública número 7 (siete), de
             esta Demarcación Notarial del estado de Querétaro.
         </li>
         <li>
             Todos los impuestos, derechos, honorarios y gastos que se generen en virtud de la transmisión correrán a
-            cargo de la aquí señalada como <label>“EL COMPRADOR”</label>,
+            cargo de la aquí señalada como <label>"EL COMPRADOR"</label>,
             exceptuando el Impuesto Sobre la Renta por enajenación que dicha operación genere, mismo que correrá a cargo
             de la
-            aquí señalada como <label>“EL VENDEDOR”</label>, quedando ambas partes obligadas a realizar los enteros
+            aquí señalada como <label>"EL VENDEDOR"</label>, quedando ambas partes obligadas a realizar los enteros
             correspondientes en forma personal y directa.
         </li>
         <li>
@@ -384,40 +384,40 @@
         </li>
         <li>
             Al momento de la firma señalada, se hará entrega del dominio y propiedad
-            del <label>"EL LOCAL" NÚMERO</label> <label>{{ solicitud.lote.local}</label> del desarrollo comercial
+            del <label>"EL LOCAL" NÚMERO</label> <label>{{ solicitud.lote.local}}</label> del desarrollo comercial
             denominado
-            <label>“PLAZA PUNTA ORIENTE”</label>, obligándose la aquí
-            señalada como <label>“EL VENDEDOR”</label> al saneamiento para el caso de
+            <label>"PLAZA PUNTA ORIENTE"</label>, obligándose la aquí
+            señalada como <label>"EL VENDEDOR"</label> al saneamiento para el caso de
             evicción en los términos de Ley y a garantizar el inmueble por vicios ocultos
             durante un año a partir de dicha entrega.
         </li>
         <li>
             La anterior transmisión se realizará, obviamente, previo cumplimiento de la condición suspensiva pactada en
             la cláusula
-            séptima de este contrato, consistente en que<label>“EL VENDEDOR”</label> haya formalizado en Escritura
+            séptima de este contrato, consistente en que<label>"EL VENDEDOR"</label> haya formalizado en Escritura
             Pública la constitución del
-            régimen de propiedad en condominio al cual se sujetará <label>“EL LOCAL”</label> objeto de esta operación.
+            régimen de propiedad en condominio al cual se sujetará <label>"EL LOCAL"</label> objeto de esta operación.
         </li>
     </ol>
 
     <p>
-        <label>CUARTA.- RESERVA DE DOMINIO Y PROPIEDAD.- “EL VENDEDOR”</label> en este acto se reserva el
-        dominio y propiedad del inmueble objeto de esta operación, derechos que entregará a <label>“EL
-            COMPRADOR”</label>,
+        <label>CUARTA.- RESERVA DE DOMINIO Y PROPIEDAD.- "EL VENDEDOR"</label> en este acto se reserva el
+        dominio y propiedad del inmueble objeto de esta operación, derechos que entregará a <label>"EL
+            COMPRADOR"</label>,
         precisamente al momento del otorgamiento de la escritura pública a que se refiere
         la cláusula tercera, obligándose en su momento al saneamiento para el caso de evicción en los
         términos de Ley.
     </p>
     <p>
         <label>QUINTA.- DE LA ENTREGA DE LA POSESIÓN.- "EL VENDEDOR"</label> se obliga a entregar a
-        <label>“EL COMPRADOR”</label> la posesión física de <label>“EL LOCAL”</label> objeto de la presente operación,
+        <label>"EL COMPRADOR"</label> la posesión física de <label>"EL LOCAL"</label> objeto de la presente operación,
         totalmente construido y con los acabados y especificaciones pactados, al momento en que se otorgue la escritura
         pública.
         Las partes están de acuerdo en que la fecha antes señalada podrá ampliarse en 120 (ciento veinte)
         días naturales adicionales de ser necesario para el mejor logro del proyecto de construcción.
     </p>
     <p>
-        A partir de que <label>“EL COMPRADOR”</label> reciba físicamente <label>“EL LOCAL”</label>, será responsable en
+        A partir de que <label>"EL COMPRADOR"</label> reciba físicamente <label>"EL LOCAL"</label>, será responsable en
         forma única del
         pago de los servicios como lo es agua, electricidad, así como cuotas de mantenimiento y/o conservación
         y/o administración, y demás impuestos y servicios correspondientes al inmueble objeto de la presente
@@ -430,18 +430,18 @@
         pactadas en el párrafo anterior.
     </p>
     <p>
-        <label>“EL VENDEDOR”</label> deberá notificar a “EL COMPRADOR”, a través de simple escrito, correo electrónico
+        <label>"EL VENDEDOR"</label> deberá notificar a "EL COMPRADOR", a través de simple escrito, correo electrónico
         o medio telemático que deje constancia, que está en condiciones de hacerle entrega de la posesión
         del inmueble: <label>"EL LOCAL" NÚMERO</label> <label>{{ solicitud.lote.local}} DE LA PLAZA PUNTA
-            ORIENTE</label> Si después de 3 meses de haber sido notificada por “EL VENDEDOR” de estar en aptitud de
+            ORIENTE</label> Si después de 3 meses de haber sido notificada por "EL VENDEDOR" de estar en aptitud de
         entregarle la posesión,
-        <label>“EL COMPRADOR”</label> persiste en incumplir con la obligación de recibir el Local, <label>“EL
-            VENDEDOR”</label> tendrá
-        el derecho de rescindir el presente contrato a <label>“EL COMPRADOR”</label> y hacerle efectiva una pena
+        <label>"EL COMPRADOR"</label> persiste en incumplir con la obligación de recibir el Local, <label>"EL
+            VENDEDOR"</label> tendrá
+        el derecho de rescindir el presente contrato a <label>"EL COMPRADOR"</label> y hacerle efectiva una pena
         convencional pactada en la cláusula novena de este contrato.
     </p>
     <p>
-        <label>“EL COMPRADOR”</label>, al ser sabedora que al día de hoy se encuentra pendiente de obtener las
+        <label>"EL COMPRADOR"</label>, al ser sabedora que al día de hoy se encuentra pendiente de obtener las
         autorizaciones y permisos correspondientes para formalizar la Constitución del Régimen de
         Propiedad en Condominio al que pertenece el Local, acepta que puede haber variación en algunas
         medidas y colindancias hasta en un 3% tres por ciento de la distribución de las áreas comunes del
@@ -453,12 +453,12 @@
         Asimismo, por lo que respecta al suministro de telefonía, televisión, etcétera, del Local, se deberán
         utilizar las instalaciones, conducciones y cableado que existirán en las denominadas áreas de
         servicio, no pudiendo por tanto colocarse otros distintos a los referidos. Todos los consumos de
-        servicios serán pagados por <label>“EL COMPRADOR”</label> y/o su inquilino.
+        servicios serán pagados por <label>"EL COMPRADOR"</label> y/o su inquilino.
     </p>
 
     <p>
         <label>SEXTA.- ADEUDOS DE CONTRIBUCIONES.- </label> Para todos los efectos legales a que haya lugar,
-        <label>“EL VENDEDOR”</label> se obliga a cubrir a <label>“EL COMPRADOR”</label>, todo adeudo y diferencia de
+        <label>"EL VENDEDOR"</label> se obliga a cubrir a <label>"EL COMPRADOR"</label>, todo adeudo y diferencia de
         contribuciones
         prediales, multas o cualquier otro Impuesto, así como cuotas de condóminos, y cualquier otro
         servicio u obligación que recaiga sobre el inmueble objeto de la presente operación, originados
@@ -466,19 +466,19 @@
         cantidad que hubiere que pagar por ese concepto.
     </p>
     <p>
-        Una vez formalizado la escrituración del inmueble por <label>“EL VENDEDOR”</label> a favor de <label>“EL
-            COMPRADOR”</label>, todos los
-        impuestos, servicios, cuotas y demás que recaigan sobre el mismo, serán a cargo de <label>“EL
-            COMPRADOR”</label>, quien
+        Una vez formalizado la escrituración del inmueble por <label>"EL VENDEDOR"</label> a favor de <label>"EL
+            COMPRADOR"</label>, todos los
+        impuestos, servicios, cuotas y demás que recaigan sobre el mismo, serán a cargo de <label>"EL
+            COMPRADOR"</label>, quien
         desde este momento acepta dicha obligación así como la responsabilidad absoluta respecto de cualquier
-        problema que se origine desde EL <label>"EL LOCAL NUMERO {{ solicitud.lote.local}, DE LA PLAZA PUNTA
+        problema que se origine desde EL <label>"EL LOCAL NUMERO {{ solicitud.lote.local}}, DE LA PLAZA PUNTA
             ORIENTE</label> ese momento por el mantenimiento o
-        mejora del inmueble, lo anterior en virtud de que “EL COMPRADOR” en este acto reitera conocer el inmueble
+        mejora del inmueble, lo anterior en virtud de que "EL COMPRADOR" en este acto reitera conocer el inmueble
         objeto de la compraventa, y en su momento lo recibirá con todo lo que de hecho y por derecho le corresponde.
     </p>
     <p>
         <label>SÉPTIMA. - CONDICIÓN SUSPENSIVA. -</label> Las partes sujetan el presente contrato a la CONDICIÓN
-        <label>SUSPENSIVA</label> consistente en que <label>“EL VENDEDOR”</label>, deberá formalizar tanto la
+        <label>SUSPENSIVA</label> consistente en que <label>"EL VENDEDOR"</label>, deberá formalizar tanto la
         constitución del
         régimen en condominio a que pertenece el inmueble objeto de la presente operación en un término
         que no exceda el mes de julio de 2023 dos mil veintitres.
@@ -486,28 +486,28 @@
     <p>
         Convienen las partes que en el supuesto de que no se cumpla la <label>CONDICIÓN SUSPENSIVA</label> pactada
         en el párrafo inmediato anterior, esto es que si llegado el mes de diciembre de dos mil veintidós,
-        <label>“EL VENDEDOR”</label> no haya formalizado en escritura pública la constitución del régimen en condominio
+        <label>"EL VENDEDOR"</label> no haya formalizado en escritura pública la constitución del régimen en condominio
         al
-        que pertenece el inmueble objeto de este contrato, luego entonces <label>“EL COMPRADOR”</label> podrá optar por
+        que pertenece el inmueble objeto de este contrato, luego entonces <label>"EL COMPRADOR"</label> podrá optar por
         cualquiera de las siguientes opciones:
     </p>
     <p>
-        Será potestativo de <label>“EL COMPRADOR”:</label>
+        Será potestativo de <label>"EL COMPRADOR":</label>
     </p>
     <ol type="A">
         <li>
-            El otorgar una prórroga de 6 seis meses más, a <label>“EL VENDEDOR”</label>, para formalizar en Escritura
+            El otorgar una prórroga de 6 seis meses más, a <label>"EL VENDEDOR"</label>, para formalizar en Escritura
             Pública la constitución
-            del régimen en condominio aludido, siempre y cuando <label>“EL VENDEDOR”</label> acredite fehacientemente a
-            <label>“EL COMPRADOR”</label> que
+            del régimen en condominio aludido, siempre y cuando <label>"EL VENDEDOR"</label> acredite fehacientemente a
+            <label>"EL COMPRADOR"</label> que
             sigue realizando los trámites para la obtención de las autorizaciones correspondientes, o; Rescindir el
             contrato,
             procediendo en consecuencia conforme a lo pactado en la cláusula novena de este contrato.
         </li>
         <li>
-            Una vez cumplida la prórroga de 6 seis meses señalada en el inciso que antecede, si <label>“EL
-                VENDEDOR”</label> no ha formalizado
-            en escritura pública la constitución del condominio, luego entonces <label>“EL COMPRADOR”</label> podrá
+            Una vez cumplida la prórroga de 6 seis meses señalada en el inciso que antecede, si <label>"EL
+                VENDEDOR"</label> no ha formalizado
+            en escritura pública la constitución del condominio, luego entonces <label>"EL COMPRADOR"</label> podrá
             otorgar una nueva prórroga
             o bien rescindir el contrato, procediendo en consecuencia conforme a lo pactado en la cláusula novena de
             este contrato.
@@ -519,71 +519,71 @@
     </p>
     <ol type="A">
         <li>
-            Que <label>“EL COMPRADOR”</label> incumpla con el pago puntual de cualquiera de los pagos pactados en
+            Que <label>"EL COMPRADOR"</label> incumpla con el pago puntual de cualquiera de los pagos pactados en
             la cláusula segunda del presente contrato.
         </li>
         <li>
-            Que <label>“EL VENDEDOR”</label> no pueda formalizar en escritura pública el presente documento, de
-            conformidad con la cláusulas tercera, quinta y séptima y/o que en <label>“EL LOCAL” NÚMERO {{
-                solicitud.lote.local} DEL DESARROLLO COMERCIAL PLAZA TOSCANA</label>
+            Que <label>"EL VENDEDOR"</label> no pueda formalizar en escritura pública el presente documento, de
+            conformidad con la cláusulas tercera, quinta y séptima y/o que en <label>"EL LOCAL" NÚMERO 
+                {{solicitud.lote.local}} DEL DESARROLLO COMERCIAL PLAZA TOSCANA</label>
             apareciere un gravamen, afectación, embargo o limitación de dominio sobre el inmueble objeto de este
             contrato.
         </li>
     </ol>
     <p>
-        <label> NOVENA. - PENA CONVENCIONAL.-</label> Para el caso de que <label>“EL COMPRADOR”</label> no diera
+        <label> NOVENA. - PENA CONVENCIONAL.-</label> Para el caso de que <label>"EL COMPRADOR"</label> no diera
         cumplimiento a cualquiera de las obligaciones
-        que asume en virtud de “EL CONTRATO”, o decida en forma unilateral cancelar la operación de transmisión objeto
+        que asume en virtud de "EL CONTRATO", o decida en forma unilateral cancelar la operación de transmisión objeto
         material
-        de <label>“EL CONTRATO”</label>, este se hará acreedor a la aplicación de una pena convencional consistente en
+        de <label>"EL CONTRATO"</label>, este se hará acreedor a la aplicación de una pena convencional consistente en
         el 20% (veinte por ciento)
-        del valor total de la operación consignado en el presente instrumento, facultando <label>“EL COMPRADOR”</label>
-        a <label>“EL VENDEDOR ”</label> en este
+        del valor total de la operación consignado en el presente instrumento, facultando <label>"EL COMPRADOR"</label>
+        a <label>"EL VENDEDOR "</label> en este
         acto, sin reserva ni restricción alguna, a deducir y descontar dicha cantidad de la cantidad entregada por
         concepto de
-        anticipo, apartado, enganche y/o parcialidades pactadas, y devolver el remanente a <label>“EL COMPRADOR”</label>
+        anticipo, apartado, enganche y/o parcialidades pactadas, y devolver el remanente a <label>"EL COMPRADOR"</label>
         en forma inmediata, lo
         anterior siempre y cuando se haya agotado el período para remediar incumplimientos previsto en la cláusula
         inmediata anterior.
     </p>
     <p>
-        En relación con lo anterior, <label>“EL COMPRADOR”</label> autoriza desde este momento a <label>“EL
-            VENDEDOR”</label> para
+        En relación con lo anterior, <label>"EL COMPRADOR"</label> autoriza desde este momento a <label>"EL
+            VENDEDOR"</label> para
         que disponga de las cantidades de dinero pagadas a cuenta del precio convenido, a fin de que pueda
-        aplicarlas al pago de las penas convencionales y/o penas moratorias pactadas en “EL CONTRATO”,
-        lo anterior sin necesidad de declaración judicial, por lo que “EL VENDEDOR” no tendrá
+        aplicarlas al pago de las penas convencionales y/o penas moratorias pactadas en "EL CONTRATO",
+        lo anterior sin necesidad de declaración judicial, por lo que "EL VENDEDOR" no tendrá
         responsabilidad alguna de ningún tipo en la aplicación de este pacto y estará en posibilidad de
         disponer del dinero que le haya sido entregado, como mejor convenga a sus intereses.
     </p>
     <p>
-        <label>“LAS PARTES”</label> convienen que el pago de las parcialidades a cargo de <label>“EL COMPRADOR”</label>,
+        <label>"LAS PARTES"</label> convienen que el pago de las parcialidades a cargo de <label>"EL COMPRADOR"</label>,
         establecidas
-        en la cláusula Segunda de “EL CONTRATO”, están sujetas a la condición de que, al no pagarse cualquiera
+        en la cláusula Segunda de "EL CONTRATO", están sujetas a la condición de que, al no pagarse cualquiera
         de ellas a su vencimiento, serán exigibles todas las que le sigan en número, además de las ya vencidas,
         más el pago de la pena moratoria y demás penas aplicables.
     </p>
     <p>
-        Ante el caso de incumplimiento de <label>“EL COMPRADOR”</label> de las obligaciones de pago pactadas en
-        <label>“EL CONTRATO”</label>, <label>“EL VENDEDOR”</label> podrá optar de manera unilateral, entre exigir
-        el cumplimiento forzoso de “EL CONTRATO” más el pago de la pena moratoria, o bien, darlo por rescindido sin
-        necesidad de declaración judicial y sin responsabilidad para <label>“EL VENDEDOR”</label>, más el pago de la
+        Ante el caso de incumplimiento de <label>"EL COMPRADOR"</label> de las obligaciones de pago pactadas en
+        <label>"EL CONTRATO"</label>, <label>"EL VENDEDOR"</label> podrá optar de manera unilateral, entre exigir
+        el cumplimiento forzoso de "EL CONTRATO" más el pago de la pena moratoria, o bien, darlo por rescindido sin
+        necesidad de declaración judicial y sin responsabilidad para <label>"EL VENDEDOR"</label>, más el pago de la
         pena
         convencional pactada, en los términos del artículo 88 del Código de Comercio.
     </p>
     <p>
-        En caso de que <label>“EL VENDEDOR”</label> incumpla en el tiempo de entrega compromiso que se fija en este
-        contrato, esta pagará a <label>“EL COMPRADOR”</label> una pena convencional equivalente al 3% (tres por ciento)
+        En caso de que <label>"EL VENDEDOR"</label> incumpla en el tiempo de entrega compromiso que se fija en este
+        contrato, esta pagará a <label>"EL COMPRADOR"</label> una pena convencional equivalente al 3% (tres por ciento)
         del importe de la operación que se especifica en este contrato, salvo que el retraso se deba a
-        cuestiones de fuerza mayor o caso fortuito no imputables a <label>“EL VENDEDOR”</label>.
+        cuestiones de fuerza mayor o caso fortuito no imputables a <label>"EL VENDEDOR"</label>.
     </p>
 
-    <p>En caso de que <label>“EL VENDEDOR”</label> incumpla en el tiempo de entrega compromiso que se fija en este
-        contrato, esta pagará a <label>“EL COMPRADOR”</label> una pena convencional equivalente al 3% del importe de
+    <p>En caso de que <label>"EL VENDEDOR"</label> incumpla en el tiempo de entrega compromiso que se fija en este
+        contrato, esta pagará a <label>"EL COMPRADOR"</label> una pena convencional equivalente al 3% del importe de
         la operación que se especifica en este contrato, salvo que el retraso se deba a cuestiones de fuerza
-        mayor o caso fortuito no imputables a <label>“EL VENDEDOR”</label>.
+        mayor o caso fortuito no imputables a <label>"EL VENDEDOR"</label>.
     </p>
     <p>
-        <label>DÉCIMA. CUMPLIMIENTO DE REGLAMENTOS - “EL COMPRADOR”</label> acepta ser condómino de la que
+        <label>DÉCIMA. CUMPLIMIENTO DE REGLAMENTOS - "EL COMPRADOR"</label> acepta ser condómino de la que
         será la Unidad Condominal Comercial <label>PLAZA PUNTA ORIENTE</label>, y asume la obligación de aceptar,
         observar
         y cumplir sus Reglamentos de Administración y/o construcción y/o cualquier otra que los rija,
@@ -592,32 +592,32 @@
         presente contrato.
     </p>
     <p>
-        <label>DÉCIMA PRIMERA. CESIONES-</label> Las partes acuerdan que <label>“EL VENDEDOR”</label> tiene obligación
+        <label>DÉCIMA PRIMERA. CESIONES-</label> Las partes acuerdan que <label>"EL VENDEDOR"</label> tiene obligación
         de
-        formalizar la presente operación única y exclusivamente a favor de <label>“EL COMPRADOR”</label>, y bajo el
-        precio y condiciones señalados en este contrato, por lo que si fuese el caso que <label>“EL COMPRADOR”</label>
+        formalizar la presente operación única y exclusivamente a favor de <label>"EL COMPRADOR"</label>, y bajo el
+        precio y condiciones señalados en este contrato, por lo que si fuese el caso que <label>"EL COMPRADOR"</label>
         llegase a transmitir, por cualquier título, los derechos y obligaciones que adquiere en virtud del
-        presente contrato, y esto resultase en la obligación de <label>“EL VENDEDOR”</label> de formalizar la
+        presente contrato, y esto resultase en la obligación de <label>"EL VENDEDOR"</label> de formalizar la
         transmisión
-        de <label>“EL LOCAL”</label> a favor de terceras personas, entonces <label>“EL COMPRADOR”</label> y/o el nuevo
+        de <label>"EL LOCAL"</label> a favor de terceras personas, entonces <label>"EL COMPRADOR"</label> y/o el nuevo
         titular de los derechos del presente contrato, deberá(n) pagar todos los impuestos, derechos, honorarios y
         gastos
         que la presente transmisión o cualquier otra llegasen a generar, debiendo hacer los pagos y enteros en forma
         personal
-        y directa, liberando desde este momento a <label>“EL VENDEDOR”</label> de cualquier responsabilidad al respecto.
+        y directa, liberando desde este momento a <label>"EL VENDEDOR"</label> de cualquier responsabilidad al respecto.
     </p>
     <p>
         <label>DÉCIMA SEGUNDA. - DOMICILIOS.</label> Para todos los efectos judiciales y extrajudiciales cada parte
         señala como domicilio, para los efectos legales a que haya lugar, el siguiente:
     </p>
     <p>
-        <label>“EL VENDEDOR”</label> en Av. Paseo Monte Miranda #17, Col Monte Miranda, C.P. 76246, El Marques,
+        <label>"EL VENDEDOR"</label> en Av. Paseo Monte Miranda #17, Col Monte Miranda, C.P. 76246, El Marques,
         Querétaro;
         y adicionalmente, como medio alternativo de comunicación la dirección de correo electrónico ventas@geztio.mx.
     </p>
     <p>
-        <label>“EL COMPRADOR”:</label> {{ solicitud.cliente.calle }}, {{ solicitud.cliente.colonia }}, {{
-        solicitud.cliente.codpos }},
+        <label>"EL COMPRADOR":</label> {{ solicitud.cliente.calle }}, {{ solicitud.cliente.colonia }}, 
+        {{solicitud.cliente.codpos }},
         {{ solicitud.cliente.municipio }}, {{ solicitud.cliente.get_estado_display }}.
     </p>
     <p>
@@ -649,8 +649,8 @@
     </p>
     <table style="width: 100%;">
         <tr>
-            <td style="width: 50%; text-align: center;"><label>“LA OPERADORA”</label></td>
-            <td style="width: 50%; text-align: center;"><label>“EL ADQUIRENTE”</label></td>
+            <td style="width: 50%; text-align: center;"><label>"LA OPERADORA"</label></td>
+            <td style="width: 50%; text-align: center;"><label>"EL ADQUIRENTE"</label></td>
         </tr>
         <tr>
             <td style="height: 100px; text-align: center; vertical-align: bottom;">________________________</td>

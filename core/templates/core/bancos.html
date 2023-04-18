@@ -8,12 +8,12 @@
 <div class="container mapa col-5">
     {% if perms.core.add_banco %}
     <div class="container">
-    <a type="button" class="btn btn-info" href="{% url 'nvo_banco' %}" title="Agregar banco">
-        <img src="{% static 'core/img/agregar.svg' %}" width="20" />
-    </a>
+        <a type="button" class="btn btn-info" href="{% url 'nvo_banco' %}" title="Agregar banco">
+            <img src="{% static 'core/img/agregar.svg' %}" width="20" />
+        </a>
     </div>
     {% endif %}
-    <table class="estilo-tabla col-12" >
+    <table class="estilo-tabla col-12">
         <thead>
             <tr>
                 <th class="col-md-3 titulo-tabla">Abreviación</th>
@@ -51,7 +51,6 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
 </div>
 {% endif %}

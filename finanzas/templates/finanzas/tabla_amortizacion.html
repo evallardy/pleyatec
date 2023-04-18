@@ -15,11 +15,11 @@
     <label class="encabezados">{{ py.nombre }} - Tabla Amortización - Solicitud - {{ x.pk }}</label>
     <hr class="mt-0 mb-4">
     <a class="btn btn-info" href="{% url 'solicitudes' py.id %}" title="Regresar a la pantalla anterior">
-        <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
     </a>
     {% if app_proy_imprime_amortizac %}
     <button id="btn_adicional" class="btn btn-info" onclick="imprime('{{ pk }}')" title="Imprime tabla de amortización">
-        <img src="{% static 'core/img/imprimir.svg' %}" width="20"/>
+        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
     </button>
     {% endif %}
     <br><br>
@@ -114,16 +114,17 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
 </div>
 {% endfor %}
 {% endif %}
 {% endfor %}
+{% endblock %}
 <script>
+    {% block bljs %}
     function imprime(dato) {
         window.open("{{ archivo }}" + dato + "/",
             "Tabla amortización", target = "_blank");
     }
+    {% endblock %}
 </script>
-{% endblock %}

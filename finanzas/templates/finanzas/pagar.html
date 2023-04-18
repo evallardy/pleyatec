@@ -69,18 +69,19 @@
                 <td style="text-align: right;">{{ e.saldo }}</td>
                 <td style="text-align: center;">
                     {% if app_proy_estado_cuenta %}
-                    <a href="{% url 'estado_cuenta' e.id py.id %}" class="btn btn-info" title="Registro de pagos mensuales">
+                    <a href="{% url 'estado_cuenta' e.id py.id %}" class="btn btn-info"
+                        title="Registro de pagos mensuales">
                         <img src="{% static 'core/img/pago.svg' %}" width="20" />
                     </a>
                     {% endif %}
                 </td>
-                {% if e.saldo <= 0 and app_proy_archiva_credito %}
-                <td style="text-align: center;">
-                    <a href="#" onclick="archiva_credito('{{ e.id }}')" class="btn btn-warning" title="Archivar crédito">
+                {% if e.saldo <= 0 and app_proy_archiva_credito %} <td style="text-align: center;">
+                    <a href="#" onclick="archiva_credito('{{ e.id }}')" class="btn btn-warning"
+                        title="Archivar crédito">
                         <img src="{% static 'core/img/archiva.svg' %}" width="20" />
                     </a>
-                </td>
-                {% endif %}
+                    </td>
+                    {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -98,10 +99,15 @@
         {% endif %}
     </div>
 </div>
+{% endfor %}
+{% endif %}
+{% endblock %}
 <script>
-    {% block bljs %}
+    {% block inicio %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
+    {% endblock %}
+    {% block bljs %}
     function archiva_credito(id) {
         var url = "{% url 'archiva_credito' 123 num_proyecto %}";
         url = url.replace('123', id);
@@ -110,6 +116,3 @@
     }
     {% endblock %}
 </script>
-{% endfor %}
-{% endif %}
-{% endblock %}

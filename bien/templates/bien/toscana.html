@@ -96,14 +96,14 @@
         </div>
     </div>
 </div>
-<script>
-    {% block bljs %}
-    $(document).ready(function () {
-        opcion = "#" + "{{ menu }}";
-        $(opcion).addClass('active');
-    });
-    {% endblock %}
-</script>
 {% endif %}
 {% endfor %}
 {% endblock %}
+<script>
+    $(document).ready(function () {
+        {% block inicio %}
+        opcion = "#" + "{{ menu }}";
+        $(opcion).addClass('active');
+        {% endblock %}
+    });
+</script>

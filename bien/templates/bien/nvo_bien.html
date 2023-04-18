@@ -185,7 +185,6 @@
 {% endif %}
 {% endfor %}
 {% endblock %}
-
 <script>
     {% block bljs %}
     //    window.captureEvents(Event.SUBMIT);
@@ -332,7 +331,9 @@
     });
     alineacion();
     readOnly();
+    {% endblock %}
     $(document).ready(function () {
+    {% block inicio %}
         num_proyecto = '{{num_proyecto}}';
         accion = '{{accion}}';
         $("#id_proyecto").val(num_proyecto).change();
@@ -374,6 +375,6 @@
         }
         activa_campos();
         calcula();
-    });
     {% endblock %}
+    });
 </script>

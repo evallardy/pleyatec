@@ -14,6 +14,9 @@ function calcula_operacion(descuento, porcentaje_descuento, modo_pago, idLote, e
                 $('#id_descuento').val(data.datos['descuento']);
                 $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
             }
+//            if (parseFloat(data.datos['descuento'].replaceAll(",","")) == 0) {
+//                $('#texto-adicional').text("Incremento");
+//            }
             $('#id_total').val(data.datos['total']);
             $('#id_precio_x_mt').val(data.datos['precio_x_mt']);
             $('#id_precio_lote').val(data.datos['precio']);

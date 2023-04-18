@@ -51,7 +51,7 @@
             text-align: right;
         }
 
-        table { 
+        table {
             width: 100%;
         }
     </style>
@@ -73,9 +73,15 @@
                 <td class="espacio"> </td>
             </tr>
             {% for y in empresa.titulos %}
-            <tr class="renglon-normal"><td style="text-align: center;">{{ y.domicilio1 }}</td></tr>
-            <tr class="renglon-normal"><td style="text-align: center;">{{ y.domicilio2 }}</td></tr>
-            <tr class="renglon-normal"><td style="text-align: center;">{{ y.domicilio3 }}</td></tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;">{{ y.domicilio1 }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;">{{ y.domicilio2 }}</td>
+            </tr>
+            <tr class="renglon-normal">
+                <td style="text-align: center;">{{ y.domicilio3 }}</td>
+            </tr>
             {% endfor %}
             <tr class="renglon-normal1">
                 <td style="text-align: center; font-size: 20px;">RECIBO DE PAGO MENSUAL</td>

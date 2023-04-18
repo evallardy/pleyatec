@@ -112,7 +112,7 @@
     <!--    <script src=" static 'core/js/menu.js' "></script>  -->
     <script src="{% static 'core/js/funciones.js' %}"></script>
     <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'core/js/popper.min.js' %}"></script>
+    <!--    <script src=" static 'core/js/popper.min.js' "></script>  -->
     <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'core/js/btn-imagen.js' %}"></script>
     <!--    <script src="http://momentjs.com/downloads/moment.min.js"></script>  -->
@@ -148,10 +148,14 @@
         }
         function convierteNumero(campo, opcion) {
             deCampo = "#" + campo;
-            if (opcion == 0) {
-                a = parseFloat($(deCampo).val().replace(",", "").replace(",", ""));
+            if ($(deCampo).val() != null) {
+                if (opcion == 0) {
+                    a = parseFloat($(deCampo).val().replace(",", "").replace(",", ""));
+                } else {
+                    a = parseFloat($(deCampo).val().replace(",", "").replace(",", "")).toFixed(2);
+                }
             } else {
-                a = parseFloat($(deCampo).val().replace(",", "").replace(",", "")).toFixed(2);
+                a = 0;
             }
             resultado = 0;
             if ((isNaN(a)) || (a == null)) {

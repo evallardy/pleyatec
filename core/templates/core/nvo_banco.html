@@ -11,9 +11,9 @@
     <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
     <hr class="mt-0 mb-4">
     <div class="container">
-    <a class="btn btn-info" href="{% url 'bancos' %}" title="Regresar a la pantalla anterior">
-        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-    </a>
+        <a class="btn btn-info" href="{% url 'bancos' %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
     </div>
     <div class="container col-12">
         <br>
@@ -35,11 +35,11 @@
                         </div>
                     </div>
                     <div class="row">
-                    {% if perms.core.add_banco or perms.core.change_banco %}
-                    <button type="submit" class="btn btn-success" title="Guarda banco">
-                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                    </button>
-                    {% endif %}
+                        {% if perms.core.add_banco or perms.core.change_banco %}
+                        <button type="submit" class="btn btn-success" title="Guarda banco">
+                            <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                        </button>
+                        {% endif %}
                     </div>
                 </form>
                 <br>
@@ -47,12 +47,14 @@
         </div>
     </div>
 </div>
+{% endif %}
+{% endblock %}
 <script>
+    {% block bljs %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-
     $(function () {
         window.captureEvents(Event.SUBMIT);
         window.onsubmit = guarda;
@@ -61,6 +63,5 @@
             return true;
         }
     });
+    {% endblock %}
 </script>
-{% endif %}
-{% endblock %}

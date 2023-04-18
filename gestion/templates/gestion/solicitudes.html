@@ -126,10 +126,15 @@
         {% endif %}
         </div>
     </div>
+{% endif %}
+{% endfor %}
+{% endblock %}
 <script>
+    {% block inicio %}
+        opcion = "#" + "{{ menu }}";
+        $(opcion).addClass('active'); 
+    {% endblock %}
     {% block bljs %}
-    opcion = "#" + "{{ menu }}";
-    $(opcion).addClass('active');
     function cancelaSol(llave) {
         var url = "{% url 'can_sol' 123 num_proyecto %}";
         url = url.replace('123', llave);
@@ -144,6 +149,3 @@
     }
     {% endblock %}
 </script>
-{% endif %}
-{% endfor %}
-{% endblock %}

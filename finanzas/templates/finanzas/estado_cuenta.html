@@ -13,7 +13,8 @@
 <div class="container mapa col-8">
     <label class="encabezados">Estado de cuenta</label>
     {% if app_proy_imp_estado_cuenta %}
-    <a class="btn btn-info" href="{% url 'estado_cuenta_PDF' id %}" target = "_blank" title="Imprimir estado de cuenta actualizado">
+    <a class="btn btn-info" href="{% url 'estado_cuenta_PDF' id %}" target="_blank"
+        title="Imprimir estado de cuenta actualizado">
         <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
     </a>
     {% endif %}
@@ -22,7 +23,7 @@
     <br>
     <div class="container col-12">
         <a class="btn btn-info" href="{% url 'pagar' py.id %}" title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
         </a>
         <table class="estilo-tabla col-12">
             <thead>
@@ -48,14 +49,16 @@
                     <td style="text-align: center;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
                         {% if app_proy_cap_dep_mensual %}
-                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-info" title="Registro de una mensualidad pagada">
+                        <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-info"
+                            title="Registro de una mensualidad pagada">
                             <img src="{% static 'core/img/pago.svg' %}" width="20" />
                         </a>
                         {% endif %}
                     </td>
                     <td style="text-align: center;">
                         {% if app_proy_imprime_comprob_mensual and p.folio_recibo != 0 %}
-                        <a class="btn btn-info" href="{% url 'imprime_comprob_mensual_PDF' p.id py.id %}" target = "_blank" title="Imprimir recibo de mensualidad pagada">
+                        <a class="btn btn-info" href="{% url 'imprime_comprob_mensual_PDF' p.id py.id %}"
+                            target="_blank" title="Imprimir recibo de mensualidad pagada">
                             <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
                         </a>
                         {% endif %}
@@ -66,12 +69,12 @@
         </table>
     </div>
 </div>
+{% endfor %}
+{% endif %}
+{% endblock %}
 <script>
-    {% block bljs %}
+    {% block inicio %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
     {% endblock %}
 </script>
-{% endfor %}
-{% endif %}
-{% endblock %}

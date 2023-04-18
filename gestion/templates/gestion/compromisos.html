@@ -65,7 +65,8 @@
                 <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
                 <td style="text-align: center;">
                     {% if app_proy_pago_compromiso %}
-                    <a href="{% url 'pagos' e.id py.id %}" class="btn btn-info" title="Registro de pagos de la solicitud">
+                    <a href="{% url 'pagos' e.id py.id %}" class="btn btn-info"
+                        title="Registro de pagos de la solicitud">
                         <img src="{% static 'core/img/pago.svg' %}" width="20" />
                     </a>
                     {% endif %}
@@ -85,14 +86,14 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
+</div>
 {% endfor %}
 {% endif %}
+{% endblock %}
 <script>
-    {% block bljs %}
+    {% block inicio %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
     {% endblock %}
 </script>
-{% endblock %}

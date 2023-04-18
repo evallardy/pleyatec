@@ -85,10 +85,10 @@
                     {% endif %}
                     {% if estatus_pago_publicidad == 1 %}
                     {% if app_proy_imprime_comprob_comision %}
-                    <a class="btn btn-info" href="#" style="margin-top: 10px;" id="btn_recibo_publicidad"
-                        onclick="recibo('{{periodo}}', 'PUBLICIDAD',
+                    <a class="btn btn-info" href="#" style="margin-top: 10px;" id="btn_recibo_publicidad" onclick="recibo('{{periodo}}', 'PUBLICIDAD',
                             '{{bienes_publicidad}}','{{importe_publicidad}}' ,
-                            'de la publicidad', '{{folio_comision_publicidad}}','{{py.id}}')" title="Imprime recibo comisión">
+                            'de la publicidad', '{{folio_comision_publicidad}}','{{py.id}}')"
+                        title="Imprime recibo comisión">
                         <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
                     </a>
                     {% endif %}
@@ -132,9 +132,9 @@
                             </td>
                             <td style="text-align: center;">
                                 {% if estatus_comision == 1 and pc.pagocomision__estatus_pago_asesor == 0 %}
-                                <a class="btn btn-info" href="#" id="btn_deposito_asesor" onclick="deposito('{{periodo}}',
-                                 '{{pc.pagocomision__asesor_pago}}', 1, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')"
-                                 title="Depósito comisión">
+                                <a class="btn btn-info" href="#" id="btn_deposito_asesor"
+                                    onclick="deposito('{{periodo}}','{{pc.pagocomision__asesor_pago}}', 1, 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}')" 
+                                    title="Depósito comisión">
                                     <img src="{% static 'core/img/deposito.svg' %}" width="20" />
                                 </a>
                                 {% endif %}
@@ -142,11 +142,10 @@
                             <td style="text-align: center;">
                                 {% if pc.pagocomision__estatus_pago_asesor == 1 %}
                                 {% if app_proy_imprime_comprob_comision %}
-                                <a class="btn btn-info" href="#" id="btn_recibo_asesor" 
-                                    onclick="recibo('{{periodo}}', '{{pc.nombre }} {{ pc.paterno}} {{pc.materno}}',
+                                <a class="btn btn-info" href="#" id="btn_recibo_asesor" onclick="recibo('{{periodo}}', '{{pc.nombre }} {{ pc.paterno}} {{pc.materno}}',
                                         '{{pc.bienes}}','{{pc.total_asesor}}' , 'del asesor {{pc.paterno}} {{pc.materno}} {{pc.nombre}}',
                                         '{{pc.pagocomision__folio_comision_asesor}}','{{py.id}}')"
-                                        title="Imprimir recibo de comisión">
+                                    title="Imprimir recibo de comisión">
                                     <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
                                 </a>
                                 {% endif %}
@@ -166,7 +165,7 @@
                         <label class="encabezados">Comisiones gerentes</label>
                         <button type="button" class="btn btn-info" data-dismiss="modal"
                             title="Regresar a la pantalla anterior">
-                            <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+                            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
                         </button>
                     </div>
                     <div class="modal-body">
@@ -203,11 +202,10 @@
                                             </a>
                                             {% elif pc.estatus_pago_gerente == 1 %}
                                             {% if app_proy_imprime_comprob_comision %}
-                                            <a class="btn btn-info" href="#" id="btn_recibo_asesor" 
-                                            onclick="recibo('{{periodo}}', '{{pc.gerente_pago__nombre }} {{ pc.gerente_pago__paterno}} {{pc.gerente_pago__materno}}',
-                                                 '{{pc.bienes}}','{{pc.total_asesor}}' , 'del gerente {{pc.gerente_pago_paterno}} {{pc.gerente_pago_materno}} 
-                                                 {{pc.gerente_pago_nombre}}', '{{pc.folio_comision_gerente}}','{{py.id}}')"
-                                                 title="Imprimir recibo de comisión" >
+                                            <a class="btn btn-info" href="#" id="btn_recibo_asesor"
+                                                onclick="recibo('{{periodo}}', '{{pc.gerente_pago__nombre }} {{ pc.gerente_pago__paterno}} {{pc.gerente_pago__materno}}',
+                                                 '{{pc.bienes}}','{{pc.total_asesor}}' , 'del gerente {{pc.gerente_pago_paterno}} {{pc.gerente_pago_materno}} {{pc.gerente_pago_nombre}}',
+                                                 '{{pc.folio_comision_gerente}}','{{py.id}}')" title="Imprimir recibo de comisión">
                                                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
                                             </a>
                                             {% endif %}
@@ -225,9 +223,17 @@
         </div>
     </form>
 </div>
+{% endfor %}
+{% endif %}
+{% endblock %}
 <script>
+    {% block bljs %}
     function deposito(fecha, empleado, opcion, mensaje) {
-        var url = "{% url 'deposito_comision' 123 py.id 456 789 %}";
+        console.log(fecha);
+        console.log(empleado);
+        console.log(opcion);
+        console.log(mensaje);
+        var url = "% url 'deposito_comision' 123 num_proyecto 456 789 %";
         url = url.replace("123", fecha);
         url = url.replace("456", empleado);
         url = url.replace("789", opcion);
@@ -245,10 +251,10 @@
         window.open(url, "Recibo", target = "_blank");
     }
     {% endif %}
+    {% endblock %}
     $(document).ready(function () {
+        {% block inicio %}
         $("#id_periodo").val("{{periodo}}");
+        {% endblock %}
     });
 </script>
-{% endfor %}
-{% endif %}
-{% endblock %}

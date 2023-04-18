@@ -15,7 +15,7 @@
         <hr class="mt-0 mb-12">
         <div class="form-group col-3 mb-0">
             <a class="btn btn-info" href="{% url 'contratos' py.id %}" title="Regresar a la pantalla anterior">
-                <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+                <img src="{% static 'core/img/regresar.svg' %}" width="20" />
             </a>
         </div>
         <br>
@@ -32,38 +32,41 @@
                             <div class="form-group col-md-4 mb-0">
                                 {{ form.fecha_contrato|as_crispy_field }}
                             </div>
-                        {% if solicitud.modo_pago == 2 or solicitud.modo_pago == 4 %}
+                            {% if solicitud.modo_pago == 2 or solicitud.modo_pago == 4 %}
                             <div class="form-group col-md-4 mb-0">
                                 {{ form.anio_inicio_pago|as_crispy_field }}
                             </div>
                             <div class="form-group col-md-4 mb-0">
                                 {{ form.mes_inicio_pago|as_crispy_field }}
                             </div>
-                        {% else %}
+                            {% else %}
                             <div class="form-group col-md-4 mb-0" hidden>
                                 {{ form.anio_inicio_pago|as_crispy_field }}
                             </div>
                             <div class="form-group col-md-4 mb-0" hidden>
                                 {{ form.mes_inicio_pago|as_crispy_field }}
                             </div>
-                        {% endif %}
+                            {% endif %}
                         </div>
                         <button type="submit" class="btn btn-success" title="Guarda datos del contrato">
                             <img src="{% static 'core/img/guardar.svg' %}" width="20" />
                         </button>
-                        
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endif %}
+{% endfor %}
+{% endblock %}
 <script>
+    {% block bljs %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-
     $(function () {
         $("#id_anio_inicio_pago").val(0);
         $("#id_mes_inicio_pago").val(0);
@@ -90,7 +93,5 @@
             }
         }
     });
+    {% endblock %}
 </script>
-{% endif %}
-{% endfor %}
-{% endblock %}

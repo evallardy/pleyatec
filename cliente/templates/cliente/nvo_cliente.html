@@ -109,7 +109,11 @@
         </div>
     </div>
 </div>
+
+{% endif %}
+{% endblock %}
 <script>
+    {% block bljs %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
@@ -146,6 +150,5 @@
         //            return true;
         //        }
     });
+    {% endblock %}
 </script>
-{% endif %}
-{% endblock %}

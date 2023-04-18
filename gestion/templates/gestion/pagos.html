@@ -43,9 +43,9 @@
     <label class="encabezados">{{ py.nombre }} - Compromiso de la solicitud {{ pk }}</label><br>
     <hr class="mt-0 mb-4">
     <div class="container">
-    <a class="btn btn-info" href="{% url 'compromisos' py.id %}" title="Regresar a la pantalla anterior">
-        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-    </a>
+        <a class="btn btn-info" href="{% url 'compromisos' py.id %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
     </div>
     <div class="container col-12">
         <div class="wrapper fadeInDown">
@@ -154,11 +154,13 @@
                             <p><small class="mensaje-error">{{ error }}</small></p>
                             {% endif %}
                             {% endfor %}
-    
+
                             <!--                             form.apartado|as_crispy_field   -->
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_apartado" 
-                            {% if not app_proy_confirma_deposito_pago %} hidden {% endif %}>
+                        {% if not app_proy_confirma_deposito_pago %} 
+                            hidden 
+                        {% endif %}>
                             {{ form.confirmacion_apartado|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_apartado1">
@@ -168,15 +170,17 @@
                             {% for error in form.confirmacion_apartado.errors %}
                             <p><small class="mensaje-error">{{ error }}</small></p>
                             {% endfor %}
-                            </div>
+                        </div>
                         <div class="form-group col-3" id="gpo_confirmacion_apartado" style="text-align: center;">
                             {% if app_proy_imp_pago_compromiso %}
                             <label for="btn_recibo"> </label><br>
-                            <button id="btn_recibo" class="btn btn-info" onclick="imprime('parcial')" title="Imprime recibo apartado">
+                            <button id="btn_recibo" class="btn btn-info" onclick="imprime('parcial')"
+                                title="Imprime recibo apartado">
                                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
                             </button>
                             {% endif %}
-                            <button type="submit" id="id_btsubapartado" name="btsubapartado" class="btn btn-success" title="Guarda apartado">
+                            <button type="submit" id="id_btsubapartado" name="btsubapartado" class="btn btn-success"
+                                title="Guarda apartado">
                                 <img src="{% static 'core/img/guardar.svg' %}" width="20" />
                             </button>
                         </div>
@@ -220,7 +224,9 @@
                             <!--                             form.pago_adicional|as_crispy_field    -->
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_pago_adicional" 
-                            {% if not app_proy_confirma_deposito_pago %} hidden {% endif %}>
+                        {% if not app_proy_confirma_deposito_pago %} 
+                            hidden 
+                        {% endif %}>
                             {{ form.confirmacion_pago_adicional|as_crispy_field }}
                         </div>
                         <div class="form-group col-3" id="gpo_confirmacion_pago_adicional1">
@@ -237,11 +243,13 @@
                         <div class="form-group col-3" style="text-align: center;">
                             {% if app_proy_imp_pago_compromiso %}
                             <label for="btn_adicional"> </label><br>
-                            <button id="btn_adicional" class="btn btn-info" onclick="imprime('total')" title="Imprime recibo pago adicional">
+                            <button id="btn_adicional" class="btn btn-info" onclick="imprime('total')"
+                                title="Imprime recibo pago adicional">
                                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
                             </button>
                             {% endif %}
-                            <button id="id_btsubpa" name="btsubpa" type="submit" class="btn btn-success" title="Guarda pago adicional">
+                            <button id="id_btsubpa" name="btsubpa" type="submit" class="btn btn-success"
+                                title="Guarda pago adicional">
                                 <img src="{% static 'core/img/guardar.svg' %}" width="20" />
                             </button>
                         </div>
@@ -292,146 +300,228 @@
             <br>
         </div>
     </div>
-    <script>
-        {% block bljs %}
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+<script>
+    {% block bljs %}
 
-        function anular(e) {
-            tecla = (document.all) ? e.keyCode : e.which;
-            return (tecla != 13);
-        }
-        {% if app_proy_imp_pago_compromiso %}
-        function imprime(dato) {
-            window.open("/gestion/reciboPDF/" + "{{ pk }}" + "/" + dato + "/",
-                "Recibo", target = "_blank");
-        }
-        {% endif %}
- 
-        function alinear() {
-            $("#id_apartado").css("text-align", "right");
-            $("#id_pago_adicional").css("text-align", "right");
-            $("#id_diferencia").css("text-align", "right");
-            $('#gpo_confirmacion_apartado1').hide();
-            $('#gpo_forma_pago_apa1').hide();
-            $('#id_btsubapartado').hide();
-            $('#gpo_confirmacion_pago_adicional1').hide();
-            $('#gpo_forma_pago_pa1').hide();
-            $('#id_btsubpa').hide();
-            $('#id_estatus_lote').hide();
-            $('#id_modo_pago').hide();
-            $('#id_precio_final').hide();
-            $('#id_enganche').hide();
-            $('#id_cantidad_pagos').hide();
-            $('#id_precio_lote').hide();
-            $('#id_id').hide();
-            if (convierteNumero("id_modo_pago", 0) == 1) {
-                $("#gpo_credito").hide();
-            }
-        }
-        function calcula_diferencia() {
-            id_apartado = convierteNumero("id_apartado", 1);
-            id_pago_adicional = convierteNumero("id_pago_adicional", 1);
-            id_modo_pago = convierteNumero("id_modo_pago", 0);
-            id_precio_final = convierteNumero("id_precio_final",1 );
-            id_enganche = convierteNumero("id_enganche", 1);
-            if (id_modo_pago == "1") {
-                id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
-            } else {
-                id_diferencia = id_enganche - id_apartado - id_pago_adicional;
-            }
-            $("#id_diferencia").val(id_diferencia.toFixed(2));
-            reformatear('id_diferencia')
-        }
-        function valoresForma() {
-            id_diferencia = 0;
-            //  Poner ceros en campos vacios
-            if ($("#id_apartado").val() == "") { $("#id_apartado").val(0.00) }
-            if ($("#id_pago_adicional").val() == "") { $("#id_pago_adicional").val(0.00) }
-            //  Asignacion de valores            
-            id_modo_pago = convierteNumero("id_modo_pago", 0);
-            id_estatus_lote = convierteNumero("id_estatus_lote", 0);
-            id_estatus_solicitud = convierteNumero("id_estatus_solicitud", 0);
-            id_precio_final = convierteNumero("id_precio_final", 1);
-            id_enganche = convierteNumero("id_enganche", 1);
-            id_apartado = convierteNumero("id_apartado", 1);
-            id_pago_adicional = convierteNumero("id_pago_adicional", 1);
-        }
-        function valoresIniciales () {
-            {% for s in sol %}
+    function anular(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }
+    {% if app_proy_imp_pago_compromiso %}
+    function imprime(dato) {
+        window.open("/gestion/reciboPDF/" + "{{ pk }}" + "/" + dato + "/",
+            "Recibo", target = "_blank");
+    }
+    {% endif %}
 
-            if (parseFloat("{{ apartado}}") > 0) {
-                $("#id_apartado").val("{{ apartado }}");
-            } else {
-                $("#id_apartado").val("{{ s.apartado }}");
-            }
+    function alinear() {
+        $("#id_apartado").css("text-align", "right");
+        $("#id_pago_adicional").css("text-align", "right");
+        $("#id_diferencia").css("text-align", "right");
+        $('#gpo_confirmacion_apartado1').hide();
+        $('#gpo_forma_pago_apa1').hide();
+        $('#id_btsubapartado').hide();
+        $('#gpo_confirmacion_pago_adicional1').hide();
+        $('#gpo_forma_pago_pa1').hide();
+        $('#id_btsubpa').hide();
+        $('#id_estatus_lote').hide();
+        $('#id_modo_pago').hide();
+        $('#id_precio_final').hide();
+        $('#id_enganche').hide();
+        $('#id_cantidad_pagos').hide();
+        $('#id_precio_lote').hide();
+        $('#id_id').hide();
+        if (convierteNumero("id_modo_pago", 0) == 1) {
+            $("#gpo_credito").hide();
+        }
+    }
+    function calcula_diferencia() {
+        id_apartado = convierteNumero("id_apartado", 1);
+        id_pago_adicional = convierteNumero("id_pago_adicional", 1);
+        id_modo_pago = convierteNumero("id_modo_pago", 0);
+        id_precio_final = convierteNumero("id_precio_final", 1);
+        id_enganche = convierteNumero("id_enganche", 1);
+        if (id_modo_pago == "1") {
+            id_diferencia = id_precio_final - id_apartado - id_pago_adicional;
+        } else {
+            id_diferencia = id_enganche - id_apartado - id_pago_adicional;
+        }
+        $("#id_diferencia").val(id_diferencia.toFixed(2));
+        reformatear('id_diferencia')
+    }
+    function valoresForma() {
+        id_diferencia = 0;
+        //  Poner ceros en campos vacios
+        if ($("#id_apartado").val() == "") { $("#id_apartado").val(0.00) }
+        if ($("#id_pago_adicional").val() == "") { $("#id_pago_adicional").val(0.00) }
+        //  Asignacion de valores            
+        id_modo_pago = convierteNumero("id_modo_pago", 0);
+        id_estatus_lote = convierteNumero("id_estatus_lote", 0);
+        id_estatus_solicitud = convierteNumero("id_estatus_solicitud", 0);
+        id_precio_final = convierteNumero("id_precio_final", 1);
+        id_enganche = convierteNumero("id_enganche", 1);
+        id_apartado = convierteNumero("id_apartado", 1);
+        id_pago_adicional = convierteNumero("id_pago_adicional", 1);
+    }
+    function valoresIniciales() {
+        {% for s in sol %}
 
-            if (parseFloat("{{ pago_adicional }}") > 0) {
-                $("#id_pago_adicional").val("{{ pago_adicional }}");
-            } else {
-                $("#id_pago_adicional").val("{{ s.pago_adicional }}");
-            }
+        if (parseFloat("{{ apartado}}") > 0) {
+            $("#id_apartado").val("{{ apartado }}");
+        } else {
+            $("#id_apartado").val("{{ s.apartado }}");
+        }
 
-            {% endfor %}
-            if (convierteNumero("id_confirmacion_apartado", 0) == 2) {
-                $("#btn_recibo").show();
-                proteje_apartado();
-            } else {
-                $("#btn_recibo").hide();
-                if (convierteNumero("id_apartado", 1) > 0) {
-                    inicia_pago_adicional();
-                    proteje_adicional();
-                }
-            }
-            if (convierteNumero("id_confirmacion_pago_adicional", 0) == 2) {
-                $("#btn_adicional").show();
-                proteje_apartado();
+        if (parseFloat("{{ pago_adicional }}") > 0) {
+            $("#id_pago_adicional").val("{{ pago_adicional }}");
+        } else {
+            $("#id_pago_adicional").val("{{ s.pago_adicional }}");
+        }
+
+        {% endfor %}
+        if (convierteNumero("id_confirmacion_apartado", 0) == 2) {
+            $("#btn_recibo").show();
+            proteje_apartado();
+        } else {
+            $("#btn_recibo").hide();
+            if (convierteNumero("id_apartado", 1) > 0) {
+                inicia_pago_adicional();
                 proteje_adicional();
-            } else {
-                $("#btn_adicional").hide();
-                if (convierteNumero("id_pago_adicional", 1) > 0) {
-                    proteje_apartado();
-                }
-            }
-            if ($("#id_forma_pago_apa").val() == 3) {
-                $("#id_cuenta_apa").val("").attr("readonly", true);
-                $("#id_numero_comprobante_apa").val("").attr("readonly", true);
-            }
-            if ($("#id_forma_pago_pa").val() == 3) {
-                $("#id_cuenta_pa").val("").attr("readonly", true);
-                $("#id_numero_comprobante_pa").val("").attr("readonly", true);
             }
         }
+        if (convierteNumero("id_confirmacion_pago_adicional", 0) == 2) {
+            $("#btn_adicional").show();
+            proteje_apartado();
+            proteje_adicional();
+        } else {
+            $("#btn_adicional").hide();
+            if (convierteNumero("id_pago_adicional", 1) > 0) {
+                proteje_apartado();
+            }
+        }
+        if ($("#id_forma_pago_apa").val() == 3) {
+            $("#id_cuenta_apa").val("").attr("readonly", true);
+            $("#id_numero_comprobante_apa").val("").attr("readonly", true);
+        }
+        if ($("#id_forma_pago_pa").val() == 3) {
+            $("#id_cuenta_pa").val("").attr("readonly", true);
+            $("#id_numero_comprobante_pa").val("").attr("readonly", true);
+        }
+    }
 
-        function apartado() {
-            $("#id_btsubapartado").show();
-            $("#id_btsubpa").hide();
-            inicia_pago_adicional();
-            calcula_diferencia();
-            texto = "";
-            if ($("#id_forma_pago_apa").val() == 3) {
-                $("#id_cuenta_apa").val("").attr("readonly", true);
-                $("#id_numero_comprobante_apa").val("").attr("readonly", true);
+    function apartado() {
+        $("#id_btsubapartado").show();
+        $("#id_btsubpa").hide();
+        inicia_pago_adicional();
+        calcula_diferencia();
+        texto = "";
+        if ($("#id_forma_pago_apa").val() == 3) {
+            $("#id_cuenta_apa").val("").attr("readonly", true);
+            $("#id_numero_comprobante_apa").val("").attr("readonly", true);
+        } else {
+            if (($("#id_forma_pago_apa").val() == 1) || ($("#id_forma_pago_apa").val() == 2)) {
+                $("#id_cuenta_apa").attr("readonly", false);
+                $("#id_numero_comprobante_apa").attr("readonly", false);
+                if ($("#id_cuenta_apa").val().trim() == "") {
+                    texto += "Falta número de cuenta, ";
+                }
+                if ($("#id_numero_comprobante_apa").val().trim() == "") {
+                    texto += "Falta número de comprobante, ";
+                }
             } else {
-                if (($("#id_forma_pago_apa").val() == 1) || ($("#id_forma_pago_apa").val() == 2)) {
-                    $("#id_cuenta_apa").attr("readonly", false);
-                    $("#id_numero_comprobante_apa").attr("readonly", false);
-                    if ($("#id_cuenta_apa").val().trim() == "") {
-                        texto += "Falta número de cuenta, ";
-                    }
-                    if ($("#id_numero_comprobante_apa").val().trim() == "") {
-                        texto += "Falta número de comprobante, ";
-                    }
-                } else {
-                    texto += "Falta forma de pago, ";
+                texto += "Falta forma de pago, ";
+            }
+        }
+        if ($("#id_foto_comprobante_apartado").val().trim() == "") {
+            if ($('#foto_comprobante_apartado').val().trim() == "") {
+                texto += "Falta imagen comprobante, ";
+            }
+        }
+        if (convierteNumero("id_apartado", 1) < 50000) {
+            texto += "El importe del apartado debe ser mayor igual a 50,000.00, ";
+        }
+        if ($("#id_confirmacion_apartado").val() == 2) {
+            $('#id_estatus_lote').val(2);
+            $('#id_estatus_solicitud').val(2);
+        } else {
+            $('#id_estatus_lote').val(1);
+            $('#id_estatus_solicitud').val(1);
+        }
+        $('#id_estatus_solicitud').change();
+    }
+    function inicia_apartado() {
+        $("#id_apartado").val(0.00);
+        $("#id_forma_pago_apa").val(0);
+        $('#id_cuenta_apa').val('');
+        $("#id_confirmacion_apartado").val(0);
+        $('#id_numero_comprobante_apa').val('');
+        $("#id_foto_comprobante_apartado").val('');
+        $("#id_btsubapartado").hide();
+    }
+    function proteje_apartado() {
+        $('#id_apartado').attr('readonly', true);
+        $("#id_confirmacion_apartado1").val(
+            $('select[name="confirmacion_apartado"] option:selected').text());
+        $("#gpo_confirmacion_apartado").hide();
+        $("#gpo_confirmacion_apartado1").show();
+        $("#id_forma_pago_apa1").val(
+            $('select[name="forma_pago_apa"] option:selected').text());
+        $("#gpo_forma_pago_apa").hide();
+        $("#gpo_forma_pago_apa1").show();
+        $('#id_cuenta_apa').attr('readonly', true);
+        $('#id_numero_comprobante_apa').attr('readonly', true);
+        document.getElementById("id_foto_comprobante_apartado").disabled = true;
+        $("#id_btsubapartado").hide();
+    }
+    function oculta_apartado() {
+        $("#bloque_apartado1").hide();
+        $("#bloque_apartado2").hide();
+        $("#bloque_apartado3").hide();
+        $("#bloque_apartado4").hide();
+        $("#bloque_apartado5").hide();
+    }
+
+    function adicional() {
+        $("#id_btsubapartado").hide();
+        if (!$('#id_apartado').attr('readonly')) {
+            //                if ($("#id_confirmacion_apartado").val() == 1) {
+            inicia_apartado();
+        }
+        calcula_diferencia();
+        texto = "";
+        if ($("#id_forma_pago_pa").val() == 3) {
+            $("#id_cuenta_pa").val("").attr("readonly", true);
+            $("#id_numero_comprobante_pa").val("").attr("readonly", true);
+        } else {
+            if (($("#id_forma_pago_pa").val() == 1) || ($("#id_forma_pago_pa").val() == 2)) {
+                $("#id_cuenta_pa").attr("readonly", false);
+                $("#id_numero_comprobante_pa").attr("readonly", false);
+                if ($("#id_cuenta_pa").val().trim() == "") {
+                    texto += " Falta número de cuenta, ";
                 }
-            }
-            if ($("#id_foto_comprobante_apartado").val().trim() == "") {
-                if ($('#foto_comprobante_apartado').val().trim() == "") {
-                    texto += "Falta imagen comprobante, ";
+                if ($("#id_numero_comprobante_pa").val().trim() == "") {
+                    texto += " Falta número de comprobante, ";
                 }
+            } else {
+                texto += " Falta forma de pago, ";
             }
-            if (convierteNumero("id_apartado", 1) < 50000) {
-                texto += "El importe del apartado debe ser mayor igual a 50,000.00, ";
+        }
+        if ($("#id_foto_comprobante_pago_adicional").val().trim() == "") {
+            if ($("#foto_comprobante_pago_adicional").val().trim() == "") {
+                texto += " Falta imagen comprobante, "
             }
+        }
+        if (id_diferencia > 0) {
+            texto += " El importe del pago adicional, no coincide con el importe por pagar";
+        }
+        if ($("#id_confirmacion_pago_adicional").val() == 2) {
+            $('#id_estatus_lote').val(3);
+            $('#id_estatus_solicitud').val(3);
+        } else {
             if ($("#id_confirmacion_apartado").val() == 2) {
                 $('#id_estatus_lote').val(2);
                 $('#id_estatus_solicitud').val(2);
@@ -439,189 +529,107 @@
                 $('#id_estatus_lote').val(1);
                 $('#id_estatus_solicitud').val(1);
             }
-            $('#id_estatus_solicitud').change();
         }
-        function inicia_apartado() {
-            $("#id_apartado").val(0.00);
-            $("#id_forma_pago_apa").val(0);
-            $('#id_cuenta_apa').val('');
-            $("#id_confirmacion_apartado").val(0);
-            $('#id_numero_comprobante_apa').val('');
-            $("#id_foto_comprobante_apartado").val('');
-            $("#id_btsubapartado").hide();
-        }
-        function proteje_apartado() {
-            $('#id_apartado').attr('readonly', true);
-            $("#id_confirmacion_apartado1").val(
-                $('select[name="confirmacion_apartado"] option:selected').text());
-            $("#gpo_confirmacion_apartado").hide();
-            $("#gpo_confirmacion_apartado1").show();
-            $("#id_forma_pago_apa1").val(
-                $('select[name="forma_pago_apa"] option:selected').text());
-            $("#gpo_forma_pago_apa").hide();
-            $("#gpo_forma_pago_apa1").show();
-            $('#id_cuenta_apa').attr('readonly', true);
-            $('#id_numero_comprobante_apa').attr('readonly', true);
-            document.getElementById("id_foto_comprobante_apartado").disabled = true;
-            $("#id_btsubapartado").hide();
-        }
-        function oculta_apartado() {
-            $("#bloque_apartado1").hide();
-            $("#bloque_apartado2").hide();
-            $("#bloque_apartado3").hide();
-            $("#bloque_apartado4").hide();
-            $("#bloque_apartado5").hide();
-        }
-
-        function adicional() {
-            $("#id_btsubapartado").hide();
-            if (!$('#id_apartado').attr('readonly')) {
-                //                if ($("#id_confirmacion_apartado").val() == 1) {
-                inicia_apartado();
-            }
-            calcula_diferencia();
-            texto = "";
-            if ($("#id_forma_pago_pa").val() == 3) {
-                $("#id_cuenta_pa").val("").attr("readonly", true);
-                $("#id_numero_comprobante_pa").val("").attr("readonly", true);
-            } else {
-                if (($("#id_forma_pago_pa").val() == 1) || ($("#id_forma_pago_pa").val() == 2)) {
-                    $("#id_cuenta_pa").attr("readonly", false);
-                    $("#id_numero_comprobante_pa").attr("readonly", false);
-                    if ($("#id_cuenta_pa").val().trim() == "") {
-                        texto += " Falta número de cuenta, ";
-                    }
-                    if ($("#id_numero_comprobante_pa").val().trim() == "") {
-                        texto += " Falta número de comprobante, ";
-                    }
-                } else {
-                    texto += " Falta forma de pago, ";
-                }
-            }
-            if ($("#id_foto_comprobante_pago_adicional").val().trim() == "") {
-                if ($("#foto_comprobante_pago_adicional").val().trim() == "") {
-                    texto += " Falta imagen comprobante, "
-                }
-            }
-            if (id_diferencia > 0) {
-                texto += " El importe del pago adicional, no coincide con el importe por pagar";
-            }
-            if ($("#id_confirmacion_pago_adicional").val() == 2) {
-                $('#id_estatus_lote').val(3);
-                $('#id_estatus_solicitud').val(3);
-            } else {
-                if ($("#id_confirmacion_apartado").val() == 2) {
-                    $('#id_estatus_lote').val(2);
-                    $('#id_estatus_solicitud').val(2);
-                } else {
-                    $('#id_estatus_lote').val(1);
-                    $('#id_estatus_solicitud').val(1);
-                }
-            }
-            $('#id_estatus_solicitud').change();
-            id_diferencia = convierteNumero("id_diferencia", 1);
-            if (id_diferencia <= 0) {
-                $("#id_btsubpa").show();
-            } else {
-                $("#id_btsubpa").hide();
-            }
-        }
-        function inicia_pago_adicional() {
-            $("#id_pago_adicional").val(0.00);
-            $("#id_forma_pago_pa").val(0);
-            $("#id_confirmacion_pago_adicional").val(0);
-            $('#id_cuenta_pa').val('');
-            $('#id_numero_comprobante_pa').val('');
-            $("#id_foto_comprobante_pago_adicional").val('');
+        $('#id_estatus_solicitud').change();
+        id_diferencia = convierteNumero("id_diferencia", 1);
+        if (id_diferencia <= 0) {
+            $("#id_btsubpa").show();
+        } else {
             $("#id_btsubpa").hide();
         }
-        function proteje_adicional() {
-                $('#id_pago_adicional').attr('readonly', true);
-                $("#id_confirmacion_pago_adicional1").val(
-                    $('select[name="confirmacion_pago_adicional"] option:selected').text());
-                $('#gpo_confirmacion_pago_adicional').hide();
-                $('#gpo_confirmacion_pago_adicional1').show();
-                $("#id_forma_pago_pa1").val(
-                    $('select[name="forma_pago_pa"] option:selected').text());
-                $('#gpo_forma_pago_pa').hide();
-                $('#gpo_forma_pago_pa1').show();
-                $('#id_cuenta_pa').attr('readonly', true);
-                $('#id_numero_comprobante_pa').attr('readonly', true);
-                document.getElementById("id_foto_comprobante_pago_adicional").disabled = true;
-                $("#id_btsubpa").hide();
-            }
+    }
+    function inicia_pago_adicional() {
+        $("#id_pago_adicional").val(0.00);
+        $("#id_forma_pago_pa").val(0);
+        $("#id_confirmacion_pago_adicional").val(0);
+        $('#id_cuenta_pa').val('');
+        $('#id_numero_comprobante_pa').val('');
+        $("#id_foto_comprobante_pago_adicional").val('');
+        $("#id_btsubpa").hide();
+    }
+    function proteje_adicional() {
+        $('#id_pago_adicional').attr('readonly', true);
+        $("#id_confirmacion_pago_adicional1").val(
+            $('select[name="confirmacion_pago_adicional"] option:selected').text());
+        $('#gpo_confirmacion_pago_adicional').hide();
+        $('#gpo_confirmacion_pago_adicional1').show();
+        $("#id_forma_pago_pa1").val(
+            $('select[name="forma_pago_pa"] option:selected').text());
+        $('#gpo_forma_pago_pa').hide();
+        $('#gpo_forma_pago_pa1').show();
+        $('#id_cuenta_pa').attr('readonly', true);
+        $('#id_numero_comprobante_pa').attr('readonly', true);
+        document.getElementById("id_foto_comprobante_pago_adicional").disabled = true;
+        $("#id_btsubpa").hide();
+    }
 
-        $("#id_apartado").on("keyup", function () {
-            apartado();
-        });
-        $("#id_apartado").on("change", function () {
-            apartado();
-        });
-        $("#id_confirmacion_apartado").on("change", function () {
-            apartado();
-        });
-        $("#id_forma_pago_apa").on("change", function () {
-            apartado();
-        });
-        $("#id_cuenta_apa").on("keyup", function () {
-            if ($("#id_cuenta_apa").val().length > 4) {
-                $("#id_cuenta_apa").val($("#id_cuenta_apa").val().substr(0, 4));
-            }
-            apartado();
-        });
-        $("#id_cuenta_apa").on("change", function () {
-            apartado();
-        });
-        $("#id_numero_comprobante_apa").on("keyup", function () {
-            apartado();
-        });
-        $("#id_numero_comprobante_apa").on("change", function () {
-            apartado();
-        });
-        $("#id_foto_comprobante_apartado").on("change", function () {
-            apartado();
-        });
-        $("#id_pago_adicional").on("keyup", function () {
-            adicional()
-        });
-        $("#id_pago_adicional").on("change", function () {
-            adicional()
-        });
-        $("#id_confirmacion_pago_adicional").on("change", function () {
-            adicional();
-        });
-        $("#id_forma_pago_pa").on("change", function () {
-            adicional()
-        });
-        $("#id_cuenta_pa").on("keyup", function () {
-            if ($("#id_cuenta_pa").val().length > 4) {
-                $("#id_cuenta_pa").val($("#id_cuenta_pa").val().substr(0, 4));
-            }
-            adicional()
-        });
-        $("#id_cuenta_pa").on("change", function () {
-            adicional()
-        });
-        $("#id_numero_comprobante_pa").on("keyup", function () {
-            adicional()
-        });
-        $("#id_numero_comprobante_pa").on("change", function () {
-            adicional()
-        });
-        $("#id_foto_comprobante_pago_adicional").on("change", function () {
-            adicional()
-        });
-        {% endblock %}
-        {% block inicio %}
-        $(document).ready(function () {
-            alinear();
-            valoresIniciales();
-            valoresForma();
-            calcula_diferencia();
-        });
-        {% endblock %}
-
-    </script>
-    {% endfor %}
-    {% endif %}
+    $("#id_apartado").on("keyup", function () {
+        apartado();
+    });
+    $("#id_apartado").on("change", function () {
+        apartado();
+    });
+    $("#id_confirmacion_apartado").on("change", function () {
+        apartado();
+    });
+    $("#id_forma_pago_apa").on("change", function () {
+        apartado();
+    });
+    $("#id_cuenta_apa").on("keyup", function () {
+        if ($("#id_cuenta_apa").val().length > 4) {
+            $("#id_cuenta_apa").val($("#id_cuenta_apa").val().substr(0, 4));
+        }
+        apartado();
+    });
+    $("#id_cuenta_apa").on("change", function () {
+        apartado();
+    });
+    $("#id_numero_comprobante_apa").on("keyup", function () {
+        apartado();
+    });
+    $("#id_numero_comprobante_apa").on("change", function () {
+        apartado();
+    });
+    $("#id_foto_comprobante_apartado").on("change", function () {
+        apartado();
+    });
+    $("#id_pago_adicional").on("keyup", function () {
+        adicional()
+    });
+    $("#id_pago_adicional").on("change", function () {
+        adicional()
+    });
+    $("#id_confirmacion_pago_adicional").on("change", function () {
+        adicional();
+    });
+    $("#id_forma_pago_pa").on("change", function () {
+        adicional()
+    });
+    $("#id_cuenta_pa").on("keyup", function () {
+        if ($("#id_cuenta_pa").val().length > 4) {
+            $("#id_cuenta_pa").val($("#id_cuenta_pa").val().substr(0, 4));
+        }
+        adicional()
+    });
+    $("#id_cuenta_pa").on("change", function () {
+        adicional()
+    });
+    $("#id_numero_comprobante_pa").on("keyup", function () {
+        adicional()
+    });
+    $("#id_numero_comprobante_pa").on("change", function () {
+        adicional()
+    });
+    $("#id_foto_comprobante_pago_adicional").on("change", function () {
+        adicional()
+    });
     {% endblock %}
+    $(document).ready(function () {
+        {% block inicio %}
+        alinear();
+        valoresIniciales();
+        valoresForma();
+        calcula_diferencia();
+        {% endblock %}
+    });
+</script>

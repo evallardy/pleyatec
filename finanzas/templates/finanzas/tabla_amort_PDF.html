@@ -62,11 +62,21 @@
         <div class="container col-12">
             {% for y in empresa.titulos %}
             <table style="text-align: center;">
-                <tr><td>{{ y.nombre }}</td></tr>
-                <tr><td>{{ y.rfc }}</td></tr>
-                <tr><td>{{ y.domicilio1 }}</td></tr>
-                <tr><td>{{ y.domicilio2 }}</td></tr>
-                <tr><td>{{ y.telefono }}</td></tr>
+                <tr>
+                    <td>{{ y.nombre }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.rfc }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.domicilio1 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.domicilio2 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ y.telefono }}</td>
+                </tr>
             </table>
             {% endfor %}
             {% for x in datos.titulo %}

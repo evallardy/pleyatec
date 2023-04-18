@@ -12,9 +12,9 @@
     <h3 style="margin-right: 25px; margin-top: 15px;">Comisiones asesor</h3>
     <hr class="mt-0 mb-4">
     <div class="container">
-    <a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
-        <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
-    </a>
+        <a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
     </div>
     <br>
     <div class="container col-12">
@@ -85,7 +85,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
 <script>
+    {% block bljs %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
@@ -129,8 +131,5 @@
             return false;
         }
     })
-    $(document).ready(function () {
-
-    });
+    {% endblock %}
 </script>
-{% endblock %}

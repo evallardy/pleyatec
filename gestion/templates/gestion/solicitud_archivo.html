@@ -144,11 +144,9 @@
 {% endfor %}
 {% endif %}
 {% endblock %}
-
-
 <script>
-    {% block bljs %}
     $(document).ready(function () {
+        {% block inicio %}
         //  Campos de solo lectura
         $("#id_cliente_inicio_contrato").attr('readonly', 'true');
         $("#id_importe_x_pago").attr('readonly', 'true');
@@ -169,6 +167,6 @@
         $("#id_precio_x_mt").css("text-align", "right");
         $("#id_total").css("text-align", "right");
         $("#id_credito").css("text-align", "right").attr('readonly', 'true');
-    }
-{% endblock %}
+        {% endblock %}
+    });
 </script>

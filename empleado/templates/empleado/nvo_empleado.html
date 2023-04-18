@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block blcss %} 
+{% block blcss %}
 {% load bootstrap4 %}
 {% bootstrap_javascript jquery='full' %}
 {{ form.media }}
@@ -9,188 +9,188 @@
 {% block contenido %}
 {% if perms.empleado.add_empleado or perms.empleado.change_empleado %}
 <div class="container mapa col-6">
-<label class="encabezados">Empleado</label><h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
-<hr class="mt-0 mb-4">
-<div class="container">
-<a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
-    <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-</a>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosDomicilio" style="margin-left: 40px;">
-    Datos Domicilio
-</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosPersonales" style="margin-left: 40px;">
-    Datos Personales
-</button>
-</div>
-<div class="container col-12">
-    <div class="wrapper fadeInDown">
-        <div id="formContent" style="text-align: right;">
-            <form action="" method="POST" style="text-align: left; " 
-                enctype="multipart/form-data" onkeypress="return anular(event)">
-                {% csrf_token %} 
-                <br>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.nombre|as_crispy_field }}
+    <label class="encabezados">Empleado</label>
+    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+        </a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosDomicilio"
+            style="margin-left: 40px;">
+            Datos Domicilio
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosPersonales"
+            style="margin-left: 40px;">
+            Datos Personales
+        </button>
+    </div>
+    <div class="container col-12">
+        <div class="wrapper fadeInDown">
+            <div id="formContent" style="text-align: right;">
+                <form action="" method="POST" style="text-align: left; " enctype="multipart/form-data"
+                    onkeypress="return anular(event)">
+                    {% csrf_token %}
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.nombre|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.paterno|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.materno|as_crispy_field }}
+                        </div>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.paterno|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.usuario|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.asigna_solicitud|as_crispy_field }}
+                        </div>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.materno|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.usuario|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0"> 
-                        {{ form.asigna_solicitud|as_crispy_field  }}
-                    </div>
-                </div>
-                <div class="modal fade" id="datosPersonales" tabindex="-1" role="dialog" 
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content" style="background-color: darkgrey; width: 700px;">
-                            <div class="modal-header">
-                                <label class="encabezados">Datos Domicilio</label>
-                                <button type="button" class="btn btn-info" data-dismiss="modal"
-                                    title="Regresar a la pantalla anterior">
-                                    <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.fecha_nac|as_crispy_field }}
-                                    </div>
+                    <div class="modal fade" id="datosPersonales" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                <div class="modal-header">
+                                    <label class="encabezados">Datos Domicilio</label>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal"
+                                        title="Regresar a la pantalla anterior">
+                                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-3 mb-0">
-                                        {{ form.rfc|as_crispy_field }}
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.fecha_nac|as_crispy_field }}
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-3 mb-0">
-                                        {{ form.curp|as_crispy_field }}
+                                    <div class="row">
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.rfc|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-3 mb-0">
+                                            {{ form.curp|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.numero_seguro_social|as_crispy_field }}
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6 mb-0">
-                                        {{ form.numero_seguro_social|as_crispy_field }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.genero|as_crispy_field }}
-                                    </div>
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.estado_civil|as_crispy_field }}
+                                    <div class="row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.genero|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.estado_civil|as_crispy_field }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal fade" id="datosDomicilio" tabindex="-1" role="dialog" 
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content" style="background-color: darkgrey; width: 700px;">
-                            <div class="modal-header">
-                                <label class="encabezados">Datos Domicilio</label>
-                                <button type="button" class="btn btn-info" data-dismiss="modal" 
-                                    title="Regresar a la pantalla anterior">
-                                    <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="form-group col-md-12 mb-0">
-                                        {{ form.calle_num|as_crispy_field }}
-                                    </div>
+                    <div class="modal fade" id="datosDomicilio" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                <div class="modal-header">
+                                    <label class="encabezados">Datos Domicilio</label>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal"
+                                        title="Regresar a la pantalla anterior">
+                                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.colonia|as_crispy_field }}
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12 mb-0">
+                                            {{ form.calle_num|as_crispy_field }}
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.codpos|as_crispy_field }}
+                                    <div class="row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.colonia|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.codpos|as_crispy_field }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.municipio|as_crispy_field }}
-                                    </div>
-                                    <div class="form-group col-md-4 mb-0">
-                                        {{ form.estado|as_crispy_field }}
+                                    <div class="row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.municipio|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.estado|as_crispy_field }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.telefono_fijo|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.telefono_fijo|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.celular|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.correo|as_crispy_field }}
+                        </div>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.celular|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.tipo_pago|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.cuenta_banco|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.banco|as_crispy_field }}
+                        </div>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.correo|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.area_operativa|as_crispy_field }}
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.tipo_pago|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.puesto|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.tipo_empleado|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.subidPersonal|as_crispy_field }}
+                        </div>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.cuenta_banco|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.estatus_empleado|as_crispy_field }}
+                        </div>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.banco|as_crispy_field }}
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.foto|as_crispy_field }}
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.area_operativa|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.puesto|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.tipo_empleado|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.subidPersonal|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.estatus_empleado|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6 mb-0">
-                        {{ form.foto|as_crispy_field }}
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success" title="Guarda empleado">
-                    <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                </button>
-            </form>
+                    <button type="submit" class="btn btn-success" title="Guarda empleado">
+                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-</div>
+{% endif %}
+{% endblock %}
 <script>
+    {% block inicio %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
-    
-    $(document).ready(function () {
-
-
-    });
+    {% endblock %}
 </script>
-{% endif %}
-{% endblock %}

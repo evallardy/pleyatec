@@ -120,14 +120,14 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
 <script>
-    {% block bljs %}
+    {% block inicio %}
     opcion = "#" + "{{ menu }}";
     $(opcion).addClass('active');
     {% endblock %}
 </script>
-{% endfor %}
-{% endif %}
-{% endblock %}

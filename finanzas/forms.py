@@ -6,6 +6,8 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class PagoForm(forms.ModelForm):
+    fecha_voucher = forms.DateField(widget=DateInput)
+
     class Meta:
         model = Pago
         fields = [
@@ -39,8 +41,7 @@ class PagoForm(forms.ModelForm):
             'cuenta':'Cuenta (4 dígitos)',
         }
         widgets = {
-            'fecha_voucher':DateInput(),
-            'cuenta': forms.NumberInput(),
+            'cuenta': forms.TextInput(),
         }
     def __init__(self, *args, **kwargs):
         super(PagoForm, self).__init__(*args, **kwargs)

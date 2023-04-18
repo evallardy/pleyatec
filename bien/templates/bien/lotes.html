@@ -111,14 +111,12 @@
     {% endif %}
     </div>
 </div>
-<script>
-    {% block bljs %}
-    $(document).ready(function () {
-        opcion = "#" + "{{ menu }}";
-        $(opcion).addClass('active');
-    });
-    {% endblock %}
-</script>
 {% endif %}
 {% endfor %}
 {% endblock %}
+<script>
+    {% block inicio %}
+        opcion = "#" + "{{ menu }}";
+        $(opcion).addClass('active');
+    {% endblock %}
+</script>

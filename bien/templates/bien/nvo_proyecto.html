@@ -51,17 +51,21 @@
         </form>
     </div>
 </div>
+{% endif %}
+{% endblock %}
 <script>
+    {% block bljs %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
     }
+    {% endblock %}
     $(document).ready(function () {
+        {% block inicio %}
         $("#id_nombre").attr('readonly', 'true');
         $("#id_tipo_proyecto").attr('disabled', 'true');
         $("#id_comision_asesor").css("text-align", "right");
         $("#id_comision_jefe_asesor").css("text-align", "right");
+        {% endblock %}
     })
 </script>
-{% endif %}
-{% endblock %}

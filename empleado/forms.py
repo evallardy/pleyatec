@@ -99,7 +99,7 @@ class EmpleadoForm(forms.ModelForm):
             'calle_num':forms.TextInput(attrs={'class':'form-control'}),
             'colonia':forms.TextInput(attrs={'class':'form-control'}),
             'municipio':forms.TextInput(attrs={'class':'form-control'}),
-            'codpos':forms.NumberInput(attrs={'class':'form-control'}),
+            'codpos':forms.TextInput(attrs={'class':'form-control'}),
             'telefono_fijo':forms.TextInput(attrs={'class':'form-control'}),
             'celular':forms.TextInput(attrs={'class':'form-control'}),
             'correo':forms.EmailInput(attrs={'class':'form-control'}),

@@ -15,7 +15,7 @@
         <label class="encabezados">{{nombre}}</label><br>
         <a class="btn btn-info" href="{% url 'pago_comisiones' py.id periodo %}"
             title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20"/>
+            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
         </a><br><br>
         <div class="container">
             <div class="row">
@@ -84,12 +84,7 @@
             <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
         </a>
         {% endif %}
-        </div>
     </div>
 </div>
-{% block bljs %}
-
-
-{% endblock %}
 {% endfor %}
 {% endblock %}

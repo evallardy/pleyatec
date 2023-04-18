@@ -18,9 +18,8 @@
         </a>
         <div class="wrapper fadeInDown">
             <br>
-            <div id="formContent" >
-                <form action="" method="POST" enctype="multipart/form-data"
-                    onkeypress="return anular(event)">
+            <div id="formContent">
+                <form action="" method="POST" enctype="multipart/form-data" onkeypress="return anular(event)">
                     {% csrf_token %}
                     <div class="row">
                         <label class="sub-titulo">Compromiso</label>
@@ -36,8 +35,8 @@
                             <label>Importe</label>
                             <input type="text" name="importe" id="id_importe" class="form-control"
                                 onfocusout="reformatear('id_importe')" onkeypress="return valideKey(event);">
-                            
-                    <!--         form.importe|as_crispy_field }}   -->
+
+                            <!--         form.importe|as_crispy_field }}   -->
                         </div>
                         <div class="form-group" hidden>
                             {{ form.pagado_vencido|as_crispy_field }}
@@ -49,7 +48,7 @@
                         </div>
                     </div>
                     <div class="row">
-                    <label class="sub-titulo">Comprobante</label>
+                        <label class="sub-titulo">Comprobante</label>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-4 mb-0">
@@ -69,7 +68,7 @@
                             {% endif %}
                             {% endfor %}
 
-                    <!--      form.importe_pagado|as_crispy_field }}  -->
+                            <!--      form.importe_pagado|as_crispy_field }}  -->
                         </div>
                         <div class="form-group col-md-4 mb-0">
                             {{ form.numero_comprobante|as_crispy_field }}
@@ -81,23 +80,20 @@
                         </div>
                         <div class="form-group col-4" id="gpo_forma_pago1">
                             <label for="id_forma_pago1">Forma de pago</label>
-                            <input type="text" name="forma_pago1" id="id_forma_pago1" readonly
-                                class="form-control">
+                            <input type="text" name="forma_pago1" id="id_forma_pago1" readonly class="form-control">
                         </div>
                         <div class="form-group col-md-4 mb-0">
                             {{ form.cuenta|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-4 mb-0"  id="gpo_deposito"
-                        {% if not app_proy_confirma_deposito_mensual %}
-                        hidden
-                        {% endif %}
-                        >
+                        <div class="form-group col-md-4 mb-0" id="gpo_deposito" 
+                            {% if not app_proy_confirma_deposito_mensual %} 
+                                hidden 
+                            {% endif %}>
                             {{ form.deposito|as_crispy_field }}
                         </div>
                         <div class="form-group col-4" id="gpo_deposito1">
                             <label for="id_deposito1">Depósito</label>
-                            <input type="text" name="deposito1" id="id_deposito1" readonly
-                                class="form-control">
+                            <input type="text" name="deposito1" id="id_deposito1" readonly class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -106,8 +102,7 @@
                         </div>
                         <div class="form-group col-4" id="gpo_estatus_pago">
                             <label for="id_estatus_pago1">Estatus del pago</label>
-                            <input type="text" name="estatus_pago1" id="id_estatus_pago1" readonly
-                                class="form-control">
+                            <input type="text" name="estatus_pago1" id="id_estatus_pago1" readonly class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -132,8 +127,9 @@
 </div>
 {% endfor %}
 {% endif %}
-<script >
-    {% block inicio %}
+{% endblock %}
+<script>
+    {% block bljs %}
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         return (tecla != 13);
@@ -144,7 +140,7 @@
         $("#id_fecha_voucher").css("text-align", "center");
         $("#id_importe_pagado").css("text-align", "right");
     }
-    function protejerCampos () {
+    function protejerCampos() {
         $("#id_fecha_pago").attr("readonly", true);
         $("#id_importe").attr("readonly", true);
         $("#id_estatus_pago").attr("readonly", true);
@@ -152,7 +148,7 @@
     }
     function modoPago() {
         $("#id_forma_pago1").val(
-                $('select[name="forma_pago"] option:selected').text());
+            $('select[name="forma_pago"] option:selected').text());
         if ($("#id_forma_pago").val() == 3) {
             $("#id_cuenta").attr("readonly", true).val("");
             $("#id_numero_comprobante").attr("readonly", true).val("");
@@ -179,7 +175,7 @@
     });
     $("#id_estatus_pago").on('change', function () {
         $("#id_estatus_pago1").val(
-                $('select[name="estatus_pago"] option:selected').text());
+            $('select[name="estatus_pago"] option:selected').text());
     });
     $("#id_fecha_voucher").on('change', function (e) {
         dia = parseInt($("#id_fecha_pago").val().substr(0, 2));
@@ -193,7 +189,7 @@
         diff = pago - debe_pagar;
         d = Math.round(diff / (1000 * 60 * 60 * 24));
         if (d > 6) {
-            aviso("Aviso","Se pagó vencido");
+            aviso("Aviso", "Se pagó vencido");
             $("#id_pagado_vencido").val(2);
         } else {
             $("#id_pagado_vencido").val(1);
@@ -203,7 +199,7 @@
     });
     $("#id_cuenta").on('keyup', function (e) {
         if ($(this).val().length > 4) {
-            $(this).val($(this).val().substr(0,4));
+            $(this).val($(this).val().substr(0, 4));
         }
     });
     $("#id_pagado_vencido").on('change', function () {
@@ -212,7 +208,13 @@
     function llenaForma() {
         $("#id_importe").val("{{ importe }}").focus();
         $("#id_importe_pagado").val("{{ importe_pagado }}").focus();
-        $("#id_fecha_voucher").val("{{ fecha1 }}").focus();
+        if ("{{ fecha1 }}" != 'None') {
+//            var fecha1 = "{{ fecha1 }}";
+//            var fecha1_split = fecha1.split("-");
+//            var fecha1_obj = new Date(fecha1_split[0] + '/' + fecha1_split[1] + '/' + fecha1_split[2]);
+//            var fecha1_formatted = fecha1_obj.getFullYear() + '-' + ('0' + (fecha1_obj.getMonth()+1)).slice(-2) + '-' + ('0' + fecha1_obj.getDate()).slice(-2);
+            $("#id_fecha_voucher").val("{{ fecha1 }}").focus();
+        }
         $("#id_cuenta").val("{{ cuenta }}");
         $("#id_numero_comprobante").val("{{ numero_comprobante }}");
         $("#id_pagado_vencido").val("{{ pagado_vencido }}");
@@ -221,7 +223,9 @@
     function cambiaPagoVencido() {
         $("#id_pagado_vencido1").val($('select[name="pagado_vencido"] option:selected').text());
     }
+    {% endblock %}
     $(document).ready(function () {
+        {% block inicio %}
         llenaForma();
         Alineacion();
         protejerCampos();
@@ -242,7 +246,6 @@
             $("#id_cuenta").attr("readonly", true);
             $("#id_numero_comprobante").attr("readonly", true);
         }
+        {% endblock %}
     });
-    {% endblock %}
 </script>
-{% endblock %}
