@@ -2097,8 +2097,9 @@ class contratos(ListView):
                 .filter(estatus_solicitud__in=[3,4,6,9,10]) \
                 .filter(lote__in=Subquery(lotes.values('pk'))) \
                 .exclude(apartado__gt=0,confirmacion_apartado=1)
-        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
-            # ASESOR
+        elif (datos['area_operativa'] == 3 and datos['puesto'] == 1) or  \
+            (datos['area_operativa'] == 2 and datos['puesto'] == 4):
+            # ASESOR Y PERSONAL DE FINANZAS
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(asesor_id=id_empleado) \
@@ -2128,7 +2129,7 @@ class contratos(ListView):
         return queryset
     def get_context_data(self, **kwargs):
         context = super(contratos, self).get_context_data(**kwargs)
-        context['menu'] = "contratar"
+        context['menu'] = "contrata"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
@@ -2136,9 +2137,9 @@ class contratos(ListView):
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
 # Listado contratos
-        des_permiso = '_contratar' 
+        des_permiso = '_contratar'
         variable_proy = nom_proy + des_permiso
-        variable_html = "app_proy" + des_permiso
+        variable_html = "app_proy" + des_permiso 
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
@@ -2250,7 +2251,7 @@ class datos_contrato(UpdateView):
         context['form'] = self.form_class()
         context['id'] = pk
         context['solicitud'] = solicitud
-        context['menu'] = "contratar"
+        context['menu'] = "contrata"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
@@ -2608,7 +2609,7 @@ class contratoPDF(CreateView):
                 link_callback=self.link_callback,
             )
             if 'menu' not in context:
-                context['menu'] = "contratar"
+                context['menu'] = "contrata"
 
         return response
  #       except:
