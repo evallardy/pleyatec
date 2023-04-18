@@ -2083,7 +2083,8 @@ class contratos(ListView):
                 .filter(estatus_solicitud__in=[3,4,6,9,10]) \
                 .filter(lote__in=Subquery(lotes.values('pk'))) \
                 .exclude(apartado__gt=0,confirmacion_apartado=1)
-        elif asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5:
+        elif (asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5) or  \
+            (datos['area_operativa'] == 2 and datos['puesto'] == 4):
             # DIRECTOR
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(aprobacion_gerente=True, aprobacion_director=True) \
@@ -2097,8 +2098,7 @@ class contratos(ListView):
                 .filter(estatus_solicitud__in=[3,4,6,9,10]) \
                 .filter(lote__in=Subquery(lotes.values('pk'))) \
                 .exclude(apartado__gt=0,confirmacion_apartado=1)
-        elif (datos['area_operativa'] == 3 and datos['puesto'] == 1) or  \
-            (datos['area_operativa'] == 2 and datos['puesto'] == 4):
+        elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
             # ASESOR Y PERSONAL DE FINANZAS
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
