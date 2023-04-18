@@ -2128,7 +2128,7 @@ class contratos(ListView):
         return queryset
     def get_context_data(self, **kwargs):
         context = super(contratos, self).get_context_data(**kwargs)
-        context['menu'] = "contrata"
+        context['menu'] = "contratar"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
@@ -2136,7 +2136,7 @@ class contratos(ListView):
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
 # Listado contratos
-        des_permiso = '_contratar'
+        des_permiso = '_contratar' 
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy
@@ -2250,7 +2250,7 @@ class datos_contrato(UpdateView):
         context['form'] = self.form_class()
         context['id'] = pk
         context['solicitud'] = solicitud
-        context['menu'] = "contrata"
+        context['menu'] = "contratar"
         num_proyecto = self.kwargs.get('num_proyecto',0)
         context['num_proyecto'] = num_proyecto
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
@@ -2608,7 +2608,7 @@ class contratoPDF(CreateView):
                 link_callback=self.link_callback,
             )
             if 'menu' not in context:
-                context['menu'] = "contrata"
+                context['menu'] = "contratar"
 
         return response
  #       except:
