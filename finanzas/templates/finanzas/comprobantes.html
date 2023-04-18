@@ -179,7 +179,7 @@
               <a href="{{ m.file_comprobante.url }}" target="_blank" class="btn btn-info" title="Mostrar comprobotante">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
-              {% else %}
+              {% elif m.deposito == 2 %}
               <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
                 comprobante</label>
               {% endif %}
@@ -206,7 +206,7 @@
               <a href="{{ m.recibo_firmado.url }}" target="_blank" class="btn btn-info" title="Mostrar recibo firmaddo">
                 <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
               </a>
-              {% else %}
+              {% elif m.deposito == 2 %}
               <label for="" class="form-label" style="margin-top: 5px; font-weight: bold; font-style: italic;">Sin
                 comprobante</label>
               {% endif %}
