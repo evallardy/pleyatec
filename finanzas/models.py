@@ -10,6 +10,7 @@ class Pago(models.Model, PermissionRequiredMixin):
     numero_pago = models.IntegerField("Número de pago",default=0)
     fecha_pago = models.DateField("Fecha de pago", null=True, blank=True)
     importe = models.DecimalField("Importe", decimal_places=2, max_digits=10,default=0.0)
+    importe_original = models.DecimalField("Importe_pagado", decimal_places=2, max_digits=10,default=0.0)
     fecha_voucher = models.DateField("Fecha de voucher", null=True, blank=True)
     importe_pagado = models.DecimalField("Importe_pagado", decimal_places=2, max_digits=10,default=0.0)
     fecha_pago_moratorio = models.DateField("Fecha pago de moratorio", null=True, blank=True)

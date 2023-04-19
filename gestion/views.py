@@ -2085,7 +2085,7 @@ class contratos(ListView):
                 .exclude(apartado__gt=0,confirmacion_apartado=1)
         elif (asigna_solicitud == 1 and datos['area_operativa'] == 3 and datos['puesto'] == 5) or  \
             (datos['area_operativa'] == 2 and datos['puesto'] == 4):
-            # DIRECTOR
+            # DIRECTOR Y PERSONAL DE FINANZAS
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(aprobacion_gerente=True, aprobacion_director=True) \
                 .filter(estatus_solicitud__in=[3,4,6,9,10]) \
@@ -2099,7 +2099,7 @@ class contratos(ListView):
                 .filter(lote__in=Subquery(lotes.values('pk'))) \
                 .exclude(apartado__gt=0,confirmacion_apartado=1)
         elif datos['area_operativa'] == 3 and datos['puesto'] == 1:
-            # ASESOR Y PERSONAL DE FINANZAS
+            # ASESOR
             id_empleado = f_empleado(self)
             queryset = Solicitud.objects.filter(confirmacion_pago_adicional=2) \
                 .filter(asesor_id=id_empleado) \
@@ -2346,7 +2346,7 @@ class datos_contrato(UpdateView):
                                 else:
                                     fecha_pago = str(a) + "-" + str(m) + "-01" 
                                 pago = Pago(convenio=solicitud, numero_pago=num_pago, importe=importe_x_pago, \
-                                    fecha_pago=fecha_pago)
+                                    fecha_pago=fecha_pago, importe_original=importe_x_pago)
                                 pago.save()
                                 if num_pago == cantidad_pagos:
                                     return HttpResponseRedirect(self.get_success_url())                
