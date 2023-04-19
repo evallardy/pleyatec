@@ -364,6 +364,7 @@ class estado_cuenta(ListView):
         cantidad_pagos = field_object.value_from_object(solicitud)
         field_object = Solicitud._meta.get_field('pagos_pagados')
         pagos_pagados = field_object.value_from_object(solicitud)
+        context['pagos_pagados_plus_1'] = pagos_pagados + 1
         pagosPorPagar = cantidad_pagos - pagos_pagados
         context['pagosPorPagar'] = pagosPorPagar
         field_object = Solicitud._meta.get_field('importe_pagado')
@@ -523,6 +524,26 @@ class mod_pago(UpdateView):
                 if total_pagado:
                     pagos_pagados = total_pagado[0]['pagos_pagados']
                     importe_pagado = total_pagado[0]['importe_pagado']
+                    datos_sol = Solicitud.objects.filter(id=sol)
+                    credito = datos_sol[0].precio_final - datos_sol[0].enganche
+                    pago_mensual = datos_sol[0].importe_x_pago
+                    act_pagos = Pago.objects.filter(convenio=sol).order_by('numero_pago')
+                    suma = 0
+                    cancela_pago = False
+                    for registro in act_pagos:
+                        if registro.importe_pagado > 0:
+                            suma += registro.importe_pagado
+                        elif cancela_pago:
+                            registro.importe = 0
+                            registro.save()
+                        else:
+                            diferencia = credito - suma
+                            if diferencia < pago_mensual:
+                                registro.importe = diferencia
+                                registro.save()
+                                cancela_pago = True
+                            else:
+                                suma += pago_mensual  
                 else:
                     pagos_pagados = 0
                     importe_pagado = 0

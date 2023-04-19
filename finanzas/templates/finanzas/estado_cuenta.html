@@ -48,7 +48,7 @@
                     <td style="text-align: center;">{{ p.get_estatus_pago_display }}</td>
                     <td style="text-align: center;">{{ p.get_deposito_display }}</td>
                     <td style="text-align: center;">
-                        {% if app_proy_cap_dep_mensual %}
+                        {% if app_proy_cap_dep_mensual and p.importe > 0 and p.numero_pago <= pagos_pagados_plus_1 %}
                         <a href="{% url 'mod_pago' p.id py.id solicitud.id %}" class="btn btn-info"
                             title="Registro de una mensualidad pagada">
                             <img src="{% static 'core/img/pago.svg' %}" width="20" />
