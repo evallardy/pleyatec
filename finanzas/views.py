@@ -66,14 +66,14 @@ class tabla_amortizacion(TemplateView):
         des_permiso = '_amortizac'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
-        permiso_str = "finanzas." + variable_proy
+        permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 # Impresión Listado amortizacion solicitud
         des_permiso = '_imprime_amortizac'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
-        permiso_str = "finanzas." + variable_proy
+        permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
         return context
