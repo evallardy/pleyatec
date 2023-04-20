@@ -21,16 +21,16 @@ def index(request):
         'ruta_imagen':ruta_imagen,
     }
 #   Rutina para agregar los permisos de acceso de proyecto
-#    for p in proyectos:
-#        nom_proy = p.nom_proy
-#        permiso_str = "bien." + nom_proy + '_' + 'acceso'
-#        acceso = request.user.has_perms([permiso_str])
-#        variable_proy = nom_proy + "_acceso"
-#        data[variable_proy] = acceso
-#    valida_proyectos =  data['nuvole_acceso'] or data['toscana_acceso'] or data['torre_vento_acceso'] or \
-#        data['condom_multiple_acceso'] or data['porto_santo_acceso'] or data['vivienda_nuvole_acceso'] or \
-#        data['monte_cristallo_acceso'] or data['consul_punta_o_acceso'] or data['local_punta_o_acceso']
-#    data['valida_proyectos'] = valida_proyectos
+    for p in proyectos:
+        nom_proy = p.nom_proy
+        permiso_str = "bien." + nom_proy + '_' + 'acceso'
+        acceso = request.user.has_perms([permiso_str])
+        variable_proy = nom_proy + "_acceso"
+        data[variable_proy] = acceso
+    valida_proyectos =  data['nuvole_acceso'] or data['toscana_acceso'] or data['torre_vento_acceso'] or \
+        data['condom_multiple_acceso'] or data['porto_santo_acceso'] or data['vivienda_nuvole_acceso'] or \
+        data['monte_cristallo_acceso'] or data['consul_punta_o_acceso'] or data['local_punta_o_acceso']
+    data['valida_proyectos'] = valida_proyectos
     return render(request, template_name, data)
 
 class bancos(LoginRequiredMixin, PermissionRequiredMixin, ListView):
