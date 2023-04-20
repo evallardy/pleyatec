@@ -101,7 +101,7 @@
                     {% endif %}
                     <td>
                         {% if e.modo_pago == 2 or e.modo_pago == 4 %}
-                        {% if app_proy_amortizacion and e.estatus_solicitud == 1 %}
+                        {% if app_proy_amortizac and e.estatus_solicitud == 1 %}
                         <a href="{% url 'tabla_amortizacion' e.id py.id %}" class="btn btn-info" title="Tabla de amortización">
                             <img src="{% static 'core/img/amortizacion.svg' %}" width="20"/>
                         </a>

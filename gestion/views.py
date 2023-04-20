@@ -246,7 +246,7 @@ class solicitudes(ListView):
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 # Listado amortizacion solicitud
-        des_permiso = '_amortizacion'
+        des_permiso = '_amortizac'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy

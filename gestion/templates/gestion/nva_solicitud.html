@@ -49,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="container" style="width: 850px;">
+    <div class="container col-12">
         <div class="wrapper fadeInDown">
             <div id="formContent" style="text-align: right;">
                 <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
@@ -97,7 +97,7 @@
                             <p><small class="mensaje-error">{{ error }}</small></p>
                             {% endfor %}
                         </div>
-                        <div class="form-group col-md-2 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             <label>Area mts²</label>
                             <input type="text" name="total" id="id_total" readonly class="form-control"
                                 onfocusout="reformatear('id_total')" onkeypress="return valideKey(event);">
@@ -108,7 +108,7 @@
                             {% endfor %}
                             <!--                            <input type="number" name="total" id="id_total" readonly class="form-control">  -->
                         </div>
-                        <div class="form-group col-md-2 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             <label>Precio x m²</label>
                             <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control"
                                 onfocusout="reformatear('id_precio_x_mt')" onkeypress="return valideKey(event);">
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-2 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             <label>Precio inicial</label>
                             <input type="text" name="precio_lote" id="id_precio_lote" class="form-control"
                                 onfocusout="reformatear('id_precio_lote')" onkeypress="return valideKey(event);">
@@ -132,7 +132,7 @@
                             {% endfor %}
 
                         </div>
-                        <div class="form-group col-md-2 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             <label id="texto-adicional">Descuento</label>
                             <input type="text" name="descuento" id="id_descuento" class="form-control"
                                 onfocusout="reformatear('id_descuento')" onkeypress="return valideKey(event);">
@@ -142,7 +142,7 @@
                             {% endif %}
                             {% endfor %}
                         </div>
-                        <div class="form-group col-md-2 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             <label>Precio final</label>
                             <input type="text" name="precio_final" id="id_precio_final" class="form-control"
                                 onfocusout="reformatear('id_precio_final')" onkeypress="return valideKey(event);">
@@ -153,7 +153,7 @@
                             {% endfor %}
                             <!--                             form.precio_final|as_crispy_field   -->
                         </div>
-                        <div class="form-group col-md-2 mb-0" id="gpo_credito">
+                        <div class="form-group col-md-3 mb-0" id="gpo_credito">
                             <label>Crédito</label>
                             <input type="text" name="credito" id="id_credito" class="form-control"
                                 onfocusout="reformatear('id_credito')" onkeypress="return valideKey(event);">
@@ -161,22 +161,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-2 mb-0">
+                        <div class="form-group col-md-3 mb-0">
                             {{ form.modo_pago|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-2 mb-0" id="asigna" 
+                        <div class="form-group col-md-3 mb-0" id="asigna" 
                         {% if not app_proy_asigna_descto %} 
                             hidden 
                         {% endif %}>
                             {{ form.asigna_descuento|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-2 mb-0" id="tipo_desc" 
+                        <div class="form-group col-md-3 mb-0" id="tipo_desc" 
                         {% if not app_proy_asigna_descto %} 
                             hidden
                         {% endif %}>
                             {{ form.tipo_descuento|as_crispy_field }}
                         </div>
-                        <div class="form-group col-md-2 mb-0" id="porcentaje_desc">
+                        <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
                             <label>% descuento</label>
                             <input type="text" name="porcentaje_descuento" id="id_porcentaje_descuento"
                                 class="form-control" onfocusout="reformatear('id_porcentaje_descuento')"
@@ -190,7 +190,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-2 mb-0" id="gpo_enganche">
+                        <div class="form-group col-md-3 mb-0" id="gpo_enganche">
                             <label>Enganche</label>
                             <input type="text" name="enganche" id="id_enganche" class="form-control"
                                 onfocusout="reformatear('id_enganche')" onkeypress="return valideKey(event);">
@@ -204,7 +204,7 @@
                             {% endfor %}
                             <!--                             form.enganche|as_crispy_field   -->
                         </div>
-                        <div class="form-group col-2 mb-0" id="gpo_cantidad_pagos">
+                        <div class="form-group col-3 mb-0" id="gpo_cantidad_pagos">
                             <label>Mensualidades</label>
                             <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
                                 <option value="0">---------</option>
@@ -221,7 +221,7 @@
                             {% endif %}
                             {% endfor %}
                         </div>
-                        <div class="form-group col-md-2 mb-0" id="gpo_importe_x_pago">
+                        <div class="form-group col-md-3 mb-0" id="gpo_importe_x_pago">
                             <label>Pago mensual</label>
                             <input type="text" name="importe_x_pago" id="id_importe_x_pago" class="form-control"
                                 onfocusout="reformatear('id_importe_x_pago')" onkeypress="return valideKey(event);">
