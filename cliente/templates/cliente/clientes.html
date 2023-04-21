@@ -2,62 +2,64 @@
 {% load static %}
 {% block contenido %}
 {% if perms.cliente.view_cliente %}
-<div class="container mapa">
-    <label class="encabezados">Clientes</label>
-</div>
-<div class="container mapa">
-    <div class="container">
-        {% if perms.cliente.add_cliente %}
-        <div class="container">
-        <a type="button" class="btn btn-info" href="{% url 'nvo_cliente' %}" title="Agrega cliente">
-            <img src="{% static 'core/img/agregar.svg' %}" width="20" />
-        </a>
-        </div>
-        {% endif %}
-        <table class="estilo-tabla col-12">
-            <thead>
-                <tr>
-                    <th class="col-md-2 titulo-tabla">Tipo</th>
-                    <th class="col-md-3 titulo-tabla">Cliente o Representante</th>
-                    <th class="col-md-3 titulo-tabla">Razón social</th>
-                    <th class="col-md-2 titulo-tabla">RFC</th>
-                    <th class="col-md-2 titulo-tabla">Celular</th>
-                    <th class="col-md-3 titulo-tabla">Correo</th>
-                    <thv></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in object_list %}
-                <tr class="datos-tabla">
-                    <td>{{ c.get_tipo_cliente_display }}</td>
-                    <td>{{ c.nombre_completo }}</td>
-                    <td>{{ c.razon_null }}</td>
-                    <td>{{ c.rfc_val }}</td>
-                    <td>{{ c.celular_val }}</td>
-                    <td>{{ c.correo_val }}</td>
-                    {% if perms.cliente.change_cliente %}
-                    <td><a href="{% url 'mod_cliente' c.id %}" class="btn btn-info" title="Edita cliente">
-                        <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                    </a></td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-8 encabezados">
+        <label>Clientes</label>
     </div>
-    <div class="container">
-        {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
-            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
-        </a>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
-            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
-        </a>
-        {% endif %}
+</div>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-8">
+        <div>
+            {% if perms.cliente.add_cliente %}
+            <div>
+                <a type="button" class="btn btn-info" href="{% url 'nvo_cliente' %}" title="Agrega cliente">
+                    <img src="{% static 'core/img/agregar.svg' %}" width="20" />
+                </a>
+            </div>
+            {% endif %}
+            <table class="estilo-tabla col-12">
+                <thead>
+                    <tr>
+                        <th class="col-md-2 titulo-tabla">Tipo</th>
+                        <th class="col-md-3 titulo-tabla">Cliente o Representante</th>
+                        <th class="col-md-3 titulo-tabla">Razón social</th>
+                        <th class="col-md-2 titulo-tabla">RFC</th>
+                        <th class="col-md-2 titulo-tabla">Celular</th>
+                        <th class="col-md-3 titulo-tabla">Correo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in object_list %}
+                    <tr class="datos-tabla">
+                        <td>{{ c.get_tipo_cliente_display }}</td>
+                        <td>{{ c.nombre_completo }}</td>
+                        <td>{{ c.razon_null }}</td>
+                        <td>{{ c.rfc_val }}</td>
+                        <td>{{ c.celular_val }}</td>
+                        <td>{{ c.correo_val }}</td>
+                        {% if perms.cliente.change_cliente %}
+                        <td><a href="{% url 'mod_cliente' c.id %}" class="btn btn-info" title="Edita cliente">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a></td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+                <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+            </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+                <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,53 +1,59 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block contenido %}
-<div class="container mapa col-8">
-    <label class="encabezados">Comisiones</label>
-    <div class="container col-12">
-        <br>
-        <div class="container col-12">
-            <table class="estilo-tabla">
-                <thead>
-                    <tr>
-                        <th class="col-md-4 titulo-tabla">Asesor</th>
-                        {% for p in object_list %}
-                        <th class="col-md-4 titulo-tabla">{{ p.nombre }}</th>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-8">
+        <label class="encabezados">Comisiones</label>
+    </div>
+</div>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-8">
+        <div class="col-12">
+            <br>
+            <div class="col-12">
+                <table class="estilo-tabla">
+                    <thead>
+                        <tr>
+                            <th class="col-md-4 titulo-tabla">Asesor</th>
+                            {% for p in object_list %}
+                            <th class="col-md-4 titulo-tabla">{{ p.nombre }}</th>
+                            {% endfor %}
+                            <th class="col-md-4 titulo-tabla"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in datos.comisiones %}
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle;">{{ e.nombre }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision1 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision2 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision3 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision4 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision5 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision6 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision7 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision8 }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ e.comision9 }}</td>
+                            <td>
+                                <a href="{% url 'comision_por_asesor' e.id %}" class="btn btn-outline-secondary">Editar</a>
+                            </td>
+                        </tr>
                         {% endfor %}
-                        <th class="col-md-4 titulo-tabla"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for e in datos.comisiones %}
-                    <tr>
-                        <td style="text-align: left; vertical-align: middle;">{{ e.nombre }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision1 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision2 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision3 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision4 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision5 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision6 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision7 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision8 }}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{ e.comision9 }}</td>
-                        <td>
-                            <a href="{% url 'comision_por_asesor' e.id %}" class="btn btn-outline-secondary">Editar</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="container">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
-                <img src="{% static 'core/img/anterior.svg' %}" width="20" />
-            </a>
-            {% endif %}
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
-                <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
-            </a>
-            {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+                    <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+                </a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+                    <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

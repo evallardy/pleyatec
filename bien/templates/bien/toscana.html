@@ -5,9 +5,9 @@
 {% block contenido %}
 {% for py in proyecto %}
 {% if app_proy_acceso %}
-<div class="container mapa">
+<div class="mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
+    <div class="btn-group btn-group-justified">
         {% if toscana_acceso %}
         <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
         {% endif %}
@@ -40,15 +40,15 @@
         {% endif %}
     </div>
 </div>
-<div class="container mapa" style="width: 690px;">
-    <div class="container">
+<div class="mapa" style="width: 690px;">
+    <div>
         <div class="btn-group" >
             <a href="{% url 'toscana' py.id 1 %}" class="btn btn-primary {{nivel_1}}">Planta baja</a>
             <a href="{% url 'toscana' py.id 2 %}" class="btn btn-primary {{nivel_2}}">Primer piso</a>
             <a href="{% url 'toscana' py.id 3 %}" class="btn btn-primary {{nivel_3}}">Segundo piso</a>
         </div>
     </div>
-    <div class="container">
+    <div>
         <div style="height: 520px; width: 640px; background-color: white;" class="mapa">
             {% if nivel == '1' %}
             <img src="{% static 'core/img/Planta baja.png' %}" alt=""

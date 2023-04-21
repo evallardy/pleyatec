@@ -5,9 +5,9 @@
 {% block contenido %}
 {% for py in proyecto %}
 {% if app_proy_acceso %}
-<div class="container mapa">
+<div class="mapa">
     <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
+    <div class="btn-group btn-group-justified">
         {% if local_punta_o_acceso %}
         <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
         {% endif %}
@@ -40,8 +40,8 @@
         {% endif %}
     </div>
 </div>
-<div class="container mapa" style="height: 320px; width: 400px; ">
-    <div class="container">
+<div class="mapa" style="height: 320px; width: 400px; ">
+    <div>
         <img src="{% static 'core/img/no disponible.jpg' %}" alt=""
             style="height: 300px; width: 620; position: absolute; margin-left: 20px; padding: 5px;"/>
     </div>

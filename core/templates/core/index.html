@@ -3,18 +3,15 @@
 {% block blcss %}
 {% endblock %}
 {% block contenido %}
-<div class="container">
+<div class="col-12 d-flex justify-content-center">
     {% if not user.is_authenticated %}
-    <div class="container col-8" style="margin-top: 20px;">
-        <img src="{% static 'core/img/banner/banner1.jpg' %}" class="imagen-principal" 
-            style="width: 100%; height: 100%;">
-    </div>
+        <img src="{% static 'core/img/banner/banner1.jpg' %}" class="col-6 imagen-principal">
     {% else %}
     {% if valida_proyectos %}
-    <div class="container mapa" style="text-align: center;">
+    <div class="mapa col-6 text-center">
         <label class='encabezados'>Proyectos</label>
         <hr>
-        <div class="row">
+        <div class="row d-flex justify-content-center" >
             {% if nuvole_acceso %}
             <div class="card mb-3 mapa proyecto-card">
                 <div class="card-header">Fracc. Nuvole<br>Lotes</div>

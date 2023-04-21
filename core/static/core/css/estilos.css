@@ -10,8 +10,6 @@ body {
 .encabezados {
     font-size: 28px;
     font-style: italic;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 .espacio-menu {
     margin-bottom: 10px;
@@ -121,12 +119,12 @@ nav a {
 
 /*CONTENIDO PRINCIPAL*/
 
-#contenido {
+/*#contenido {
     width: 100%;
     margin:auto;
     max-width: 1280px;
     min-height: 100vh;
-}
+}*/
 .actAsesor {
     color: black;
 }
@@ -310,14 +308,22 @@ input[type="checkbox"]:checked + label:after {
         padding:20px 0;
     }
 }
+.position-relative {
+    position: relative;
+}
+.position-absolute {
+    position: absolute;
+}
+.custom-class {
+    left: 0px;
+}
 .mapa {
     box-shadow: 0 0 10px #000;
     border-radius: 10px;
     background-color: white;
-    margin-top: 10px;
+    margin: 5px 5px 5px 5px;
     background-color: transparent;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 10px 10px 10px;
 }  
 .loteVendido {
     fill: #EB6664;

@@ -5,48 +5,82 @@
 {% block contenido %}
 {% for py in proyecto %}
 {% if app_proy_acceso %}
-<div class="container mapa">
-    <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
-        {% if nuvole_acceso %}
-        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
-        {% endif %}
-        {% if nuvole_ver %}
-        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
-        {% endif %}
-        {% if nuvole_ver_solicitud %}
-        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
-        {% endif %}
-        {% if nuvole_autoriza_visualiza %}
-        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
-        {% endif %}
-        {% if nuvole_compromiso %}
-        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
-        {% endif %}
-        {% if nuvole_contratar %}
-        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
-        {% endif %}
-        {% if nuvole_listado_registro_mensual %}
-        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
-        {% endif %}
-        {% if nuvole_consulta_archivo %}
-        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
-        {% endif %}
-        {% if nuvole_creditos %}
-        <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
-        {% endif %}
-        {% if nuvole_contados %}
-        <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
-        {% endif %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa">
+        <div class="encabezados">
+            <label>{{ py.nombre }}</label>
+        </div>
+        <div class="btn-group">
+            {% if nuvole_acceso %}
+            <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+            {% endif %}
+            {% if nuvole_ver %}
+            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            {% endif %}
+            {% if nuvole_ver_solicitud %}
+            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            {% endif %}
+            {% if nuvole_autoriza_visualiza %}
+            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            {% endif %}
+            {% if nuvole_compromiso %}
+            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            {% endif %}
+            {% if nuvole_contratar %}
+            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            {% endif %}
+            {% if nuvole_listado_registro_mensual %}
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
+            {% endif %}
+            {% if nuvole_consulta_archivo %}
+            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            {% endif %}
+            {% if nuvole_creditos %}
+            <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
+            {% endif %}
+            {% if nuvole_contados %}
+            <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
+            {% endif %}
+        </div>
     </div>
 </div>
-<div class="container mapa" style="width: 650px; height: 428px;">
-    <img src="{% static 'core/img/plano2022.jpg' %}" alt=""
-        style="height: 405px; width: 620; position: absolute; padding: 5px;">
-    <svg style="position: absolute; width: 800px; height: 600px; ">
-        {% for e in object_list %}
-        {% if e.estatus_lote != 9 %}
-        <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
+<div class="d-flex justify-content-center row">
+    {% for bien in bienes %}
+    <div class="mapa col-1 d-flex justify-content-center" style="background-color:
+        {% if bien.estatus_lote == 1 %}
+            #38E940; 
+        {% elif bien.estatus_lote == 2 %}
+            #FCF900; 
+        {% elif bien.estatus_lote == 3 %}
+            #EB6664; 
+        {% elif bien.estatus_lote == 4 %}
+            #117CF4; 
+        {% endif %}">
+        <label style="font-size: small; margin-left: 10px; font-weight: bold;">{{ bien.total }}</label>
+        <label style="font-size: small; margin-left: 10px;">
+            {% if bien.estatus_lote == 1 %}
+            Disponibles
+            {% elif bien.estatus_lote == 2 %}
+            Apartados
+            {% elif bien.estatus_lote == 3 %}
+            Vendidos
+            {% elif bien.estatus_lote == 4 %}
+            Reservados
+            {% endif %}
+        </label>
+    </div>
+    {% endfor %}
+</div>
+<div class="position-relative d-flex justify-content-center">
+    <div class="position-relative d-flex justify-content-center">
+        <img src="{% static 'core/img/plano2022.jpg' %}" class="position-absolute mapa" alt="Descripción de la imagen"
+            style="height: 420px; width: 700;">
+    </div>
+    <div class="position-relative d-flex justify-content-center">
+        <svg class="position-absolute custom-class" width="600" height="600" style="left:-310px; top: 14px;">
+            {% for e in object_list %}
+            {% if e.estatus_lote != 9 %}
+            <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
         {% if e.estatus_lote == 1 %}
             loteDisponible
         {% elif e.estatus_lote == 2 %}
@@ -59,48 +93,19 @@
 
         {% endif %} 
         ">
-            <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
-        </polygon>
-        <circle cx="{{e.posicion_circulo_x}}" cy="{{e.posicion_circulo_y}}" r="5" fill="white" style="cursor: pointer;">
-            <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
-        </circle>
-        <text x="{{e.posicion_x}}" y="{{e.posicion_y}}"
-            style="font-size: 4px; font-weight: bold; cursor: pointer;">{{e.lote}}
-            <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
-        </text>
-        {% endif %} 
-        {% endfor %}
-    </svg>
-</div>
-<div class="container mapa" style="width: 650px; height: 40px;">
-    <div class="row col-12"> 
-        {% for bien in bienes %}
-        <div class="col-3" >
-            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; 
-            background-color:
-                {% if bien.estatus_lote == 1 %}
-                    #38E940; 
-                {% elif bien.estatus_lote == 2 %}
-                    #FCF900; 
-                {% elif bien.estatus_lote == 3 %}
-                    #EB6664; 
-                {% elif bien.estatus_lote == 4 %}
-                    #117CF4; 
-                {% endif %}
-             "></span>
-            <label style="font-size: small;">{{ bien.total }}, 
-                {% if bien.estatus_lote == 1 %}
-                    Disponibles
-                {% elif bien.estatus_lote == 2 %}
-                    Apartados
-                {% elif bien.estatus_lote == 3 %}
-                    Vendidos
-                {% elif bien.estatus_lote == 4 %}
-                    Reservados
-                {% endif %}
-            </label>
-        </div>
-        {% endfor %}
+                <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
+            </polygon>
+            <circle cx="{{e.posicion_circulo_x}}" cy="{{e.posicion_circulo_y}}" r="5" fill="white"
+                style="cursor: pointer;">
+                <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
+            </circle>
+            <text x="{{e.posicion_x}}" y="{{e.posicion_y}}"
+                style="font-size: 4px; font-weight: bold; cursor: pointer;">{{e.lote}}
+                <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
+            </text>
+            {% endif %}
+            {% endfor %}
+        </svg>
     </div>
 </div>
 {% endif %}

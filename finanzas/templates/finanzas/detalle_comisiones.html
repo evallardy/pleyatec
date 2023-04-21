@@ -7,83 +7,85 @@
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto_tb %}
-<div class="container mapa col-8">
-    <form action="">
-        <label class="encabezados">{{py.nombre}}</label>
-        <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Pago de Comisiones Detalle</h3>
-        <hr class="mt-0 mb-4" style="background-color: transparent;">
-        <label class="encabezados">{{nombre}}</label><br>
-        <a class="btn btn-info" href="{% url 'pago_comisiones' py.id periodo %}"
-            title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-        </a><br><br>
-        <div class="container">
-            <div class="row">
-                <div class="form-group col-md-2 mb-0" style="text-align: center;">
-                    <label for="">Bienes</label>
-                    <input type="text" name="total_bienes" id="total_bienes" readonly class="form-control"
-                        style="text-align: center;" value="{{cantidad}}">
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-7">
+        <form action="">
+            <label class="encabezados">{{py.nombre}}</label>
+            <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Pago de Comisiones Detalle</h3>
+            <hr class="mt-0 mb-4" style="background-color: transparent;">
+            <label class="encabezados">{{nombre}}</label><br>
+            <a class="btn btn-info" href="{% url 'pago_comisiones' py.id periodo %}"
+                title="Regresar a la pantalla anterior">
+                <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+            </a><br><br>
+            <div>
+                <div class="row">
+                    <div class="form-group col-md-2 mb-0" style="text-align: center;">
+                        <label for="">Bienes</label>
+                        <input type="text" name="total_bienes" id="total_bienes" readonly class="form-control"
+                            style="text-align: center;" value="{{cantidad}}">
+                    </div>
+                    <div class="form-group col-md-2 mb-0" style="text-align: center;">
+                        <label for="">Total</label>
+                        <input type="text" name="total_importe" id="total_importe" readonly class="form-control"
+                            style="text-align: right;" value="{{importe}}">
+                    </div>
                 </div>
-                <div class="form-group col-md-2 mb-0" style="text-align: center;">
-                    <label for="">Total</label>
-                    <input type="text" name="total_importe" id="total_importe" readonly class="form-control"
-                        style="text-align: right;" value="{{importe}}">
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="container col-12">
-            <div class="row">
-                <table class="estilo-tabla col-12">
-                    <thead>
-                        <tr>
-                            <th class="col-3 titulo-tabla" style="text-align: center;">Bien</th>
-                            <th class="col-3 titulo-tabla" style="text-align: center;">Fecha contrato</th>
-                            <th class="col-2 titulo-tabla" style="text-align: right;">Importe venta</th>
-                            <th class="col-1 titulo-tabla" style="text-align: center;">Comisión</th>
-                            <th class="col-2 titulo-tabla" style="text-align: right;">Importe comisión</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pc in object_list %}
-                        <tr class="datos-tabla">
-                            <td style="text-align: left;">{{pc.bien_pago}}</td>
-                            <td style="text-align: center;">{{pc.fecha_contrato}}</td>
-                            <td style="text-align: right;">{{pc.precio_final}}</td>
-                            {% if grupo == "1" %}
-                            <td style="text-align: center;">{{pc.comsion}}</td>
-                            <td style="text-align: right;">{{pc.importe}}</td>
-                            {% elif grupo == "2" %}
-                            <td style="text-align: center;">{{pc.comsion_gerente}}</td>
-                            <td style="text-align: right;">{{pc.importe_gerente}}</td>
-                            {% else %}
-                            <td style="text-align: center;">{{pc.comsion_publicidad}}</td>
-                            <td style="text-align: right;">{{pc.importe_publicidad}}</td>
-                            {% endif %}
-                            <td class="col-1">
-                                {% if app_proy_vobo_comisiones %}
-                                <a class="btn btn-outline-dark" href="#">Quitar</a><br><br>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
             </div>
             <br>
+            <div class="col-12">
+                <div class="row">
+                    <table class="estilo-tabla col-12">
+                        <thead>
+                            <tr>
+                                <th class="col-3 titulo-tabla" style="text-align: center;">Bien</th>
+                                <th class="col-3 titulo-tabla" style="text-align: center;">Fecha contrato</th>
+                                <th class="col-2 titulo-tabla" style="text-align: right;">Importe venta</th>
+                                <th class="col-1 titulo-tabla" style="text-align: center;">Comisión</th>
+                                <th class="col-2 titulo-tabla" style="text-align: right;">Importe comisión</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pc in object_list %}
+                            <tr class="datos-tabla">
+                                <td style="text-align: left;">{{pc.bien_pago}}</td>
+                                <td style="text-align: center;">{{pc.fecha_contrato}}</td>
+                                <td style="text-align: right;">{{pc.precio_final}}</td>
+                                {% if grupo == "1" %}
+                                <td style="text-align: center;">{{pc.comsion}}</td>
+                                <td style="text-align: right;">{{pc.importe}}</td>
+                                {% elif grupo == "2" %}
+                                <td style="text-align: center;">{{pc.comsion_gerente}}</td>
+                                <td style="text-align: right;">{{pc.importe_gerente}}</td>
+                                {% else %}
+                                <td style="text-align: center;">{{pc.comsion_publicidad}}</td>
+                                <td style="text-align: right;">{{pc.importe_publicidad}}</td>
+                                {% endif %}
+                                <td class="col-1">
+                                    {% if app_proy_vobo_comisiones %}
+                                    <a class="btn btn-outline-dark" href="#">Quitar</a><br><br>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+        </form>
+        <div>
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+                <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+            </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+                <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+            </a>
+            {% endif %}
         </div>
-    </form>
-    <div class="container">
-        {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
-            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
-        </a>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
-            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
-        </a>
-        {% endif %}
     </div>
 </div>
 {% endfor %}

@@ -11,363 +11,365 @@
 {% block contenido %}
 {% if app_proy_add_solicitud or app_proy_cambia_solicitud %}
 {% for py in proyecto_tb %}
-<div class="container mapa col-6">
-    <label class="encabezados">{{ py.nombre }} - Solicitud - {{ id }}</label>
-    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
-    <hr class="mt-0 mb-4">
-    <div class="row">
-        <div class="container row">
-            <div class="form-group col-4">
-                <a class="btn btn-info" href="{% url 'solicitudes' py.id %}" title="Regresar a la pantalla anterior">
-                    <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-                </a>
-            </div>
-            <div class="form-group col-4" id="gpo_btn_cliente">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
-                    Datos Cliente
-                </button>
-                {% for error in form.nombre.errors %}
-                <br><small class="mensaje-error">{{ error }}</small>
-                {% endfor %}
-                {% for error in form.paterno.errors %}
-                <br><small class="mensaje-error">{{ error }}</small>
-                {% endfor %}
-                {% for error in form.razon.errors %}
-                <br><small class="mensaje-error">{{ error }}</small>
-                {% endfor %}
-                {% for error in form.celular.errors %}
-                <br><small class="mensaje-error">{{ error }}</small>
-                {% endfor %}
-                {% for error in form.correo.errors %}
-                <br><small class="mensaje-error">{{ error }}</small>
-                {% endfor %}
-            </div>
-            <div class="form-group col-4" id="gpo_btn_documentos">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
-                    Documentos Cliente
-                </button>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-6">
+        <label class="encabezados">{{ py.nombre }} - Solicitud - {{ id }}</label>
+        <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="row">
+                <div class="form-group col-4">
+                    <a class="btn btn-info" href="{% url 'solicitudes' py.id %}" title="Regresar a la pantalla anterior">
+                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                    </a>
+                </div>
+                <div class="form-group col-4" id="gpo_btn_cliente">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
+                        Datos Cliente
+                    </button>
+                    {% for error in form.nombre.errors %}
+                    <br><small class="mensaje-error">{{ error }}</small>
+                    {% endfor %}
+                    {% for error in form.paterno.errors %}
+                    <br><small class="mensaje-error">{{ error }}</small>
+                    {% endfor %}
+                    {% for error in form.razon.errors %}
+                    <br><small class="mensaje-error">{{ error }}</small>
+                    {% endfor %}
+                    {% for error in form.celular.errors %}
+                    <br><small class="mensaje-error">{{ error }}</small>
+                    {% endfor %}
+                    {% for error in form.correo.errors %}
+                    <br><small class="mensaje-error">{{ error }}</small>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-4" id="gpo_btn_documentos">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
+                        Documentos Cliente
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container col-12">
-        <div class="wrapper fadeInDown">
-            <div id="formContent" style="text-align: right;">
-                <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="form-group col-6 mb-0">
-                            <label>Cliente</label>
-                            <select name="cliente" id="cliente_id" class="form-control">
-                                <option value=0>---------</option>
-                                {% for c in cliente_cmb %}
-                                {% if administrador %}
-                                <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
-                                {% elif c.asesor.id == id_empleado %}
-                                <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+        <div class="col-12">
+            <div class="wrapper fadeInDown">
+                <div id="formContent" style="text-align: right;">
+                    <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="form-group col-6 mb-0">
+                                <label>Cliente</label>
+                                <select name="cliente" id="cliente_id" class="form-control">
+                                    <option value=0>---------</option>
+                                    {% for c in cliente_cmb %}
+                                    {% if administrador %}
+                                    <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                                    {% elif c.asesor.id == id_empleado %}
+                                    <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                {% for error in form.cliente.errors %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 mb-0">
+                                <label>Asesores</label>
+                                <input type="text" name="nom_asesor" id="id_nom_asesor" class="form-control" readonly>
+                                <select name="asesor" id="asesor_id" class="form-control">
+                                    <option value=0>---------</option>
+                                    {% for l in empleado_cmb %}
+                                    <option value="{{ l.id }}">{{ l.paterno }} {{ l.materno }} {{ l.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 mb-0">
+                                <label>{{ py.singular }}</label>
+                                <select name="lote" id="lote_id" class="form-control">
+                                    <option value=0>---------</option>
+                                    {% for l in lote_cmb %}
+                                    <option value="{{ l.id }}">{{ l.combo_bien }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in form.lote.errors %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label>Area mts²</label>
+                                <input type="text" name="total" id="id_total" readonly class="form-control"
+                                    onfocusout="reformatear('id_total')" onkeypress="return valideKey(event);">
+                                {% for error in form.total.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
                                 {% endif %}
                                 {% endfor %}
-                            </select>
-                            {% for error in form.cliente.errors %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 mb-0">
-                            <label>Asesores</label>
-                            <input type="text" name="nom_asesor" id="id_nom_asesor" class="form-control" readonly>
-                            <select name="asesor" id="asesor_id" class="form-control">
-                                <option value=0>---------</option>
-                                {% for l in empleado_cmb %}
-                                <option value="{{ l.id }}">{{ l.paterno }} {{ l.materno }} {{ l.nombre }}</option>
+                                <!--                            <input type="number" name="total" id="id_total" readonly class="form-control">  -->
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label>Precio x m²</label>
+                                <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control"
+                                    onfocusout="reformatear('id_precio_x_mt')" onkeypress="return valideKey(event);">
+                                {% for error in form.precio_x_mt.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
                                 {% endfor %}
-                            </select>
+                                <!--                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control">  -->
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 mb-0">
-                            <label>{{ py.singular }}</label>
-                            <select name="lote" id="lote_id" class="form-control">
-                                <option value=0>---------</option>
-                                {% for l in lote_cmb %}
-                                <option value="{{ l.id }}">{{ l.combo_bien }}</option>
+                        <div class="row">
+                            <div class="form-group col-md-3 mb-0">
+                                <label>Precio inicial</label>
+                                <input type="text" name="precio_lote" id="id_precio_lote" class="form-control"
+                                    onfocusout="reformatear('id_precio_lote')" onkeypress="return valideKey(event);">
+                                {% for error in form.precio_lote.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
                                 {% endfor %}
-                            </select>
-                            {% for error in form.lote.errors %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endfor %}
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            <label>Area mts²</label>
-                            <input type="text" name="total" id="id_total" readonly class="form-control"
-                                onfocusout="reformatear('id_total')" onkeypress="return valideKey(event);">
-                            {% for error in form.total.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                            <!--                            <input type="number" name="total" id="id_total" readonly class="form-control">  -->
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            <label>Precio x m²</label>
-                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control"
-                                onfocusout="reformatear('id_precio_x_mt')" onkeypress="return valideKey(event);">
-                            {% for error in form.precio_x_mt.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                            <!--                            <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly class="form-control">  -->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-3 mb-0">
-                            <label>Precio inicial</label>
-                            <input type="text" name="precio_lote" id="id_precio_lote" class="form-control"
-                                onfocusout="reformatear('id_precio_lote')" onkeypress="return valideKey(event);">
-                            {% for error in form.precio_lote.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            <label id="texto-adicional">Descuento</label>
-                            <input type="text" name="descuento" id="id_descuento" class="form-control"
-                                onfocusout="reformatear('id_descuento')" onkeypress="return valideKey(event);">
-                            {% for error in form.descuento.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            <label>Precio final</label>
-                            <input type="text" name="precio_final" id="id_precio_final" class="form-control"
-                                onfocusout="reformatear('id_precio_final')" onkeypress="return valideKey(event);">
-                            {% for error in form.precio_final.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                            <!--                             form.precio_final|as_crispy_field   -->
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="gpo_credito">
-                            <label>Crédito</label>
-                            <input type="text" name="credito" id="id_credito" class="form-control"
-                                onfocusout="reformatear('id_credito')" onkeypress="return valideKey(event);">
-                            <!--                             form.precio_final|as_crispy_field   -->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.modo_pago|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="asigna" 
-                        {% if not app_proy_asigna_descto %} 
-                            hidden 
-                        {% endif %}>
-                            {{ form.asigna_descuento|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="tipo_desc" 
-                        {% if not app_proy_asigna_descto %} 
-                            hidden
-                        {% endif %}>
-                            {{ form.tipo_descuento|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
-                            <label>% descuento</label>
-                            <input type="text" name="porcentaje_descuento" id="id_porcentaje_descuento"
-                                class="form-control" onfocusout="reformatear('id_porcentaje_descuento')"
-                                onkeypress="return valideKey(event);">
-                            {% for error in form.porcentaje_descuento.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                            <!--                             form.porcentaje_descuento|as_crispy_field   -->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-3 mb-0" id="gpo_enganche">
-                            <label>Enganche</label>
-                            <input type="text" name="enganche" id="id_enganche" class="form-control"
-                                onfocusout="reformatear('id_enganche')" onkeypress="return valideKey(event);">
-                            <div id="id-enganche-minimo-error">
 
                             </div>
-                            {% for error in form.enganche.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
-                            <!--                             form.enganche|as_crispy_field   -->
+                            <div class="form-group col-md-3 mb-0">
+                                <label id="texto-adicional">Descuento</label>
+                                <input type="text" name="descuento" id="id_descuento" class="form-control"
+                                    onfocusout="reformatear('id_descuento')" onkeypress="return valideKey(event);">
+                                {% for error in form.descuento.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label>Precio final</label>
+                                <input type="text" name="precio_final" id="id_precio_final" class="form-control"
+                                    onfocusout="reformatear('id_precio_final')" onkeypress="return valideKey(event);">
+                                {% for error in form.precio_final.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                                <!--                             form.precio_final|as_crispy_field   -->
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="gpo_credito">
+                                <label>Crédito</label>
+                                <input type="text" name="credito" id="id_credito" class="form-control"
+                                    onfocusout="reformatear('id_credito')" onkeypress="return valideKey(event);">
+                                <!--                             form.precio_final|as_crispy_field   -->
+                            </div>
                         </div>
-                        <div class="form-group col-3 mb-0" id="gpo_cantidad_pagos">
-                            <label>Mensualidades</label>
-                            <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
-                                <option value="0">---------</option>
-                                <!--                                 for permitidas in reglas 
-                                 if permitidas.modo_pago == 2 
-                                <option value=" permitidas.mensualidades_permitidas ">
-                                     permitidas.mensualidades_permitidas </option>
-                                 endif 
-                                 endfor -->
-                            </select>
-                            {% for error in form.cantidad_pagos.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p><small class="mensaje-error">{{ error }}</small></p>
-                            {% endif %}
-                            {% endfor %}
+                        <div class="row">
+                            <div class="form-group col-md-3 mb-0">
+                                {{ form.modo_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="asigna" 
+                            {% if not app_proy_asigna_descto %} 
+                                hidden 
+                            {% endif %}>
+                                {{ form.asigna_descuento|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="tipo_desc" 
+                            {% if not app_proy_asigna_descto %} 
+                                hidden
+                            {% endif %}>
+                                {{ form.tipo_descuento|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
+                                <label>% descuento</label>
+                                <input type="text" name="porcentaje_descuento" id="id_porcentaje_descuento"
+                                    class="form-control" onfocusout="reformatear('id_porcentaje_descuento')"
+                                    onkeypress="return valideKey(event);">
+                                {% for error in form.porcentaje_descuento.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                                <!--                             form.porcentaje_descuento|as_crispy_field   -->
+                            </div>
                         </div>
-                        <div class="form-group col-md-3 mb-0" id="gpo_importe_x_pago">
-                            <label>Pago mensual</label>
-                            <input type="text" name="importe_x_pago" id="id_importe_x_pago" class="form-control"
-                                onfocusout="reformatear('id_importe_x_pago')" onkeypress="return valideKey(event);">
-                            <!--                             form.importe_x_pago|as_crispy_field   -->
-                        </div>
-                    </div>
-                    <div class="modal fade" id="datosCliente" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="background-color: darkgrey; width: 700px;">
-                                <div class="modal-header">
-                                    <label class="encabezados">Datos cliente</label>
-                                    <button type="button" class="btn btn-info" data-dismiss="modal"
-                                        title="Regresar a la pantalla anterior">
-                                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-                                    </button>
+                        <div class="row">
+                            <div class="form-group col-md-3 mb-0" id="gpo_enganche">
+                                <label>Enganche</label>
+                                <input type="text" name="enganche" id="id_enganche" class="form-control"
+                                    onfocusout="reformatear('id_enganche')" onkeypress="return valideKey(event);">
+                                <div id="id-enganche-minimo-error">
+
                                 </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="form-group col-md-5 mb-0">
-                                            {{ form.tipo_cliente|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-7 mb-0" id="gpo_razon">
-                                            {{ form.razon|as_crispy_field }}
-                                        </div>
+                                {% for error in form.enganche.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                                <!--                             form.enganche|as_crispy_field   -->
+                            </div>
+                            <div class="form-group col-3 mb-0" id="gpo_cantidad_pagos">
+                                <label>Mensualidades</label>
+                                <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
+                                    <option value="0">---------</option>
+                                    <!--                                 for permitidas in reglas 
+                                    if permitidas.modo_pago == 2 
+                                    <option value=" permitidas.mensualidades_permitidas ">
+                                        permitidas.mensualidades_permitidas </option>
+                                    endif 
+                                    endfor -->
+                                </select>
+                                {% for error in form.cantidad_pagos.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p><small class="mensaje-error">{{ error }}</small></p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="gpo_importe_x_pago">
+                                <label>Pago mensual</label>
+                                <input type="text" name="importe_x_pago" id="id_importe_x_pago" class="form-control"
+                                    onfocusout="reformatear('id_importe_x_pago')" onkeypress="return valideKey(event);">
+                                <!--                             form.importe_x_pago|as_crispy_field   -->
+                            </div>
+                        </div>
+                        <div class="modal fade" id="datosCliente" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                    <div class="modal-header">
+                                        <label class="encabezados">Datos cliente</label>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                                            title="Regresar a la pantalla anterior">
+                                            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                                        </button>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.nombre|as_crispy_field }}
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-5 mb-0">
+                                                {{ form.tipo_cliente|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-7 mb-0" id="gpo_razon">
+                                                {{ form.razon|as_crispy_field }}
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.paterno|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.nombre|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.paterno|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.materno|as_crispy_field }}
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.materno|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.rfc|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.curp|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.estado_civil|as_crispy_field }}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.rfc|as_crispy_field }}
+                                        <div class="row" id="gpo_conyuge">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.regimen|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.nombre_conyuge|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.paterno_conyuge|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.materno_conyuge|as_crispy_field }}
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.curp|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.calle|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.colonia|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.codpos|as_crispy_field }}
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.estado_civil|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.municipio|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.estado|as_crispy_field }}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="gpo_conyuge">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.regimen|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.nombre_conyuge|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.paterno_conyuge|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.materno_conyuge|as_crispy_field }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.calle|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.colonia|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.codpos|as_crispy_field }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.municipio|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-6 mb-0">
-                                            {{ form.estado|as_crispy_field }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.celular|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-6 mb-0">
-                                            {{ form.correo|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.celular|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.correo|as_crispy_field }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal fade" id="documentos" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="background-color: darkgrey; width: 700px;">
-                                <div class="modal-header">
-                                    <label class="encabezados">Documentos cliente</label>
-                                    <button type="button" class="btn btn-info" data-dismiss="modal"
-                                        title="Regresar a la pantalla anterior">
-                                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_elector_frente|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_elector_reverso|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_elector_frente_cy|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_elector_reverso_cy|as_crispy_field }}
-                                        </div>
+                        <div class="modal fade" id="documentos" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                    <div class="modal-header">
+                                        <label class="encabezados">Documentos cliente</label>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                                            title="Regresar a la pantalla anterior">
+                                            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                                        </button>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_comprobante|as_crispy_field }}
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_frente|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_reverso|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_frente_cy|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_reverso_cy|as_crispy_field }}
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_matrimonio|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_alta_shcp|as_crispy_field }}
-                                        </div>
-                                        <div class="form-group col-md-3 mb-0">
-                                            {{ form.foto_acta_const|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_comprobante|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_matrimonio|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_alta_shcp|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_acta_const|as_crispy_field }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" hidden>
-                        <div class="form-group col-md-1 mb-0">
-                            {{ form.estatus_solicitud|as_crispy_field }}
+                        <div class="row" hidden>
+                            <div class="form-group col-md-1 mb-0">
+                                {{ form.estatus_solicitud|as_crispy_field }}
+                            </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-success" title="Guarda solicitud">
-                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                    </button>
-                </form>
+                        <button type="submit" class="btn btn-success" title="Guarda solicitud">
+                            <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

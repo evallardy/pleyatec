@@ -7,127 +7,139 @@
 {% block contenido %}
 {% if app_proy_contratar %}
 {% for py in proyecto_tb %}
-<div class="container mapa">
-    <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
-        {% if menu_proy_acceso %}
-        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
-        {% endif %}
-        {% if menu_proy_ver %}
-        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
-        {% endif %}
-        {% if menu_proy_ver_solicitud %}
-        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
-        {% endif %}
-        {% if menu_proy_autoriza_visualiza %}
-        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
-        {% endif %}
-        {% if menu_proy_compromiso %}
-        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
-        {% endif %}
-        {% if menu_proy_contratar %}
-        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
-        {% endif %}
-        {% if menu_proy_listado_registro_mensual %}
-        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
-        {% endif %}
-        {% if menu_proy_consulta_archivo %}
-        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
-        {% endif %}
-        {% if menu_proy_creditos %}
-        <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
-        {% endif %}
-        {% if menu_proy_contados %}
-        <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
-        {% endif %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa">
+        <div class="encabezados">
+            <label class="encabezados">{{ py.nombre }}</label><br>
+        </div>
+        <div class="btn-group btn-group-justified">
+            {% if menu_proy_acceso %}
+            <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+            {% endif %}
+            {% if menu_proy_ver %}
+            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            {% endif %}
+            {% if menu_proy_ver_solicitud %}
+            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            {% endif %}
+            {% if menu_proy_autoriza_visualiza %}
+            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            {% endif %}
+            {% if menu_proy_compromiso %}
+            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            {% endif %}
+            {% if menu_proy_contratar %}
+            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            {% endif %}
+            {% if menu_proy_listado_registro_mensual %}
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
+            {% endif %}
+            {% if menu_proy_consulta_archivo %}
+            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            {% endif %}
+            {% if menu_proy_creditos %}
+            <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
+            {% endif %}
+            {% if menu_proy_contados %}
+            <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
+            {% endif %}
+        </div>
     </div>
 </div>
-<div class="container mapa">
-    <table class="estilo-tabla">
-        <thead>
-            <tr>
-                <th class="col-md-1 titulo-tabla">Num. Sol.</th>
-                <th class="col-md-2 titulo-tabla">Cliente</th>
-                <th class="col-md-2 titulo-tabla">Bien</th>
-                <th class="col-md-2 titulo-tabla">Modo pago</th>
-                <th class="col-md-1 titulo-tabla">Enganche</th>
-                <th class="col-md-1 titulo-tabla">Num. Contrato</th>
-                <th class="col-md-1 titulo-tabla">Estatus</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for e in object_list %}
-            <tr class="datos-tabla">
-                <td style="text-align: center;">{{ e.id }}</td>
-                <td>{{ e.cliente }}</td>
-                <td>{{ e.lote }}</td>
-                <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
-                <td style="text-align: right;">{{ e.enganche }}</td>
-                <td style="text-align: center;">{{ e.num_contrato }}</td>
-                <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                <td style="text-align: center;">
-                    {% if e.estatus_solicitud == 3 or e.estatus_solicitud == 4 %}
-                    {% if app_proy_datos_contrato %}
-                    <a href="{% url 'datos_contrato' e.id py.id %}" class="btn btn-info" title="Captura fechas de contrato">
-                        <img src="{% static 'core/img/datos.svg' %}" width="20" />
-                    </a>
-                    {% endif %}
-                    {% else %}
-                    {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
-                    {% if app_proy_archivar_contrato %}
-                    <a href="#" onclick="archiva('{{ e.id }}','{{ e.estatus_solicitud }}')" class="btn btn-warning" title="Archivar solicitud">
-                        <img src="{% static 'core/img/archiva.svg' %}" width="20" />
-                    </a>
-                    {% endif %}
-                    {% endif %}
-                    {% endif %}
-                </td>
-                <td style="text-align: center;">
-                    {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
-                    {% if app_proy_imprime_contrato %}
-                    <button class="btn btn-info" onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')" title="Imprimir contrato">
-                        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
-                    </button>
-                    {% endif %}
-                    {% endif %}
-                </td>
-                <td style="text-align: center;">
-                    {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10%}
-                    {% if app_proy_imprime_contrato %}
-                    {% if not e.num_contrato == 0 and not e.modo_pago == 1 %}
-                    <button class="btn btn-info" onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')" title="Imprimir listado de pagos">
-                        <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
-                    </button>
-                    {% endif %}
-                    {% endif %}
-                    {% endif %}
+<div class="d-flex justify-content-center">
+    <div class="mapa col-8">
+        <table class="estilo-tabla col-12">
+            <thead>
+                <tr>
+                    <th class="col-md-1 titulo-tabla">Num. Sol.</th>
+                    <th class="col-md-2 titulo-tabla">Cliente</th>
+                    <th class="col-md-2 titulo-tabla">Bien</th>
+                    <th class="col-md-1 titulo-tabla">Modo pago</th>
+                    <th class="col-md-1 titulo-tabla">Enganche</th>
+                    <th class="col-md-1 titulo-tabla">Num. Contrato</th>
+                    <th class="col-md-1 titulo-tabla">Estatus</th>
+                    <th class="col-md-1 titulo-tabla"></th>
+                    <th class="col-md-1 titulo-tabla"></th>
+                    <th class="col-md-1 titulo-tabla"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in object_list %}
+                <tr class="datos-tabla">
+                    <td style="text-align: center;">{{ e.id }}</td>
+                    <td>{{ e.cliente }}</td>
+                    <td>{{ e.lote }}</td>
+                    <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
+                    <td style="text-align: right;">{{ e.enganche }}</td>
+                    <td style="text-align: center;">{{ e.num_contrato }}</td>
+                    <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
+                    <td style="text-align: center;">
+                        {% if e.estatus_solicitud == 3 or e.estatus_solicitud == 4 %}
+                        {% if app_proy_datos_contrato %}
+                        <a href="{% url 'datos_contrato' e.id py.id %}" class="btn btn-info"
+                            title="Captura fechas de contrato">
+                            <img src="{% static 'core/img/datos.svg' %}" width="20" />
+                        </a>
+                        {% endif %}
+                        {% else %}
+                        {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
+                        {% if app_proy_archivar_contrato %}
+                        <a href="#" onclick="archiva('{{ e.id }}','{{ e.estatus_solicitud }}')" class="btn btn-warning"
+                            title="Archivar solicitud">
+                            <img src="{% static 'core/img/archiva.svg' %}" width="20" />
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center;">
+                        {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10 %}
+                        {% if app_proy_imprime_contrato %}
+                        <button class="btn btn-info" onclick="imprime('{{ e.id }}', '{{ e.modo_pago }}')"
+                            title="Imprimir contrato">
+                            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                        </button>
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center;">
+                        {% if e.estatus_solicitud == 6 or e.estatus_solicitud == 9 or e.estatus_solicitud == 10%}
+                        {% if app_proy_imprime_contrato %}
+                        {% if not e.num_contrato == 0 and not e.modo_pago == 1 %}
+                        <button class="btn btn-info" onclick="imprimeCal('{{ e.id }}', '{{ e.modo_pago }}')"
+                            title="Imprimir listado de pagos">
+                            <img src="{% static 'core/img/imprimir.svg' %}" width="20" />
+                        </button>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
 
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="container">
-        {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
-            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
-        </a>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
-            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
-        </a>
-        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+                <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+            </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+                <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+            </a>
+            {% endif %}
+        </div>
     </div>
 </div>
-
 {% endfor %}
 {% endif %}
 {% endblock %}
 <script>
     {% block inicio %}
-        opcion = "#" + "{{ menu }}";
-        $(opcion).addClass('active');
+    opcion = "#" + "{{ menu }}";
+    $(opcion).addClass('active');
     {% endblock %}
     {% block bljs %}
     function imprime(dato, modoPago) {

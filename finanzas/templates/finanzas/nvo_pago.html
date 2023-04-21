@@ -9,118 +9,120 @@
 {% block contenido %}
 {% if app_proy_cap_dep_mensual %}
 {% for py in proyecto_tb %}
-<div class="container mapa col-5">
-    <label class="encabezados">Datos pago</label>
-    <hr class="mt-0 mb-12">
-    <div class="container col-12">
-        <a class="btn btn-info" href="{% url 'estado_cuenta' sol py.id %}" title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-        </a>
-        <div class="wrapper fadeInDown">
-            <br>
-            <div id="formContent">
-                <form action="" method="POST" enctype="multipart/form-data" onkeypress="return anular(event)">
-                    {% csrf_token %}
-                    <div class="row">
-                        <label class="sub-titulo">Compromiso</label>
-                    </div>
-                    <div class="row">
-                        <div class="form-group" hidden>
-                            {{ form.convenio|as_crispy_field }}
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-4">
+        <label class="encabezados">Datos pago</label>
+        <hr class="mt-0 mb-12">
+        <div class="col-12">
+            <a class="btn btn-info" href="{% url 'estado_cuenta' sol py.id %}" title="Regresar a la pantalla anterior">
+                <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+            </a>
+            <div class="wrapper fadeInDown">
+                <br>
+                <div id="formContent">
+                    <form action="" method="POST" enctype="multipart/form-data" onkeypress="return anular(event)">
+                        {% csrf_token %}
+                        <div class="row">
+                            <label class="sub-titulo">Compromiso</label>
                         </div>
-                        <div class="form-group col-md-4 mb-0">
-                            {{ form.fecha_pago|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-4 mb-0">
-                            <label>Importe</label>
-                            <input type="text" name="importe" id="id_importe" class="form-control"
-                                onfocusout="reformatear('id_importe')" onkeypress="return valideKey(event);">
+                        <div class="row">
+                            <div class="form-group" hidden>
+                                {{ form.convenio|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.fecha_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                <label>Importe</label>
+                                <input type="text" name="importe" id="id_importe" class="form-control"
+                                    onfocusout="reformatear('id_importe')" onkeypress="return valideKey(event);">
 
-                            <!--         form.importe|as_crispy_field }}   -->
+                                <!--         form.importe|as_crispy_field }}   -->
+                            </div>
+                            <div class="form-group" hidden>
+                                {{ form.pagado_vencido|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-4" id="gpo_pagado_vencido">
+                                <label for="id_forma_pago_pa1">Pago realizado</label>
+                                <input type="text" name="pagado_vencido1" id="id_pagado_vencido1" readonly
+                                    class="form-control">
+                            </div>
                         </div>
-                        <div class="form-group" hidden>
-                            {{ form.pagado_vencido|as_crispy_field }}
+                        <div class="row">
+                            <label class="sub-titulo">Comprobante</label>
                         </div>
-                        <div class="form-group col-4" id="gpo_pagado_vencido">
-                            <label for="id_forma_pago_pa1">Pago realizado</label>
-                            <input type="text" name="pagado_vencido1" id="id_pagado_vencido1" readonly
-                                class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="sub-titulo">Comprobante</label>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4 mb-0">
-                            {{ form.fecha_voucher|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-4 mb-0">
-                            <label>Importe pagado</label>
-                            <input type="text" name="importe_pagado" id="id_importe_pagado" class="form-control"
-                                onfocusout="reformatear('id_importe_pagado')" onkeypress="return valideKey(event);">
-                            {% for error in form.importe_pagado.errors %}
-                            {% if error != "Introduzca un número." %}
-                            <p class="mensaje-error">
-                                <strong>
-                                    {{ error }}
-                                </strong>
-                            </p>
-                            {% endif %}
-                            {% endfor %}
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.fecha_voucher|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                <label>Importe pagado</label>
+                                <input type="text" name="importe_pagado" id="id_importe_pagado" class="form-control"
+                                    onfocusout="reformatear('id_importe_pagado')" onkeypress="return valideKey(event);">
+                                {% for error in form.importe_pagado.errors %}
+                                {% if error != "Introduzca un número." %}
+                                <p class="mensaje-error">
+                                    <strong>
+                                        {{ error }}
+                                    </strong>
+                                </p>
+                                {% endif %}
+                                {% endfor %}
 
-                            <!--      form.importe_pagado|as_crispy_field }}  -->
+                                <!--      form.importe_pagado|as_crispy_field }}  -->
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.numero_comprobante|as_crispy_field }}
+                            </div>
                         </div>
-                        <div class="form-group col-md-4 mb-0">
-                            {{ form.numero_comprobante|as_crispy_field }}
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-0" id="gpo_forma_pago">
+                                {{ form.forma_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-4" id="gpo_forma_pago1">
+                                <label for="id_forma_pago1">Forma de pago</label>
+                                <input type="text" name="forma_pago1" id="id_forma_pago1" readonly class="form-control">
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                {{ form.cuenta|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-4 mb-0" id="gpo_deposito" 
+                                {% if not app_proy_confirma_deposito_mensual %} 
+                                    hidden 
+                                {% endif %}>
+                                {{ form.deposito|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-4" id="gpo_deposito1">
+                                <label for="id_deposito1">Depósito</label>
+                                <input type="text" name="deposito1" id="id_deposito1" readonly class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4 mb-0" id="gpo_forma_pago">
-                            {{ form.forma_pago|as_crispy_field }}
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-0" hidden>
+                                {{ form.estatus_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-4" id="gpo_estatus_pago">
+                                <label for="id_estatus_pago1">Estatus del pago</label>
+                                <input type="text" name="estatus_pago1" id="id_estatus_pago1" readonly class="form-control">
+                            </div>
                         </div>
-                        <div class="form-group col-4" id="gpo_forma_pago1">
-                            <label for="id_forma_pago1">Forma de pago</label>
-                            <input type="text" name="forma_pago1" id="id_forma_pago1" readonly class="form-control">
+                        <div class="row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ form.file_comprobante|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-3" id="gpo_file_comprobante" hidden>
+                                <label for="id_file_comprobante1">Imagen</label>
+                                {% for a in tabla1 %}
+                                <input type="text" name="file_comprobante1" id="id_file_comprobante1" readonly
+                                    class="form-control" value="{{a.file_comprobante}}">
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="form-group col-md-4 mb-0">
-                            {{ form.cuenta|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-4 mb-0" id="gpo_deposito" 
-                            {% if not app_proy_confirma_deposito_mensual %} 
-                                hidden 
-                            {% endif %}>
-                            {{ form.deposito|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-4" id="gpo_deposito1">
-                            <label for="id_deposito1">Depósito</label>
-                            <input type="text" name="deposito1" id="id_deposito1" readonly class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4 mb-0" hidden>
-                            {{ form.estatus_pago|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-4" id="gpo_estatus_pago">
-                            <label for="id_estatus_pago1">Estatus del pago</label>
-                            <input type="text" name="estatus_pago1" id="id_estatus_pago1" readonly class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 mb-0">
-                            {{ form.file_comprobante|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-3" id="gpo_file_comprobante" hidden>
-                            <label for="id_file_comprobante1">Imagen</label>
-                            {% for a in tabla1 %}
-                            <input type="text" name="file_comprobante1" id="id_file_comprobante1" readonly
-                                class="form-control" value="{{a.file_comprobante}}">
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <button id="btsub" name="btsub" type="submit" class="btn btn-success" title="Guarda pago">
-                        <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                    </button>
-                </form>
+                        <button id="btsub" name="btsub" type="submit" class="btn btn-success" title="Guarda pago">
+                            <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

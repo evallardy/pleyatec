@@ -5,134 +5,141 @@
 {% block contenido %}
 {% for py in proyecto_tb %}
 {% if app_proy_ver_solicitud %}
-<div class="container mapa">
-    <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
-        {% if menu_proy_acceso %}
-        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
-        {% endif %}
-        {% if menu_proy_ver %}
-        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
-        {% endif %}
-        {% if menu_proy_ver_solicitud %}
-        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
-        {% endif %}
-        {% if menu_proy_autoriza_visualiza %}
-        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
-        {% endif %}
-        {% if menu_proy_compromiso %}
-        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
-        {% endif %}
-        {% if menu_proy_contratar %}
-        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
-        {% endif %}
-        {% if menu_proy_listado_registro_mensual %}
-        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
-        {% endif %}
-        {% if menu_proy_consulta_archivo %}
-        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
-        {% endif %}
-        {% if menu_proy_creditos %}
-        <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
-        {% endif %}
-        {% if menu_proy_contados %}
-        <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
-        {% endif %}
-    </div>
-</div>
-<div class="container mapa">
-    <div class="container">
-        {% if app_proy_ver_solicitud %}
-        <a type="button" class="btn btn-info" href="{% url 'nva_solicitud' py.id %}" title="Agregar solicitud">
-            <img src="{% static 'core/img/agregar.svg' %}" width="20"/>
-        </a>
-        {% endif %}
-        <table class="estilo-tabla">
-            <thead>
-                <tr>
-                    <th class="col-md-1 titulo-tabla">Num. Sol.</th>
-                    <th class="col-md-2 titulo-tabla">Fecha</th>
-                    <th class="col-md-2 titulo-tabla">Cliente</th>
-                    <th class="col-md-2 titulo-tabla">Bien</th>
-                    <th class="col-md-2 titulo-tabla">Asesor</th>
-                    <th class="col-md-2 titulo-tabla">Modo pago</th>
-                    <th class="col-md-1 titulo-tabla">Estatus</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for e in object_list %}
-                <tr class="datos-tabla">
-                    <td style="text-align: center;">{{ e.id }}</td>
-                    <td style="text-align: center;">{{ e.created|date:'d/m/Y' }}</td>
-                    <td>{{ e.cliente }}</td>
-                    <td>{{ e.lote }}</td>
-                    <td>{{ e.asesor }}</td>
-                    <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
-                    <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
-                    {% if not e.aprobacion_gerente and not e.aprobacion_director %}
-                    {% if app_proy_cambia_solicitud %}
-                    <td>
-                        {% if not e.estatus_solicitud == 99 %}
-                        <a href="{% url 'mod_solicitud' e.id py.id %}" class="btn btn-info" title="Edita solicitud">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                    </td>
-                    {% endif %}
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    {% if app_proy_cancela_solicitud %}
-                    {% if e.estatus_solicitud == 99 %}
-                    <td>
-                        <button class="btn btn-info" onclick="recuperaSol('{{ e.id }}')" title="Recupera solicitud">
-                            <img src="{% static 'core/img/recupera.svg' %}" width="20" />
-                        </button>
-                    </td>
-                    {% else %}
-                    <td>
-                        <button class="btn btn-danger" onclick="cancelaSol('{{ e.id }}')" title="Cancela solicitud">
-                            <img src="{% static 'core/img/cancelar.svg' %}" width="20" />
-                        </button>
-                    </td>
-                    {% endif %}
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    <td>
-                        {% if e.modo_pago == 2 or e.modo_pago == 4 %}
-                        {% if app_proy_amortizac and e.estatus_solicitud == 1 %}
-                        <a href="{% url 'tabla_amortizacion' e.id py.id %}" class="btn btn-info" title="Tabla de amortización">
-                            <img src="{% static 'core/img/amortizacion.svg' %}" width="20"/>
-                        </a>
-                        {% endif %}
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="container">
-        {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
-            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
-        </a>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
-            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
-        </a>
-        {% endif %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa">
+        <div class="encabezados">
+            <label>{{ py.nombre }}</label>
+        </div>
+        <div class="btn-group">
+            {% if menu_proy_acceso %}
+            <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+            {% endif %}
+            {% if menu_proy_ver %}
+            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            {% endif %}
+            {% if menu_proy_ver_solicitud %}
+            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            {% endif %}
+            {% if menu_proy_autoriza_visualiza %}
+            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            {% endif %}
+            {% if menu_proy_compromiso %}
+            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            {% endif %}
+            {% if menu_proy_contratar %}
+            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            {% endif %}
+            {% if menu_proy_listado_registro_mensual %}
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
+            {% endif %}
+            {% if menu_proy_consulta_archivo %}
+            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            {% endif %}
+            {% if menu_proy_creditos %}
+            <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
+            {% endif %}
+            {% if menu_proy_contados %}
+            <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
+            {% endif %}
         </div>
     </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="mapa col-7">
+        <div>
+            {% if app_proy_ver_solicitud %}
+            <a type="button" class="btn btn-info" href="{% url 'nva_solicitud' py.id %}" title="Agregar solicitud">
+                <img src="{% static 'core/img/agregar.svg' %}" width="20" />
+            </a>
+            {% endif %}
+            <table class="estilo-tabla">
+                <thead>
+                    <tr>
+                        <th class="col-md-1 titulo-tabla">Num. Sol.</th>
+                        <th class="col-md-2 titulo-tabla">Fecha</th>
+                        <th class="col-md-2 titulo-tabla">Cliente</th>
+                        <th class="col-md-2 titulo-tabla">Bien</th>
+                        <th class="col-md-2 titulo-tabla">Asesor</th>
+                        <th class="col-md-2 titulo-tabla">Modo pago</th>
+                        <th class="col-md-1 titulo-tabla">Estatus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in object_list %}
+                    <tr class="datos-tabla">
+                        <td style="text-align: center;">{{ e.id }}</td>
+                        <td style="text-align: center;">{{ e.created|date:'d/m/Y' }}</td>
+                        <td>{{ e.cliente }}</td>
+                        <td>{{ e.lote }}</td>
+                        <td>{{ e.asesor }}</td>
+                        <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
+                        <td style="text-align: center;">{{ e.get_estatus_solicitud_display }}</td>
+                        {% if not e.aprobacion_gerente and not e.aprobacion_director %}
+                        {% if app_proy_cambia_solicitud %}
+                        <td>
+                            {% if not e.estatus_solicitud == 99 %}
+                            <a href="{% url 'mod_solicitud' e.id py.id %}" class="btn btn-info" title="Edita solicitud">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        {% if app_proy_cancela_solicitud %}
+                        {% if e.estatus_solicitud == 99 %}
+                        <td>
+                            <button class="btn btn-info" onclick="recuperaSol('{{ e.id }}')" title="Recupera solicitud">
+                                <img src="{% static 'core/img/recupera.svg' %}" width="20" />
+                            </button>
+                        </td>
+                        {% else %}
+                        <td>
+                            <button class="btn btn-danger" onclick="cancelaSol('{{ e.id }}')" title="Cancela solicitud">
+                                <img src="{% static 'core/img/cancelar.svg' %}" width="20" />
+                            </button>
+                        </td>
+                        {% endif %}
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        <td>
+                            {% if e.modo_pago == 2 or e.modo_pago == 4 %}
+                            {% if app_proy_amortizac and e.estatus_solicitud == 1 %}
+                            <a href="{% url 'tabla_amortizacion' e.id py.id %}" class="btn btn-info"
+                                title="Tabla de amortización">
+                                <img src="{% static 'core/img/amortizacion.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+                <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+            </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+                <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endif %}
 {% endfor %}
 {% endblock %}
 <script>
     {% block inicio %}
-        opcion = "#" + "{{ menu }}";
-        $(opcion).addClass('active'); 
+    opcion = "#" + "{{ menu }}";
+    $(opcion).addClass('active');
     {% endblock %}
     {% block bljs %}
     function cancelaSol(llave) {

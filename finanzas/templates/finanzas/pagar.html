@@ -3,100 +3,106 @@
 {% block contenido %}
 {% if app_proy_listado_registro_mensual %}
 {% for py in proyecto_tb %}
-<div class="container mapa">
-    <label class="encabezados">{{ py.nombre }}</label><br>
-    <div class="btn-group btn-group-justified container">
-        {% if menu_proy_acceso %}
-        <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
-        {% endif %}
-        {% if menu_proy_ver %}
-        <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
-        {% endif %}
-        {% if menu_proy_ver_solicitud %}
-        <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
-        {% endif %}
-        {% if menu_proy_autoriza_visualiza %}
-        <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
-        {% endif %}
-        {% if menu_proy_compromiso %}
-        <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
-        {% endif %}
-        {% if menu_proy_contratar %}
-        <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
-        {% endif %}
-        {% if menu_proy_listado_registro_mensual %}
-        <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
-        {% endif %}
-        {% if menu_proy_consulta_archivo %}
-        <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
-        {% endif %}
-        {% if menu_proy_creditos %}
-        <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
-        {% endif %}
-        {% if menu_proy_contados %}
-        <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
-        {% endif %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa">
+        <div class="encabezados">
+            <label>{{ py.nombre }}</label><br>
+        </div>
+        <div class="btn-group btn-group-justified">
+            {% if menu_proy_acceso %}
+            <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+            {% endif %}
+            {% if menu_proy_ver %}
+            <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
+            {% endif %}
+            {% if menu_proy_ver_solicitud %}
+            <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
+            {% endif %}
+            {% if menu_proy_autoriza_visualiza %}
+            <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
+            {% endif %}
+            {% if menu_proy_compromiso %}
+            <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
+            {% endif %}
+            {% if menu_proy_contratar %}
+            <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
+            {% endif %}
+            {% if menu_proy_listado_registro_mensual %}
+            <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
+            {% endif %}
+            {% if menu_proy_consulta_archivo %}
+            <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
+            {% endif %}
+            {% if menu_proy_creditos %}
+            <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
+            {% endif %}
+            {% if menu_proy_contados %}
+            <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
+            {% endif %}
+        </div>
     </div>
 </div>
-<div class="container mapa">
-    <table class="estilo-tabla">
-        <thead>
-            <tr>
-                <th class="col-1 titulo-tabla">Núm. Contrato</th>
-                <th class="col-2 titulo-tabla">Cliente</th>
-                <th class="col-2 titulo-tabla">Bien</th>
-                <th class="col-1 titulo-tabla">Por pagar</th>
-                <th class="col-1 titulo-tabla">Pago mensual</th>
-                <th class="col-1 titulo-tabla">Importe</th>
-                <th class="col-1 titulo-tabla">Pagados</th>
-                <th class="col-1 titulo-tabla">Importe</th>
-                <th class="col-1 titulo-tabla">Restan</th>
-                <th class="col-1 titulo-tabla">Importe</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for e in object_list %}
-            <tr class="datos-tabla">
-                <td style="text-align: center">{{ e.num_contrato }}</td>
-                <td>{{ e.cliente }}</td>
-                <td>{{ e.lote }}</td>
-                <td style="text-align: center">{{ e.cantidad_pagos }}</td>
-                <td style="text-align: right;">{{ e.importe_x_pago }}</td>
-                <td style="text-align: right;">{{ e.por_pagar }}</td>
-                <td style="text-align: center;">{{ e.pagos_pagados }}</td>
-                <td style="text-align: right;">{{ e.importe_pagado }}</td>
-                <td style="text-align: center;">{{ e.resta_pagos }}</td>
-                <td style="text-align: right;">{{ e.saldo }}</td>
-                <td style="text-align: center;">
-                    {% if app_proy_estado_cuenta %}
-                    <a href="{% url 'estado_cuenta' e.id py.id %}" class="btn btn-info"
-                        title="Registro de pagos mensuales">
-                        <img src="{% static 'core/img/pago.svg' %}" width="20" />
-                    </a>
-                    {% endif %}
-                </td>
-                {% if e.saldo <= 0 and app_proy_archiva_credito %} <td style="text-align: center;">
-                    <a href="#" onclick="archiva_credito('{{ e.id }}')" class="btn btn-warning"
-                        title="Archivar crédito">
-                        <img src="{% static 'core/img/archiva.svg' %}" width="20" />
-                    </a>
+<div class="d-flex justify-content-center">
+    <div class="mapa col-10">
+        <table class="estilo-tabla">
+            <thead>
+                <tr>
+                    <th class="col-1 titulo-tabla">Núm. Contrato</th>
+                    <th class="col-2 titulo-tabla">Cliente</th>
+                    <th class="col-2 titulo-tabla">Bien</th>
+                    <th class="col-1 titulo-tabla">Por pagar</th>
+                    <th class="col-1 titulo-tabla">Pago mensual</th>
+                    <th class="col-1 titulo-tabla">Importe</th>
+                    <th class="col-1 titulo-tabla">Pagados</th>
+                    <th class="col-1 titulo-tabla">Importe</th>
+                    <th class="col-1 titulo-tabla">Restan</th>
+                    <th class="col-1 titulo-tabla">Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in object_list %}
+                <tr class="datos-tabla">
+                    <td style="text-align: center">{{ e.num_contrato }}</td>
+                    <td>{{ e.cliente }}</td>
+                    <td>{{ e.lote }}</td>
+                    <td style="text-align: center">{{ e.cantidad_pagos }}</td>
+                    <td style="text-align: right;">{{ e.importe_x_pago }}</td>
+                    <td style="text-align: right;">{{ e.por_pagar }}</td>
+                    <td style="text-align: center;">{{ e.pagos_pagados }}</td>
+                    <td style="text-align: right;">{{ e.importe_pagado }}</td>
+                    <td style="text-align: center;">{{ e.resta_pagos }}</td>
+                    <td style="text-align: right;">{{ e.saldo }}</td>
+                    <td style="text-align: center;">
+                        {% if app_proy_estado_cuenta %}
+                        <a href="{% url 'estado_cuenta' e.id py.id %}" class="btn btn-info"
+                            title="Registro de pagos mensuales">
+                            <img src="{% static 'core/img/pago.svg' %}" width="20" />
+                        </a>
+                        {% endif %}
                     </td>
-                    {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="container">
-        {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
-            <img src="{% static 'core/img/anterior.svg' %}" width="20" />
-        </a>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
-            <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
-        </a>
-        {% endif %}
+                    {% if e.saldo <= 0 and app_proy_archiva_credito %} <td style="text-align: center;">
+                        <a href="#" onclick="archiva_credito('{{ e.id }}')" class="btn btn-warning"
+                            title="Archivar crédito">
+                            <img src="{% static 'core/img/archiva.svg' %}" width="20" />
+                        </a>
+                        </td>
+                        {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-info" title="Listado anterior">
+                <img src="{% static 'core/img/anterior.svg' %}" width="20" />
+            </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info" title="Listado siguiente">
+                <img src="{% static 'core/img/siguiente.svg' %}" width="20" />
+            </a>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endfor %}

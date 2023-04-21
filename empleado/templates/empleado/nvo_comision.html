@@ -8,79 +8,81 @@
 {{ form.media }}
 {% endblock %}
 {% block contenido %}
-<div class="container mapa col-4">
-    <h3 style="margin-right: 25px; margin-top: 15px;">Comisiones asesor</h3>
-    <hr class="mt-0 mb-4">
-    <div class="container">
-        <a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-        </a>
-    </div>
-    <br>
-    <div class="container col-12">
-        <div class="wrapper fadeInDown">
-            <div id="formContent" style="text-align: right;">
-                <form action="" method="POST" style="text-align: left;" onkeypress="return anular(event)">
-                    {% csrf_token %}
-                    <div class="row ">
-                        <div class=" col-6">
-                            <label>Empleado</label>
-                            <input type="text" name="nombre_empleado" id="id_nombre_empleado" class="form-control"
-                                readonly value="{{ nombre_empleado }}">
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-3">
+        <h3 style="margin-right: 25px; margin-top: 15px;">Comisiones asesor</h3>
+        <hr class="mt-0 mb-4">
+        <div>
+            <a class="btn btn-info" href="{% url 'empleados' %}" title="Regresar a la pantalla anterior">
+                <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+            </a>
+        </div>
+        <br>
+        <div class=" col-12">
+            <div class="wrapper fadeInDown">
+                <div id="formContent" style="text-align: right;">
+                    <form action="" method="POST" style="text-align: left;" onkeypress="return anular(event)">
+                        {% csrf_token %}
+                        <div class="row ">
+                            <div class=" col-10">
+                                <label>Empleado</label>
+                                <input type="text" name="nombre_empleado" id="id_nombre_empleado" class="form-control"
+                                    readonly value="{{ nombre_empleado }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-7 mb-0">
-                            <label for="">Proyecto</label>
-                            <select name="proyecto" id="id_proyecto" class="form-control">
-                                {% for p in proyectos_cmb %}
-                                <option value="{{ p.id }}">{{ p.nombre }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="row">
+                            <div class="form-group col-md-10 mb-0">
+                                <label for="">Proyecto</label>
+                                <select name="proyecto" id="id_proyecto" class="form-control">
+                                    {% for p in proyectos_cmb %}
+                                    <option value="{{ p.id }}">{{ p.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-3 mb-0">
-                            <label>Comisión</label>
-                            <input type="text" name="comision" id="id_comision" class="form-control" step='0.01'
-                                value='0.00' placeholder='0.00' style="text-align: right;">
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-0">
+                                <label>Comisión</label>
+                                <input type="text" name="comision" id="id_comision" class="form-control" step='0.01'
+                                    value='0.00' placeholder='0.00' style="text-align: right;">
+                            </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="form-group col-md-4 mb-0">
-                            <button type="submit" class="btn btn-success" title="Guarda comisión asesor">
-                                <img src="{% static 'core/img/guardar.svg' %}" width="20" />
-                            </button>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-0">
+                                <button type="submit" class="btn btn-success" title="Guarda comisión asesor">
+                                    <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                                </button>
+                            </div>
+                            <div class="form-group col-md-8 mb-0">
+                                <input type="text" name="mensaje" id="id_mensaje" value="{{ mensaje }}" readonly
+                                    class="form-control" style="text-align: center; background-color: transparent;
+                                        font-weight: bold; font-style: italic; color: green;">
+                            </div>
                         </div>
-                        <div class="form-group col-md-8 mb-0">
-                            <input type="text" name="mensaje" id="id_mensaje" value="{{ mensaje }}" readonly
-                                class="form-control" style="text-align: center; background-color: transparent;
-                                    font-weight: bold; font-style: italic; color: green;">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <br>
-            <div class="row">
-                <table class="estilo-tabla col-12">
-                    <thead>
-                        <tr>
-                            <th class="col-md-2 titulo-tabla">Id</th>
-                            <th class="col-md-8 titulo-tabla">Proyecto</th>
-                            <th class="col-md-2 titulo-tabla">Comisión</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for e in object_list %}
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle;">{{ e.proyecto_com.id }}</td>
-                            <td style="text-align: left; vertical-align: middle;">{{ e.proyecto_com.nombre }}</td>
-                            <td style="text-align: center; vertical-align: middle;">{{ e.comision }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                    </form>
+                </div>
+                <br>
+                <div class="row">
+                    <table class="estilo-tabla col-12">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2 titulo-tabla">Id</th>
+                                <th class="col-md-8 titulo-tabla">Proyecto</th>
+                                <th class="col-md-2 titulo-tabla">Comisión</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for e in object_list %}
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle;">{{ e.proyecto_com.id }}</td>
+                                <td style="text-align: left; vertical-align: middle;">{{ e.proyecto_com.nombre }}</td>
+                                <td style="text-align: center; vertical-align: middle;">{{ e.comision }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -1,24 +1,22 @@
 {% extends "core/base.html" %}
 {% load crispy_forms_tags %}
 {% block contenido %}
-<br>
-<br>
-<div class="container">
-    <div class="row">
+<div class="col-12 d-flex justify-content-center">
+    <div class="row col-7">
         <div class="col-12 col-md-6 offset-md-3">
             <div class="card col-10 pan-login">
                 <div class="card-body">
-                    <h2>Ingresa credenciales</h2>
+                    <h2 class="encabezados">Ingresa credenciales</h2>
                     <hr>
                     <form action="" method="post" onkeypress="return anular(event)">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="form-group col-6 mb-0">
+                            <div class="form-group col-7 mb-0">
                                 {{ form.username|as_crispy_field }}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-6 mb-0">
+                            <div class="form-group col-7 mb-0">
                                 {{ form.password|as_crispy_field }}
                             </div>
                         </div>

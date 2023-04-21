@@ -9,9 +9,11 @@
 {% block contenido %}
 {% for py in proyecto_tb %}
 {% if app_proy_datos_contrato %}
-<div class="container mapa col-5">
-    <div class="form-group">
-        <label class="encabezados">Datos contrato</label>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-3">
+        <div class="encabezados">
+            <label>Datos contrato</label>
+        </div>
         <hr class="mt-0 mb-12">
         <div class="form-group col-3 mb-0">
             <a class="btn btn-info" href="{% url 'contratos' py.id %}" title="Regresar a la pantalla anterior">
@@ -19,31 +21,31 @@
             </a>
         </div>
         <br>
-        <div class="container col-12">
+        <div class="col-12">
             <div class="wrapper fadeInDown">
                 <div id="formContent" style="text-align: right;">
                     <form action="" method="POST" style="text-align: left;" enctype="multipart/form-data"
                         onkeypress="return anular(event)">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="form-group col-md-4 mb-0" hidden>
+                            <div class="form-group col-md-6 mb-0" hidden>
                                 {{ form.modo_pago|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-4 mb-0">
+                            <div class="form-group col-md-6 mb-0">
                                 {{ form.fecha_contrato|as_crispy_field }}
                             </div>
                             {% if solicitud.modo_pago == 2 or solicitud.modo_pago == 4 %}
-                            <div class="form-group col-md-4 mb-0">
+                            <div class="form-group col-md-6 mb-0">
                                 {{ form.anio_inicio_pago|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-4 mb-0">
+                            <div class="form-group col-md-6 mb-0">
                                 {{ form.mes_inicio_pago|as_crispy_field }}
                             </div>
                             {% else %}
-                            <div class="form-group col-md-4 mb-0" hidden>
+                            <div class="form-group col-md-6 mb-0" hidden>
                                 {{ form.anio_inicio_pago|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-4 mb-0" hidden>
+                            <div class="form-group col-md-6 mb-0" hidden>
                                 {{ form.mes_inicio_pago|as_crispy_field }}
                             </div>
                             {% endif %}
@@ -51,7 +53,6 @@
                         <button type="submit" class="btn btn-success" title="Guarda datos del contrato">
                             <img src="{% static 'core/img/guardar.svg' %}" width="20" />
                         </button>
-
                     </form>
                 </div>
             </div>

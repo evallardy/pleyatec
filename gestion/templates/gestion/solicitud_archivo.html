@@ -12,133 +12,135 @@
 {% if app_proy_ver_solicitud %}
 {% for py in proyecto_tb %}
 {% for sl in solicitud_tb %}
-<div class="container mapa col-6">
-    <label class="encabezados">{{ py.nombre }} - Solicitud - {{ sl.id }}</label>
-    <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Consulta</h3>
-    <hr class="mt-0 mb-4">
-    <div class="container">
-        <a class="btn btn-info" href="{% url 'archivo' py.id %}" title="Regresar a la pantalla anterior">
-            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
-        </a>
-    </div>
-    <form method="POST" style="margin-top: 20px; margin-bottom: 20px;" class="col-12">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-3">
-                <label class="form-label">{{ py.singular }}</label>
-                <input type="text" class="form-control" value="{{sl.lote.identificador_bien}}" readonly>
-            </div>
-            <div class="col-4">
-                <label class="form-label">Medidas</label>
-                <input type="text" class="form-control" value="{{sl.lote.medidas}}" readonly>
-            </div>
-            <div class="col-2">
-                <label class="form-label">Area m²</label>
-                <input type="text" class="form-control" value="{{sl.lote.gran_total}}" readonly
-                    style="text-align: center;">
-            </div>
-            <div class="col-3">
-                <label class="form-label">Precio venta</label>
-                <input type="text" class="form-control" value="{{sl.precio_final}}" readonly
-                    style="text-align: center;">
-            </div>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-6">
+        <label class="encabezados">{{ py.nombre }} - Solicitud - {{ sl.id }}</label>
+        <h3 style="float: right; margin-right: 25px; margin-top: 15px;">Consulta</h3>
+        <hr class="mt-0 mb-4">
+        <div>
+            <a class="btn btn-info" href="{% url 'archivo' py.id %}" title="Regresar a la pantalla anterior">
+                <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+            </a>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <label class="form-label">Modo de pago</label>
-                <input type="text" class="form-control" value="{{sl.get_modo_pago_display}}" readonly>
+        <form method="POST" style="margin-top: 20px; margin-bottom: 20px;" class="col-12">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-3">
+                    <label class="form-label">{{ py.singular }}</label>
+                    <input type="text" class="form-control" value="{{sl.lote.identificador_bien}}" readonly>
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Medidas</label>
+                    <input type="text" class="form-control" value="{{sl.lote.medidas}}" readonly>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Area m²</label>
+                    <input type="text" class="form-control" value="{{sl.lote.gran_total}}" readonly
+                        style="text-align: center;">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Precio venta</label>
+                    <input type="text" class="form-control" value="{{sl.precio_final}}" readonly
+                        style="text-align: center;">
+                </div>
             </div>
-            <div class="col-3">
-                <label class="form-label">Enganche</label>
-                <input type="text" class="form-control" value="{{sl.enganche}}" readonly style="text-align: center;">
+            <div class="row">
+                <div class="col-3">
+                    <label class="form-label">Modo de pago</label>
+                    <input type="text" class="form-control" value="{{sl.get_modo_pago_display}}" readonly>
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Enganche</label>
+                    <input type="text" class="form-control" value="{{sl.enganche}}" readonly style="text-align: center;">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Mensualidades</label>
+                    <input type="text" class="form-control" value="{{sl.cantidad_pagos}}" readonly
+                        style="text-align: center;">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Pago Mensual</label>
+                    <input type="text" class="form-control" value="{{sl.importe_x_pago}}" readonly
+                        style="text-align: center;">
+                </div>
             </div>
-            <div class="col-3">
-                <label class="form-label">Mensualidades</label>
-                <input type="text" class="form-control" value="{{sl.cantidad_pagos}}" readonly
-                    style="text-align: center;">
-            </div>
-            <div class="col-3">
-                <label class="form-label">Pago Mensual</label>
-                <input type="text" class="form-control" value="{{sl.importe_x_pago}}" readonly
-                    style="text-align: center;">
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-4">
-                <label class="form-label">tipo de cliente</label>
-                <input type="text" class="form-control" value="{{sl.cliente.get_tipo_cliente_display}}" readonly>
-            </div>
-            <div class="col-4">
-                {% if sl.cliente.tipo_cliente == 0 %}
-                <label class="form-label">Cliente</label>
-                {% else %}
-                <label class="form-label">Empresa</label>
+            <hr>
+            <div class="row">
+                <div class="col-4">
+                    <label class="form-label">tipo de cliente</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.get_tipo_cliente_display}}" readonly>
+                </div>
+                <div class="col-4">
+                    {% if sl.cliente.tipo_cliente == 0 %}
+                    <label class="form-label">Cliente</label>
+                    {% else %}
+                    <label class="form-label">Empresa</label>
+                    {% endif %}
+                    <input type="text" class="form-control" value="{{sl.cliente.cliente_nombre}}" readonly>
+                </div>
+                {% if sl.cliente.tipo_cliente == 1 %}
+                <div class="col-4">
+                    <label class="form-label">Representante</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.nombre_completo}}" readonly>
+                </div>
                 {% endif %}
-                <input type="text" class="form-control" value="{{sl.cliente.cliente_nombre}}" readonly>
             </div>
-            {% if sl.cliente.tipo_cliente == 1 %}
-            <div class="col-4">
-                <label class="form-label">Representante</label>
-                <input type="text" class="form-control" value="{{sl.cliente.nombre_completo}}" readonly>
+            <div class="row">
+                <div class="col-5">
+                    <label class="form-label">Celular</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.celular}}" readonly>
+                </div>
+                <div class="col-5">
+                    <label class="form-label">Correo</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.correo}}" readonly>
+                </div>
             </div>
-            {% endif %}
-        </div>
-        <div class="row">
-            <div class="col-5">
-                <label class="form-label">Celular</label>
-                <input type="text" class="form-control" value="{{sl.cliente.celular}}" readonly>
+            <br>
+            <div class="row">
+                <div class="col-2">
+                    <label class="form-label">Género</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.get_genero_display}}" readonly>
+                </div>
+                <div class="col-3">
+                    <label class="form-label">R.F.C.</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.rfc}}" readonly>
+                </div>
+                <div class="col-4">
+                    <label class="form-label">CURP</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.curp}}" readonly>
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Estado Civil</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.get_estado_civil_display}}" readonly>
+                </div>
             </div>
-            <div class="col-5">
-                <label class="form-label">Correo</label>
-                <input type="text" class="form-control" value="{{sl.cliente.correo}}" readonly>
+            <div class="row">
+                <div class="col-5">
+                    <label class="form-label">Calle</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.calle}}" readonly>
+                </div>
+                <div class="col-5">
+                    <label class="form-label">Colonia</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.colonia}}" readonly>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Códogo postal</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.codpos}}" readonly
+                        style="text-align: center;">
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-2">
-                <label class="form-label">Género</label>
-                <input type="text" class="form-control" value="{{sl.cliente.get_genero_display}}" readonly>
+            <div class="row">
+                <div class="col-5">
+                    <label class="form-label">Minucipio</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.municipio}}" readonly>
+                </div>
+                <div class="col-5">
+                    <label class="form-label">Estado</label>
+                    <input type="text" class="form-control" value="{{sl.cliente.get_estado_display}}" readonly>
+                </div>
             </div>
-            <div class="col-3">
-                <label class="form-label">R.F.C.</label>
-                <input type="text" class="form-control" value="{{sl.cliente.rfc}}" readonly>
-            </div>
-            <div class="col-4">
-                <label class="form-label">CURP</label>
-                <input type="text" class="form-control" value="{{sl.cliente.curp}}" readonly>
-            </div>
-            <div class="col-3">
-                <label class="form-label">Estado Civil</label>
-                <input type="text" class="form-control" value="{{sl.cliente.get_estado_civil_display}}" readonly>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-5">
-                <label class="form-label">Calle</label>
-                <input type="text" class="form-control" value="{{sl.cliente.calle}}" readonly>
-            </div>
-            <div class="col-5">
-                <label class="form-label">Colonia</label>
-                <input type="text" class="form-control" value="{{sl.cliente.colonia}}" readonly>
-            </div>
-            <div class="col-2">
-                <label class="form-label">Códogo postal</label>
-                <input type="text" class="form-control" value="{{sl.cliente.codpos}}" readonly
-                    style="text-align: center;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-5">
-                <label class="form-label">Minucipio</label>
-                <input type="text" class="form-control" value="{{sl.cliente.municipio}}" readonly>
-            </div>
-            <div class="col-5">
-                <label class="form-label">Estado</label>
-                <input type="text" class="form-control" value="{{sl.cliente.get_estado_display}}" readonly>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 {% endfor %}
 {% endfor %}

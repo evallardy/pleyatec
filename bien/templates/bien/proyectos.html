@@ -2,174 +2,178 @@
 {% load static %}
 {% block contenido %}
 {% if comision_proyectos %}
-<div class="container mapa col-8">
-    <label class="encabezados">Proyectos</label><br>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-6 encabezados">
+        <label>Proyectos</label>
+    </div>
 </div>
-<div class="container mapa col-8">
-    <div class="container">
-        <table class="estilo-tabla">
-            <thead>
-                <tr>
-                    <th class="col-md-4 titulo-tabla">Proyecto</th>
-                    <th class="col-md-4 titulo-tabla" hidden>Tipo</th>
-                    <th class="col-md-2 titulo-tabla">Com. Agente</th>
-                    <th class="col-md-2 titulo-tabla">Com. Gerente</th>
-                    <th class="col-md-2 titulo-tabla">Pendientes de pago</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in object_list %}
-                <tr class="datos-tabla">
-                    <td>{{ c.nombre }}</td>
-                    <td hidden>{{ c.get_tipo_proyecto_display }}</td>
-                    <td style="text-align: center;">{{ c.comision_asesor }}</td>
-                    <td style="text-align: center;">{{ c.comision_jefe_asesor }}</td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;">
-                        {% if c.nom_proy == 'nuvole' and nuvole_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'toscana' and toscana_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'torre_vento' and torre_vento_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'condom_multiple' and condom_multiple_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'porto_santo' and porto_santo_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'local_punta_o' and local_punta_o_pago_normal_comisiones %}
-                        <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
-                            <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                    </td>
-                    <td style="text-align: center;">
-                        {% if c.nom_proy == 'nuvole' and nuvole_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'toscana' and toscana_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'torre_vento' and torre_vento_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'condom_multiple' and condom_multiple_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'porto_santo' and porto_santo_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'local_punta_o' and local_punta_o_edita_comisiones_proyecto %}
-                        <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
-                            <img src="{% static 'core/img/editar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                    </td>
-                    <td style="text-align: center;">
-                        {% if c.nom_proy == 'nuvole' and nuvole_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'toscana' and toscana_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'torre_vento' and torre_vento_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'condom_multiple' and condom_multiple_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'porto_santo' and porto_santo_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                        {% if c.nom_proy == 'local_punta_o' and local_punta_o_consulta_comisiones %}
-                        <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
-                            <img src="{% static 'core/img/consultar.svg' %}" width="20" />
-                        </a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-6">
+        <div>
+            <table class="estilo-tabla col-12">
+                <thead>
+                    <tr>
+                        <th class="col-md-4 titulo-tabla">Proyecto</th>
+                        <th class="col-md-4 titulo-tabla" hidden>Tipo</th>
+                        <th class="col-md-2 titulo-tabla">Com. Agente</th>
+                        <th class="col-md-2 titulo-tabla">Com. Gerente</th>
+                        <th class="col-md-2 titulo-tabla">Pendientes de pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in object_list %}
+                    <tr class="datos-tabla">
+                        <td>{{ c.nombre }}</td>
+                        <td hidden>{{ c.get_tipo_proyecto_display }}</td>
+                        <td style="text-align: center;">{{ c.comision_asesor }}</td>
+                        <td style="text-align: center;">{{ c.comision_jefe_asesor }}</td>
+                        <td style="text-align: center;"></td>
+                        <td style="text-align: center;">
+                            {% if c.nom_proy == 'nuvole' and nuvole_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'toscana' and toscana_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'torre_vento' and torre_vento_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'condom_multiple' and condom_multiple_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'porto_santo' and porto_santo_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'local_punta_o' and local_punta_o_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                            {% if c.nom_proy == 'nuvole' and nuvole_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'toscana' and toscana_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'torre_vento' and torre_vento_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'condom_multiple' and condom_multiple_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'porto_santo' and porto_santo_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'local_punta_o' and local_punta_o_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                            {% if c.nom_proy == 'nuvole' and nuvole_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'toscana' and toscana_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'torre_vento' and torre_vento_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'condom_multiple' and condom_multiple_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'porto_santo' and porto_santo_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'vivienda_nuvole' and vivienda_nuvole_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'monte_cristallo' and monte_cristallo_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'consul_punta_o' and consul_punta_o_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'local_punta_o' and local_punta_o_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endif %}
