@@ -1944,11 +1944,11 @@ class archivo(ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
-#  Impresión de Recibos
-        des_permiso = '_imp_pago_compromiso'
+#  Archivar comprobantes
+        des_permiso = '_archivar_comprobantes'
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
-        permiso_str = "gestion." + variable_proy
+        permiso_str = "finanzas." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 #  Impresión de contrato
