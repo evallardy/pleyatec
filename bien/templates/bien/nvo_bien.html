@@ -24,7 +24,7 @@
                 onkeypress="return anular(event)">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="form-group col-md-4 mb-0">
+                    <div class="form-group col-md-4 mb-0" hidden>
                         {{ form.proyecto|as_crispy_field }}
                     </div>
                 </div>

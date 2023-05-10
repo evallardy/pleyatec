@@ -1,11 +1,11 @@
 from os import name
 from django.urls import path
-from .views import *
+from gestion.views import *
 
 urlpatterns = [
     path('solicitudes/<num_proyecto>/', solicitudes.as_view(), name='solicitudes'), 
-    path('nva_solicitud/<num_proyecto>/', nva_solicitud.as_view(), name='nva_solicitud'), 
-    path('mod_sol/<pk>/<num_proyecto>/', mod_solicitud.as_view(), name='mod_solicitud'),
+    path('sol_nueva/<num_proyecto>/', sol_nueva.as_view(), name='sol_nueva'), 
+    path('sol_editada/<pk>/<num_proyecto>/', sol_editada.as_view(), name='sol_editada'),
     path('can_sol/<llave>/<num_proyecto>/', can_sol, name='can_sol'),
     path('rec_sol/<llave>/<num_proyecto>/', rec_sol, name='rec_sol'),
     path('autorizaciones/<num_proyecto>/', autorizaciones.as_view(), name='autorizaciones'),
@@ -24,4 +24,6 @@ urlpatterns = [
     path('valores_bien/<id>/<importe>/', valores_bien, name='valores_bien'), 
     path('valores_bien_inicial/<id>/', valores_bien_inicial, name='valores_bien_inicial'), 
     path('calcula_operacion/<descuento>/<porcentaje_descuento>/<modo_pago>/<idLote>/<enganche>/<cantidad_pagos>/<asigna_descuento>/<tipo_desc>/', calcula_operacion, name='calcula_operacion'),
+    path('selecciona_bien/<id>/', selecciona_bien, name='selecciona_bien'),
+    path('selecciona_cliente/<id>/', selecciona_cliente, name='selecciona_cliente'),
 ]

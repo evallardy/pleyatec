@@ -48,7 +48,7 @@
     <div class="mapa col-7">
         <div>
             {% if app_proy_ver_solicitud %}
-            <a type="button" class="btn btn-info" href="{% url 'nva_solicitud' py.id %}" title="Agregar solicitud">
+            <a type="button" class="btn btn-info" href="{% url 'sol_nueva' py.id %}" title="Agregar solicitud">
                 <img src="{% static 'core/img/agregar.svg' %}" width="20" />
             </a>
             {% endif %}
@@ -78,7 +78,7 @@
                         {% if app_proy_cambia_solicitud %}
                         <td>
                             {% if not e.estatus_solicitud == 99 %}
-                            <a href="{% url 'mod_solicitud' e.id py.id %}" class="btn btn-info" title="Edita solicitud">
+                            <a href="{% url 'sol_editada' e.id py.id %}" class="btn btn-info" title="Edita solicitud">
                                 <img src="{% static 'core/img/editar.svg' %}" width="20" />
                             </a>
                             {% endif %}

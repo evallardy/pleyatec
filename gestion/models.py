@@ -21,7 +21,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE, verbose_name="Lote")
     asesor = models.ForeignKey(Empleado, on_delete=models.CASCADE, verbose_name="Asesor")
-    precio_lote = models.DecimalField("Precio lote", decimal_places=2, max_digits=10, default=0)
+    precio_lote = models.DecimalField("Precio lote", decimal_places=2, max_digits=10, blank=True, null=True, default=0)
     total = models.DecimalField("Area", decimal_places=2, max_digits=10,default=0)
     precio_x_mt = models.DecimalField("Precio por m²", decimal_places=2, max_digits=10, default=0)
     precio_final = models.DecimalField("Precio final", decimal_places=2, max_digits=10, default=0)
@@ -50,6 +50,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
 
     cantidad_pagos = models.IntegerField("Pagos", default=0)
     importe_x_pago = models.DecimalField("Importe por pago", decimal_places=2, max_digits=10, default=0)
+    credito = models.DecimalField("Crédito", decimal_places=2, max_digits=10, default=0)
     aprobacion_gerente = models.SmallIntegerField("Aprobación gerente de ventas", choices=RESP_SI_NO, default=0)
     aprobacion_director = models.SmallIntegerField("Aprobación director desarrollo", choices=RESP_SI_NO, default=0)
     foto_elector_frente = models.FileField(upload_to="ine", blank=True, null=True)

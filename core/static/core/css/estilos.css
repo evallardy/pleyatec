@@ -7,6 +7,13 @@ body {
     font-size: 14px;
     font-family: 'Open Sans', sans-serif;
 }
+.btn-guardar {
+    background-image: url("/static/core/img/guardar.svg");
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 40px;
+}
 .encabezados {
     font-size: 28px;
     font-style: italic;

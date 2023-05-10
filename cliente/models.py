@@ -78,6 +78,23 @@ class Cliente(models.Model, PermissionRequiredMixin):
         return '%s' % (razon) 
     nombre_completo = property(_get_nombre_completo)
 
+    def _get_nombre_asesor(self):
+        if self.asesor.nombre == None:
+            nombre = ""
+        else:
+            nombre = self.asesor.nombre
+        if self.asesor.materno == None:
+            materno = ""
+        else:
+            materno = self.asesor.materno
+        if self.asesor.paterno == None:
+            paterno = ""
+        else:
+            paterno = self.asesor.paterno
+        nom = nombre + " " + paterno + " " + materno
+        return '%s' % (nom) 
+    nombre_asesor = property(_get_nombre_asesor)
+
     def _get_cliente_nombre(self):
         if self.tipo_cliente == 0:
             if self.materno == None:
@@ -136,3 +153,30 @@ class Cliente(models.Model, PermissionRequiredMixin):
         return '%s' % (asesor_id)
     asesor_id_val = property(_get_asesor_id)
 
+    def _get_materno(self):
+        materno = ""
+        if not self.materno == None:
+            materno = self.materno
+        return '%s' % (materno)
+    materno_val = property(_get_materno)
+
+    def _get_nombre_conyuge(self):
+        nombre_conyuge = ""
+        if not self.nombre_conyuge == None:
+            nombre_conyuge = self.nombre_conyuge
+        return '%s' % (nombre_conyuge)
+    nombre_conyuge_val = property(_get_nombre_conyuge)
+
+    def _get_paterno_conyuge(self):
+        paterno_conyuge = ""
+        if not self.paterno_conyuge == None:
+            paterno_conyuge = self.paterno_conyuge
+        return '%s' % (paterno_conyuge)
+    paterno_conyuge_val = property(_get_paterno_conyuge)
+
+    def _get_materno_conyuge(self):
+        materno_conyuge = ""
+        if not self.materno_conyuge == None:
+            materno_conyuge = self.materno_conyuge
+        return '%s' % (materno_conyuge)
+    materno_conyuge_val = property(_get_materno_conyuge)

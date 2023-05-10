@@ -1,0 +1,611 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block blcss %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+{% block contenido %}
+{% if app_proy_add_solicitud or app_proy_cambia_solicitud %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="mapa col-6">
+        <label class="encabezados">{{ nombre_proyecto }} - Solicitud - {{ pk }}</label>
+        <h3 style="float: right; margin-right: 25px; margin-top: 15px;">{{ accion }}</h3>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="row">
+                <div class="form-group col-4">
+                    <a class="btn btn-info" href="{% url 'solicitudes' num_proyecto %}" title="Regresar a la pantalla anterior">
+                        <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                    </a>
+                </div>
+                <div class="form-group col-4" id="gpo_btn_cliente">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datosCliente">
+                        Datos Cliente
+                    </button>
+                </div>
+                <div class="form-group col-4" id="gpo_btn_documentos">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentos">
+                        Documentos Cliente
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="wrapper fadeInDown">
+                <div id="formContent" style="text-align: right;">
+
+                    <form id="form-solicitud" method="POST" style="text-align: left;" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="form-group col-6 mb-0">
+                                <label>Cliente:</label>
+                                <select name="cliente" id="id_cliente" class="form-control">
+                                    <option value=0>---------</option>
+                                    {% for c in cliente_cmb %}
+                                    <option value="{{ c.id }}">{{ c.nombre_completo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 mb-0">
+                                <label>Asesores</label>
+                                <input type="text" name="num_asesor" id="id_num_asesor">
+                                <input type="text" name="asesor1" id="id_asesor1" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 mb-0">
+                                <label>{{ singular_proyecto }}</label>
+                                <select name="lote" id="id_lote" class="form-control">
+                                    <option value=0>---------</option>
+                                    {% for l in lote_cmb %}
+                                    <option value="{{ l.id }}">{{ l.combo_bien }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label>Area mts²</label>
+                                <input type="text" name="total" id="id_total" readonly class="form-control"
+                                    onfocusout="reformatear('id_total')" onkeypress="return valideKey(event);">
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label>Precio x m²</label>
+                                <input type="text" name="precio_x_mt" id="id_precio_x_mt" readonly  class="form-control"
+                                    onfocusout="reformatear('id_precio_x_mt')" onkeypress="return valideKey(event);">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-3 mb-0">
+                                <label>{{form.precio_lote.label}}</label>
+                                {{form.precio_lote}}
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label id="texto-adicional">Descuento</label>
+                                <input type="text" name="descuento" id="id_descuento" class="form-control"
+                                    onfocusout="reformatear('id_descuento')" onkeypress="return valideKey(event);">
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label>{{form.precio_final.label}}</label>
+                                {{form.precio_final}}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="gpo_credito">
+                                <label>{{form.credito.label}}</label>
+                                {{form.credito}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-3 mb-0">
+                                {{ form.modo_pago|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="asigna" 
+                            {% if not app_proy_asigna_descto %} 
+                                hidden 
+                            {% endif %}>
+                                {{ form.asigna_descuento|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="tipo_desc" 
+                            {% if not app_proy_asigna_descto %} 
+                                hidden
+                            {% endif %}>
+                                {{ form.tipo_descuento|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="porcentaje_desc">
+                                <label>% descuento</label>
+                                <input type="text" name="porcentaje_descuento" id="id_porcentaje_descuento" class="form-control"
+                                    onfocusout="reformatear('id_porcentaje_descuento')"
+                                    onkeypress="return valideKey(event);">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-3 mb-0" id="gpo_enganche">
+                                <label>Enganche</label>
+                                <input type="text" name="enganche" id="id_enganche" class="form-control"
+                                    onfocusout="reformatear('id_enganche')" onkeypress="return valideKey(event);">
+                                <div id="id-enganche-minimo-error">
+
+                                </div>
+                                <input type="hidden" id="id_enganche_calculado"  name="enganche_calculado">
+                                <input type="hidden" id="id_importe_formateado" name="importe_formateado">
+                            </div>
+                            <div class="form-group col-3 mb-0" id="gpo_cantidad_pagos">
+                                <label>Mensualidades</label>
+                                <select name="cantidad_pagos" id="id_cantidad_pagos" class="form-control">
+                                    <option value="0">---------</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 mb-0" id="gpo_importe_x_pago">
+                                <label>Mensualidad</label>
+                                {{form.importe_x_pago}}
+                            </div>
+                        </div>
+                        <div class="modal fade" id="datosCliente" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                    <div class="modal-header">
+                                        <label class="encabezados">Datos cliente</label>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                                            title="Regresar a la pantalla anterior">
+                                            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-5 mb-0">
+                                                {{ form.tipo_cliente|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-7 mb-0" id="gpo_razon">
+                                                {{ form.razon|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.nombre|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.paterno|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.materno|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.rfc|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.curp|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.estado_civil|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row" id="gpo_conyuge">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.regimen|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.nombre_conyuge|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.paterno_conyuge|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.materno_conyuge|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.calle|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.colonia|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.codpos|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.municipio|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.estado|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.celular|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.correo|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="documentos" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="background-color: darkgrey; width: 700px;">
+                                    <div class="modal-header">
+                                        <label class="encabezados">Documentos cliente</label>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                                            title="Regresar a la pantalla anterior">
+                                            <img src="{% static 'core/img/regresar.svg' %}" width="20" />
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_frente|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_reverso|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_frente_cy|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_elector_reverso_cy|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_comprobante|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_matrimonio|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_alta_shcp|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.foto_acta_const|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="guarda-informacion" class="btn btn-success" title="Guarda solicitud">
+                            <img src="{% static 'core/img/guardar.svg' %}" width="20" />
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+<script>
+    {% block bljs %}
+    async function guardarDatos(parameters) {
+        {% if accion == 'Modifica' %}
+            url = '/gestion/sol_editada/{{pk}}/{{num_proyecto}}/';
+        {% else %}
+            url = '/gestion/sol_nueva/{{num_proyecto}}/';
+        {% endif %}
+        try {
+            const datos = await $.ajax({
+                url: url,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            });
+            $.each(datos.error, function(clave, valor) {
+                if (valor[0] === "Introduzca un número.") {
+                  delete datos.error[clave];
+                }
+            });
+            // procesar datos y mostrar mensaje de éxito
+            if (Object.keys(datos).includes('nueva_solicitud')) {
+                {% if accion == 'Modifica' %}
+                    await message_aviso('Se modificó con éxito', 'Folio ' + datos.nueva_solicitud);
+                {% else %}
+                    await message_aviso('Se guardó con éxito', 'Número de folio ' + datos.nueva_solicitud);
+                {% endif %}
+                location.href = '{{ list_url }}';
+            } else if (Object.keys(datos).includes('error') && Object.keys(datos['error']).length > 0) {
+                message_error(datos.error);
+            }
+        } catch (e) {
+            console.log(e);
+            message_error(e.message);
+        }
+    }
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        var parameters = $(this).serializeArray();
+        guardarDatos(parameters);
+    });
+    $("#id_cliente").on("change", function () {
+        id_cliente = convierteNumero("id_cliente", 0);
+        $("#id_asesor1").val('');
+        $("#id_asesor").val(0);
+        id = String(id_cliente);
+        url = '/gestion/selecciona_cliente/' + id + '/';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                $("#id_tipo_cliente").val(data.datos['tipo_cliente']);
+                $('#id_tipo_cliente').trigger('change');
+                $("#id_razon").val(data.datos['razon']);
+                $("#id_nombre").val(data.datos['nombre']);
+                $("#id_paterno").val(data.datos['paterno']);
+                $("#id_materno").val(data.datos['materno']);
+                $("#id_nombre_conyuge").val(data.datos['nombre_coyuge']);
+                $("#id_paterno_conyuge").val(data.datos['paterno_conyuge']);
+                $("#id_materno_conyuge").val(data.datos['materno_conyuge']);
+                $("#id_rfc").val(data.datos['rfc']);
+                $("#id_curp").val(data.datos['curp']);
+                $("#id_estado_civil").val(data.datos['estado_civil']);
+                $("#id_regimen").val(data.datos['regimen']);
+                $("#id_calle").val(data.datos['calle']);
+                $("#id_colonia").val(data.datos['colonia']);
+                $("#id_codpos").val(data.datos['codpos']);
+                $("#id_municipio").val(data.datos['municipio']);
+                $("#id_estado").val(data.datos['estado']);
+                $("#id_celular").val(data.datos['celular']);
+                $("#id_correo").val(data.datos['correo']);
+                $("#id_asesor1").val(data.datos['nom_asesor']);
+                $("#id_num_asesor").val(data.datos['num_asesor']);
+            }
+        });
+    });
+    $("#id_lote").on("change", function () {
+        id_lote = convierteNumero("id_lote", 0);
+        if (id_lote == 0) {
+            $("#id_precio_lote").val(0);
+            $("#id_precio_x_mt").val(0);
+            $("#id_total").val(0);
+            $("#id_descuento").val(0);
+            $("#id_precio_final").val(0);
+            $("#id_porcentaje_descuento").val(0);
+            $("#id_enganche").val(0);
+            $("#id_importe_x_pago").val(0);
+            $("#id_credito").val(0);
+        } else {
+            id = String(id_lote);
+            url = '/gestion/selecciona_bien/' + id + '/';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $("#id_precio_lote").val(data.datos['precio']);
+                    $("#id_precio_x_mt").val(data.datos['precio_x_mt']);
+                    $("#id_total").val(data.datos['total']);
+                    calcula();
+                }
+            });
+        }
+    });
+    $("#id_descuento").on("keyup", function () {
+        calcula();
+    });
+    $("#id_porcentaje_descuento").on("keyup", function () {
+        //        $("#id_descuento").val(0);
+        calcula();
+    });
+    $("#id_enganche").on("keyup", function () {
+        calcula();
+    });
+    $("#id_cantidad_pagos").on("change", function () {
+        calcula();
+    });
+    $("#id_modo_pago").on("change", function () {
+        opcion = convierteNumero("id_modo_pago", 0);
+        if (opcion != 1) {
+            $("#gpo_credito").show();
+            $("#gpo_enganche").show();
+            $("#gpo_cantidad_pagos").show();
+            $("#gpo_importe_x_pago").show();
+
+        } else {
+            $("#gpo_credito").hide();
+            $("#gpo_enganche").hide();
+            $("#gpo_cantidad_pagos").hide();
+            $("#gpo_importe_x_pago").hide();
+        }
+        llenaModoPago(opcion);
+        calcula();
+    });
+    $("#id_asigna_descuento").on("change", function () {
+        opcion = convierteNumero("id_asigna_descuento", 0);
+        if (opcion == 0) {
+            $("#tipo_desc").hide();
+            $("#id_descuento").prop('readonly', true);
+            $("#id_porcentaje_descuento").prop('readonly', true);
+        } else {
+            $("#tipo_desc").show();
+        }
+        $('#id_tipo_descuento').trigger('change');
+    });
+    $("#id_tipo_descuento").on("change", function () {
+        anterior = convierteNumero("id_asigna_descuento", 0);
+        opcion = convierteNumero("id_tipo_descuento", 0);
+        if (anterior == 0) {
+            $("#id_descuento").prop('readonly', true).val(0);
+            $("#id_porcentaje_descuento").prop('readonly', true).val(0);
+        } else {
+            if (opcion == 1) {
+                $("#id_descuento").prop('readonly', true).val(0);
+                $("#id_porcentaje_descuento").prop('readonly', false).val(0);
+                $('#porcentaje_desc').show();
+            } else {
+                $("#id_descuento").prop('readonly', false).val(0);
+                $("#id_porcentaje_descuento").prop('readonly', true).val(0);
+                $('#porcentaje_desc').hide();
+            }
+        }
+        calcula();
+    });
+    function autventas(llave) {
+        var url = "{% url 'aut_ventas' 123 num_proyecto %}";
+        url = url.replace("123", llave);
+        confirmacion("Precaución", "Ventas, ¿autorizar el solicitud? ", url, "", "Solicitud autorizado por ventas", "Autorización ventas cancelada");
+    }
+    function borra_campos_cliente() {
+        $("#id_tipo_cliente").val(0);
+        activa_moral();
+        $("#id_razon").val("");
+        $("#id_nombre").val("");
+        $("#id_paterno").val("");
+        $("#id_materno").val("");
+        $("#id_nombre_conyuge").val("");
+        $("#id_paterno_conyuge").val("");
+        $("#id_materno_conyuge").val("");
+        $("#id_rfc").val("");
+        $("#id_curp").val("");
+        $("#id_estado_civil").val(0);
+        $("#id_regimen").val(0);
+        $("#id_calle").val("");
+        $("#id_colonia").val("");
+        $("#id_codpos").val("");
+        $("#id_municipio").val("");
+        $("#id_estado").val(0).change();
+        $("#id_celular").val("");
+        $("#id_correo").val("");
+    }
+    $("#id_tipo_cliente").on("change", function () {
+        opcion = convierteNumero("id_tipo_cliente,0");
+        if (opcion == 0) {
+            $("#gpo_razon").hide();
+            $("#id_razon").val("");
+        } else {
+            $("#gpo_razon").show();
+        }
+    });
+    function valida_valores() {
+        if ($("#id_descuento").val() == '') {
+            $("#id_descuento").val(0);
+        }
+        if ($("#id_porcentaje_descuento").val() == '') {
+            $("#id_porcentaje_descuento").val(0);
+        }
+        if ($("#id_precio_x_mt").val() == '') {
+            $("#id_precio_x_mt").val(0);
+        }
+        if ($("#id_total").val() == '') {
+            $("#id_total").val(0);
+        }
+        if ($("#id_credito").val() == '') {
+            $("#id_credito").val(0);
+        }
+        if ($("#id_enganche").val() == '') {
+            $("#id_enganche").val(0);
+        }
+        if ($("#id_importe_x_pago").val() == '') {
+            $("#id_importe_x_pago").val(0);
+        }
+    }
+    function presentacion() {
+        //  Alinear campos numericos0
+        $("#id_precio_lote").css("text-align", "right");
+        $("#id_precio_final").css("text-align", "right");
+        $("#id_enganche").css("text-align", "right");
+        $("#id_importe_x_pago").css("text-align", "right");
+        $("#id_cantidad_pagos").css("text-align", "right");
+        $("#id_descuento").css("text-align", "right");
+        $("#id_porcentaje_descuento").css("text-align", "right");
+        $("#asigna").css("text-align", "center");
+        $("#id_precio_x_mt").css("text-align", "right");
+        $("#id_total").css("text-align", "right");
+        $("#id_credito").css("text-align", "right").attr('readonly', 'true');
+        //  Campos de solo lectura
+        $("#id_importe_x_pago").attr('readonly', 'true');
+        $("#id_precio_lote").attr('readonly', 'true');
+        $("#id_precio_final").attr('readonly', 'true');
+        $("#id_descuento").attr('readonly', 'true');
+        $("#id_num_asesor").attr('readonly', 'true').hide();
+    }
+    function llenaModoPago(opcion) {
+        $("#id_cantidad_pagos").find('option').not(':first').remove();
+        if (opcion > 1) {
+            $("#id_cantidad_pagos").val($("#id_cantidad_pagos option:first").val());
+            {% for permitidas in reglas %}
+            if ('{{ permitidas.modo_pago }}' == $("#id_modo_pago").val()) {
+                $('#id_cantidad_pagos').
+                    append('<option value="{{permitidas.mensualidades_permitidas}}"> \
+                    {{permitidas.mensualidades_permitidas}}</option>');
+            }
+            {% endfor %}
+        }
+        else {
+            $("#id_cantidad_pagos").val(0);
+        }
+    }
+    function calcula() {
+        descuento = convierteNumero("id_descuento", 1);
+        porcentaje_descuento = convierteNumero("id_porcentaje_descuento", 1);
+        modo_pago = convierteNumero("id_modo_pago", 0);
+        opcion = convierteNumero("id_lote", 0);
+        enganche = convierteNumero("id_enganche", 1);
+        cantidad_pagos = convierteNumero("id_cantidad_pagos", 0);
+        asigna_descuento = convierteNumero("id_asigna_descuento", 0);
+        tipo_desc = convierteNumero("id_tipo_descuento", 0);
+
+        if (opcion != 0) {
+            calcula_operacion(descuento, porcentaje_descuento, modo_pago, opcion, enganche, cantidad_pagos, asigna_descuento, tipo_desc);
+        }
+    }
+    {% endblock %}
+    $(document).ready(function () {
+        {% block inicio %}
+        presentacion();
+        {% if accion == 'Modifica' %}
+            {% for solicitud in sol %}
+                $('#id_cliente').val('{{solicitud.cliente.id}}');
+                $('#id_num_asesor').val('{{solicitud.asesor.id}}');
+                $('#id_asesor1').val('{{solicitud.cliente.nombre_asesor}}');
+                $('#id_modo_pago').val('{{solicitud.modo_pago}}');
+                $('#id_modo_pago').trigger('change');
+                $('#id_enganche').val('{{solicitud.enganche}}');
+                if ($('#id_lote').find('option[value="{{solicitud.lote.id}}"]').length) {
+                        $('#id_asigna_descuento').val('{{solicitud.asigna_descuento}}');
+                        $('#id_asigna_descuento').trigger('change');
+                        $('#id_lote').val('{{solicitud.lote.id}}');
+                        $('#id_total').val('{{solicitud.total}}');
+                        $('#id_precio_x_mt').val('{{solicitud.precio_x_mt}}');
+                        $('#id_precio_lote').val('{{solicitud.precio_lote}}');
+                        $('#id_precio_final').val('{{solicitud.precio_final}}');
+                        $('#id_credito').val('{{solicitud.credito}}');
+                        $('#id_descuento').val('{{solicitud.descuento}}');
+                        $('#id_tipo_descuento').val('{{solicitud.tipo_descuento}}');
+                        $('#id_porcentaje_descuento').val('{{solicitud.porcentaje_descuento}}');
+                        $('#id_cantidad_pagos').val('{{solicitud.cantidad_pagos}}');
+                        $('#id_importe_x_pago').val('{{solicitud.importe_x_pago}}');
+                    } else {
+                        $('#id_asigna_descuento').val('0');
+                        $('#id_asigna_descuento').trigger('change');
+                        $('#id_lote').val('0');
+                        $('#id_total').val('0');
+                        $('#id_precio_x_mt').val('0');
+                        $('#id_precio_lote').val('0');
+                        $('#id_precio_final').val('0');
+                        $('#id_credito').val('0');
+                        $('#id_descuento').val('0');
+                        $('#id_tipo_descuento').val('0');
+                        $('#id_porcentaje_descuento').val('0');
+                        $('#id_cantidad_pagos').val('0');
+                        $('#id_importe_x_pago').val('0');
+                    }
+            {% endfor %}
+        {% else %}
+            $('#id_cliente1 ').trigger('change');
+            $('#id_modo_pago').trigger('change');
+            $('#id_asigna_descuento').trigger('change');
+            $('#id_tipo_cliente').trigger('change');
+        {% endif %}
+        valida_valores();
+        {% endblock %}
+    });
+</script>

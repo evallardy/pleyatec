@@ -1,22 +1,47 @@
+function message_error(obj) {
+    var html = '';
+    if (typeof (obj) === 'object') {
+        html = '<ul style="text-align: left;">';
+        $.each(obj, function (key, value) {
+            html += '<li>' + value + '</li>';
+        });
+        html += '</ul>';
+    }
+    else{
+        html = '<p>'+obj+'</p>';
+    }
+    Swal.fire({
+        title: 'Error!',
+        html: html,
+        icon: 'error'
+    });
+}
+async function message_aviso(titulo, mensaje) {
+    var html = '';
+    if (typeof (mensaje) === 'object') {
+        html = '<ul style="text-align: left;">';
+        $.each(mensaje, function (key, value) {
+            html += '<li>' + key.replaceAll('_',' ') + ' : ' + value + '</li>';
+        });
+        html += '</ul>';
+    }
+    else{
+        html = '<p>'+mensaje+'</p>';
+    }
+    await Swal.fire({
+        title: titulo,
+        html: html,
+        icon: 'success'
+    });
+//    await new Promise(resolve => setTimeout(resolve, 5000)); //pausa de 5 segundos
+//    Swal.close();
+}
 function calcula_operacion(descuento, porcentaje_descuento, modo_pago, idLote, enganche, cantidad_pagos, asigna_descuento, tipo_desc) {
     url = '/gestion/calcula_operacion/' + descuento + '/' + porcentaje_descuento + '/' + modo_pago + '/' + idLote + '/' + enganche + '/' + cantidad_pagos + '/' + asigna_descuento + '/' + tipo_desc + '/';
     $.ajax({
         url: url,
         type: 'GET',
         success: function(data) {
-            if (asigna_descuento == '1') {
-                if (tipo_desc == '1') {
-                    $('#id_descuento').val(data.datos['descuento']);
-                } else {
-                    $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
-                }
-            } else {
-                $('#id_descuento').val(data.datos['descuento']);
-                $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
-            }
-//            if (parseFloat(data.datos['descuento'].replaceAll(",","")) == 0) {
-//                $('#texto-adicional').text("Incremento");
-//            }
             $('#id_total').val(data.datos['total']);
             $('#id_precio_x_mt').val(data.datos['precio_x_mt']);
             $('#id_precio_lote').val(data.datos['precio']);
@@ -24,6 +49,14 @@ function calcula_operacion(descuento, porcentaje_descuento, modo_pago, idLote, e
             $('#id_credito').val(data.datos['credito']);
             $('#id_importe_x_pago').val(data.datos['pago_mensual']);
             $('#id-enganche-minimo-error').html(data.datos['error_enganche']);
+            $('#id_enganche_calculado').val(data.datos['enganche_calculado']);
+            $('#id_importe_formateado').val(data.datos['importe_formateado']);
+            if (tipo_desc == '1') {
+                $('#id_descuento').val(data.datos['descuento']);
+            } else {
+                $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
+            }
+            
         }
     });
 }
