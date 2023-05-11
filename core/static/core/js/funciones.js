@@ -3,7 +3,11 @@ function message_error(obj) {
     if (typeof (obj) === 'object') {
         html = '<ul style="text-align: left;">';
         $.each(obj, function (key, value) {
-            html += '<li>' + value + '</li>';
+            if (key === 'lote' || key === 'cliente') {
+                html += '<li>' + key.charAt(0).toUpperCase() + key.slice(1) + " : " + String(value).charAt(0).toUpperCase() + String(value).slice(1) + '</li>';
+            } else {
+                html += '<li>' + String(value).charAt(0).toUpperCase() + String(value).slice(1) + '</li>';
+            }
         });
         html += '</ul>';
     }
