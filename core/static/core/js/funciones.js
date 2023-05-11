@@ -51,12 +51,16 @@ function calcula_operacion(descuento, porcentaje_descuento, modo_pago, idLote, e
             $('#id-enganche-minimo-error').html(data.datos['error_enganche']);
             $('#id_enganche_calculado').val(data.datos['enganche_calculado']);
             $('#id_importe_formateado').val(data.datos['importe_formateado']);
-            if (tipo_desc == '1') {
-                $('#id_descuento').val(data.datos['descuento']);
+            if (asigna_descuento == "1") {
+                if (tipo_desc == "1") {
+                    $('#id_descuento').val(data.datos['descuento']);
+                } else {
+                    $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
+                }
             } else {
+                $('#id_descuento').val(data.datos['descuento']);
                 $('#id_porcentaje_descuento').val(data.datos['porcentaje_descuento']);
             }
-            
         }
     });
 }

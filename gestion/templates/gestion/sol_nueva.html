@@ -383,6 +383,7 @@
                     $("#id_precio_lote").val(data.datos['precio']);
                     $("#id_precio_x_mt").val(data.datos['precio_x_mt']);
                     $("#id_total").val(data.datos['total']);
+                    $('#id_modo_pago').trigger('change');
                     calcula();
                 }
             });
@@ -538,9 +539,6 @@
                     {{permitidas.mensualidades_permitidas}}</option>');
             }
             {% endfor %}
-        }
-        else {
-            $("#id_cantidad_pagos").val(0);
         }
     }
     function calcula() {
