@@ -47,7 +47,7 @@
 <div class="d-flex justify-content-center">
     <div class="mapa col-7">
         <div>
-            {% if app_proy_ver_solicitud %}
+            {% if app_proy_add_solicitud %}
             <a type="button" class="btn btn-info" href="{% url 'sol_nueva' py.id %}" title="Agregar solicitud">
                 <img src="{% static 'core/img/agregar.svg' %}" width="20" />
             </a>
@@ -78,31 +78,33 @@
                         {% if app_proy_cambia_solicitud %}
                         <td>
                             {% if not e.estatus_solicitud == 99 %}
+                            {% if app_proy_cambia_solicitud %}
                             <a href="{% url 'sol_editada' e.id py.id %}" class="btn btn-info" title="Edita solicitud">
                                 <img src="{% static 'core/img/editar.svg' %}" width="20" />
                             </a>
+                            {% endif %}
                             {% endif %}
                         </td>
                         {% endif %}
                         {% else %}
                         <td></td>
                         {% endif %}
-                        {% if app_proy_cancela_solicitud %}
                         {% if e.estatus_solicitud == 99 %}
+                        {% if app_proy_cancela_solicitud %}
                         <td>
                             <button class="btn btn-info" onclick="recuperaSol('{{ e.id }}')" title="Recupera solicitud">
                                 <img src="{% static 'core/img/recupera.svg' %}" width="20" />
                             </button>
                         </td>
+                        {% endif %}
                         {% else %}
+                        {% if app_proy_cancela_solicitud %}
                         <td>
                             <button class="btn btn-danger" onclick="cancelaSol('{{ e.id }}')" title="Cancela solicitud">
                                 <img src="{% static 'core/img/cancelar.svg' %}" width="20" />
                             </button>
                         </td>
                         {% endif %}
-                        {% else %}
-                        <td></td>
                         {% endif %}
                         <td>
                             {% if e.modo_pago == 2 or e.modo_pago == 4 %}

@@ -39,7 +39,7 @@ class nvo_cliente(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(nvo_cliente, self).get_context_data(**kwargs)
         context['accion'] = "Alta"
-#        context["administrador"] = administrador(self.request.user.id)
+        context["administrador"] = administrador(self.request.user.id)
         return context
     def form_valid(self, form):
         try:
@@ -57,5 +57,5 @@ class mod_cliente(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(mod_cliente, self).get_context_data(**kwargs)
         context['accion'] = "Modifica"
- #       context["administrador"] = administrador(self.request.user.id)
+        context["administrador"] = administrador(self.request.user.id)
         return context

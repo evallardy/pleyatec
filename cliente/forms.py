@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import DateField, ModelForm, widgets
+from django.core.validators import validate_email
 
-from core.funciones import valida_correo
 from .models import Cliente
 from bootstrap_datepicker_plus  import  DatePickerInput ,  TimePickerInput 
 
@@ -66,6 +66,7 @@ class ClienteForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super(ClienteForm, self).__init__(*args, **kwargs)
+        self.fields['nombre'].required = False
         self.fields['materno'].required = False
         self.fields['rfc'].required = False
         self.fields['curp'].required = False
@@ -77,13 +78,47 @@ class ClienteForm(forms.ModelForm):
         self.fields['nombre_conyuge'].required = False
         self.fields['paterno_conyuge'].required = False
         self.fields['materno_conyuge'].required = False
-        self.fields['correo'].required = True
+        self.fields['correo'].required = False
 
     def clean_correo(self):
         correo = self.cleaned_data.get('correo')
-#        if len(correo) != 0:
-#            if valida_correo(correo):
-#                raise forms.ValidationError('Correo inválido')
-#        else:
-#            raise forms.ValidationError('Tecleé correo cliente')
+        if not correo or correo.strip() == "":
+            raise forms.ValidationError('Teclee un correo')
+        else:
+            try:
+                validate_email(correo)
+            except forms.ValidationError:
+                raise forms.ValidationError('El correo es inválido')
         return correo
+
+    def clean_razon(self):
+        razon = self.cleaned_data.get('razon')
+        tipo_cliente = self.cleaned_data.get('tipo_cliente')
+        if tipo_cliente == 0:
+            razon = ""
+        else:
+            if not razon or razon.strip() == "":
+                raise forms.ValidationError('Tecleé la razón social')
+        return razon
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get('nombre')
+        if not nombre or nombre.strip() == "":
+            raise forms.ValidationError('Tecleé nombre')
+        return nombre
+
+    def clean_paterno(self):
+        paterno = self.cleaned_data.get('paterno')
+        if not paterno or paterno.strip() == "":
+            raise forms.ValidationError('Tecleé paterno')
+        return paterno
+
+    def clean_celular(self):
+        celular = self.cleaned_data.get('celular')
+        if not celular or celular.strip() == "":
+            raise forms.ValidationError('Tecleé el número de celular')            
+        else:
+            celular1 = celular.replace('-', '').replace(' ', '')
+            if len(celular1) < 10:
+                raise forms.ValidationError('El número de celular debe tener al menos 10 dígitos numéricos')
+        return celular

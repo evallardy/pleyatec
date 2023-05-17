@@ -5,7 +5,6 @@ import decimal
 from django.forms.widgets import NumberInput
 from django.core.validators import validate_email
 
-from core.funciones import valida_correo
 from .models import *
 import re
 

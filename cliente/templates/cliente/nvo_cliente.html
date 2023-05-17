@@ -30,7 +30,8 @@
                                 {{ form.razon|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="row" id="lbl_representante" style="text-align: center; font-weight: bold;">
+                        <br>
+                        <div class="row" id="lbl_representante" style="text-align: left; font-weight: bold;">
                             <label class="col-md-12">Representante legal</label>
                         </div>
                         <div class="row">
@@ -123,6 +124,7 @@
     function tipoCliente() {
         if ($("#id_tipo_cliente").val() == "0") {
             $("#gpo_razon").hide();
+            $("#id_razon").val("");
             $("#lbl_representante").hide();
             $("label[for='id_rfc']").text("RFC");
         } else {
@@ -137,20 +139,20 @@
         tipoCliente();
         {% if accion == "Alta" %}
         $("#id_asesor").val("{{id_empleado}}")
+        $("#id_razon").val("");
         {% endif %}
         {% if administrador %}
         $("#bloque_asesor").show()
         {% else %}
         $("#bloque_asesor").hide()
         {% endif %}
+        if ($("#id_razon").val() == "None") {
+            $("#id_razon").val("");
+        }
         // Cuando cambia tipo de cliente 0
         $("#id_tipo_cliente").on("change", function () {
             tipoCliente()
         });
-        //        function guarda() {
-        //            aviso("Aviso","Guardado exitosamente");
-        //            return true;
-        //        }
     });
     {% endblock %}
 </script>

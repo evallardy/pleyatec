@@ -252,30 +252,3 @@ def comisiones_proyecto_asesor(asesor):
             'comision': comision,
         })
     return datos
-
-from collections import Counter
-
-def valida_correo(correo):
-    counter = Counter(correo)
-    arrobas = counter['@']
-    espacios = counter[' ']
-    if arrobas != 1 or espacios != 0:
-        return False
-    else:
-        posicion_arroba = correo.index("@")
-        antes_arroba = correo[ 0: posicion_arroba ]
-        despues_arroba = correo[ posicion_arroba + 1 :  ]
-        counter = Counter(despues_arroba)
-        punto = counter['.']
-        if punto > 0:
-            posicion_punto = despues_arroba.index(".")
-            antes_punto = despues_arroba[ 0: posicion_punto ]
-            despues_punto = despues_arroba[ posicion_punto + 1 :  ]
-            if len(antes_arroba) != 0 and len(antes_punto) != 0 and len(despues_punto) != 0:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    
