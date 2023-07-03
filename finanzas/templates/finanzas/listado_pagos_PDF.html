@@ -80,24 +80,20 @@
             </table>
             {% endfor %}
             <div style="text-align: center;" class="container">
-                <h1>Listado de pagos</h1>
+                <label style="font-size: 22px; font-weight: bold;">{{nom_proyecto}}</label><br>
+                <label style="font-size: 22px; font-weight: bold;">Listado de pagos</label><br>
             </div>
             {% for x in solicitud %}
-            <table style="padding: 3px 3px 0px 0px; text-align: right;">
-                <tr style="font-size: 22px; font-weight: bold;">
-                    <td style="width: 140px;"><label>Contrato {{ x.num_contrato }}</label></td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;"> </td>
-                    <td style="text-align: left;">{{ x.cliente }}</td>
-                    <td></td>
-                    <td style="font-weight: bold;">Fecha: {{ hoy }}</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;"> </td>
-                    <td style="text-align: left;">{{ x.lote }}</td>
-                </tr>
-            </table>
+            <div style="width: 600px;"> 
+                <label style="font-size: 22px; font-weight: bold;">Contrato {{ x.num_contrato }}</label>
+            </div>
+            <div style="text-align: right;">
+                <label for="" style="font-weight: bold;">Fecha: {{ hoy }}</label>
+            </div>
+            <div>
+                <label style="text-align: left; font-size: 16px; font-weight: bold;">{{ x.cliente.nombre_completo }}</label><br>
+                <label style="text-align: left; font-size: 16px; font-weight: bold;">{{ x.lote.lote_des }}</label>
+            </div>
             <hr>
             <table style="padding: 3px 3px 0px 0px; text-align: right;">
                 <tr>

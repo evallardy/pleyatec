@@ -195,7 +195,6 @@ class Nuvole_SolicitudForm(forms.ModelForm):
             cleaned_data['credito'] = credito.replace(',', '')
         return cleaned_data
 
-
     def clean_celular(self):
         cliente = self.cleaned_data.get('cliente', '' )
         celular = self.cleaned_data.get('celular', '' )

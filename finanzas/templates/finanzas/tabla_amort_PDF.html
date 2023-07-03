@@ -80,21 +80,15 @@
             </table>
             {% endfor %}
             {% for x in datos.titulo %}
-            <table style="padding: 3px 3px 0px 0px; text-align: right;">
-                <tr style="font-size: 22px; font-weight: bold;">
-                    <td style="width: 140px;"><label>Solicitud {{ solicitud.pk }}</label></td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;">Cliente: </td>
-                    <td style="text-align: left;">{{ solicitud.cliente }}</td>
-                    <td></td>
-                    <td style="font-weight: bold;">Fecha: {{ hoy }}</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;">Lote: </td>
-                    <td style="text-align: left;">{{ solicitud.lote }}</td>
-                </tr>
-            </table>
+            <div style="text-align: center; font-weight: bold; font-size: 22px;">
+                <label>{{ solicitud.lote.proyecto.nombre }}</label><br>
+            </div>
+            <label style="font-size: 22px; font-weight: bold;">Solicitud {{ solicitud.pk }}</label><br>
+            <div style="text-align: right;">
+                <label style="font-weight: bold;">Fecha: {{ hoy }}</label><br>
+            </div>
+            <label style="font-weight: bold;">Cliente :  {{ solicitud.cliente.nombre_completo }}</label><br>
+            <label style="font-weight: bold;">{{solicitud.lote.proyecto.singular}} :  {{ solicitud.lote.lote_des }}</label>
             <hr>
             <table style="padding: 3px 3px 0px 0px; text-align: right;">
                 <tr>

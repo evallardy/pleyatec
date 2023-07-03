@@ -11,17 +11,27 @@
 {% for py in proyecto_tb %}
 <div class="col-12 d-flex justify-content-center">
     <div class="mapa col-4">
-        <label class="encabezados">Datos pago</label>
-        <hr class="mt-0 mb-12">
-        <div class="col-12">
+        <div>
+            <label class="encabezados">{{py.nombre}}</label><br>
             <a class="btn btn-info" href="{% url 'estado_cuenta' sol py.id %}" title="Regresar a la pantalla anterior">
                 <img src="{% static 'core/img/regresar.svg' %}" width="20" />
             </a>
-            <div class="wrapper fadeInDown">
+        </div>
+        <div style="text-align: center;">
+            <label style="font-size: 22px; font-weight: bold;">Datos pago</label>
+        </div>
+        <div class="col-12">
+            <div>
                 <br>
                 <div id="formContent">
                     <form action="" method="POST" enctype="multipart/form-data" onkeypress="return anular(event)">
                         {% csrf_token %}
+                        <div>
+                            <label style="font-size: 16px; font-weight: bold;">Contrato {{ reg_pagos.convenio.num_contrato }}</label><br>
+                            <label style="font-size: 16px; font-weight: bold;">Cliente: {{ reg_pagos.convenio.cliente.nombre_completo }}</label><br>
+                            <label style="font-size: 16px; font-weight: bold;">{{ reg_pagos.convenio.lote.proyecto.singular }}: {{ reg_pagos.convenio.lote.lote_des }}</label><br>
+                            <label style="font-size: 16px; font-weight: bold;">Número de pago: {{ reg_pagos.numero_pago }}</label>
+                        </div>
                         <div class="row">
                             <label class="sub-titulo">Compromiso</label>
                         </div>

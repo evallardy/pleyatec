@@ -4,41 +4,41 @@
 {% endblock %}
 {% block contenido %}
 {% for py in proyecto %}
-{% if app_proy_acceso %} 
+{% if app_proy_acceso %}
 <div class="col-12 d-flex justify-content-center">
     <div class="mapa">
         <div class="encabezados">
             <label>{{ py.nombre }}</label>
         </div>
         <div class="btn-group">
-            {% if nuvole_acceso %}
+            {% if torre_vento_acceso %}
             <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
             {% endif %}
-            {% if nuvole_ver %}
+            {% if torre_vento_ver %}
             <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
             {% endif %}
-            {% if nuvole_ver_solicitud %}
+            {% if torre_vento_ver_solicitud %}
             <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
             {% endif %}
-            {% if nuvole_autoriza_visualiza %}
+            {% if torre_vento_autoriza_visualiza %}
             <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
             {% endif %}
-            {% if nuvole_compromiso %}
+            {% if torre_vento_compromiso %}
             <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
             {% endif %}
-            {% if nuvole_contratar %}
+            {% if torre_vento_contratar %}
             <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
             {% endif %}
-            {% if nuvole_listado_registro_mensual %}
+            {% if torre_vento_listado_registro_mensual %}
             <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
             {% endif %}
-            {% if nuvole_consulta_archivo %}
+            {% if torre_vento_consulta_archivo %}
             <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
             {% endif %}
-            {% if nuvole_creditos %}
+            {% if torre_vento_creditos %}
             <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
             {% endif %}
-            {% if nuvole_contados %}
+            {% if torre_vento_contados %}
             <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
             {% endif %}
         </div>
@@ -72,50 +72,58 @@
     {% endfor %}
 </div>
 <div class="position-relative d-flex justify-content-center">
-    <div class="position-relative d-flex justify-content-center">
-        <img src="{% static 'core/img/plano2022.jpg' %}" class="position-absolute mapa" alt="Descripción de la imagen"
-            style="height: 420px; width: 700; border-radius: 20px;">
-    </div>
-    <div class="position-relative d-flex justify-content-center">
-        <svg class="position-absolute custom-class" width="600" height="600" style="left:-310px; top: 14px;">
-            {% for e in object_list %}
-            {% if e.estatus_lote != 9 %}
-            <polygon points="{{e.coordenadas}}" onclick="funciona()" style="position: absolute;" class="
-        {% if e.estatus_lote == 1 %}
-            loteDisponible
-        {% elif e.estatus_lote == 2 %}
-            loteApartado
-        {% elif e.estatus_lote == 3 %}
-            loteVendido
-        {% elif e.estatus_lote == 4 %}
-            loteReservado
-        {% else %}
+    <div class="mapa col-5">
+        <div class="position-relative d-flex justify-content-center">
+            <div class="position-relative d-flex justify-content-center">
+                <div class="btn-group" >
+                    <a href="" class="btn btn-primary {{nivel_0}}">Edificios</a>
+                    <a href="" class="btn btn-primary {{nivel_1}}">Torre Poniente</a>
+                    <a href="" class="btn btn-primary {{nivel_2}}">Torre Centro</a>
+                    <a href="" class="btn btn-primary {{nivel_3}}">Torre Oriente</a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="position-relative d-flex justify-content-center" id="niveles">
+            <div class="position-relative d-flex justify-content-center">
+                <div class="btn-group" >
+                    <a href="" class="btn btn-primary {{nivel_0}}">Nivel 1</a>
+                    <a href="" class="btn btn-primary {{nivel_1}}">Nivel 2</a>
+                    <a href="" class="btn btn-primary {{nivel_2}}">Nivel 3</a>
+                    <a href="" class="btn btn-primary {{nivel_3}}">Nivel 4</a>
+                </div>
+            </div>
+        </div>
+        <div class="position-relative d-flex justify-content-center">
+            <div class="position-relative d-flex justify-content-center">
+                <div style="height: 520px; width: 640px; background-color: white;" class="mapa">
+                    {% if nivel == '0' %}
 
-        {% endif %} 
-        ">
-                <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
-            </polygon>
-            <circle cx="{{e.posicion_circulo_x}}" cy="{{e.posicion_circulo_y}}" r="5" fill="white"
-                style="cursor: pointer;">
-                <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
-            </circle>
-            <text x="{{e.posicion_x}}" y="{{e.posicion_y}}"
-                style="font-size: 4px; font-weight: bold; cursor: pointer;">{{e.lote}}
-                <title>{{e.lote}} {{e.total}} m² - ${{e.precio}}</title>
-            </text>
-            {% endif %}
-            {% endfor %}
-        </svg>
+                    {% elif nivel == '1' %}
+
+                    {% else %}
+
+                    {% endif %}
+                    <svg style="position: absolute; width: 800px; height: 640px;" id="plano">
+                        {% for e in object_list %}
+                        {% if e.estatus_lote != 9 %}
+
+                        {% endif %}
+                        {% endfor %}
+                    </svg>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endif %}
 {% endfor %}
 {% endblock %}
 <script>
-    {% block bljs %}
     $(document).ready(function () {
+        {% block inicio %}
         opcion = "#" + "{{ menu }}";
         $(opcion).addClass('active');
+        {% endblock %}
     });
-    {% endblock %}
 </script>

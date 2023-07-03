@@ -12,6 +12,9 @@
 {% for py in proyecto_tb %}
 <div class="col-12 d-flex justify-content-center">
     <div class="mapa col-7">
+        <div class="encabezados">
+            <label>{{ solicitud.lote.proyecto.nombre }}</label>
+        </div>
         <label class="encabezados">Estado de cuenta</label>
         {% if app_proy_imp_estado_cuenta %}
         <a class="btn btn-info" href="{% url 'estado_cuenta_PDF' id %}" target="_blank"
@@ -20,7 +23,11 @@
         </a>
         {% endif %}
         <br>
-        <label class="encabezados">{{ solicitud.titulo_bien }}</label>
+        <strong>
+        <label >Contrato {{ solicitud.num_contrato }}</label><br>
+        <label >Cliente :  {{ solicitud.cliente.nombre_completo }}</label><br>
+        <label >{{solicitud.lote.proyecto.singular}} :  {{ solicitud.lote.lote_des }}</label><br>
+        </strong>
         <br>
         <div class="col-12">
             <a class="btn btn-info" href="{% url 'pagar' py.id %}" title="Regresar a la pantalla anterior">

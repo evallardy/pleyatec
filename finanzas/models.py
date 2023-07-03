@@ -184,6 +184,22 @@ class Pago(models.Model, PermissionRequiredMixin):
                     ('condom_multiple_vobo_comisiones', 'Condominio Múltiple vobo comisiones'),
                     ('condom_multiple_archivar_credito', 'Condominio Múltiple archivar crédito'),
                     ('condom_multiple_archivar_comprobantes', 'Condominio Múltiple archivar todos los comprobantes'),
+            # Nuvole 2
+                    ('nuvole2_listado_registro_mensual', 'Nuvole 2 listado registro mensualidades'),
+                    ('nuvole2_estado_cuenta', 'Nuvole 2 Mostrar estado de cuenta'),
+                    ('nuvole2_cap_dep_mensual', 'Nuvole 2 capturar depósito mensualidad'),
+                    ('nuvole2_imp_estado_cuenta', 'Nuvole 2 imprime estado de cuenta'),
+                    ('nuvole2_imprime_comprob_mensual', 'Nuvole 2 imprimir comprobante de mensual'),
+                    ('nuvole2_confirma_deposito_mensual', 'Nuvole 2 Confirma depósito mensualidad'),
+                    ('nuvole2_confirma_deposito_pago', 'Nuvole 2 Confirma depósito pago'),
+                    ('nuvole2_ver_comisiones', 'Nuvole 2 ver comisiones'),
+                    ('nuvole2_edita_comisiones_proyecto', 'Nuvole 2 edita comisiones proyecto'),
+                    ('nuvole2_pago_normal_comisiones', 'Nuvole 2 pago normal comisiones'),
+                    ('nuvole2_pago_extemp_comisiones', 'Nuvole 2 pago extemp comisiones'),
+                    ('nuvole2_consulta_comisiones', 'Nuvole 2 consulta comisiones'),
+                    ('nuvole2_vobo_comisiones', 'Nuvole 2 vobo comisiones'),
+                    ('nuvole2_archivar_credito', 'Nuvole 2 archivar crédito'),
+                    ('nuvole2_archivar_comprobantes', 'Nuvole 2 archivar todos los comprobantes'),
                     )
 
     def __str__(self):   

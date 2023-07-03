@@ -120,18 +120,21 @@
                 {% if comp.pago == 'total' %}
                 {% if solicitud.modo_pago == 1 or solicitud.modo_pago == 3 %}
                 <td>
-                    Pago total del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                    Pago total en {{ solicitud.lote.proyecto.nombre }}, {{solicitud.lote.proyecto.singular}} 
+                    {{ solicitud.lote.lote_des}} 
                 </td>
                 {% else %}
                 <td style="width: 600px; height: 45px;">
                     <textarea rows="2">
-                    Pago total del enganche del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                    Pago total del enganche en {{ solicitud.lote.proyecto.nombre }}, {{solicitud.lote.proyecto.singular}} 
+                    {{ solicitud.lote.lote_des}} 
                     </textarea>
                 </td>
                 {% endif %}
                 {% else %}
                 <td>
-                    Apartado del {{ solicitud.lote }}, del proyecto: {{ solicitud.lote.proyecto }}
+                    Apartado en {{ solicitud.lote.proyecto.nombre }}, {{solicitud.lote.proyecto.singular}} 
+                    {{ solicitud.lote.lote_des}} 
                 </td>
                 {% endif %}
             </tr>
@@ -149,13 +152,13 @@
                 <td style="text-align: center;">________________________________</td>
             </tr>
             <tr class="renglon-normal" style="width: 100%;">
-                <td style="text-align: center;">Arturo Domíngez Ruíz</td>
+                <td style="text-align: center;"></td>
             </tr>
             <tr style="border-bottom-color: black; border-bottom-style: solid;
                        border-left-color: black; border-left-style: solid; 
                        border-right-color: black; border-right-style: solid;
                        height: 20px; ">
-                <td style="text-align: center;">Director de Desarrollo</td>
+                <td style="text-align: center;"></td>
             </tr>
         </table>
     </div>

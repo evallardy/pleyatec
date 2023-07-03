@@ -26,6 +26,15 @@ AREA_OPERATIVA = (
     (2, 'Finanzas'),
     (3, 'Ventas'),
 )
+BANOS = (
+    (0, '1 Baño'),
+    (1, '1 1/2 Baños'),
+    (2, '2 Baños'),
+    (3, '2 1/2 Baños'),
+    (4, '3 Baños'),
+    (5, '3 1/2 Baños'),
+    (6, '4 Baños'),
+)
 ESQUINA_SI = (
     (0, 'No'),
     (1, 'Si'),

@@ -67,7 +67,7 @@
                     {% for e in object_list %}
                     <tr class="datos-tabla">
                         <td style="text-align: center;">{{ e.id }}</td>
-                        <td>{{ e.lote }}</td>
+                        <td>{{ e.lote.lote_des }}</td>
                         <td>{{ e.asesor }}</td>
                         <td style="text-align: center;">{{ e.get_modo_pago_display }}</td>
                         <td style="text-align: right;">{{ e.precio_final }}</td>

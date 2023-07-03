@@ -443,6 +443,7 @@ class mod_pago(UpdateView):
         context['numero_comprobante'] = tabla1[0].numero_comprobante
         context['pagado_vencido'] = tabla1[0].pagado_vencido
         context['num_proyecto'] = num_proyecto
+        context['reg_pagos'] = Pago.objects.filter(id=pk).first()
 # Captura comprobante mensual
         des_permiso = '_cap_dep_mensual'
         variable_proy = nom_proy + des_permiso
@@ -739,6 +740,7 @@ class lista_pagos_PDF(View):
             titulo = Titulo.objects.filter(id=1)
             hoy = fecha_hoy()
             empresa = trae_empresa(1)
+            context['nom_proyecto'] = proyecto_tb[0].nombre
             context['solicitud'] = solicitud
             context['datos'] = datos
             context['menu'] = "solicitud"

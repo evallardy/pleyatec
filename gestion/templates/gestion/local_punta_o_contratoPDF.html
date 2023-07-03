@@ -83,7 +83,7 @@
         CONTRATO DE COMPRAVENTA NUMERO <label>"{{ comp.num_contrato }}"</label>,
         SUJETO A CONDICIÓN SUSPENSIVA, QUE CELEBRAN, POR UNA PARTE, LA PERSONA MORAL DENOMINADA
         PLEYATEC S.A. DE C.V., REPRESENTADA EN ESTE ACTO POR ARTURO DOMÍNGUEZ RUÍZ, A QUIÉN EN
-        LO SUCESIVO SE LE DENOMINARÁ "EL VENDEDOR", Y POR OTRA PARTE {{ solicitud.cliente|upper }},
+        LO SUCESIVO SE LE DENOMINARÁ "EL VENDEDOR", Y POR OTRA PARTE {{ solicitud.cliente.nombre_completo|upper }},
         A QUIEN EN LO SUCESIVO SE DENOMINARÁ "EL COMPRADOR", DANDO FORMALIDAD AL PRESENTE
         MEDIANTE LOS ANTECEDENTES Y CLÁUSULAS SIGUIENTES:
     </p>
@@ -658,7 +658,7 @@
         </tr>
         <tr>
             <td style="text-align: center;"><label>ARTURO DOMÍNGUEZ RUÍZ</label></td>
-            <td style="text-align: center;"><label>{{ solicitud.cliente }}</label></td>
+            <td style="text-align: center;"><label>{{ solicitud.cliente.nombre_completo }}</label></td>
         </tr>
         <tr>
             <td style="text-align: center;"><label>APODERADO LEGAL</label></td>

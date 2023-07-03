@@ -56,24 +56,14 @@
                 <input type="text" value="{{ s.foto_comprobante_pago_adicional }}" id="foto_comprobante_pago_adicional"
                     hidden>
                 <div id="formContent">
-                    <div class="row col-md-6 mb-0">
-                        <label for="asesor">Cliente</label>
+                    <div class="row">
+                        <strong>
+                        <label >Cliente :  {{ s.cliente.nombre_completo }}</label><br>
+                        <label >{{s.lote.proyecto.singular}} :  {{ s.lote.lote_des }}</label><br>
+                        <label >Asesor :  {{ s.asesor.nombre_completo }}</label><br>
+                        </strong>
                     </div>
-                    <div class="row form-control  col-md-6 mb-0">
-                        {{ s.cliente}}
-                    </div>
-                    <div class="row col-md-6 mb-0">
-                        <label for="asesor">Bien</label>
-                    </div>
-                    <div class="row form-control  col-md-6 mb-0">
-                        {{ s.lote}}
-                    </div>
-                    <div class="row col-md-6 mb-0">
-                        <label for="asesor">Asesor</label>
-                    </div>
-                    <div class="row form-control  col-md-6 mb-0">
-                        {{ s.asesor}}
-                    </div>
+                    <hr>
                     <div class="row">
                         <div class="form-group col-md-3 mb-0">
                             <label>Precio</label>

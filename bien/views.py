@@ -87,14 +87,11 @@ class nuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
-        
 # Contador de estados de los lotes
         bienes = Lote.objects.filter(proyecto_id=num_proyecto).values('estatus_lote').annotate(total=Count('id'))
         context["bienes"] = bienes
-
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
         context['menu'] = "menuMapa"
-
         return context
     def get_queryset(self):
         num_proyecto = self.kwargs.get('py',0)
@@ -116,6 +113,9 @@ class toscana(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 #        num_proyecto = self.kwargs.get('py',0)
         proyecto = Proyecto.objects.filter(id=num_proyecto)
         nom_proy = proyecto[0].nom_proy
+# Contador de estados de los lotes
+        bienes = Lote.objects.filter(proyecto_id=num_proyecto).values('estatus_lote').annotate(total=Count('id'))
+        context["bienes"] = bienes        
 #  Acceso Toscana
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
@@ -128,18 +128,18 @@ class toscana(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['menu'] = "menuMapa"
         nivel = self.kwargs['nivel']
         context['nivel'] = nivel
-        if nivel == '1':
+        if nivel == '0':
+            context['nivel_0'] = "active"
+            context['nivel_1'] = ""
+            context['nivel_2'] = ""
+        elif nivel == '1':
+            context['nivel_0'] = ""
             context['nivel_1'] = "active"
             context['nivel_2'] = ""
-            context['nivel_3'] = ""
-        elif nivel == '2':
+        else:
+            context['nivel_2'] = ""
             context['nivel_1'] = ""
             context['nivel_2'] = "active"
-            context['nivel_3'] = ""
-        else:
-            context['nivel_1'] = ""
-            context['nivel_2'] = ""
-            context['nivel_3'] = "active"
 #  Menu opcion mapa Toscana
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
@@ -213,7 +213,7 @@ class plazapuntaoriente(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         nom_proy = proyecto[0].nom_proy
         context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
         context['menu'] = "menuMapa"
-#  Acceso local punta opriente
+#  Acceso local punta oriente
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
         permiso_str = "bien." + variable_proy
@@ -289,12 +289,20 @@ class plazapuntaoriente(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 class torrevento(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'bien.torre_vento_acceso'
-    template_name = 'bien/nuvole.html'  
+    template_name = 'bien/torrevento.html'  
     def get_context_data(self, **kwargs):
         context = super(torrevento, self).get_context_data(**kwargs)
-        context["proyecto"] = Proyecto.objects.filter(id=1)
+        num_proyecto = self.kwargs['py']
+        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
         context['menu'] = "menuMapa"
         nom_proy = 'torre_vento'
+#  Acceso torre vento
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'app_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion mapa
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
@@ -356,6 +364,9 @@ class torrevento(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         permiso_str = "gestion." + variable_proy
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_proy] = acceso
+# Contador de estados de los lotes
+        bienes = Lote.objects.filter(proyecto_id=num_proyecto).values('estatus_lote').annotate(total=Count('id'))
+        context["bienes"] = bienes
         return context
     def get_queryset(self):
         queryset = Lote.objects.filter(proyecto_id=1)

@@ -79,25 +79,19 @@
                 </tr>
             </table>
             {% endfor %}
-            <div style="text-align: center;" class="container">
-                <h1>Estado de cuenta</h1>
-            </div>
             {% for x in solicitud %}
-            <table style="padding: 3px 3px 0px 0px; text-align: right;">
-                <tr style="font-size: 22px; font-weight: bold;">
-                    <td style="width: 140px;"><label>Contrato {{ x.num_contrato }}</label></td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;">Cliente: </td>
-                    <td style="text-align: left;">{{ x.cliente }}</td>
-                    <td></td>
-                    <td style="font-weight: bold;">Fecha: {{ hoy }}</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;">{{ py.singular }}: </td>
-                    <td style="text-align: left;">{{ x.lote }}</td>
-                </tr>
-            </table>
+            <div style="text-align: center;" class="container">
+                <label style="font-size: 22px; font-weight: bold;">{{x.lote.proyecto.nombre}}</label><br>
+                <label style="font-size: 22px; font-weight: bold;">Estado de cuenta</label>
+            </div>
+            <div style="text-align: right;">
+                <label style="font-size: 16px; font-weight: bold;">Fecha: {{ hoy }}</label><br>
+            </div>
+            <div>
+                <label style="font-size: 16px; font-weight: bold;">Contrato {{ x.num_contrato }}</label><br>
+                <label style="font-size: 16px; font-weight: bold;">Cliente: {{ x.cliente.nombre_completo }}</label><br>
+                <label style="font-size: 16px; font-weight: bold;">{{ x.lote.proyecto.singular }}: {{ x.lote.lote_des }}</label>
+            </div>
             <hr>
             <table style="padding: 3px 3px 0px 0px; text-align: right;">
                 <tr>

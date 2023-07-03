@@ -294,6 +294,27 @@ class Solicitud(models.Model, PermissionRequiredMixin):
                         ('condom_multiple_consulta_archivo', 'Condominio Múltiple Consultar el histórico de solicitudes'),
                         ('condom_multiple_creditos', 'Condominio Múltiple Consulta contratos a crédito'),
                         ('condom_multiple_contados', 'Condominio Múltiple Consulta contratos de contado'),
+            # Nuvole 2
+                        ('nuvole2_ver_solicitud', 'Nuvole 2 Listado ver solicitudes'),
+                        ('nuvole2_add_solicitud', 'Nuvole 2 agrega solicitud'),
+                        ('nuvole2_cambia_solicitud', 'Nuvole 2 cambia solicitud'),
+                        ('nuvole2_cancela_solicitud', 'Nuvole 2 cancela solicitud'),
+                        ('nuvole2_asigna_descto', 'Nuvole 2 asigna descto solicitud'),
+                        ('nuvole2_amortizac', 'Nuvole 2 Listado de amortización'),
+                        ('nuvole2_imprime_amortizac', 'Nuvole 2 Imprime listado de amortización'),
+                        ('nuvole2_autoriza_visualiza', 'Nuvole 2 Ver autorizaciones'),
+                        ('nuvole2_autoriza_venta', 'Nuvole 2 Autoriza solicitud por Gerente ventas'),
+                        ('nuvole2_autoriza_desarrollo', 'Nuvole 2 Autoriza solicitud por Director Desarrollo'),
+                        ('nuvole2_compromiso', 'Nuvole 2 Realiza compromiso de compra'),
+                        ('nuvole2_pago_compromiso', 'Nuvole 2 Realizar pago compromiso'),
+                        ('nuvole2_imp_pago_compromiso', 'Nuvole 2 imprime pago compromiso'),
+                        ('nuvole2_contratar', 'Nuvole 2 Generar contrato'),
+                        ('nuvole2_datos_contrato', 'Nuvole 2 Incluir datos al contrato'),
+                        ('nuvole2_imprime_contrato', 'Nuvole 2 Impresión de contrato'),
+                        ('nuvole2_archivar_contrato', 'Nuvole 2 Archivar contrato'),
+                        ('nuvole2_consulta_archivo', 'Nuvole 2 Consultar el histórico de solicitudes'),
+                        ('nuvole2_creditos', 'Nuvole 2 Consulta contratos a crédito'),
+                        ('nuvole2_contados', 'Nuvole 2 Consulta contratos de contado'),
             )
 
     def __str__(self):   

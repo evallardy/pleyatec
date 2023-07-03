@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import models
+
 from core.models import *
 from empleado.models import Empleado
 
@@ -29,6 +30,7 @@ class Proyecto(models.Model):
         ordering = ['id']
         db_table = 'Proyecto'
         permissions = (
+            #Accesos
                        ('nuvole_acceso', 'Nuvole Acceso'),
                        ('toscana_acceso', 'Toscana Acceso'),
                        ('local_punta_o_acceso', 'Local Punta O Acceso'),
@@ -38,6 +40,8 @@ class Proyecto(models.Model):
                        ('vivienda_nuvole_acceso', 'Vivienda Nuvole Acceso'),
                        ('monte_cristallo_acceso', 'Monte cristallo Acceso'),
                        ('condom_multiple_acceso', 'Condominio Múltiple Acceso'),
+                       ('nuvole2_acceso', 'Nuvole 2 Acceso'),
+            #Comisiones                       
                        ('comision_proyectos', 'Comisiones por proyecto'),
                        )
 
@@ -61,6 +65,7 @@ class Lote(models.Model, PermissionRequiredMixin):
     obs_irregular = models.CharField("Medidas",max_length=250, blank=True, null=True)
     fondo = models.DecimalField("Fondo", decimal_places=2, max_digits=10,default=0)
     frente = models.DecimalField("Frente", decimal_places=2, max_digits=10,default=0)
+    area = models.DecimalField("Area", decimal_places=2, max_digits=10,default=0)
     total = models.DecimalField("Area", decimal_places=2, max_digits=10,default=0)
     precio_x_mt = models.DecimalField("Precio por m²", decimal_places=2, max_digits=10, default=0)
     precio = models.DecimalField("Precio", decimal_places=2, max_digits=10, default=0.00)
@@ -85,6 +90,8 @@ class Lote(models.Model, PermissionRequiredMixin):
     posicion_circulo_x = models.IntegerField("Posición X circulo", default=0)
     posicion_circulo_y = models.IntegerField("Posición Y circulo", default=0)
     estacionamientos = models.IntegerField("Estacionamientos", default=0)
+    habitacion = models.IntegerField("Habitaciones", default=0)
+    bano = models.IntegerField("Baño(s)", choices=BANOS, default=0)
     bien_anexo = models.CharField('Anexo del bien', max_length=12, null=True, blank=True)
     gpo_lote = models.CharField('Grupo de bienes', max_length=12, null=True, blank=True)
     reciente = models.IntegerField('Ultimos lotes', default=0)
@@ -95,8 +102,8 @@ class Lote(models.Model, PermissionRequiredMixin):
     class Meta:
         verbose_name = 'Lote'
         verbose_name_plural = 'Lotes'
-        ordering = ['proyecto','lote']
-        unique_together= (('proyecto','fase','manzana','lote'),)
+        ordering = ['proyecto', 'gpo_lote', 'nivel', 'lote']
+        unique_together= (('proyecto','fase','manzana', 'gpo_lote', 'lote'),)
         db_table = 'Lote'
         permissions = (
             #  Nuvole
@@ -144,26 +151,41 @@ class Lote(models.Model, PermissionRequiredMixin):
                        ('condom_multiple_add', 'Condominio Múltiple agregar bien'),
                        ('condom_multiple_chag', 'Condominio Múltiple cambiar bien'),
                        ('condom_multiple_reservar', 'Condominio Múltiple reservar bien'),
+            #  Nuvole 2
+                       ('nuvole2_ver', 'Nuvole 2 ver bienes'),
+                       ('nuvole2_add', 'Nuvole 2 agregar bien'),
+                       ('nuvole2_chag', 'Nuvole 2 cambiar bien'),
+                       ('nuvole2_reservar', 'Nuvole 2 reservar bien'),
         )
 
     def __str__(self):   # para poner los nombre en los renglones
-        if self.proyecto.app == 'nuvole':
-            return '%s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
+        if self.proyecto.app == 'nuvole' or self.proyecto.app == 'nuvole2':
+            return '%s,  %s Manzana: %s, de la Fase: %s' % (self.proyecto.nombre, self.lote, self.manzana, self.fase)
         elif self.proyecto.app == 'toscana':
-            if self.nivel == 0:
+            if self.nivel == 0: 
                 s_nivel = "PB"
             else:
                 s_nivel = self.nivel
             if self.terraza == 0:
-                return '%s nivel: %s' % (self.lote, s_nivel)
+                return '%s, nivel: %s - %s ' % (self.proyecto.nombre, s_nivel, self.lote)
             else:
-                return '%s Terraza m²: %s nivel: %s' % (self.lote, self.terraza, s_nivel)
+                return '%s, nivel: %s - %s Terraza m²: %s' % (self.proyecto.nombre, s_nivel, self.lote, self.terraza, )
         elif self.proyecto.app == 'plazapuntaoriente':
             if self.nivel == 0:
                 s_nivel = "PB"
             else:
                 s_nivel = self.nivel
-            return '%s nivel: %s' % (self.lote, s_nivel)
+            return '%s, %s nivel: %s' % (self.proyecto.nombre, self.lote, s_nivel)
+        elif self.proyecto.app == 'torrevento':
+            return '%s, Torre %s nivel: %s - %s' % (self.proyecto.nombre, self.gpo_lote, self.nivel, self.lote)
+        elif self.proyecto.app == 'montecristallo':
+            if self.manzana == 1:
+                casa = 'Gaudi'
+            else:
+                casa = 'Zaha'
+            return '%s, Casa %s - %s' % (self.proyecto.nombre, self.lote, casa)
+        elif self.proyecto.app == 'portosanto':
+            return '%s,  Manzana: %s - %s' % (self.proyecto.nombre, self.manzana, self.lote)
         else:
             return ""
 
@@ -185,6 +207,38 @@ class Lote(models.Model, PermissionRequiredMixin):
         else:
             return ""
     identificador_bien = property(_get_identificador_bien)
+
+    def _get_lote_des(self):
+        if self.proyecto.app == 'nuvole' or self.proyecto.app == 'nuvole2':
+            return '%s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
+        elif self.proyecto.app == 'toscana':
+            if self.nivel == 0: 
+                s_nivel = "PB"
+            else:
+                s_nivel = self.nivel
+            if self.terraza == 0:
+                return 'nivel: %s - %s ' % (s_nivel, self.lote)
+            else:
+                return 'nivel: %s - %s Terraza m²: %s' % (s_nivel, self.lote, self.terraza, )
+        elif self.proyecto.app == 'plazapuntaoriente':
+            if self.nivel == 0:
+                s_nivel = "PB"
+            else:
+                s_nivel = self.nivel
+            return '%s nivel: %s' % (self.lote, s_nivel)
+        elif self.proyecto.app == 'torrevento':
+            return 'Torre %s nivel: %s - %s' % (self.gpo_lote, self.nivel, self.lote)
+        elif self.proyecto.app == 'montecristallo':
+            if self.manzana == 1:
+                casa = 'Gaudi'
+            else:
+                casa = 'Zaha'
+            return 'Casa %s - %s' % (self.lote, casa)
+        elif self.proyecto.app == 'portosanto':
+            return 'Manzana: %s - %s' % (self.manzana, self.lote)
+        else:
+            return ""
+    lote_des = property(_get_lote_des)
 
     def _get_medidas(self):
         if self.tipo_lote == True:
@@ -372,6 +426,7 @@ class PagoComision(models.Model,PermissionRequiredMixin):
                        ('vivienda_nuvole_imprime_comprob_comision', 'Vivienda Nuvole imprime comprobante comisión'),
                        ('monte_cristallo_imprime_comprob_comision', 'Monte cristallo imprime comprobante comisión'),
                        ('condom_multiple_imprime_comprob_comision', 'Condominio Múltiple imprime comprobante comisión'),
+                       ('nuvole2_imprime_comprob_comision', 'Nuvole 2 imprime comprobante comisión'),
                        )
 
     def __str__(self):
