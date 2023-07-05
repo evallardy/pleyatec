@@ -211,7 +211,7 @@ class plazapuntaoriente(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         num_proyecto = self.kwargs['py']
         proyecto = Proyecto.objects.filter(id=num_proyecto)
         nom_proy = proyecto[0].nom_proy
-        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
+        context["proyecto"] = proyecto
         context['menu'] = "menuMapa"
 #  Acceso local punta oriente
         des_permiso = '_acceso'
@@ -594,14 +594,25 @@ class viviendaNuvole(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         queryset = Lote.objects.filter(proyecto_id=1)
         return queryset
 
-class monte_cris(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class montecristallo(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'bien.monte_cristallo_acceso'
-    template_name = 'bien/nuvole.html'  
+    template_name = 'bien/montecristallo.html'  
     def get_context_data(self, **kwargs):
-        context = super(nuvole, self).get_context_data(**kwargs)
-        context["proyecto"] = Proyecto.objects.filter(id=1)
+        context = super(montecristallo, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs['py']
+        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
         context['menu'] = "menuMapa"
         nom_proy = 'monte_cristallo'
+# Contador de estados de los lotes
+        bienes = Lote.objects.filter(proyecto_id=num_proyecto).values('estatus_lote').annotate(total=Count('id'))
+        context["bienes"] = bienes
+#  Acceso Nuvole
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'app_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
 #  Menu opcion mapa
         des_permiso = '_acceso'
         variable_proy = nom_proy + des_permiso
@@ -665,7 +676,8 @@ class monte_cris(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context[variable_proy] = acceso
         return context
     def get_queryset(self):
-        queryset = Lote.objects.filter(proyecto_id=1)
+        num_proyecto = self.kwargs['py']
+        queryset = Lote.objects.filter(proyecto_id=num_proyecto)
         return queryset
 
 class TMpuntaorienta(LoginRequiredMixin, ListView):
@@ -739,6 +751,92 @@ class TMpuntaorienta(LoginRequiredMixin, ListView):
         return context
     def get_queryset(self):
         queryset = Lote.objects.filter(proyecto_id=1)
+        return queryset
+
+class nuvole2(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'bien.nuvole2_acceso'
+    template_name = 'bien/nuvole2.html'  
+    def get_context_data(self, **kwargs):
+        context = super(nuvole2, self).get_context_data(**kwargs)
+        num_proyecto = self.kwargs['py']
+        context["proyecto"] = Proyecto.objects.filter(id=num_proyecto)
+        context['menu'] = "menuMapa"
+        nom_proy = 'nuvole2'
+# Contador de estados de los lotes
+        bienes = Lote.objects.filter(proyecto_id=num_proyecto).values('estatus_lote').annotate(total=Count('id'))
+        context["bienes"] = bienes
+#  Acceso Nuvole
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'app_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion mapa
+        des_permiso = '_acceso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        variable_html = 'menu_proy' + des_permiso
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_html] = acceso
+#  Menu opcion lotes
+        des_permiso = '_ver'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "bien." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion solicitudes
+        des_permiso = '_ver_solicitud'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion autorizaciones
+        des_permiso = '_autoriza_visualiza'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion compromisos
+        des_permiso = '_compromiso'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion contratar
+        des_permiso = '_contratar'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion pagos
+        des_permiso = '_listado_registro_mensual'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "finanzas." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion archivo
+        des_permiso = '_consulta_archivo'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion creditos
+        des_permiso = '_creditos'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+#  Menu opcion contados
+        des_permiso = '_contados'
+        variable_proy = nom_proy + des_permiso
+        permiso_str = "gestion." + variable_proy
+        acceso = self.request.user.has_perms([permiso_str])
+        context[variable_proy] = acceso
+        return context
+    def get_queryset(self):
+        num_proyecto = self.kwargs['py']
+        queryset = Lote.objects.filter(proyecto_id=num_proyecto)
         return queryset
 
 class bienes(LoginRequiredMixin, ListView):

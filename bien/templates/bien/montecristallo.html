@@ -11,34 +11,34 @@
             <label>{{ py.nombre }}</label>
         </div>
         <div class="btn-group">
-            {% if torre_vento_acceso %}
-            <a href="{% url py.app py.id py.piso_default %}" class="btn btn-primary" id="menuMapa">Mapa</a>
+            {% if monte_cristallo_acceso %}
+            <a href="{% url py.app py.id 0 %}" class="btn btn-primary" id="menuMapa">Mapa</a>
             {% endif %}
-            {% if torre_vento_ver %}
+            {% if monte_cristallo_ver %}
             <a href="{% url 'bienes' py.id %}" class="btn btn-primary" id="bien">{{ py.get_tipo_proyecto_display }}</a>
             {% endif %}
-            {% if torre_vento_ver_solicitud %}
+            {% if monte_cristallo_ver_solicitud %}
             <a href="{% url 'solicitudes' py.id %}" class="btn btn-primary" id="solicitud">Solicitudes</a>
             {% endif %}
-            {% if torre_vento_autoriza_visualiza %}
+            {% if monte_cristallo_autoriza_visualiza %}
             <a href="{% url 'autorizaciones' py.id %}" class="btn btn-primary" id="autorizacion">Autorizaciones</a>
             {% endif %}
-            {% if torre_vento_compromiso %}
+            {% if monte_cristallo_compromiso %}
             <a href="{% url 'compromisos' py.id %}" class="btn btn-primary" id="compromiso">Compromisos</a>
             {% endif %}
-            {% if torre_vento_contratar %}
+            {% if monte_cristallo_contratar %}
             <a href="{% url 'contratos' py.id %}" class="btn btn-primary" id="contrata">Contratar</a>
             {% endif %}
-            {% if torre_vento_listado_registro_mensual %}
+            {% if monte_cristallo_listado_registro_mensual %}
             <a href="{% url 'pagar' py.id %}" class="btn btn-primary" id="pagar">Mensualidades</a>
             {% endif %}
-            {% if torre_vento_consulta_archivo %}
+            {% if monte_cristallo_consulta_archivo %}
             <a href="{% url 'archivo' py.id %}" class="btn btn-primary" id="archivo">Archivo</a>
             {% endif %}
-            {% if torre_vento_creditos %}
+            {% if monte_cristallo_creditos %}
             <a href="{% url 'contrato_credito' py.id %}" class="btn btn-primary" id="credito">Créditos</a>
             {% endif %}
-            {% if torre_vento_contados %}
+            {% if monte_cristallo_contados %}
             <a href="{% url 'contrato_contado' py.id %}" class="btn btn-primary" id="contado">Contados</a>
             {% endif %}
         </div>
@@ -73,27 +73,6 @@
 </div>
 <div class="position-relative d-flex justify-content-center">
     <div class="mapa col-5">
-        <div class="position-relative d-flex justify-content-center">
-            <div class="position-relative d-flex justify-content-center">
-                <div class="btn-group" >
-                    <a href="" class="btn btn-primary {{edificios}}">Edificios</a>
-                    <a href="" class="btn btn-primary {{t_poniente}}">Torre Poniente</a>
-                    <a href="" class="btn btn-primary {{t_contro}}">Torre Centro</a>
-                    <a href="" class="btn btn-primary {{t_honda}}">Torre Oriente</a>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="position-relative d-flex justify-content-center" id="niveles">
-            <div class="position-relative d-flex justify-content-center">
-                <div class="btn-group" >
-                    <a href="" class="btn btn-primary {{nivel_0}}">Nivel 1</a>
-                    <a href="" class="btn btn-primary {{nivel_1}}">Nivel 2</a>
-                    <a href="" class="btn btn-primary {{nivel_2}}">Nivel 3</a>
-                    <a href="" class="btn btn-primary {{nivel_3}}">Nivel 4</a>
-                </div>
-            </div>
-        </div>
         <div class="position-relative d-flex justify-content-center">
             <div class="position-relative d-flex justify-content-center">
                 <div style="height: 520px; width: 640px; background-color: white;" class="mapa">

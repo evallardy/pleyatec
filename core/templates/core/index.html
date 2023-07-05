@@ -42,6 +42,26 @@
                 </div>
             </div>
             {% endif %}
+            {% if monte_cristallo_acceso %}
+            <div class="card mb-3 mapa proyecto-card">
+                <div class="card-header">Monte Cristallo<br>Casas</div>
+                <div class="card-body">
+                    <a href="{% url 'montecristallo' 4 0 %}">
+                        <img src="{% static 'core/img/no disponible.jpg' %}" alt="imagen proyecto" class="detalle">
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% if nuvole2_acceso %}
+            <div class="card mb-3 mapa proyecto-card">
+                <div class="card-header">Nuvole 2<br>Casas</div>
+                <div class="card-body">
+                    <a href="{% url 'nuvole2' 9 0 %}">
+                        <img src="{% static 'core/img/no disponible.jpg' %}" alt="imagen proyecto" class="detalle">
+                    </a>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}
