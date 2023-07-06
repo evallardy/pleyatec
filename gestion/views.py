@@ -489,7 +489,7 @@ class sol_nueva(CreateView):
         context['nombre_proyecto'] = proyecto_tb.nombre
         context['singular_proyecto'] = proyecto_tb.singular
         context['num_proyecto'] = num_proyecto
-        context['lote_cmb'] = Lote.objects.filter(proyecto=num_proyecto,estatus_lote=1).all()
+        context['lote_cmb'] = Lote.objects.filter(proyecto_id=num_proyecto,estatus_lote=1).all()
         context['cliente_cmb'] = filtra_clientes(self)
         context['empleado_cmb'] = Empleado.objects.filter(estatus_empleado=1)
         context['menu'] = "solicitud"

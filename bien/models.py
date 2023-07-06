@@ -254,27 +254,27 @@ class Lote(models.Model, PermissionRequiredMixin):
         return '%s' % (self.colindancia_norte) 
     colindancia_norte_val = property(_get_colindancia_norte)
 
-    def _get_combo_bien(self):
-        if self.proyecto.app == 'nuvole':
-            return ' Lote: %s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
-        elif self.proyecto.app == 'toscana':
-            if self.nivel == 0:
-                s_nivel = "PB"
-            else:
-                s_nivel = self.nivel
-            if self.terraza == 0:
-                return ' Local: %s nivel: %s' % (self.lote, s_nivel)
-            else:
-                return ' Local: %s Terraza: %sm² nivel: %s' % (self.lote, self.terraza, s_nivel)
-        elif self.proyecto.app == 'plazapuntaoriente':
-            if self.nivel == 0:
-                s_nivel = "PB"
-            else:
-                s_nivel = self.nivel
-            return ' Local: %s nivel: %s' % (self.lote, s_nivel)
-        else:
-            return ""
-    combo_bien = property(_get_combo_bien)
+#    def _get_combo_bien(self):
+#        if self.proyecto.app == 'nuvole':
+#            return ' Lote: %s Manzana: %s, de la Fase: %s' % (self.lote, self.manzana, self.fase)
+#        elif self.proyecto.app == 'toscana':
+#            if self.nivel == 0:
+#                s_nivel = "PB"
+#            else:
+#                s_nivel = self.nivel
+#            if self.terraza == 0:
+#                return ' Local: %s nivel: %s' % (self.lote, s_nivel)
+#            else:
+#                return ' Local: %s Terraza: %sm² nivel: %s' % (self.lote, self.terraza, s_nivel)
+#        elif self.proyecto.app == 'plazapuntaoriente':
+#            if self.nivel == 0:
+#                s_nivel = "PB"
+#            else:
+#                s_nivel = self.nivel
+#            return ' Local: %s nivel: %s' % (self.lote, s_nivel)
+#        else:
+#            return ""
+#    combo_bien = property(_get_combo_bien)
 
     def _get_colindancia_sur(self):
         colindancia_sur = ""
