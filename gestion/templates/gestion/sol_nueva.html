@@ -422,6 +422,7 @@
     $("#id_asigna_descuento").on("change", function () {
         opcion = convierteNumero("id_asigna_descuento", 0);
         if (opcion == 0) {
+            $("#tipo_desc").val(0);
             $("#tipo_desc").hide();
             $("#id_descuento").prop('readonly', true);
             $("#id_porcentaje_descuento").prop('readonly', true);
@@ -436,6 +437,7 @@
         if (anterior == 0) {
             $("#id_descuento").prop('readonly', true).val(0);
             $("#id_porcentaje_descuento").prop('readonly', true).val(0);
+            $('#porcentaje_desc').show();
         } else {
             if (opcion == 1) {
                 $("#id_descuento").prop('readonly', true).val(0);

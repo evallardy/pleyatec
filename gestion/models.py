@@ -474,7 +474,7 @@ class Regla(models.Model,PermissionRequiredMixin):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, verbose_name="Proyecto")
     modo_pago = models.IntegerField("Modo de pago",choices=MODO_PAGO,default=1)
     tipo_aplica_descto = models.IntegerField("Tipo aplicación descto.",choices=TIPO_APLICA_DESCUENTO, default=0)
-    valor1 = models.DecimalField("Valor descto. bien", decimal_places=2, max_digits=10, default=0)
+    valor1 = models.DecimalField("Valor descto. bien", decimal_places=7, max_digits=17, default=0)
     valor11 = models.DecimalField("Valor descto. terraza", decimal_places=2, max_digits=10, default=0)
     tipo_apartado_minimo = models.IntegerField("Tipo apartado mínimo",choices=TIPO_APARTADO_MINIMO, default=0)
     valor2 = models.DecimalField("Valor apartado", decimal_places=2, max_digits=10, default=0)
