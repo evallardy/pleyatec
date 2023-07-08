@@ -27,6 +27,7 @@ class BienForm(forms.ModelForm):
             'fase',
             'manzana',
             'lote',
+            'nivel',
             'tipo_lote',
             'obs_irregular',
             'fondo',
@@ -53,6 +54,7 @@ class BienForm(forms.ModelForm):
             'fase': 'Fase',
             'manzana': 'Manzana',
             'lote': 'Lote',
+            'nivel': 'Nivel',
             'tipo_lote':'Tipo de lote',
             'obs_irregular':'Observación medidas',
             'fondo': 'Fondo',
@@ -78,6 +80,7 @@ class BienForm(forms.ModelForm):
             'manzana':forms.NumberInput(),
             'fondo':forms.NumberInput(),
             'frente':forms.NumberInput(),
+            'nivel':forms.NumberInput(),
             'total':forms.NumberInput(),
             'precio_x_mt':forms.NumberInput(),
             'precio':forms.NumberInput(),
@@ -99,6 +102,8 @@ class FormaBien(forms.ModelForm):
             'fase',
             'manzana',
             'lote',
+            'gpo_lote',
+            'nivel',
             'tipo_lote',
             'obs_irregular',
             'fondo',
@@ -120,20 +125,27 @@ class FormaBien(forms.ModelForm):
             'precio_total',
             'estatus_lote',
         ]
+        labels = {
+            'gpo_lote': 'Edificio',
+        }
     def __init__(self, *args, **kwargs):
         super(FormaBien, self).__init__(*args, **kwargs)
         self.fields['fase'].required = False
         self.fields['manzana'].required = False
-        self.fields['lote'].required = False    
+        self.fields['lote'].required = False
+        self.fields['gpo_lote'].required = False
+        self.fields['nivel'].required = False
         self.fields['tipo_lote'].required = False
         self.fields['obs_irregular'].required = False
         self.fields['precio_x_mt'].required = False
         self.fields['precio_x_mt_t'].required = False
+        self.fields['altura'].required = False
         self.fields['gran_total'].required = False
         self.fields['precio_total'].required = False
         self.fields['frente'].required = False
         self.fields['fondo'].required = False
         self.fields['esquina'].required = False
+        self.fields['estacionamientos'].required = False
         
     def clean_fase(self):
         fase = self.cleaned_data.get('fase')
@@ -152,13 +164,9 @@ class FormaBien(forms.ModelForm):
     def clean_lote(self):
         lote = self.cleaned_data.get('lote')
         proyecto = self.cleaned_data.get('proyecto')
+        datos = Proyecto.objects.filter(id=proyecto.id, proyecto=proyecto).first()
         if not validaCadena(lote):
-            if proyecto.id == 1:    
-                raise forms.ValidationError('Teclear númeno de lote')
-            elif proyecto.id == 2:    
-                raise forms.ValidationError('Teclear númeno de local')
-            else:
-                raise forms.ValidationError('Teclear númeno')
+            raise forms.ValidationError('Teclear númeno de ' + datos.singular)
         return lote
     def clean_obs_irregular(self):
         tipo_lote = self.cleaned_data.get('tipo_lote')
@@ -178,15 +186,6 @@ class FormaBien(forms.ModelForm):
         if not validaNumero(precio_x_mt):
             raise forms.ValidationError('Teclear precio m²')
         return precio_x_mt
-    def clean_precio_x_mt_t(self):
-        precio_x_mt_t = (self.cleaned_data.get('precio_x_mt_t'))
-        terraza = self.cleaned_data.get('terraza')
-        proyecto = self.cleaned_data.get('proyecto')
-        if proyecto.id == 2 and not validaNumero(terraza) and validaNumero(precio_x_mt_t):
-            raise forms.ValidationError('Teclear área terraza')
-        elif proyecto.id == 2 and validaNumero(terraza) and not validaNumero(precio_x_mt_t):
-            raise forms.ValidationError('Teclear precio m² terraza')
-        return precio_x_mt_t
 
 '''
     fase = forms.DecimalField(

@@ -956,6 +956,9 @@ class nvo_bien(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context1 = super(nvo_bien, self).get_context_data(**kwargs)
         context = carga_bienes(self, context1)
+        num_proyecto = self.kwargs.get('proyecto',0)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        context['singular_proyecto'] = proyecto_tb.singular
         context['accion'] = 'Alta'
 
         return context
@@ -1094,6 +1097,7 @@ class mod_bien(LoginRequiredMixin, UpdateView):
         proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
         context['proyecto_tb'] = proyecto_tb
         context['num_proyecto'] = num_proyecto
+        context['singular_proyecto'] = proyecto_tb[0].singular
         inf_lote = Lote.objects.filter(id=pk)
         context['inf_lote'] = inf_lote
 #  Proyecto

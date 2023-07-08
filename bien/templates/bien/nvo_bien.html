@@ -30,7 +30,8 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-3 mb-0" id="lote">
-                        {{ form.lote|as_crispy_field }}
+                        {{ singular_proyecto }}<br>
+                        {{ form.lote }}
                         {% for error in form.non_field_errors %}
                         {% if error == 'Lote con este Proyecto,Fase,Manzana y Lote ya existe.' %}
                         {% if py.id == 1 %}
@@ -43,6 +44,12 @@
                         <p><small class="mensaje-error">{{ error }}</small></p>
                         {% endif %}
                         {% endfor %}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="edificio">
+                        {{ form.gpo_lote|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0" id="nivel">
+                        {{ form.nivel|as_crispy_field }}
                     </div>
                     <div class="form-group col-md-3 mb-0" id="manzana">
                         {{ form.manzana|as_crispy_field }}
@@ -341,22 +348,65 @@
         $("#id_proyecto").val(num_proyecto).change();
         $("#estatus").val($("#id_estatus_lote").val());
         switch (num_proyecto) {
-            case '1':
+        //  Lotes
+            case '1':      
+            case '6':
+            case '9':
                 $("#gpo-terraza").hide();
+                $("#edificio").hide();
                 $("#estacionamientos").hide();
                 $("#gran_total").hide();
                 $("#precio_total").hide();
                 $("#altura").hide();
+                $("#nivel").hide();
                 break;
+        //  Local comercial
             case '2':
             case '8':
-                $("label[for='id_lote']").text("Local");
                 $("#fase").hide();
+                $("#edificio").hide();
                 $("#manzana").hide();
                 $("#tipo_lote").hide();
                 $("#esquina").hide();
                 $("#estacionamientos").hide();
                 $("#colindancias").hide();
+                break;
+        //  Vivienda vertical
+            case '3':
+                $("#fase").hide();
+                $("#manzana").hide();
+                $("#tipo_lote").hide();
+                $("#esquina").hide();
+                $("#altura").hide();
+                $("#colindancias").hide();
+                $("#gpo-terraza").hide();
+                $("#gran_total").hide();
+                $("#precio_total").hide();
+                $("#altura").hide();
+                break;
+        //  Vivienda horizontal
+            case '4':
+                $("#fase").hide();
+                $("#edificio").hide();
+                $("#manzana").hide();
+                $("#tipo_lote").hide();
+                $("#esquina").hide();
+                $("#gpo-terraza").hide();
+                $("#gran_total").hide();
+                $("#precio_total").hide();
+                $("#nivel").hide();
+                break;
+        //  Consultorio
+            case '7':
+                $("#fase").hide();
+                $("#manzana").hide();
+                $("#edificio").hide();
+                $("#tipo_lote").hide();
+                $("#esquina").hide();
+                $("#colindancias").hide();
+                $("#gpo-terraza").hide();
+                $("#gran_total").hide();
+                $("#precio_total").hide();
                 break;
             default:
                 aviso('Seguridad', 'No tiene acceso');

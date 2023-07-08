@@ -311,7 +311,6 @@ TIPO_PROYECTO = (
     (3, 'Vivienda horizontal'),
     (4, 'Vivienda vertical'),
     (5, 'Consultorios'),
-    (6, 'Locales comerciales y oficinas'),
 )
 ############################################
 CURRENCY_CHOICES = (
