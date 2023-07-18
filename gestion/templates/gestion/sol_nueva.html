@@ -536,7 +536,7 @@
             $("#id_cantidad_pagos").val($("#id_cantidad_pagos option:first").val());
             {% for permitidas in reglas %}
             if ('{{ permitidas.modo_pago }}' == $("#id_modo_pago").val()) {
-                if ('{{ num_proyecto }}' == 4) {
+                if ('{{ num_proyecto }}' == '4') {
                     valor_decimal = {{permitidas.valor1}};
                     valor_entero = parseInt(valor_decimal);
                     $('#id_cantidad_pagos').
