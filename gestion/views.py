@@ -38,7 +38,11 @@ def calcula_operacion(request, descuento, porcentaje_descuento, modo_pago, idLot
     precio = lote[0].precio
     total = lote[0].total
     precio_x_mt = lote[0].precio_x_mt
-    regla = Regla.objects.filter(proyecto_id=num_proyecto, modo_pago=modo_pago , mensualidades_permitidas=cantidad_pagos)
+    if '-' in cantidad_pagos:
+        cantidad_pagos, id = cantidad_pagos.split('-')
+        regla = Regla.objects.filter(id=id)
+    else:
+        regla = Regla.objects.filter(proyecto_id=num_proyecto, modo_pago=modo_pago , mensualidades_permitidas=cantidad_pagos)
 
     precio_final = precio
 

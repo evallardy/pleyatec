@@ -536,9 +536,17 @@
             $("#id_cantidad_pagos").val($("#id_cantidad_pagos option:first").val());
             {% for permitidas in reglas %}
             if ('{{ permitidas.modo_pago }}' == $("#id_modo_pago").val()) {
-                $('#id_cantidad_pagos').
-                    append('<option value="{{permitidas.mensualidades_permitidas}}"> \
-                    {{permitidas.mensualidades_permitidas}}</option>');
+                if ('{{ num_proyecto }}' == 4) {
+                    valor_decimal = {{permitidas.valor1}};
+                    valor_entero = parseInt(valor_decimal);
+                    $('#id_cantidad_pagos').
+                        append('<option value="{{permitidas.mensualidades_permitidas}}-{{permitidas.id}}"> \
+                        {{permitidas.mensualidades_permitidas}}-' + valor_entero + '</option>');
+                } else {
+                    $('#id_cantidad_pagos').
+                        append('<option value="{{permitidas.mensualidades_permitidas}}"> \
+                        {{permitidas.mensualidades_permitidas}}</option>');
+                }
             }
             {% endfor %}
         }
@@ -549,7 +557,11 @@
         modo_pago = convierteNumero("id_modo_pago", 0);
         opcion = convierteNumero("id_lote", 0);
         enganche = convierteNumero("id_enganche", 1);
-        cantidad_pagos = convierteNumero("id_cantidad_pagos", 0);
+        if ('{{ num_proyecto }}' == '4') {
+            cantidad_pagos = $('#id_cantidad_pagos').val();
+        } else {
+            cantidad_pagos = convierteNumero("id_cantidad_pagos", 0);
+        }
         asigna_descuento = convierteNumero("id_asigna_descuento", 0);
         tipo_desc = convierteNumero("id_tipo_descuento", 0);
 
