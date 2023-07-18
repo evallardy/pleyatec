@@ -1035,7 +1035,7 @@ class pagos(UpdateView):
         acceso = self.request.user.has_perms([permiso_str])
         context[variable_html] = acceso
 # Impresion recibos pagos
-        des_permiso = '_imp_pago_compromiso'
+        des_permiso = '_imp_pago_compromiso' 
         variable_proy = nom_proy + des_permiso
         variable_html = "app_proy" + des_permiso
         permiso_str = "gestion." + variable_proy

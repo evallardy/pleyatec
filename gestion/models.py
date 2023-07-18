@@ -202,7 +202,7 @@ class Solicitud(models.Model, PermissionRequiredMixin):
                         ('torre_vento_autoriza_desarrollo', 'Torre Vento Autoriza solicitud por Director Desarrollo'),
                         ('torre_vento_compromiso', 'Torre Vento Realiza compromiso de compra'),
                         ('torre_vento_pago_compromiso', 'Torre Vento Realizar pago compromiso'),
-                        ('torre_vento_imp_pago_compromiso', 'Torre Vento imprime pago compromiso'),
+                        ('torre_vento_imp_pago_compromiso', 'Torre Vento imprime pago compromiso'), 
                         ('torre_vento_contratar', 'Torre Vento Generar contrato'),
                         ('torre_vento_datos_contrato', 'Torre Vento Incluir datos al contrato'),
                         ('torre_vento_imprime_contrato', 'Torre Vento Impresión de contrato'),
@@ -486,7 +486,7 @@ class Regla(models.Model,PermissionRequiredMixin):
         verbose_name = 'Regla' 
         verbose_name_plural = 'Reglas' 
         ordering = ['proyecto','modo_pago','mensualidades_permitidas']
-        unique_together= (('proyecto','modo_pago','mensualidades_permitidas'))
+        unique_together= (('proyecto','modo_pago','valor1','mensualidades_permitidas'))
         db_table = 'Regla'
 
     def __str__(self):
