@@ -70,12 +70,12 @@ def numero_a_letras(numero):
         raise OverflowError('Número demasiado alto')
     if numero_entero < 0:
         return 'menos %s' % numero_a_letras(abs(numero))
-    letras_decimal = ''
-    parte_decimal = int(round((abs(numero) - abs(numero_entero)) * 100))
-    if parte_decimal > 9:
-        letras_decimal = 'punto %s' % numero_a_letras(parte_decimal)
-    elif parte_decimal > 0:
-        letras_decimal = 'punto cero %s' % numero_a_letras(parte_decimal)
+#     letras_decimal = ''
+#    parte_decimal = int(round((abs(numero) - abs(numero_entero)) * 100))
+#    if parte_decimal > 9:
+#        letras_decimal = 'punto %s' % numero_a_letras(parte_decimal)
+#    elif parte_decimal > 0:
+#        letras_decimal = 'punto cero %s' % numero_a_letras(parte_decimal)
     if (numero_entero <= 99):
         resultado = leer_decenas(numero_entero)
     elif (numero_entero <= 999):
@@ -91,8 +91,8 @@ def numero_a_letras(numero):
     resultado = resultado.strip()
     resultado = resultado.replace(' _ ', ' ')
     resultado = resultado.replace('  ', ' ')
-    if parte_decimal > 0:
-        resultado = '%s %s' % (resultado, letras_decimal)
+#    if parte_decimal > 0:
+#        resultado = '%s %s' % (resultado, letras_decimal)
     return resultado
 
 def numero_a_moneda(numero):

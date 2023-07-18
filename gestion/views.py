@@ -1389,7 +1389,7 @@ class reciboPDF(View):
             else:
                 sol = Solicitud.objects.filter(id=self.kwargs['pk'])   \
                     .update(num_adicional=num_recibo)
-        importe_letras = numero_a_letras(importe)
+        importe_letras = numero_a_letras(importe) 
         copias = [0,1]
         empresa=trae_empresa(1)
         centavos = "{:.2f}".format(round(importe, 2))[-2:]

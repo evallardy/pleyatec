@@ -518,6 +518,8 @@ class mod_pago(UpdateView):
                 mensualidad_upd.fecha_voucher = fecha_voucher
                 mensualidad_upd.pagado_vencido = pagado_vencido
                 mensualidad_upd.save()
+                mensualidad_pagada = Pago.objects.get(id=pk)
+                numero_pago = mensualidad_pagada.numero_pago
                 sol = self.kwargs.get('sol',0)
     #            pag_act = Pago.objects.filter(id=pk).update(estatus_pago=2)
                 total_pagado = Pago.objects.filter(convenio=sol,estatus_pago=2).values('convenio'). \
@@ -560,7 +562,7 @@ class mod_pago(UpdateView):
                         cantidad_pagos = pago_actual[0].convenio.cantidad_pagos
                         lote = pago_actual[0].convenio.lote.identificador_bien
                         nom_proyecto = pago_actual[0].convenio.lote.proyecto.nom_proyecto
-                        observacion = "Pago mensual " + str(folio_recibo) + "/" + str(cantidad_pagos) + \
+                        observacion = "Pago mensual " + str(numero_pago) + "/" + str(cantidad_pagos) + \
                             " del bien " + lote + " del proyecto " + nom_proyecto
                         folio = Folios(
                             tipo = 6, 
@@ -1609,7 +1611,7 @@ class imprime_comprob_mensual_PDF(LoginRequiredMixin, View):
             centavos = "{:.2f}".format(round(importe, 2))[-2:]
             context['centavos'] = centavos
             importe_letras = numero_a_letras(importe)
-            context['importe_letras'] = importe_letras
+            context['importe_letras'] = importe_letras 
             copias = [0,1]
             context['copias'] = copias
             cliente_nombre = pago[0].convenio.cliente.cliente_nombre
