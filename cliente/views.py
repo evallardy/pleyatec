@@ -25,7 +25,10 @@ class clientes(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             queryset = Cliente.objects.filter(estatus_cliente=1)
         else:
             empleado = Empleado.objects.filter(usuario=self.request.user.id)
-            id_empleado = empleado[0].id
+            if empleado:
+                id_empleado = empleado[0].id
+            else:
+                id_empleado = 0
             queryset = Cliente.objects.filter(estatus_cliente=1,asesor=id_empleado)
         return queryset
 
