@@ -74,6 +74,11 @@
                                 <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
                             </a>
                             {% endif %}
+                            {% if c.nom_proy == 'nuvole2' and nuvole2_pago_normal_comisiones %}
+                            <a href="{% url 'pago_comisiones' c.id %}" class="btn btn-info" title="Pago de comision">
+                                <img src="{% static 'core/img/pago-comision.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
                         </td>
                         <td style="text-align: center;">
                             {% if c.nom_proy == 'nuvole' and nuvole_edita_comisiones_proyecto %}
@@ -121,6 +126,11 @@
                                 <img src="{% static 'core/img/editar.svg' %}" width="20" />
                             </a>
                             {% endif %}
+                            {% if c.nom_proy == 'nuvole2' and nuvole2_edita_comisiones_proyecto %}
+                            <a href="{% url 'mod_proyecto' c.id %}" class="btn btn-info" title="Editar comisión proyecto">
+                                <img src="{% static 'core/img/editar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
                         </td>
                         <td style="text-align: center;">
                             {% if c.nom_proy == 'nuvole' and nuvole_consulta_comisiones %}
@@ -164,6 +174,11 @@
                             </a>
                             {% endif %}
                             {% if c.nom_proy == 'local_punta_o' and local_punta_o_consulta_comisiones %}
+                            <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
+                                <img src="{% static 'core/img/consultar.svg' %}" width="20" />
+                            </a>
+                            {% endif %}
+                            {% if c.nom_proy == 'nuvole2' and nuvole2_consulta_comisiones %}
                             <a href="{% url 'situacion_comisiones' c.id %}" class="btn btn-info" title="Consulta pago de comisiones">
                                 <img src="{% static 'core/img/consultar.svg' %}" width="20" />
                             </a>

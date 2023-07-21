@@ -1253,7 +1253,7 @@ class proyectos(LoginRequiredMixin, ListView):
             context[nom_acceso] = acceso
         return context
     def get_queryset(self):
-        queryset = Proyecto.objects.all()
+        queryset = Proyecto.objects.filter(estatus_proyecto=1)
         return queryset
 
 class mod_proyecto(LoginRequiredMixin, UpdateView):
