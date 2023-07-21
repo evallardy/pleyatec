@@ -26,10 +26,12 @@ def index(request):
         permiso_str = "bien." + nom_proy + '_' + 'acceso'
         acceso = request.user.has_perms([permiso_str])
         variable_proy = nom_proy + "_acceso"
+        activo_proy = nom_proy + "_activo"
         data[variable_proy] = acceso
+        data[activo_proy] = p.estatus_proyecto
     valida_proyectos =  data['nuvole_acceso'] or data['toscana_acceso'] or data['torre_vento_acceso'] or \
         data['porto_santo_acceso'] or data['vivienda_nuvole_acceso'] or data['monte_cristallo_acceso'] or \
-        data['consul_punta_o_acceso'] or data['local_punta_o_acceso'] or data['nuvole2']
+        data['consul_punta_o_acceso'] or data['local_punta_o_acceso'] or data['nuvole2_acceso']
     data['valida_proyectos'] = valida_proyectos
     return render(request, template_name, data)
 

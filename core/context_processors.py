@@ -2,7 +2,7 @@ from bien.models import Proyecto
 from empleado.models import Empleado
 
 def mis_variables(request):
-    proyectos = Proyecto.objects.filter(estatus_proyecto=1)
+    proyectos = Proyecto.objects.all()
     data = {}
 #   Rutina para agregar los permisos de acceso de proyecto
     for p in proyectos:
@@ -13,7 +13,8 @@ def mis_variables(request):
         data[variable_proy] = acceso
     valida_proyectos =  data['nuvole_acceso'] or data['toscana_acceso'] or data['torre_vento_acceso'] or \
        data['porto_santo_acceso'] or data['vivienda_nuvole_acceso'] or \
-        data['monte_cristallo_acceso'] or data['consul_punta_o_acceso'] or data['local_punta_o_acceso']
+        data['monte_cristallo_acceso'] or data['consul_punta_o_acceso'] or \
+        data['local_punta_o_acceso'] or data['nuvole2_acceso']
 # Si algun proyecto esta asignado
     data['valida_proyectos'] = valida_proyectos
 # Si tiene permisos para comisiones

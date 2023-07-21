@@ -12,7 +12,7 @@
         <label class='encabezados'>Proyectos</label>
         <hr>
         <div class="row d-flex justify-content-center" >
-            {% if nuvole_acceso %}
+            {% if nuvole_acceso and nuvole_activo == 1 %}
             <div class="card mb-3 mapa proyecto-card">
                 <div class="card-header">Fracc. Nuvole<br>Lotes</div>
                 <div class="card-body">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             {% endif %}
-            {% if toscana_acceso %}
+            {% if toscana_acceso and toscana_activo == 1 %}
             <div class="card mb-3 mapa proyecto-card">
                 <div class="card-header">Toscana<br>Locales</div>
                 <div class="card-body">
@@ -32,7 +32,7 @@
                 </div>
             </div>
             {% endif %}
-            {% if torre_vento_acceso %}
+            {% if torre_vento_acceso and torre_vento_activo == 1 %}
             <div class="card mb-3 mapa proyecto-card">
                 <div class="card-header">Torre Vento<br>Vivienda vertical</div>
                 <div class="card-body">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             {% endif %}
-            {% if monte_cristallo_acceso %}
+            {% if monte_cristallo_acceso and monte_cristallo_activo == 1 %}
             <div class="card mb-3 mapa proyecto-card">
                 <div class="card-header">Monte Cristallo<br>Vivienda horizontal</div>
                 <div class="card-body">
@@ -52,7 +52,7 @@
                 </div>
             </div>
             {% endif %}
-            {% if nuvole2_acceso %}
+            {% if nuvole2_acceso and nuvole2_activo == 1 %}
             <div class="card mb-3 mapa proyecto-card">
                 <div class="card-header">Nuvole 2<br>Lotes</div>
                 <div class="card-body">
