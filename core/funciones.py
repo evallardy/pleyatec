@@ -193,6 +193,10 @@ def trae_empresa(pk):
 
 def administrador(id_user):
     empleado = Empleado.objects.filter(usuario=id_user)
+    if empleado:
+        return empleado[0].asigna_solicitud
+    else:
+        return 0
     return empleado[0].asigna_solicitud
 
 def comision_asesor_proyecto(agente, proyecto):
