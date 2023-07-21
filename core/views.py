@@ -14,7 +14,7 @@ from .forms import *
 def index(request):
     model = Proyecto
     template_name = 'core/index.html'
-    proyectos = Proyecto.objects.filter(estatus_proyecto=1)
+    proyectos = Proyecto.objects.all()
     ruta_imagen = ""
     data = {
         'proyectos':proyectos,
@@ -29,7 +29,7 @@ def index(request):
         data[variable_proy] = acceso
     valida_proyectos =  data['nuvole_acceso'] or data['toscana_acceso'] or data['torre_vento_acceso'] or \
         data['porto_santo_acceso'] or data['vivienda_nuvole_acceso'] or data['monte_cristallo_acceso'] or \
-        data['consul_punta_o_acceso'] or data['local_punta_o_acceso']
+        data['consul_punta_o_acceso'] or data['local_punta_o_acceso'] or data['nuvole2']
     data['valida_proyectos'] = valida_proyectos
     return render(request, template_name, data)
 
