@@ -490,4 +490,4 @@ class Regla(models.Model,PermissionRequiredMixin):
         db_table = 'Regla'
 
     def __str__(self):
-        return 'Proyecto: %s, Modo de pago: %s, Mensualidades: %s' % (self.proyecto, self.modo_pago, self.mensualidades_permitidas)
+        return 'Proyecto: %s, Modo de pago: %s, Mensualidades: %s' % (self.proyecto, dict(MODO_PAGO).get(self.modo_pago), self.mensualidades_permitidas)

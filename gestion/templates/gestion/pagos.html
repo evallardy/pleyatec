@@ -71,7 +71,7 @@
                                 {{ s.precio_lote }}
                             </div>
                         </div>
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md-3 mb-0"> 
                             <label>Descuento</label>
                             <div class="form-group form-control" style="text-align: right;">
                                 {{ s.descuento }}
@@ -141,6 +141,9 @@
                                 <label>Apartado</label>
                                 <input type="text" name="apartado" id="id_apartado" class="form-control"
                                     onfocusout="reformatear('id_apartado')" onkeypress="return valideKey(event);">
+                                <div id="id-apartado-minimo-error">
+                                    <label id="error_apartado" style="color: red; font-weight: bold;"></label>
+                                </div>
                                 {% for error in form.apartado.errors %}
                                 {% if error != "Introduzca un número." %}
                                 <p><small class="mensaje-error">{{ error }}</small></p>
@@ -299,6 +302,8 @@
 {% endblock %}
 <script>
     {% block bljs %}
+    var importe_apartado_maximo = "{{ regla_apartado }}"
+    var importe_apartado_valido = parseFloat(importe_apartado_maximo.replace(",",""));
 
     function anular(e) {
         tecla = (document.all) ? e.keyCode : e.which;
@@ -434,8 +439,14 @@
                 texto += "Falta imagen comprobante, ";
             }
         }
-        if (convierteNumero("id_apartado", 1) < 50000) {
-            texto += "El importe del apartado debe ser mayor igual a 50,000.00, ";
+        pantalla_apartado = convierteNumero("id_apartado", 1)
+        if (pantalla_apartado < importe_apartado_valido) {
+            $("#id-apartado-minimo-error").show();
+            texto_error_apartado = "El importe del apartado debe ser mayor igual a " + importe_apartado_maximo;
+            texto += texto_error_apartado + ", ";
+            $("#error_apartado").text(texto_error_apartado);
+        } else {
+            $("#id-apartado-minimo-error").hide();
         }
         if ($("#id_confirmacion_apartado").val() == 2) {
             $('#id_estatus_lote').val(2);

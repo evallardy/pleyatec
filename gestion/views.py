@@ -1010,11 +1010,24 @@ class pagos(UpdateView):
         context['pk'] = pk
         pk = self.kwargs.get('pk',0)
         sol = Solicitud.objects.filter(id=pk)
+        modo_pago = sol[0].modo_pago
+        mensualidades = sol[0].cantidad_pagos
+        reglas = Regla.objects.filter(proyecto=num_proyecto, 
+            modo_pago=modo_pago, mensualidades_permitidas=mensualidades).first()
+        if reglas:
+            if reglas.tipo_apartado_minimo == 1:
+                regla_apartado = reglas.valor2
+            else:
+                importe_lote = sol[0].precio_total
+                regla_apartado = importe_lote * reglas.valor2 / 100
+        else:
+            regla_apartado=50000
         context['sol'] = sol
-        proyecto_tb = Proyecto.objects.filter(id=num_proyecto)
+        proyecto_tb = Proyecto.objects.filter(id=num_proyecto) 
         context['proyecto_tb'] = proyecto_tb
         context['apartado'] = sol[0].apartado
         context['pago_adicional'] = sol[0].pago_adicional
+        context['regla_apartado'] = regla_apartado
 #  Proyecto
         nom_proy = proyecto_tb[0].nom_proy
 # Realizar listado pagos compromiso

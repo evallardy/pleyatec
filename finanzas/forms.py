@@ -38,7 +38,7 @@ class PagoForm(forms.ModelForm):
             'estatus_pago':'Estatus del pago',
             'deposito':'Depósito',
             'pagado_vencido':'Pago ralizado',
-            'cuenta':'Cuenta (4 dígitos)',
+            'cuenta':'Cuenta (4 dígs)',
         }
         widgets = {
             'cuenta': forms.TextInput(),
